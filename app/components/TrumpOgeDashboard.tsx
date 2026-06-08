@@ -586,9 +586,6 @@ interface MonthActivityRow {
 }
 
 function MonthActivityHeatmap({ rows }: { rows: MonthActivityRow[] }) {
-  const intensity = scaleLinear<string>().domain([0, 1]).range(['#fef3c7', '#b45309']);
-  const maxCount = Math.max(1, ...rows.map((row) => row.count));
-
   return (
     <div className="space-y-2">
       <div className="grid grid-cols-[76px_1fr_64px] items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
@@ -597,27 +594,42 @@ function MonthActivityHeatmap({ rows }: { rows: MonthActivityRow[] }) {
         <span className="text-right">Rows</span>
       </div>
       <div className="max-h-[250px] space-y-1 overflow-auto pr-1">
-        {rows.map((row) => (
-          <div key={row.month} className="grid grid-cols-[76px_1fr_64px] items-center gap-2 text-xs">
-            <span className="font-mono text-slate-600">{row.month}</span>
-            <div className="h-6 bg-slate-100">
+        {rows.map((row) => {
+          const tone = lateDensityTone(row.lateShare);
+          return (
+            <div key={row.month} className="grid grid-cols-[76px_1fr_64px] items-center gap-2 text-xs">
+              <span className="font-mono text-slate-600">{row.month}</span>
               <div
-                className="flex h-6 items-center px-2 text-[11px] font-semibold text-white"
-                style={{
-                  width: `${Math.max(8, (row.count / maxCount) * 100)}%`,
-                  backgroundColor: intensity(row.lateShare),
-                }}
+                className="grid grid-cols-[48px_1fr] items-center gap-2"
                 title={`${formatPct(row.lateCount, row.count)} late; ${formatInteger(row.purchaseCount)} purchases; ${formatInteger(row.saleCount)} sales`}
               >
-                {formatPct(row.lateCount, row.count)}
+                <span className={`text-right font-mono text-[11px] font-semibold ${tone.textClass}`}>
+                  {formatPct(row.lateCount, row.count)}
+                </span>
+                <div className="h-2.5 overflow-hidden rounded-full bg-slate-100">
+                  <div
+                    className="h-full rounded-full"
+                    style={{
+                      width: `${Math.max(2, row.lateShare * 100)}%`,
+                      backgroundColor: tone.fill,
+                    }}
+                  />
+                </div>
               </div>
+              <span className="text-right font-mono text-slate-600">{formatInteger(row.count)}</span>
             </div>
-            <span className="text-right font-mono text-slate-600">{formatInteger(row.count)}</span>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
+}
+
+function lateDensityTone(share: number): { fill: string; textClass: string } {
+  if (share >= 0.9) return { fill: '#e11d48', textClass: 'text-rose-700' };
+  if (share >= 0.7) return { fill: '#f59e0b', textClass: 'text-amber-700' };
+  if (share >= 0.35) return { fill: '#0ea5e9', textClass: 'text-sky-700' };
+  return { fill: '#64748b', textClass: 'text-slate-600' };
 }
 
 function KpiCard({ label, value, sub, icon, tone = 'neutral' }: { label: string; value: string; sub: string; icon: React.ReactNode; tone?: 'neutral' | 'buy' | 'sell' | 'warn' }) {
