@@ -1,0 +1,90 @@
+name: Trump OGE Refresh and Pages Deploy
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '30 11 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: trump-oge-pages
+  cancel-in-progress: false
+
+jobs:
+  refresh-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Refresh Trump OGE cache
+        if: github.event_name != 'push'
+        env:
+          OGE_USER_AGENT: ${{ secrets.OGE_USER_AGENT || 'Reuters OGE Dashboard contact@example.com' }}
+        run: npm run ingest:trump-oge
+
+      - name: Test cache and app
+        run: |
+          npm run test
+          npm run build
+          npx playwright install --with-deps chromium
+          npm run test:e2e
+
+      - name: Commit cache changes
+        if: github.event_name != 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/oge/trump
+          if git diff --cached --quiet; then
+            echo "No Trump OGE cache changes to commit." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git commit -m "Refresh Trump OGE cache"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+          echo "Committed refreshed Trump OGE cache." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build static Pages artifact
+        env:
+          GITHUB_PAGES: 'true'
+          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+        run: npm run build
+
+      - name: Preserve raw JSON caches in Pages artifact
+        run: |
+          mkdir -p out/data/oge/trump
+          cp data/oge/trump/*.json out/data/oge/trump/
+          touch out/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

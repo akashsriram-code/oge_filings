@@ -1,0 +1,23 @@
+{
+  "generatedAt": "2026-06-08T15:52:17.948Z",
+  "dataThrough": "2026-05-14",
+  "source": "OGE source metadata and PDFs; transaction rows bootstrapped from Open Cabinet structured export.",
+  "sourceFilingCount": 16,
+  "transactionCount": 5011,
+  "baselineHoldingCount": 0,
+  "estimatedHoldingCount": 2764,
+  "reviewQueueCount": 500,
+  "lateTransactionCount": 4656,
+  "estimatedTotalMidpoint": 1066629505.5,
+  "securityReferenceCount": 16076,
+  "securityEnrichmentCount": 2765,
+  "enrichedTransactionCount": 2556,
+  "notes": [
+    "OGE PDF URLs and SHA-256 fingerprints are treated as canonical source provenance.",
+    "Transaction values are statutory disclosure ranges; midpoint totals are estimates, not exact trading value.",
+    "Annual 278e source located at 2025-06-14; holdings estimates remain transaction-implied until that baseline is extracted.",
+    "Security enrichment uses public SEC and Nasdaq Trader reference data; sector labels are SEC/SIC-derived broad sectors, not proprietary GICS classifications.",
+    "Security enrichment resolved 2,556 transaction rows to public-company tickers.",
+    "Rules-based classifications remain as fallback and include review flags for ambiguous or unmatched rows."
+  ]
+}
