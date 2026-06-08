@@ -24,7 +24,7 @@ import {
   CartesianGrid,
   Line,
   LineChart,
-  ReferenceLine,
+  ReferenceDot,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -115,7 +115,8 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
     () => buildEventWindows(timelineEvents, filteredTransactions),
     [filteredTransactions, timelineEvents]
   );
-  const eventMarkers = useMemo(() => buildEventMarkers(timelineEvents, monthlyFlow), [timelineEvents, monthlyFlow]);
+  const chartMaxY = useMemo(() => buildChartMaxY(monthlyFlow), [monthlyFlow]);
+  const eventMarkers = useMemo(() => buildEventMarkers(timelineEvents, monthlyFlow, chartMaxY), [chartMaxY, timelineEvents, monthlyFlow]);
   const selectedEvent = timelineEvents.find((event) => event.id === selectedEventId) || timelineEvents[0] || null;
   const selectedEventWindows = selectedEvent
     ? eventWindows.filter((window) => window.eventId === selectedEvent.id)
@@ -345,23 +346,28 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
 
               <Panel title="Transaction Timing" subtitle="Monthly midpoint flow, late-filing density, and public event proximity">
                 <div className="grid gap-4 lg:grid-cols-[1fr_0.9fr]">
-                  <div className="h-[300px]">
+                  <div className="h-[300px] w-full min-w-0">
                     {mounted ? (
-                      <ResponsiveContainer width="100%" height="100%">
+                      <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                         <LineChart data={monthlyFlow}>
                           <CartesianGrid strokeDasharray="3 3" vertical={false} />
                           <XAxis dataKey="month" tick={{ fontSize: 11 }} />
-                          <YAxis tickFormatter={(value) => formatMoney(Number(value))} width={70} />
+                          <YAxis domain={[0, chartMaxY]} tickFormatter={(value) => formatMoney(Number(value))} width={70} />
                           <Tooltip formatter={(value) => formatMoney(Number(value))} />
                           {eventMarkers.map((marker) => (
-                            <ReferenceLine
-                              key={marker.month}
+                            <ReferenceDot
+                              key={`${marker.month}-${marker.leadEventId}`}
                               x={marker.month}
-                              stroke={EVENT_CATEGORY_COLORS[marker.category]}
-                              strokeDasharray="3 3"
-                              strokeWidth={1.5}
+                              y={marker.y}
+                              r={selectedEvent?.id === marker.leadEventId ? 7 : Math.min(7, 4 + marker.count)}
+                              fill={EVENT_CATEGORY_COLORS[marker.category]}
+                              stroke={selectedEvent?.id === marker.leadEventId ? '#0f172a' : '#ffffff'}
+                              strokeWidth={2}
+                              ifOverflow="visible"
+                              cursor="pointer"
+                              onClick={() => setSelectedEventId(marker.leadEventId)}
                               label={{
-                                value: marker.count > 1 ? `${marker.count}` : eventCategoryLabel(marker.category),
+                                value: marker.count > 1 ? `${marker.count}` : '',
                                 position: 'top',
                                 fill: EVENT_CATEGORY_COLORS[marker.category],
                                 fontSize: 10,
@@ -380,10 +386,7 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
                     <EventOverlayPanel
                       categories={availableEventCategories}
                       activeCategories={activeEventCategories}
-                      events={timelineEvents}
-                      selectedEventId={selectedEvent?.id || null}
                       onToggleCategory={toggleEventCategory}
-                      onSelectEvent={setSelectedEventId}
                     />
                   </div>
                 </div>
@@ -714,24 +717,18 @@ function lateDensityTone(share: number): { fill: string; textClass: string } {
 function EventOverlayPanel({
   categories,
   activeCategories,
-  events,
-  selectedEventId,
   onToggleCategory,
-  onSelectEvent,
 }: {
   categories: EventCategory[];
   activeCategories: EventCategory[];
-  events: OgeEvent[];
-  selectedEventId: string | null;
   onToggleCategory: (category: EventCategory) => void;
-  onSelectEvent: (eventId: string) => void;
 }) {
   return (
     <div className="space-y-3 border-t border-slate-100 pt-3">
       <div className="flex items-center justify-between gap-3">
         <div>
           <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Event overlay</div>
-          <div className="text-xs text-slate-500">{formatInteger(events.length)} public events in visible months</div>
+          <div className="text-xs text-slate-500">Dots on the chart; click one for context below.</div>
         </div>
         <CalendarDays className="h-4 w-4 text-slate-400" />
       </div>
@@ -756,41 +753,8 @@ function EventOverlayPanel({
           );
         })}
       </div>
-      <div className="max-h-[180px] space-y-2 overflow-auto pr-1">
-        {events.length === 0 && (
-          <div className="bg-slate-50 p-3 text-xs leading-5 text-slate-500">
-            No event records match the current transaction months and category toggles.
-          </div>
-        )}
-        {events.slice(0, 8).map((event) => {
-          const selected = event.id === selectedEventId;
-          return (
-            <button
-              key={event.id}
-              type="button"
-              onClick={() => onSelectEvent(event.id)}
-              className={`block w-full rounded-md border p-2 text-left transition ${
-                selected ? 'border-sky-300 bg-sky-50' : 'border-slate-100 bg-white hover:bg-slate-50'
-              }`}
-            >
-              <div className="mb-1 flex items-center justify-between gap-2">
-                <span className="font-mono text-[11px] text-slate-500">{event.date}</span>
-                <span
-                  className="rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white"
-                  style={{ backgroundColor: EVENT_CATEGORY_COLORS[event.category] }}
-                >
-                  {eventCategoryLabel(event.category)}
-                </span>
-              </div>
-              <div className="max-h-9 overflow-hidden text-xs font-semibold leading-[18px] text-slate-800">
-                {event.title}
-              </div>
-              {event.tags.length > 0 && (
-                <div className="mt-1 truncate text-[11px] text-slate-500">{event.tags.slice(0, 4).join(', ')}</div>
-              )}
-            </button>
-          );
-        })}
+      <div className="border border-slate-100 bg-slate-50 p-3 text-xs leading-5 text-slate-600">
+        Event dots are placed near that month&apos;s larger buy/sell flow, with numbered dots marking months that have multiple public events.
       </div>
     </div>
   );
@@ -821,6 +785,7 @@ function EventWindowDetail({
     <div className="mt-4 border-t border-slate-100 pt-4">
       <div className="grid gap-4 xl:grid-cols-[1fr_1.1fr]">
         <div className="space-y-3">
+          <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Selected chart event</div>
           <div className="flex flex-wrap items-center gap-2">
             <span
               className="rounded-md px-2 py-1 text-[11px] font-bold uppercase tracking-wide text-white"
@@ -1143,6 +1108,8 @@ interface EventMarker {
   count: number;
   category: EventCategory;
   importance: number;
+  leadEventId: string;
+  y: number;
 }
 
 function buildTimelineEvents(
@@ -1165,9 +1132,11 @@ function buildTimelineEvents(
 
 function buildEventMarkers(
   events: OgeEvent[],
-  monthlyFlow: Array<{ month: string }>
+  monthlyFlow: Array<{ month: string; purchaseMidpoint: number; saleMidpoint: number }>,
+  chartMaxY: number
 ): EventMarker[] {
   const monthOrder = new Map(monthlyFlow.map((row, index) => [row.month, index]));
+  const flowByMonth = new Map(monthlyFlow.map((row) => [row.month, row]));
   const byMonth = new Map<string, OgeEvent[]>();
 
   for (const event of events) {
@@ -1183,11 +1152,19 @@ function buildEventMarkers(
         a.date.localeCompare(b.date) ||
         a.title.localeCompare(b.title)
       )[0];
+      const flow = flowByMonth.get(month);
+      const monthPeak = Math.max(flow?.purchaseMidpoint || 0, flow?.saleMidpoint || 0);
+      const dotY = Math.min(
+        chartMaxY * 0.94,
+        Math.max(chartMaxY * 0.12, monthPeak + chartMaxY * 0.045)
+      );
       return {
         month,
         count: monthEvents.length,
         category: leadEvent.category,
         importance: leadEvent.importance,
+        leadEventId: leadEvent.id,
+        y: dotY,
       };
     })
     .sort((a, b) => (monthOrder.get(a.month) || 0) - (monthOrder.get(b.month) || 0));
@@ -1195,6 +1172,14 @@ function buildEventMarkers(
 
 function eventDateLabel(event: OgeEvent): string {
   return event.endDate && event.endDate !== event.date ? `${event.date} to ${event.endDate}` : event.date;
+}
+
+function buildChartMaxY(rows: Array<{ purchaseMidpoint: number; saleMidpoint: number }>): number {
+  const maxValue = Math.max(
+    1,
+    ...rows.flatMap((row) => [row.purchaseMidpoint, row.saleMidpoint])
+  );
+  return maxValue * 1.18;
 }
 
 function buildMonthlyFlow(transactions: OgeTransaction[]) {
