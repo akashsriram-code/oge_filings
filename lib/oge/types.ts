@@ -163,6 +163,43 @@ export interface ReviewQueueItem {
   sourceUrl: string | null;
 }
 
+export type EventCategory =
+  | 'tariff'
+  | 'fed'
+  | 'white-house'
+  | 'market'
+  | 'company-news'
+  | 'truth-social'
+  | 'manual';
+
+export interface OgeEvent {
+  id: string;
+  date: string;
+  endDate: string | null;
+  category: EventCategory;
+  title: string;
+  summary: string;
+  sourceName: string;
+  sourceUrl: string;
+  tickers: string[];
+  sectors: string[];
+  tags: string[];
+  importance: 1 | 2 | 3;
+}
+
+export interface EventWindowSummary {
+  eventId: string;
+  windowDays: 7 | 30;
+  transactionCount: number;
+  purchaseMidpoint: number;
+  saleMidpoint: number;
+  netMidpoint: number;
+  matchedTickers: string[];
+  matchedSectors: string[];
+  firstTransactionDate: string | null;
+  lastTransactionDate: string | null;
+}
+
 export interface CacheMeta {
   generatedAt: string;
   dataThrough: string | null;
@@ -177,6 +214,8 @@ export interface CacheMeta {
   securityReferenceCount: number;
   securityEnrichmentCount: number;
   enrichedTransactionCount: number;
+  eventCount: number;
+  eventWindowCount: number;
   notes: string[];
 }
 
@@ -245,6 +284,8 @@ export interface TrumpOgeDataset {
   holdingsEstimates: EstimatedHolding[];
   sectorSummaries: SectorSummary[];
   reviewQueue: ReviewQueueItem[];
+  events: OgeEvent[];
+  eventWindows: EventWindowSummary[];
   securityReference: SecurityReferenceCache;
   securityEnrichments: SecurityEnrichment[];
   cacheMeta: CacheMeta;

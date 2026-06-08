@@ -7,6 +7,7 @@ import {
   ArrowDownRight,
   ArrowUpRight,
   BadgeInfo,
+  CalendarDays,
   Database,
   Download,
   ExternalLink,
@@ -23,18 +24,26 @@ import {
   CartesianGrid,
   Line,
   LineChart,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
 import { buildHoldingsEstimates, buildKpis, buildSectorSummaries } from '@/lib/oge/analytics';
+import {
+  buildEventWindows,
+  EVENT_CATEGORY_COLORS,
+  eventCategoryLabel,
+  eventMonth,
+  eventWindowBounds,
+} from '@/lib/oge/events';
 import { filterTransactions } from '@/lib/oge/filter';
 import { formatMoney, formatRange } from '@/lib/oge/amounts';
 import { confidenceLabel, describeAssetType, describeSector, describeTransaction, summarizeSector } from '@/lib/oge/descriptions';
 import { buildEquityStockSummaries, deriveEquityStockName, type EquityStockSummary } from '@/lib/oge/stocks';
 import { buildTrumpOgeWorkbook, trumpOgeWorkbookFilename } from '@/lib/oge/workbook';
-import type { AssetType, OgeTransaction, SectorSummary, TrumpOgeApiResponse, TrumpOgeFilters } from '@/lib/oge/types';
+import type { AssetType, EventCategory, EventWindowSummary, OgeEvent, OgeTransaction, SectorSummary, TrumpOgeApiResponse, TrumpOgeFilters } from '@/lib/oge/types';
 
 interface TrumpOgeDashboardProps {
   initialData: TrumpOgeApiResponse;
@@ -62,10 +71,14 @@ const FILTER_DEFAULTS: TrumpOgeFilters = {
   confidence: null,
 };
 
+const EVENT_CATEGORIES: EventCategory[] = ['tariff', 'fed', 'white-house', 'market', 'company-news', 'truth-social', 'manual'];
+
 export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
   const mounted = useClientReady();
   const [filters, setFilters] = useState<TrumpOgeFilters>(FILTER_DEFAULTS);
   const [activeTab, setActiveTab] = useState<Tab>('overview');
+  const [activeEventCategories, setActiveEventCategories] = useState<EventCategory[]>(EVENT_CATEGORIES);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
   const filteredTransactions = useMemo(
     () => filterTransactions(initialData.transactions, filters),
@@ -94,6 +107,22 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
 
   const monthlyFlow = useMemo(() => buildMonthlyFlow(filteredTransactions), [filteredTransactions]);
   const monthlyActivity = useMemo(() => buildMonthlyActivity(filteredTransactions), [filteredTransactions]);
+  const timelineEvents = useMemo(
+    () => buildTimelineEvents(initialData.events, monthlyFlow, activeEventCategories),
+    [activeEventCategories, initialData.events, monthlyFlow]
+  );
+  const eventWindows = useMemo(
+    () => buildEventWindows(timelineEvents, filteredTransactions),
+    [filteredTransactions, timelineEvents]
+  );
+  const eventMarkers = useMemo(() => buildEventMarkers(timelineEvents, monthlyFlow), [timelineEvents, monthlyFlow]);
+  const selectedEvent = timelineEvents.find((event) => event.id === selectedEventId) || timelineEvents[0] || null;
+  const selectedEventWindows = selectedEvent
+    ? eventWindows.filter((window) => window.eventId === selectedEvent.id)
+    : [];
+  const availableEventCategories = EVENT_CATEGORIES.filter((category) =>
+    initialData.events.some((event) => event.category === category)
+  );
   const allSectorSummaries = useMemo(
     () => sectorSummaries.filter((summary) => summary.assetType === 'All').slice(0, 12),
     [sectorSummaries]
@@ -117,6 +146,7 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
       transactions: filteredTransactions,
       holdingsEstimates: holdings,
       sectorSummaries,
+      eventWindows: buildEventWindows(initialData.events, filteredTransactions),
       kpis,
       filters: {
         ...filters,
@@ -138,6 +168,23 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
 
   const updateFilter = (key: keyof TrumpOgeFilters, value: string | boolean | number | null) => {
     setFilters((current) => ({ ...current, [key]: value }));
+  };
+
+  const toggleEventCategory = (category: EventCategory) => {
+    setActiveEventCategories((current) =>
+      current.includes(category)
+        ? current.filter((item) => item !== category)
+        : [...current, category]
+    );
+  };
+
+  const applyEventWindowFilter = (event: OgeEvent, windowDays: 7 | 30) => {
+    const bounds = eventWindowBounds(event, windowDays);
+    setFilters((current) => ({
+      ...current,
+      startDate: bounds.startDate,
+      endDate: bounds.endDate,
+    }));
   };
 
   return (
@@ -296,9 +343,9 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
                 </div>
               </Panel>
 
-              <Panel title="Transaction Timing" subtitle="Monthly midpoint flow and late-filing density">
-                <div className="grid gap-4 lg:grid-cols-[1fr_0.8fr]">
-                  <div className="h-[260px]">
+              <Panel title="Transaction Timing" subtitle="Monthly midpoint flow, late-filing density, and public event proximity">
+                <div className="grid gap-4 lg:grid-cols-[1fr_0.9fr]">
+                  <div className="h-[300px]">
                     {mounted ? (
                       <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={monthlyFlow}>
@@ -306,14 +353,46 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
                           <XAxis dataKey="month" tick={{ fontSize: 11 }} />
                           <YAxis tickFormatter={(value) => formatMoney(Number(value))} width={70} />
                           <Tooltip formatter={(value) => formatMoney(Number(value))} />
+                          {eventMarkers.map((marker) => (
+                            <ReferenceLine
+                              key={marker.month}
+                              x={marker.month}
+                              stroke={EVENT_CATEGORY_COLORS[marker.category]}
+                              strokeDasharray="3 3"
+                              strokeWidth={1.5}
+                              label={{
+                                value: marker.count > 1 ? `${marker.count}` : eventCategoryLabel(marker.category),
+                                position: 'top',
+                                fill: EVENT_CATEGORY_COLORS[marker.category],
+                                fontSize: 10,
+                                fontWeight: 700,
+                              }}
+                            />
+                          ))}
                           <Line type="monotone" dataKey="purchaseMidpoint" name="Purchases" stroke="#059669" strokeWidth={2} dot={false} />
                           <Line type="monotone" dataKey="saleMidpoint" name="Sales" stroke="#dc2626" strokeWidth={2} dot={false} />
                         </LineChart>
                       </ResponsiveContainer>
                     ) : <ChartPlaceholder />}
                   </div>
-                  <MonthActivityHeatmap rows={monthlyActivity} />
+                  <div className="space-y-4">
+                    <MonthActivityHeatmap rows={monthlyActivity} />
+                    <EventOverlayPanel
+                      categories={availableEventCategories}
+                      activeCategories={activeEventCategories}
+                      events={timelineEvents}
+                      selectedEventId={selectedEvent?.id || null}
+                      onToggleCategory={toggleEventCategory}
+                      onSelectEvent={setSelectedEventId}
+                    />
+                  </div>
                 </div>
+                <EventWindowDetail
+                  event={selectedEvent}
+                  windows={selectedEventWindows}
+                  onApplyWindow={applyEventWindowFilter}
+                  onClearWindow={() => setFilters((current) => ({ ...current, startDate: '', endDate: '' }))}
+                />
               </Panel>
             </div>
 
@@ -632,6 +711,212 @@ function lateDensityTone(share: number): { fill: string; textClass: string } {
   return { fill: '#64748b', textClass: 'text-slate-600' };
 }
 
+function EventOverlayPanel({
+  categories,
+  activeCategories,
+  events,
+  selectedEventId,
+  onToggleCategory,
+  onSelectEvent,
+}: {
+  categories: EventCategory[];
+  activeCategories: EventCategory[];
+  events: OgeEvent[];
+  selectedEventId: string | null;
+  onToggleCategory: (category: EventCategory) => void;
+  onSelectEvent: (eventId: string) => void;
+}) {
+  return (
+    <div className="space-y-3 border-t border-slate-100 pt-3">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Event overlay</div>
+          <div className="text-xs text-slate-500">{formatInteger(events.length)} public events in visible months</div>
+        </div>
+        <CalendarDays className="h-4 w-4 text-slate-400" />
+      </div>
+      <div className="flex flex-wrap gap-1.5">
+        {categories.map((category) => {
+          const active = activeCategories.includes(category);
+          return (
+            <button
+              key={category}
+              type="button"
+              onClick={() => onToggleCategory(category)}
+              className={`inline-flex items-center gap-1 rounded-md border px-2 py-1 text-[11px] font-semibold ${
+                active ? 'border-slate-300 bg-white text-slate-800' : 'border-slate-100 bg-slate-50 text-slate-400'
+              }`}
+            >
+              <span
+                className="h-2 w-2 rounded-full"
+                style={{ backgroundColor: active ? EVENT_CATEGORY_COLORS[category] : '#cbd5e1' }}
+              />
+              {eventCategoryLabel(category)}
+            </button>
+          );
+        })}
+      </div>
+      <div className="max-h-[180px] space-y-2 overflow-auto pr-1">
+        {events.length === 0 && (
+          <div className="bg-slate-50 p-3 text-xs leading-5 text-slate-500">
+            No event records match the current transaction months and category toggles.
+          </div>
+        )}
+        {events.slice(0, 8).map((event) => {
+          const selected = event.id === selectedEventId;
+          return (
+            <button
+              key={event.id}
+              type="button"
+              onClick={() => onSelectEvent(event.id)}
+              className={`block w-full rounded-md border p-2 text-left transition ${
+                selected ? 'border-sky-300 bg-sky-50' : 'border-slate-100 bg-white hover:bg-slate-50'
+              }`}
+            >
+              <div className="mb-1 flex items-center justify-between gap-2">
+                <span className="font-mono text-[11px] text-slate-500">{event.date}</span>
+                <span
+                  className="rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white"
+                  style={{ backgroundColor: EVENT_CATEGORY_COLORS[event.category] }}
+                >
+                  {eventCategoryLabel(event.category)}
+                </span>
+              </div>
+              <div className="max-h-9 overflow-hidden text-xs font-semibold leading-[18px] text-slate-800">
+                {event.title}
+              </div>
+              {event.tags.length > 0 && (
+                <div className="mt-1 truncate text-[11px] text-slate-500">{event.tags.slice(0, 4).join(', ')}</div>
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function EventWindowDetail({
+  event,
+  windows,
+  onApplyWindow,
+  onClearWindow,
+}: {
+  event: OgeEvent | null;
+  windows: EventWindowSummary[];
+  onApplyWindow: (event: OgeEvent, windowDays: 7 | 30) => void;
+  onClearWindow: () => void;
+}) {
+  if (!event) {
+    return (
+      <div className="mt-4 border border-slate-100 bg-slate-50 p-4 text-sm text-slate-500">
+        Select an event to inspect nearby transaction activity.
+      </div>
+    );
+  }
+
+  const sortedWindows = [...windows].sort((a, b) => a.windowDays - b.windowDays);
+
+  return (
+    <div className="mt-4 border-t border-slate-100 pt-4">
+      <div className="grid gap-4 xl:grid-cols-[1fr_1.1fr]">
+        <div className="space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span
+              className="rounded-md px-2 py-1 text-[11px] font-bold uppercase tracking-wide text-white"
+              style={{ backgroundColor: EVENT_CATEGORY_COLORS[event.category] }}
+            >
+              {eventCategoryLabel(event.category)}
+            </span>
+            <span className="font-mono text-xs text-slate-500">{eventDateLabel(event)}</span>
+            <span className="rounded-md bg-slate-100 px-2 py-1 text-[11px] font-semibold text-slate-600">
+              importance {event.importance}/3
+            </span>
+          </div>
+          <div>
+            <h3 className="text-sm font-bold leading-5">{event.title}</h3>
+            <p className="mt-1 text-xs leading-5 text-slate-600">{event.summary}</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => onApplyWindow(event, 7)}
+              className="rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+            >
+              Filter +/-7d
+            </button>
+            <button
+              type="button"
+              onClick={() => onApplyWindow(event, 30)}
+              className="rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+            >
+              Filter +/-30d
+            </button>
+            <button
+              type="button"
+              onClick={onClearWindow}
+              className="rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+            >
+              Clear dates
+            </button>
+            <a
+              href={event.sourceUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-sky-700 hover:bg-slate-50"
+            >
+              {event.sourceName} <ExternalLink className="h-3 w-3" />
+            </a>
+          </div>
+          <div className="text-[11px] leading-4 text-slate-500">
+            Proximity analysis is a reporting prompt only; it does not imply motive, coordination, or causation.
+          </div>
+        </div>
+        <div className="grid gap-3 md:grid-cols-2">
+          {sortedWindows.map((window) => (
+            <div key={`${window.eventId}-${window.windowDays}`} className="border border-slate-100 bg-slate-50 p-3">
+              <div className="mb-2 flex items-center justify-between gap-3">
+                <div className="text-xs font-bold">+/-{window.windowDays} days</div>
+                <div className="font-mono text-xs text-slate-500">{formatInteger(window.transactionCount)} rows</div>
+              </div>
+              <div className="grid grid-cols-3 gap-2 text-xs">
+                <Metric label="Buys" value={formatMoney(window.purchaseMidpoint)} tone="buy" />
+                <Metric label="Sales" value={formatMoney(window.saleMidpoint)} tone="sell" />
+                <Metric label="Net" value={formatSignedMoney(window.netMidpoint)} tone={window.netMidpoint >= 0 ? 'buy' : 'sell'} />
+              </div>
+              <div className="mt-3 text-[11px] leading-4 text-slate-500">
+                {window.firstTransactionDate && window.lastTransactionDate
+                  ? `${window.firstTransactionDate} to ${window.lastTransactionDate}`
+                  : 'No matching transaction dates.'}
+              </div>
+              {window.matchedTickers.length > 0 && (
+                <div className="mt-2 truncate text-[11px] font-semibold text-sky-800">
+                  Tickers: {window.matchedTickers.slice(0, 8).join(', ')}
+                </div>
+              )}
+              {window.matchedSectors.length > 0 && (
+                <div className="mt-1 line-clamp-2 text-[11px] text-slate-500">
+                  Sectors: {window.matchedSectors.slice(0, 6).join(', ')}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Metric({ label, value, tone }: { label: string; value: string; tone: 'buy' | 'sell' | 'neutral' }) {
+  const toneClass = tone === 'buy' ? 'text-emerald-700' : tone === 'sell' ? 'text-red-700' : 'text-slate-700';
+  return (
+    <div>
+      <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">{label}</div>
+      <div className={`font-mono text-xs font-semibold ${toneClass}`}>{value}</div>
+    </div>
+  );
+}
+
 function KpiCard({ label, value, sub, icon, tone = 'neutral' }: { label: string; value: string; sub: string; icon: React.ReactNode; tone?: 'neutral' | 'buy' | 'sell' | 'warn' }) {
   const toneClass = tone === 'buy' ? 'text-emerald-700 bg-emerald-50' : tone === 'sell' ? 'text-red-700 bg-red-50' : tone === 'warn' ? 'text-amber-800 bg-amber-50' : 'text-slate-700 bg-slate-100';
   return (
@@ -851,6 +1136,65 @@ function netDirectionTone(direction: EquityStockSummary['netDirection']): 'buy' 
   if (direction === 'Net buy') return 'buy';
   if (direction === 'Net sale') return 'sell';
   return 'neutral';
+}
+
+interface EventMarker {
+  month: string;
+  count: number;
+  category: EventCategory;
+  importance: number;
+}
+
+function buildTimelineEvents(
+  events: OgeEvent[],
+  monthlyFlow: Array<{ month: string }>,
+  activeCategories: EventCategory[]
+): OgeEvent[] {
+  const visibleMonths = new Set(monthlyFlow.map((row) => row.month));
+  if (visibleMonths.size === 0) return [];
+
+  return events
+    .filter((event) => activeCategories.includes(event.category))
+    .filter((event) => visibleMonths.has(eventMonth(event)))
+    .sort((a, b) =>
+      b.date.localeCompare(a.date) ||
+      b.importance - a.importance ||
+      a.title.localeCompare(b.title)
+    );
+}
+
+function buildEventMarkers(
+  events: OgeEvent[],
+  monthlyFlow: Array<{ month: string }>
+): EventMarker[] {
+  const monthOrder = new Map(monthlyFlow.map((row, index) => [row.month, index]));
+  const byMonth = new Map<string, OgeEvent[]>();
+
+  for (const event of events) {
+    const month = eventMonth(event);
+    if (!monthOrder.has(month)) continue;
+    byMonth.set(month, [...(byMonth.get(month) || []), event]);
+  }
+
+  return Array.from(byMonth.entries())
+    .map(([month, monthEvents]) => {
+      const leadEvent = [...monthEvents].sort((a, b) =>
+        b.importance - a.importance ||
+        a.date.localeCompare(b.date) ||
+        a.title.localeCompare(b.title)
+      )[0];
+      return {
+        month,
+        count: monthEvents.length,
+        category: leadEvent.category,
+        importance: leadEvent.importance,
+      };
+    })
+    .sort((a, b) => (monthOrder.get(a.month) || 0) - (monthOrder.get(b.month) || 0));
+}
+
+function eventDateLabel(event: OgeEvent): string {
+  return event.endDate && event.endDate !== event.date ? `${event.date} to ${event.endDate}` : event.date;
 }
 
 function buildMonthlyFlow(transactions: OgeTransaction[]) {

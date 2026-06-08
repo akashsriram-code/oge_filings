@@ -5,6 +5,13 @@ import { addRanges, parseOgeAmountRange } from '../lib/oge/amounts';
 import { buildHoldingsEstimates, buildReviewQueue, buildSectorSummaries, stableId } from '../lib/oge/analytics';
 import { classifySecurity } from '../lib/oge/classify';
 import {
+  buildEventWindows,
+  buildFomcEvents,
+  federalRegisterDocumentToEvent,
+  mergeEvents,
+  normalizeManualEvents,
+} from '../lib/oge/events';
+import {
   broadSectorFromSic,
   buildSecurityReferenceCache,
   collectResolvedCiks,
@@ -17,6 +24,7 @@ import {
 import type {
   BaselineHolding,
   CacheMeta,
+  OgeEvent,
   OgeTransaction,
   SecurityReferenceCache,
   SecurityReferenceEntry,
@@ -32,6 +40,7 @@ const SEC_COMPANY_TICKERS_EXCHANGE_URL = 'https://www.sec.gov/files/company_tick
 const SEC_SUBMISSIONS_BASE_URL = 'https://data.sec.gov/submissions';
 const NASDAQ_LISTED_URL = 'https://www.nasdaqtrader.com/dynamic/SymDir/nasdaqlisted.txt';
 const NASDAQ_OTHER_LISTED_URL = 'https://www.nasdaqtrader.com/dynamic/SymDir/otherlisted.txt';
+const FEDERAL_REGISTER_DOCUMENTS_URL = 'https://www.federalregister.gov/api/v1/documents.json';
 const DATA_ROOT = path.join(process.cwd(), 'data', 'oge', 'trump');
 const OGE_PAGE_SIZE = 1000;
 const MIN_DOC_DATE = '2025-01-01';
@@ -73,6 +82,17 @@ interface OpenCabinetDataset {
   }>;
 }
 
+interface FederalRegisterPage {
+  results?: Array<{
+    title?: string;
+    publication_date?: string;
+    html_url?: string;
+    abstract?: string;
+    document_number?: string;
+    agencies?: Array<{ name?: string; raw_name?: string }>;
+  }>;
+}
+
 async function main() {
   const sourceRecords = await fetchTrumpOgeSourceRecords();
   const sourceFilings = await buildSourceFilings(sourceRecords);
@@ -87,6 +107,8 @@ async function main() {
   const baselineHoldings = await buildBaselineHoldings(sourceFilings);
   const holdingsEstimates = buildHoldingsEstimates(transactions, baselineHoldings);
   const sectorSummaries = buildSectorSummaries(transactions);
+  const events = await buildEvents();
+  const eventWindows = buildEventWindows(events, transactions);
   const reviewQueue = buildReviewQueue({
     sourceFilings,
     transactions,
@@ -100,6 +122,8 @@ async function main() {
     holdingsEstimates,
     sectorSummaries,
     reviewQueue,
+    events,
+    eventWindows,
     securityReference,
     securityEnrichments,
   });
@@ -111,6 +135,8 @@ async function main() {
     holdingsEstimates,
     sectorSummaries,
     reviewQueue,
+    events,
+    eventWindows,
     securityReference,
     securityEnrichments,
     cacheMeta,
@@ -126,6 +152,8 @@ async function main() {
     securityReferenceCount: securityReference.entries.length,
     securityEnrichmentCount: securityEnrichments.length,
     enrichedTransactionCount: transactions.filter((tx) => tx.resolvedTicker).length,
+    eventCount: events.length,
+    eventWindowCount: eventWindows.length,
     latestFilingDate: cacheMeta.dataThrough,
   }, null, 2));
 }
@@ -223,6 +251,70 @@ async function buildBaselineHoldings(sourceFilings: SourceFiling[]): Promise<Bas
   if (!annual) return [];
 
   return [];
+}
+
+async function buildEvents(): Promise<OgeEvent[]> {
+  const manualEvents = normalizeManualEvents(await readJson<OgeEvent[]>('manual-events.json', []));
+  const federalRegisterEvents = await fetchFederalRegisterEvents();
+  const fomcEvents = buildFomcEvents();
+  return mergeEvents(manualEvents, federalRegisterEvents, fomcEvents)
+    .filter((event) => event.date >= MIN_DOC_DATE)
+    .sort((a, b) =>
+      a.date.localeCompare(b.date) ||
+      b.importance - a.importance ||
+      a.title.localeCompare(b.title)
+    );
+}
+
+async function fetchFederalRegisterEvents(): Promise<OgeEvent[]> {
+  const existing = await readJson<OgeEvent[]>('events.json', []);
+  const fallback = existing.filter((event) => event.sourceName === 'Federal Register');
+  const terms = [
+    'tariff',
+    'section 232',
+    'reciprocal tariff',
+    'harmonized tariff schedule',
+    'trade and investment deal',
+  ];
+  const documents = new Map<string, NonNullable<FederalRegisterPage['results']>[number]>();
+
+  try {
+    for (const term of terms) {
+      const params = new URLSearchParams();
+      params.set('conditions[publication_date][gte]', MIN_DOC_DATE);
+      params.set('conditions[publication_date][lte]', new Date().toISOString().slice(0, 10));
+      params.set('conditions[term]', term);
+      params.set('per_page', '100');
+      params.set('order', 'newest');
+      for (const field of ['title', 'publication_date', 'html_url', 'abstract', 'agencies', 'document_number']) {
+        params.append('fields[]', field);
+      }
+
+      const page = await fetchJson<FederalRegisterPage>(`${FEDERAL_REGISTER_DOCUMENTS_URL}?${params.toString()}`);
+      for (const document of page.results || []) {
+        const key = document.document_number || `${document.publication_date}|${document.title}`;
+        if (key) documents.set(key, document);
+      }
+      await sleep(120);
+    }
+
+    return Array.from(documents.values())
+      .map(federalRegisterDocumentToEvent)
+      .filter((event): event is OgeEvent => Boolean(event))
+      .sort((a, b) =>
+        b.importance - a.importance ||
+        b.date.localeCompare(a.date) ||
+        a.title.localeCompare(b.title)
+      )
+      .slice(0, 140);
+  } catch (error) {
+    if (fallback.length > 0) {
+      console.warn(`[Event overlay] Federal Register unavailable; preserving ${fallback.length} cached events.`);
+      return fallback;
+    }
+    console.warn(`[Event overlay] Federal Register unavailable: ${error instanceof Error ? error.message : String(error)}`);
+    return [];
+  }
 }
 
 async function buildPublicSecurityReference(): Promise<SecurityReferenceCache> {
@@ -469,6 +561,8 @@ function buildCacheMeta(dataset: Omit<TrumpOgeDataset, 'cacheMeta'>): CacheMeta 
     securityReferenceCount: dataset.securityReference.entries.length,
     securityEnrichmentCount: dataset.securityEnrichments.length,
     enrichedTransactionCount,
+    eventCount: dataset.events.length,
+    eventWindowCount: dataset.eventWindows.length,
     notes: [
       'OGE PDF URLs and SHA-256 fingerprints are treated as canonical source provenance.',
       'Transaction values are statutory disclosure ranges; midpoint totals are estimates, not exact trading value.',
@@ -477,6 +571,7 @@ function buildCacheMeta(dataset: Omit<TrumpOgeDataset, 'cacheMeta'>): CacheMeta 
         : 'No annual 278e source was found in the current OGE record set.',
       'Security enrichment uses public SEC and Nasdaq Trader reference data; sector labels are SEC/SIC-derived broad sectors, not proprietary GICS classifications.',
       `Security enrichment resolved ${enrichedTransactionCount.toLocaleString('en-US')} transaction rows to public-company tickers.`,
+      'Event overlay uses public Federal Register and Federal Reserve sources plus optional manual events; event proximity does not imply motive or causation.',
       'Rules-based classifications remain as fallback and include review flags for ambiguous or unmatched rows.',
     ],
   };
@@ -491,6 +586,8 @@ async function writeDataset(dataset: TrumpOgeDataset) {
     writeJson('holdings-estimates.json', dataset.holdingsEstimates),
     writeJson('sector-summaries.json', dataset.sectorSummaries),
     writeJson('review-queue.json', dataset.reviewQueue),
+    writeJson('events.json', dataset.events),
+    writeJson('event-windows.json', dataset.eventWindows),
     writeJson('security-reference.json', dataset.securityReference),
     writeJson('security-enrichment.json', dataset.securityEnrichments),
     writeJson('cache-meta.json', dataset.cacheMeta),

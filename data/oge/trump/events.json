@@ -1,0 +1,2573 @@
+[
+  {
+    "id": "074844d3",
+    "date": "2025-01-28",
+    "endDate": "2025-01-29",
+    "category": "fed",
+    "title": "FOMC meeting",
+    "summary": "Federal Open Market Committee scheduled meeting.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "meeting"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "047f8af5",
+    "date": "2025-02-19",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Reciprocal Trade and Tariffs",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/02/19/2025-02872/reciprocal-trade-and-tariffs",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "aa5bcfb1",
+    "date": "2025-02-25",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Request for Comments To Assist in Reviewing and Identifying Unfair Trade Practices and Initiating All Necessary Actions To Investigate Harm From Non-Reciprocal Trade Arrangements",
+    "summary": "Pursuant to the America First Trade Policy Presidential Memorandum and the Presidential Memorandum on Reciprocal Trade and Tariffs, USTR invites comments from the public, on a country-by-country basis, to assist the U.S. Trade Representative in reviewing and identifying any unfair trade practices by other countries, and in initiating all necessary actions to investigate the harm to the United States from any non-reciprocal trade arrangements. This information will assist the U.S. Trade Representative in recommending appropriate actions to remedy such practices and reporting to the President proposed remedies in pursuit of reciprocal trade relations.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/02/25/2025-03047/request-for-comments-to-assist-in-reviewing-and-identifying-unfair-trade-practices-and-initiating",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "ef1087b6",
+    "date": "2025-03-18",
+    "endDate": "2025-03-19",
+    "category": "fed",
+    "title": "FOMC meeting with projections",
+    "summary": "Federal Open Market Committee scheduled meeting associated with Summary of Economic Projections.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "SEP"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "762e6e7c",
+    "date": "2025-04-07",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Regulating Imports With a Reciprocal Tariff To Rectify Trade Practices That Contribute to Large and Persistent Annual United States Goods Trade Deficits",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/04/07/2025-06063/regulating-imports-with-a-reciprocal-tariff-to-rectify-trade-practices-that-contribute-to-large-and",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "30c30cd1",
+    "date": "2025-04-14",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Amendment to Reciprocal Tariffs and Updated Duties as Applied to Low-Value Imports From the People's Republic of China",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/04/14/2025-06378/amendment-to-reciprocal-tariffs-and-updated-duties-as-applied-to-low-value-imports-from-the-peoples",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner",
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "f5f3efb6",
+    "date": "2025-04-15",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Modifying Reciprocal Tariff Rates To Reflect Trading Partner Retaliation and Alignment",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/04/15/2025-06462/modifying-reciprocal-tariff-rates-to-reflect-trading-partner-retaliation-and-alignment",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "cafa6693",
+    "date": "2025-04-28",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Notice of Implementation of Additional Duties on Products of the People's Republic of China Pursuant to the President's Executive Order 14256, Further Amendment to Duties Addressing the Synthetic Opioid Supply Chain in the People's Republic of China As Applied to Low-Value Imports",
+    "summary": "In order to effectuate the President's Executive Order 14256 of April 2, 2025, \"Further Amendment to Duties Addressing the Synthetic Opioid Supply Chain in the People's Republic of China As Applied to Low-Value Imports,\" which eliminates the de minimis exemption for products of the People's Republic of China (PRC) (which include products of Hong Kong) and establishes a new duty rate for international postal packages sent to the United States through the international postal network from the PRC or Hong Kong, as amended by Executive Order 14259 of April 8, 2025, \"Amendment to Reciprocal Tariffs and Updated Duties As Applied to Low-Value Imports from the People's Republic of China,\" and Executive Order 14266 of April 9, 2025, \"Modifying Reciprocal Tariff Rates to Reflect Trading Partner Retaliation and Alignment,\" the Secretary of Homeland Security has determined that appropriate action is needed to ensure collection of applicable duties as well as to modify the Harmonized Tariff Schedule of the United States (HTSUS) as set out in the Annex to this notice.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/04/28/2025-07325/notice-of-implementation-of-additional-duties-on-products-of-the-peoples-republic-of-china-pursuant",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "HTS",
+      "country/trade partner",
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "d27d5517",
+    "date": "2025-05-06",
+    "endDate": "2025-05-07",
+    "category": "fed",
+    "title": "FOMC meeting",
+    "summary": "Federal Open Market Committee scheduled meeting.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "meeting"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "31cc5e13",
+    "date": "2025-05-21",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Modifying Reciprocal Tariff Rates To Reflect Discussions With the People's Republic of China",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/05/21/2025-09297/modifying-reciprocal-tariff-rates-to-reflect-discussions-with-the-peoples-republic-of-china",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner",
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "f397330b",
+    "date": "2025-06-09",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Adjusting Imports of Aluminum and Steel Into the United States",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/06/09/2025-10524/adjusting-imports-of-aluminum-and-steel-into-the-united-states",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "Section 232"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "91870bd2",
+    "date": "2025-06-17",
+    "endDate": "2025-06-18",
+    "category": "fed",
+    "title": "FOMC meeting with projections",
+    "summary": "Federal Open Market Committee scheduled meeting associated with Summary of Economic Projections.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "SEP"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "d93e9c4e",
+    "date": "2025-06-30",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Imports of Automobiles, Automobile Parts, Civil Aircraft and Civil Aircraft Parts From the United Kingdom Under Executive Order 14309",
+    "summary": "Executive Order 14309 of June 16, 2025 (Implementing the General Terms of the United States of America-United Kingdom Economic Prosperity Deal) (Executive Order 14309) establishes a tariff rate quota on automobiles that are products of the United Kingdom (UK), provides for preferential tariff treatment for automobile parts that are products of the UK and for use in UK automobiles, and removes certain tariffs from products of the UK that fall under the World Trade Organization Agreement on Trade in Civil Aircraft. Executive Order 14309 provides that the Secretary of Commerce, in consultation with the United States International Trade Commission (ITC) and U.S. Customs and Border Protection (CBP) is to publish a notice in the Federal Register to modify the Harmonized Tariff Schedule of the United States (HTSUS) to conform with that treatment.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/06/30/2025-12060/imports-of-automobiles-automobile-parts-civil-aircraft-and-civil-aircraft-parts-from-the-united",
+    "tickers": [],
+    "sectors": [
+      "Consumer Discretionary",
+      "Industrials"
+    ],
+    "tags": [
+      "HTS",
+      "aircraft",
+      "autos"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "3bdfdd08",
+    "date": "2025-07-01",
+    "endDate": null,
+    "category": "tariff",
+    "title": "International Criminal Court-Related Sanctions Regulations",
+    "summary": "The Department of the Treasury's Office of Foreign Assets Control (OFAC) is adding regulations to implement a February 6, 2025 International Criminal Court-related Executive order. The rule also includes information relevant to a May 9, 2025 Executive order relating to requirements for final rules published in the Federal Register. OFAC intends to supplement these regulations with a more comprehensive set of regulations, which may include additional interpretive guidance and definitions, general licenses, and other regulatory provisions.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/07/01/2025-12036/international-criminal-court-related-sanctions-regulations",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 3
+  },
+  {
+    "id": "d96e71c4",
+    "date": "2025-07-10",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Extending the Modification of the Reciprocal Tariff Rates",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/07/10/2025-12962/extending-the-modification-of-the-reciprocal-tariff-rates",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "cd214278",
+    "date": "2025-07-29",
+    "endDate": "2025-07-30",
+    "category": "fed",
+    "title": "FOMC meeting",
+    "summary": "Federal Open Market Committee scheduled meeting.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "meeting"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "7e82a9ce",
+    "date": "2025-08-05",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Adjusting Imports of Copper Into the United States",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/08/05/2025-14893/adjusting-imports-of-copper-into-the-united-states",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 3
+  },
+  {
+    "id": "3e42a2f3",
+    "date": "2025-08-06",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Further Modifying the Reciprocal Tariff Rates",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/08/06/2025-15010/further-modifying-the-reciprocal-tariff-rates",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "806a42ab",
+    "date": "2025-08-14",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Further Modifying Reciprocal Tariff Rates To Reflect Ongoing Discussions With the People's Republic of China",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/08/14/2025-15554/further-modifying-reciprocal-tariff-rates-to-reflect-ongoing-discussions-with-the-peoples-republic",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner",
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "926fc064",
+    "date": "2025-08-19",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Adoption and Procedures of the Section 232 Steel and Aluminum Tariff Inclusions Process",
+    "summary": "BIS is adding 407 Harmonized Tariff Schedule of the United States (HTSUS) codes to the list of products that will be considered as steel or aluminum derivative products. For such products, steel and aluminum tariffs based on Section 232 of the Trade Expansion Act of 1962 (Section 232) will apply to the steel and aluminum content. The non-steel and non-aluminum content will remain subject to the reciprocal and other applicable tariffs. For 60 HTSUS codes, BIS has decided not to include them as steel and aluminum derivative products at this time, because they are subject to other ongoing investigations pursuant to Section 232 or other trade statutes. The complete list of HTSUS codes added to the Section 232 tariffs by today's action is listed in the annexes to this notice.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/08/19/2025-15819/adoption-and-procedures-of-the-section-232-steel-and-aluminum-tariff-inclusions-process",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "HTS",
+      "Section 232",
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "64d40446",
+    "date": "2025-08-27",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Notice of Implementation of Additional Duties on Products of India Pursuant to the President's Executive Order 14329, Addressing Threats to the United States by the Government of the Russian Federation",
+    "summary": "To effectuate the President's Executive Order 14329 of August 6, 2025 (Addressing Threats to the United States by the Government of the Russian Federation), which imposed a specified rate of duty on imports of articles that are products of India, the Secretary of Homeland Security has determined that appropriate action is needed to modify the Harmonized Tariff Schedule of the United States (HTSUS) as set out in the Annex to this notice.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/08/27/2025-16419/notice-of-implementation-of-additional-duties-on-products-of-india-pursuant-to-the-presidents",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "HTS"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "c7ed12c4",
+    "date": "2025-09-02",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Notice of Implementation of the President's Executive Order 14324, Suspending Duty-Free De Minimis Treatment for All Countries",
+    "summary": "In order to effectuate the President's Executive Order 14324 of July 30, 2025 (Suspending Duty-Free De Minimis Treatment For All Countries), the Secretary of Homeland Security has determined that appropriate action is needed to ensure collection of applicable duties as well as to modify the Harmonized Tariff Schedule of the United States (HTSUS) as set out in the Annex to this notice. Executive Order 14324 suspends the duty-free de minimis exemption otherwise authorized under section 321(a)(2)(C) of the Tariff Act of 1930, as amended, for all covered products, regardless of country of origin, valued at $800 or less, and requires such articles, except articles that are sent to the United States through the international postal network, to be entered using an appropriate entry type in the Automated Commercial Environment (ACE) by a party qualified to make entry. Executive Order 14324 also establishes a new duty rate for covered products that are sent to the United States through the international postal network.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/09/02/2025-16802/notice-of-implementation-of-the-presidents-executive-order-14324-suspending-duty-free-de-minimis",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "HTS"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "a2a75b20",
+    "date": "2025-09-10",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Modifying the Scope of Reciprocal Tariffs and Establishing Procedures for Implementing Trade and Security Agreements",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/09/10/2025-17507/modifying-the-scope-of-reciprocal-tariffs-and-establishing-procedures-for-implementing-trade-and",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "33fd8fee",
+    "date": "2025-09-16",
+    "endDate": "2025-09-17",
+    "category": "fed",
+    "title": "FOMC meeting with projections",
+    "summary": "Federal Open Market Committee scheduled meeting associated with Summary of Economic Projections.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "SEP"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "31d02701",
+    "date": "2025-09-16",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Implementing Certain Tariff-Related Elements of the United States-Japan Agreement",
+    "summary": "On July 23, 2025, the President announced a framework agreement between the United States and Japan (the Agreement), which lays the foundation for a new era of U.S.-Japan trade relations grounded in principles of reciprocity and our shared national interests. On September 4, 2025, the President issued Executive Order 14345, Implementing the United States-Japan Agreement, finding that specified tariff actions are consistent with the national interests of the United States and are necessary and appropriate to address the national emergency declared in Executive Order 14257, as amended, and to reduce or eliminate the threats to national security found in certain proclamations issued under Section 232 of the Trade Expansion Act of 1962. Executive Order 14345 also directed and authorized the Secretary of Commerce (Secretary) to publish in the Federal Register changes to the Harmonized Tariff Schedule of the United States (HTSUS) with respect to general tariffs on Japanese goods (in consultation with the United States Trade Representative, the Secretary of Homeland Security acting through the Commissioner of U.S. Customs and Border Protection (CBP), and the Chair of the United States International Trade Commission (ITC)); products of Japan that fall under the World Trade Organization Agreement on Trade in Civil Aircraft, except for unmanned aircraft (in consultation with the Chair of the ITC and the Commissioner of CBP); and products of Japan subject to duties under Proclamation 10908 of March 26, 2025 (Adjusting Imports of Automobiles and Automobile Parts Into the United States) (in consultation with the Chair of the ITC and the Commissioner of CBP). This notice amends the HTSUS to implement these provisions of the Agreement.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/09/16/2025-17908/implementing-certain-tariff-related-elements-of-the-united-states-japan-agreement",
+    "tickers": [],
+    "sectors": [
+      "Consumer Discretionary",
+      "Industrials"
+    ],
+    "tags": [
+      "HTS",
+      "Section 232",
+      "aircraft",
+      "autos"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "d4953b04",
+    "date": "2025-09-25",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Amendment to the Syria-Related Sanctions Regulations",
+    "summary": "The Department of the Treasury's Office of Foreign Assets Control (OFAC) is changing the heading of the Syria-Related Sanctions Regulations to the Promoting Accountability for Assad and Regional Stabilization Sanctions Regulations and amending the renamed regulations to implement a January 15, 2025 Syria-related Executive order and a June 30, 2025 Syria-related Executive order.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/09/25/2025-18618/amendment-to-the-syria-related-sanctions-regulations",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 3
+  },
+  {
+    "id": "3f973091",
+    "date": "2025-09-25",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Implementing Certain Tariff-Related Elements of the U.S.-EU Framework on an Agreement on Reciprocal, Fair, and Balanced Trade",
+    "summary": "On August 21, 2025, the United States and the European Union announced agreement on a Framework on an Agreement on Reciprocal, Fair, and Balanced Trade (Framework Agreement). On September 5, 2025, President Trump issued Executive Order 14346, Modifying the Scope of Reciprocal Tariffs and Establishing Procedures for Implementing Trade and Security Agreements, finding that it is necessary and appropriate to implement the tariff modifications described in that Framework Agreement. Executive Order 14346 also directed and authorized the Secretary of Commerce and the United States Trade Representative to take the necessary and appropriate steps to implement any current or forthcoming trade and security framework agreements between a foreign trading partner and the United States. This notice amends the Harmonized Tariff Schedule of the United States to implement the elements of the Framework Agreement that adjust tariffs on certain articles that are products of the European Union, including automobiles and automobile parts subject to tariffs under Proclamation 10908, Adjusting Imports of Automobiles and Automobile Parts Into the United States, as amended, and unavailable natural resources (including cork), all aircraft and aircraft parts, and generic pharmaceuticals and their ingredients and chemical precursors.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/09/25/2025-18660/implementing-certain-tariff-related-elements-of-the-us-eu-framework-on-an-agreement-on-reciprocal",
+    "tickers": [],
+    "sectors": [
+      "Consumer Discretionary",
+      "Health Care",
+      "Industrials",
+      "Materials"
+    ],
+    "tags": [
+      "HTS",
+      "aircraft",
+      "autos",
+      "country/trade partner",
+      "pharmaceuticals",
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "c22a5f41",
+    "date": "2025-10-06",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Adjusting Imports of Timber, Lumber, and Their Derivative Products Into the United States",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/10/06/2025-19482/adjusting-imports-of-timber-lumber-and-their-derivative-products-into-the-united-states",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "lumber"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "7b3048f1",
+    "date": "2025-10-28",
+    "endDate": "2025-10-29",
+    "category": "fed",
+    "title": "FOMC meeting",
+    "summary": "Federal Open Market Committee scheduled meeting.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "meeting"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "d1566893",
+    "date": "2025-11-07",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Modifying Reciprocal Tariff Rates Consistent With the Economic and Trade Arrangement Between the United States and the People's Republic of China",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/11/07/2025-19826/modifying-reciprocal-tariff-rates-consistent-with-the-economic-and-trade-arrangement-between-the",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner",
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "a4bf3dcd",
+    "date": "2025-11-25",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Modifying the Scope of the Reciprocal Tariffs With Respect to Certain Agricultural Products",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/11/25/2025-21203/modifying-the-scope-of-the-reciprocal-tariffs-with-respect-to-certain-agricultural-products",
+    "tickers": [],
+    "sectors": [
+      "Consumer Staples"
+    ],
+    "tags": [
+      "food/agriculture",
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "74c75f2d",
+    "date": "2025-12-04",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Implementing Certain Tariff-Related Elements of the U.S.-Korea Strategic Trade and Investment Deal",
+    "summary": "On November 13, 2025, the United States and the Republic of Korea (ROK) issued a Joint Fact Sheet reaffirming the historic announcement in July of the Korea Strategic Trade and Investment Deal (U.S.-ROK Deal), which reflects the strength and endurance of the U.S.- ROK Alliance. The Joint Fact Sheet sets out steps the United States and the ROK will take to further the U.S.-ROK Alliance under the U.S.-ROK Deal. The Secretary of Commerce and United States Trade Representative, in consultation with the Commissioner of U.S. Customs and Border Protection and the Chair of the United States International Trade Commission, have determined that certain tariff modifications are necessary to implement that deal. This notice amends the Harmonized Tariff Schedule of the United States to implement certain tariff elements of that deal, adjusting tariffs on certain articles that are products of the ROK, including the country-specific reciprocal tariffs provided for under Executive Order 14257, as amended; tariffs on automobiles and automobile parts provided for under Proclamation 10908, as amended; tariffs on timber, lumber, and their derivatives provided for under Proclamation 10976; and tariffs on certain aircraft and aircraft parts provided for under Executive Order 14257, as amended, Proclamation 9704, as amended, Proclamation 9705, as amended, and Proclamation 10962.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/12/04/2025-21940/implementing-certain-tariff-related-elements-of-the-us-korea-strategic-trade-and-investment-deal",
+    "tickers": [],
+    "sectors": [
+      "Consumer Discretionary",
+      "Industrials",
+      "Materials"
+    ],
+    "tags": [
+      "HTS",
+      "aircraft",
+      "autos",
+      "country/trade partner",
+      "lumber",
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "a5820bba",
+    "date": "2025-12-09",
+    "endDate": "2025-12-10",
+    "category": "fed",
+    "title": "FOMC meeting with projections",
+    "summary": "Federal Open Market Committee scheduled meeting associated with Summary of Economic Projections.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "SEP"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "3fec46cf",
+    "date": "2025-12-18",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Implementing Certain Tariff-Related Elements of the Framework for a United States-Switzerland-Liechtenstein Agreement on Fair, Balanced, and Reciprocal Trade",
+    "summary": "On September 5, 2025, President Trump issued Executive Order 14346 (Modifying the Scope of Reciprocal Tariffs and Establishing Procedures for Implementing Trade and Security Agreements). Executive Order 14346 directed and authorized the Secretary of Commerce and the United States Trade Representative to take the necessary and appropriate steps to implement any current or forthcoming trade and security framework agreements between a foreign trading partner and the United States. On November 14, 2025, the United States, Switzerland, and Liechtenstein announced a Framework to negotiate an Agreement on Fair, Balanced, and Reciprocal Trade, and have agreed to modification of certain tariff rates. This notice amends the Harmonized Tariff Schedule of the United States to implement the elements of the Framework to apply the higher of either the U.S. most-favored-nation tariff rate or a tariff rate of 15 percent, comprised of the most- favored-nation tariff and a reciprocal tariff, on products of Switzerland or Liechtenstein, and to adjust tariffs on certain articles that are products of Switzerland or Liechtenstein, including certain agricultural goods, unavailable natural resources, aircraft and aircraft parts, and generic pharmaceuticals and their ingredients and chemical precursors. The United States has agreed to modify these tariff rates with the understanding and expectation that the Agreement on Fair, Balanced, and Reciprocal Trade will be successfully negotiated by the first quarter of 2026. If the Agreement is not successfully negotiated by March 31, 2026, the United States will review and reconsider these modifications, as appropriate.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/12/18/2025-23316/implementing-certain-tariff-related-elements-of-the-framework-for-a-united",
+    "tickers": [],
+    "sectors": [
+      "Consumer Staples",
+      "Health Care",
+      "Industrials",
+      "Materials"
+    ],
+    "tags": [
+      "HTS",
+      "aircraft",
+      "country/trade partner",
+      "food/agriculture",
+      "pharmaceuticals",
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "c97d1c26",
+    "date": "2025-12-23",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Debt Collection Authorities Under the Debt Collection Improvement Act of 1996",
+    "summary": "The Department of the Treasury (\"Treasury\"), Bureau of the Fiscal Service (\"Fiscal Service\"), proposes to revise its existing regulations regarding the Treasury Offset Program (\"TOP\") for several reasons, including to: restore statutory flexibility that was unnecessarily restricted; implement new authorities; eliminate repetitive and unnecessary language; reword certain provisions for clarity, consistent with the requirements of the Plain Writing Act of 2010 and Executive Order 12866; and better organize the regulations for easier comprehension.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2025/12/23/2025-23704/debt-collection-authorities-under-the-debt-collection-improvement-act-of-1996",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 3
+  },
+  {
+    "id": "2bd2ecb9",
+    "date": "2026-01-09",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Eliminating Regulatory Barriers to Competition: Review of Part 1144",
+    "summary": "The Surface Transportation Board proposes to repeal its regulations on \"Intramodal Rail Competition,\" which implement the agency's statutory authority to prescribe reciprocal switching agreements, through routes, and through rates. The approach set out in the regulations, which narrows the Board's statutory discretion, may no longer be appropriate on an industrywide basis, and its repeal would allow the Board to consider the prescription of through routes, through rates, and reciprocal switching agreements on a case-by-case basis under the applicable statutory standards.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/01/09/2026-00241/eliminating-regulatory-barriers-to-competition-review-of-part-1144",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "b8276fd1",
+    "date": "2026-01-20",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Adjusting Imports of Semiconductors, Semiconductor Manufacturing Equipment, and Their Derivative Products Into the United States",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/01/20/2026-01052/adjusting-imports-of-semiconductors-semiconductor-manufacturing-equipment-and-their-derivative",
+    "tickers": [],
+    "sectors": [
+      "Information Technology"
+    ],
+    "tags": [
+      "semiconductors"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "0d0c5193",
+    "date": "2026-01-27",
+    "endDate": "2026-01-28",
+    "category": "fed",
+    "title": "FOMC meeting",
+    "summary": "Federal Open Market Committee scheduled meeting.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "meeting"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "26dca0dd",
+    "date": "2026-01-30",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Improving Transparency Into Pharmacy Benefit Manager Fee Disclosure",
+    "summary": "The Department is proposing a regulation that would require providers of pharmacy benefit management services and affiliated providers of brokerage and consulting services to disclose information about their compensation to fiduciaries of self-insured group health plans subject to the Employee Retirement Income Security Act (ERISA). These disclosures are needed so that fiduciaries can assess the reasonableness of the contracts or arrangements with these service providers, including the reasonableness of the service providers' compensation. These disclosure requirements would apply for purposes of ERISA's statutory prohibited transaction exemption for services arrangements. This proposal implements section 12 of President Trump's Executive Order 14273, Lowering Drug Prices by Once Again Putting Americans First, which instructs the Department to propose regulations to improve employer health plan transparency into the direct and indirect compensation received by pharmacy benefit managers. If finalized, this regulation would affect sponsors and other fiduciaries of self-insured group health plans and certain service providers to such plans.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/01/30/2026-01907/improving-transparency-into-pharmacy-benefit-manager-fee-disclosure",
+    "tickers": [],
+    "sectors": [
+      "Health Care"
+    ],
+    "tags": [
+      "pharmaceuticals"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "9b7ba80f",
+    "date": "2026-03-09",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Risk Management and Financial Assurance for OCS Lease and Grant Obligations",
+    "summary": "The Department of the Interior (the Department or DOI), acting through the Bureau of Ocean Energy Management (BOEM), in response to Executive Order (E.O.) 14154 of January 20, 2025, Unleashing American Energy, as well as Secretarial Order No. 3418 of February 3, 2025, has reviewed market conditions of supply and demand in the crude oil and gas markets, and, as a result, is proposing to amend its existing risk management and financial assurance regulations. BOEM is tasked with managing the development of U.S. Outer Continental Shelf (OCS) energy, mineral, and geological resources in an environmentally and economically responsible way. As such, BOEM is proposing to maintain certain provisions of the existing regulations and modify only those elements that, under new market conditions, merit updating. The major proposed amendments in this rule include returning to the previous BOEM practice of considering the financial strength of jointly liable predecessor lessees, revising the credit rating threshold for determining whether oil, gas, and sulfur lessees, right-of-use and easement (RUE) grant holders, and pipeline right-of-way (ROW) grant holders on the OCS are required to provide supplemental financial assurance above the required general financial assurance amount to ensure compliance with their Outer Continental Shelf Lands Act (OCSLA) obligations, revising the decommissioning estimate used to determine the amount of supplemental financial assurance required, and revising the appeals bond provision related to the Interior Board of Land Appeals (IBLA) appeal procedures. Each of these proposed amendments will be discussed in its corresponding section of this preamble. This proposed rule, if finalized, would significantly reduce the amount of supplemental financial assurance required from oil, gas, and sulfur lessees operating on the OCS, thereby supporting the goals of E.O. 14154 Unleashing American Energy. BOEM estimates that a total of approximately $6.2 billion of financial burden to the regulated community will be reduced. This reduction of the financial burden increases the amount of capital available for oil and gas exploration and production on the OCS.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/03/09/2026-04517/risk-management-and-financial-assurance-for-ocs-lease-and-grant-obligations",
+    "tickers": [],
+    "sectors": [
+      "Energy",
+      "Financials"
+    ],
+    "tags": [],
+    "importance": 3
+  },
+  {
+    "id": "edcf92f6",
+    "date": "2026-03-17",
+    "endDate": "2026-03-18",
+    "category": "fed",
+    "title": "FOMC meeting with projections",
+    "summary": "Federal Open Market Committee scheduled meeting associated with Summary of Economic Projections.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "SEP"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "667f22cf",
+    "date": "2026-03-31",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Fiduciary Duties in Selecting Designated Investment Alternatives",
+    "summary": "This document contains a proposed regulation that clarifies, and provides a safe harbor for, a fiduciary's duty of prudence under the Employee Retirement Income Security Act of 1974 (ERISA) in connection with selecting designated investment alternatives for a participant-directed individual account plan, including asset allocation funds that include alternative assets. This proposal implements section 3(c) of President Trump's Executive Order 14330, Democratizing Access to Alternative Assets for 401(k) Investors.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/03/31/2026-06178/fiduciary-duties-in-selecting-designated-investment-alternatives",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 3
+  },
+  {
+    "id": "89048c11",
+    "date": "2026-04-09",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Adjusting Imports of Pharmaceuticals and Pharmaceutical Ingredients Into the United States",
+    "summary": "Agency: Executive Office of the President",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/04/09/2026-06956/adjusting-imports-of-pharmaceuticals-and-pharmaceutical-ingredients-into-the-united-states",
+    "tickers": [],
+    "sectors": [
+      "Health Care"
+    ],
+    "tags": [
+      "country/trade partner",
+      "pharmaceuticals"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "b61aaf6c",
+    "date": "2026-04-23",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Procedures for Submissions by Certain Steel and Aluminum Producers Committing to New U.S. Steel or Aluminum Production To Obtain Tariff Adjustments Under Proclamation 10984",
+    "summary": "In Presidential Proclamation 10984 of October 17, 2025 (Adjusting Imports of Medium- and Heavy-Duty Vehicles, Medium- and Heavy-Duty Vehicle Parts, and Buses Into the United States), the President imposed additional tariffs on imports of specified medium- and heavy-duty vehicles (MHDVs), medium- and heavy-duty vehicles parts (MHDVPs), and buses to eliminate the threat to national security posed by such imports. That Proclamation also authorized the Secretary of Commerce to reduce tariffs owed under Proclamation 9704 of March 8, 2018 (Adjusting Imports of Aluminum Into the United States) as amended, and Proclamation 9705 of March 8, 2018 (Adjusting Imports of Steel Into the United States) as amended, for certain steel and aluminum producers operating production facilities in Canada or Mexico, based on newly committed U.S. production capacity. This notice establishes procedures for submission and review of documentation substantiating new U.S. production capacity commitments and eligibility for adjusted tariffs by the Department of Commerce.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/04/23/2026-07987/procedures-for-submissions-by-certain-steel-and-aluminum-producers-committing-to-new-us-steel-or",
+    "tickers": [],
+    "sectors": [
+      "Consumer Discretionary",
+      "Materials"
+    ],
+    "tags": [
+      "Section 232",
+      "autos",
+      "country/trade partner"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "e0e7b535",
+    "date": "2026-04-28",
+    "endDate": "2026-04-29",
+    "category": "fed",
+    "title": "FOMC meeting",
+    "summary": "Federal Open Market Committee scheduled meeting.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "meeting"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "d1689cdb",
+    "date": "2026-04-29",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Notice of Technical Corrections to the Harmonized Tariff Schedule of the United States for Duties Imposed by Presidential Proclamation 11021",
+    "summary": "The President issued Proclamation 11021 \"Strengthening Actions Taken to Adjust Imports of Aluminum, Steel, and Copper Into the United States,\" (Presidential Proclamation) on April 2, 2026, to adjust imports of metal products to address more effectively threats to the national security. In the Presidential Proclamation, the President authorized the Secretary of Commerce (the Secretary) to publish modifications to the Harmonized Tariff Schedule of the United States (HTSUS) to effectuate or implement the Presidential Proclamation. The Secretary also is authorized to make any technical corrections to any Annex of the Presidential Proclamation. This notice issues two technical corrections to Annex IV of the Proclamation and a clarification.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/04/29/2026-08297/notice-of-technical-corrections-to-the-harmonized-tariff-schedule-of-the-united-states-for-duties",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "HTS",
+      "Section 232"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "0ab745f5",
+    "date": "2026-04-29",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Request for Comments on the Modernization of the African Growth and Opportunity Act (AGOA)",
+    "summary": "The Office of the United States Trade Representative (USTR) invites comments from interested parties to inform the development of trade policy recommendations on the modernization of the African Growth and Opportunity Act (AGOA), which is authorized through December 31, 2026. As part of forthcoming Congressional consideration of AGOA reauthorization, USTR will provide recommendations to Congress on reforms and modernizations to AGOA to ensure the program meets the needs of American workers and businesses, advances U.S. national security and economic security goals, optimizes balanced bilateral trade flows with beneficiary countries, and provides a path for reciprocal trade agreements with the more advanced countries as they develop and graduate from the program.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/04/29/2026-08347/request-for-comments-on-the-modernization-of-the-african-growth-and-opportunity-act-agoa",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "3cbbd4ef",
+    "date": "2026-05-06",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Freight Rail Couplers and Parts Thereof From India: Preliminary Affirmative Determination of Sales at Less Than Fair Value, Postponement of Final Determination, and Extension of Provisional Measures",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that certain freight rail couplers and parts thereof (freight rail couplers) from India are being, or are likely to be, sold in the United States at less than fair value (LTFV). The period of investigation (POI) is July 1, 2024, through June 30, 2025. Interested parties are invited to comment on this preliminary determination.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/06/2026-08956/certain-freight-rail-couplers-and-parts-thereof-from-india-preliminary-affirmative-determination-of",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "842aaa5d",
+    "date": "2026-05-08",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Cut-to-Length Carbon-Quality Steel Plate Products From the Republic of Korea: Final Results of Antidumping Duty Administrative Review; 2024-2025",
+    "summary": "The U.S. Department of Commerce (Commerce) determines that the producers and exporters subject to this administrative review made sales of certain cut-to-length carbon-quality steel plate products (CTL plate) from the Republic of Korea (Korea) at prices below normal value during the period of review (POR) covering February 1, 2024, through January 31, 2025.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/08/2026-09131/certain-cut-to-length-carbon-quality-steel-plate-products-from-the-republic-of-korea-final-results",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "Section 232",
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "7f3712da",
+    "date": "2026-05-08",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Foreign-Trade Zone (FTZ) 81, Notification of Proposed Production Activity; Turbocam Inc.; (Turbocharger and Aircraft Engine Compressor Components); Barrington, Dover, and Rochester, New Hampshire",
+    "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/08/2026-09222/foreign-trade-zone-ftz-81-notification-of-proposed-production-activity-turbocam-inc-turbocharger-and",
+    "tickers": [],
+    "sectors": [
+      "Industrials"
+    ],
+    "tags": [
+      "aircraft"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "a0bbb64b",
+    "date": "2026-05-12",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Agency Information Collection Activities; Submission to the Office of Management and Budget (OMB) for Review and Approval; Comment Request; Parts Tariff Offset Program for Motor Vehicles and Motor Vehicle Parts",
+    "summary": "Agency: Commerce Department, International Trade Administration",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/12/2026-09318/agency-information-collection-activities-submission-to-the-office-of-management-and-budget-omb-for",
+    "tickers": [],
+    "sectors": [
+      "Consumer Discretionary"
+    ],
+    "tags": [
+      "autos"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "76101dee",
+    "date": "2026-05-12",
+    "endDate": null,
+    "category": "tariff",
+    "title": "N-Cyclohexylbenzothiazole-2-sulfenamide From China; Institution of Antidumping and Countervailing Duty Investigations and Scheduling of Preliminary Phase Investigations",
+    "summary": "The Commission hereby gives notice of the institution of investigations and commencement of preliminary phase antidumping and countervailing duty investigation Nos. 701-TA-797 and 731-TA-1793 (Preliminary) pursuant to the Tariff Act of 1930 to determine whether there is a reasonable indication that an industry in the United States is materially injured or threatened with material injury, or the establishment of an industry in the United States is materially retarded, by reason of imports of N-Cyclohexylbenzothiazole-2- sulfenamide (\"CBS\") from China, provided for in subheadings 2934.20.80, 3812.10.10, and 3812.10.50 of the Harmonized Tariff Schedule of the United States that are alleged to be sold in the United States at less than fair value and alleged to be subsidized by the Government of China. Unless the Department of Commerce (\"Commerce\") extends the time for initiation, the Commission must reach a preliminary determination in antidumping and countervailing duty investigations in 45 days, or in this case by June 22, 2026. The Commission's views must be transmitted to Commerce within five business days thereafter, or by June 29, 2026.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/12/2026-09337/n-cyclohexylbenzothiazole-2-sulfenamide-from-china-institution-of-antidumping-and-countervailing",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "HTS",
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "0fe052d1",
+    "date": "2026-05-13",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Procedures To Apply for Company-Specific Onshoring Agreements To Obtain Tariff Adjustments for Pharmaceuticals and Pharmaceutical Ingredients Under Proclamation 11020",
+    "summary": "This notice announces the procedures for companies that manufacture pharmaceutical products to apply for company-specific agreements with the Department of Commerce (Commerce) to onshore manufacturing of pharmaceutical products and their ingredients. Companies that enter into such agreements are eligible for a reduced Section 232 duty rate for imports of their pharmaceutical products and associated ingredients. Companies are requested to submit applications within 30 days of publication in the Federal Register.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/13/2026-09489/procedures-to-apply-for-company-specific-onshoring-agreements-to-obtain-tariff-adjustments-for",
+    "tickers": [],
+    "sectors": [
+      "Health Care"
+    ],
+    "tags": [
+      "Section 232",
+      "country/trade partner",
+      "pharmaceuticals"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "0ba1d0f3",
+    "date": "2026-05-13",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Crystalline Silicon Photovoltaic Cells, Whether or Not Assembled Into Modules, From India, Indonesia, and Laos; Scheduling of the Final Phase of Antidumping and Countervailing Duty Investigations",
+    "summary": "The Commission hereby gives notice of the scheduling of the final phase of antidumping and countervailing duty investigation Nos. 701-TA-772-774 and 731-TA-1756-1758 (Final) pursuant to the Tariff Act of 1930 to determine whether an industry in the United States is materially injured or threatened with material injury, or the establishment of an industry in the United States is materially retarded, by reason of imports of crystalline silicon photovoltaic products from India, Indonesia, and Laos, provided for in subheadings 8541.42.00 and 8541.43.00 of the Harmonized Tariff Schedule of the United States, preliminarily determined by the Department of Commerce (\"Commerce\") to be subsidized and sold at less-than-fair-value.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/13/2026-09531/crystalline-silicon-photovoltaic-cells-whether-or-not-assembled-into-modules-from-india-indonesia",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "HTS"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "e4748073",
+    "date": "2026-05-13",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Extension of Import Restrictions Imposed on Categories of Archaeological and Ethnological Material of Türkiye",
+    "summary": "This document amends U.S. Customs and Border Protection (CBP) regulations to reflect an extension of import restrictions on certain categories of archaeological and ethnological material of the Republic of T[uuml]rkiye (T[uuml]rkiye), which were originally imposed by CBP Decision Number 21-09. The CBP regulations are being amended to reflect this extension through March 24, 2031.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/13/2026-09575/extension-of-import-restrictions-imposed-on-categories-of-archaeological-and-ethnological-material",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "2b28a070",
+    "date": "2026-05-13",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Strontium Chromate From Austria: Preliminary Results of Antidumping Duty Administrative Review; 2023-2024",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that strontium chromate from Austria was sold by Habich GmbH (Habich) in the United States at less than normal value (NV) during the period of review (POR), November 1, 2023, through October 31, 2024. Interested parties are invited to comment on these preliminary results.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/13/2026-09468/strontium-chromate-from-austria-preliminary-results-of-antidumping-duty-administrative-review",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "ed9b7578",
+    "date": "2026-05-13",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Temporary Steel Fencing From the People's Republic of China: Antidumping Duty Order and Countervailing Duty Order",
+    "summary": "Based on affirmative final determinations by the U.S. Department of Commerce (Commerce) and the U.S. International Trade Commission (ITC), Commerce is issuing antidumping duty (AD) and countervailing duty (CVD) orders on temporary steel fencing from the People's Republic of China (China).",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/13/2026-09460/temporary-steel-fencing-from-the-peoples-republic-of-china-antidumping-duty-order-and-countervailing",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "Section 232",
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "8491c199",
+    "date": "2026-05-14",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Corrosion-Resistant Steel Products From the Republic of Korea: Final Results and Rescission, in Part, of Antidumping Duty Administrative Review; 2023-2024",
+    "summary": "The U.S. Department of Commerce (Commerce) determines that certain corrosion-resistant steel products (CORE) from the Republic of Korea (Korea) were not sold in the United States at less than normal value (NV) during the July 1, 2023, through June 30, 2024, period of review (POR).",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/14/2026-09691/certain-corrosion-resistant-steel-products-from-the-republic-of-korea-final-results-and-rescission",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "Section 232",
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "7ce01c3a",
+    "date": "2026-05-14",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Chromium Trioxide From India: Preliminary Affirmative Countervailing Duty Determination, and Alignment of Final Determination With Final Antidumping Duty Determination",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that countervailable subsidies are being provided to producers and exporters of chromium trioxide from India. The period of investigation is January 1, 2024, through December 31, 2024. Interested parties are invited to comment on this preliminary determination.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/14/2026-09690/chromium-trioxide-from-india-preliminary-affirmative-countervailing-duty-determination-and-alignment",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "f2575730",
+    "date": "2026-05-14",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Polytetramethylene Ether Glycol From the People's Republic of China, the Republic of Korea, Taiwan, and the Socialist Republic of Vietnam: Initiation of Less-Than-Fair-Value Investigations; Correction",
+    "summary": "The U.S. Department of Commerce (Commerce) published notice in the Federal Register of May 5, 2026, in which Commerce initiated the less-than-fair-value (LTFV) investigations on polytetramethylene ether glycol (PTMEG) from the People's Republic of China (China), the Republic of Korea (Korea), Taiwan, and the Socialist Republic of Vietnam (Vietnam). This notice corrects a typographical error with respect to the Harmonized Tariff Schedule of the United States (HTSUS) subheadings in the scope of the investigations.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/14/2026-09711/polytetramethylene-ether-glycol-from-the-peoples-republic-of-china-the-republic-of-korea-taiwan-and",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "HTS",
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "7f9e2a17",
+    "date": "2026-05-15",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Amending the Procedures To Administer Import Adjustment Offset Amounts for Certain Imports of Automobile Parts Under Proclamation 10908 To Include Medium- and Heavy-Duty Vehicle Parts",
+    "summary": "On June 13, 2025, the International Trade Administration published a Notice titled \"Procedures To Administer Import Adjustment Offset Amounts for Certain Imports of Automobile Parts Under Proclamation 10908, as Amended\" (June 13 Notice), which established procedures for automobile manufacturers to apply for and use the import adjustment offset amount established by Presidential Proclamation 10925 of April 29, 2025, \"Amendments to Adjusting Imports of Automobiles and Automobile Parts Into the United States\" to incentivize domestic automobile production and reduce American reliance on imports of foreign automobiles and their parts. This notice amends those procedures consistent with the amendments to Proclamation 10925 set forth in Presidential Proclamation 10984 of October 17, 2025, \"Adjusting Imports of Medium- and Heavy-Duty Vehicles, Medium- and Heavy-Duty Vehicle Parts, and Buses Into the United States\". This notice also amends those procedures to allow domestic manufacturers of Medium- and Heavy-Duty Vehicles (MHDV) to claim import adjustment offsets for imports of MHDV parts (MHDVPs) and automobile parts in a manner consistent with Proclamation 10984. The procedures exclude certain heavy-duty vehicle assembly operations determined to be \"limited production operations\" from being considered in the calculation of offsets, and notes that these procedures will be amended to exclude limited production operations for automobiles and medium- duty vehicles at a later date. This notice replaces the procedures set forth in ITA's June 13 Notice. The import adjustment offset process will be amended at a later date to establish an equivalent process for domestic manufacturers of automobile engines and MHDV engines, as provided for in Proclamation 10984.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/15/2026-09782/amending-the-procedures-to-administer-import-adjustment-offset-amounts-for-certain-imports-of",
+    "tickers": [],
+    "sectors": [
+      "Consumer Discretionary"
+    ],
+    "tags": [
+      "autos"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "da8d516f",
+    "date": "2026-05-15",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Foreign-Trade Zone (FTZ) 116, Notification of Proposed Production Activity; Golden Pass LNG Terminal LLC; (Natural Gas Terminal); Port Arthur, Texas",
+    "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/15/2026-09757/foreign-trade-zone-ftz-116-notification-of-proposed-production-activity-golden-pass-lng-terminal-llc",
+    "tickers": [],
+    "sectors": [
+      "Energy"
+    ],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "d2dbac10",
+    "date": "2026-05-15",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Tapered Roller Bearings and Parts Thereof, Finished or Unfinished From the People's Republic of China: Preliminary Results of Antidumping Duty Administrative Review; 2024-2025",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily finds that Shanghai Tainai Bearing Co., Ltd. (Tainai), the sole company subject to the administrative review of the antidumping duty order on tapered roller bearings and parts thereof, finished or unfinished (TRBs) from the People's Republic of China (China) covering the period of review (POR) June 1, 2024, through May 31, 2025, is not eligible to receive a separate rate and is, therefore, considered part of the China-wide entity. We invite interested parties to comment on these preliminary results.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/15/2026-09756/tapered-roller-bearings-and-parts-thereof-finished-or-unfinished-from-the-peoples-republic-of-china",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "ae614513",
+    "date": "2026-05-18",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Fresh Mushrooms From Canada: Preliminary Affirmative Countervailing Duty Determination and Alignment of Final Determination With Final Antidumping Duty Determination",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that countervailable subsidies are being provided to producers and exporters of fresh mushrooms from Canada. The period of investigation is January 1, 2024, through December 31, 2024. Interested parties are invited to comment on this preliminary determination.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/18/2026-09910/fresh-mushrooms-from-canada-preliminary-affirmative-countervailing-duty-determination-and-alignment",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "e930622f",
+    "date": "2026-05-18",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Non-Oriented Electrical Steel From Sweden, Germany, the People's Republic of China, the Republic of Korea, Taiwan and Japan: Continuation of Antidumping Duty Orders and Countervailing Duty Orders",
+    "summary": "As a result of the determinations by the U.S. Department of Commerce (Commerce) and the U.S. International Trade Commission (ITC) that revocation of the antidumping duty (AD) orders and countervailing duty (CVD) orders on non-oriented electrical steel (NOES) from Sweden, Germany, the People's Republic Of China (China), the Republic of Korea (Korea), Taiwan and Japan would likely lead to the continuation or recurrence of dumping, and countervailable subsidies, and material injury to an industry in the United States, Commerce is publishing a notice of continuation of these AD and CVD orders.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/18/2026-09826/non-oriented-electrical-steel-from-sweden-germany-the-peoples-republic-of-china-the-republic-of",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "Section 232",
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "b13b2dd5",
+    "date": "2026-05-18",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Tris(hydroxymethyl)aminomethane From the People's Republic of China: Initiation of Countervailing Duty Investigation",
+    "summary": "Agency: Commerce Department, International Trade Administration",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/18/2026-09831/trishydroxymethylaminomethane-from-the-peoples-republic-of-china-initiation-of-countervailing-duty",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "a9898876",
+    "date": "2026-05-18",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Tris(hydroxymethyl)aminomethane From the People's Republic of China: Initiation of Less-Than-Fair-Value Investigation",
+    "summary": "Agency: Commerce Department, International Trade Administration",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/18/2026-09830/trishydroxymethylaminomethane-from-the-peoples-republic-of-china-initiation-of-less-than-fair-value",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "af09e39e",
+    "date": "2026-05-20",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Polypropylene Corrugated Boxes From the Socialist Republic of Vietnam: Final Affirmative Determination of Sales at Less Than Fair Value, and Final Affirmative Determination of Critical Circumstances",
+    "summary": "The U.S. Department of Commerce (Commerce) determines that polypropylene corrugated boxes from the Socialist Republic of Vietnam (Vietnam) are being, or are likely to be, sold in the United States at less than fair value (LTFV). The period of investigation (POI) is July 1, 2024, through December 31, 2024.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/20/2026-10109/polypropylene-corrugated-boxes-from-the-socialist-republic-of-vietnam-final-affirmative",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "72e151c3",
+    "date": "2026-05-21",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Oil Country Tubular Goods From Austria, Taiwan, and the United Arab Emirates; Determinations",
+    "summary": "Agency: International Trade Commission",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/21/2026-10138/oil-country-tubular-goods-from-austria-taiwan-and-the-united-arab-emirates-determinations",
+    "tickers": [],
+    "sectors": [
+      "Energy"
+    ],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "23bb5267",
+    "date": "2026-05-22",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Agency Information Collection Activities; Extension; International Mail Duty Worksheet (IMDW)",
+    "summary": "The Department of Homeland Security, U.S. Customs and Border Protection (CBP) will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and approval in accordance with the Paperwork Reduction Act of 1995 (PRA). The information collection is published in the Federal Register to obtain comments from the public and affected agencies.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/22/2026-10311/agency-information-collection-activities-extension-international-mail-duty-worksheet-imdw",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "434221e4",
+    "date": "2026-05-22",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Chromium Trioxide From India: Preliminary Affirmative Determination of Sales at Less Than Fair Value, Postponement of Final Determination, and Extension of Provisional Measures",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that chromium trioxide from India is being, or is likely to be, sold in the United States at less than fair value (LTFV). The period of investigation (POI) is July 1, 2024, through June 30, 2025. Interested parties are invited to comment on this preliminary determination.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/22/2026-10248/chromium-trioxide-from-india-preliminary-affirmative-determination-of-sales-at-less-than-fair-value",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "4af3c743",
+    "date": "2026-05-22",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Chromium Trioxide From the Republic of Türkiye: Preliminary Affirmative Determination of Sales at Less Than Fair Value",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that chromium trioxide from the Republic of T[uuml]rkiye (T[uuml]rkiye) is being, or is likely to be, sold in the United States at less than fair value (LTFV). The period of investigation (POI) is July 1, 2024, through June 30, 2025. Interested parties are invited to comment on this preliminary determination.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/22/2026-10249/chromium-trioxide-from-the-republic-of-trkiye-preliminary-affirmative-determination-of-sales-at-less",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "f6f60b49",
+    "date": "2026-05-22",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Unwrought Palladium from the Russian Federation: Final Affirmative Countervailing Duy Determination",
+    "summary": "The U.S. Department of Commerce (Commerce) determines that countervailable subsidies are being provided to producers and exporters of unwrought palladium (palladium) from the Russian Federation (Russia). The period of investigation is January 1, 2024, through December 31, 2024.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/22/2026-10342/unwrought-palladium-from-the-russian-federation-final-affirmative-countervailing-duy-determination",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "1ec7bae8",
+    "date": "2026-05-26",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Paper Shopping Bags From Colombia: Notice of Court Decision Not in Harmony With the Final Determination of Antidumping Investigation; Notice of Amended Final Determination; Notice of Amended Antidumping Duty Order, in Part",
+    "summary": "On April 13, 2026, the U.S. Court of International Trade (CIT) issued its final judgment in Coalition for Fair Trade in Shopping Bags v. United States, Court No. 24-00157, sustaining in full the U.S. Department of Commerce (Commerce)'s remand redetermination pertaining to the final determination in the investigation of sales at less than fair value (LTFV) of certain paper shopping bags from Colombia covering the period of investigation (POI) April 1, 2022, through March 31, 2023. Commerce is notifying the public that the CIT's final judgment is not in harmony with Commerce's Final Determination, and that Commerce is amending the Final Determination and the resulting antidumping duty Order with respect to the estimated weighted-average dumping margin determined for Ditar, S.A. (Ditar), the sole respondent individually- reviewed in the underlying investigation and, as a consequence, the estimated weighted-average dumping margin determined for all other producers and exporters based on Ditar's margin.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/26/2026-10402/certain-paper-shopping-bags-from-colombia-notice-of-court-decision-not-in-harmony-with-the-final",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "2e2b05a6",
+    "date": "2026-05-26",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Citric Acid and Certain Citrate Salts From Canada and India: Postponement of Preliminary Determinations in the Less-Than-Fair-Value Investigations",
+    "summary": "Agency: Commerce Department, International Trade Administration",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/26/2026-10404/citric-acid-and-certain-citrate-salts-from-canada-and-india-postponement-of-preliminary",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "35dcab05",
+    "date": "2026-05-26",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Citric Acid and Certain Citrate Salts From China; Determinations",
+    "summary": "Agency: International Trade Commission",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/26/2026-10405/citric-acid-and-certain-citrate-salts-from-china-determinations",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "1a945d66",
+    "date": "2026-05-26",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Crystalline Silicon Photovoltaic Cells, Whether or Not Assembled Into Modules, From the Lao People's Democratic Republic: Amended Preliminary Determination of the Less-Than-Fair-Value Investigation",
+    "summary": "The U.S. Department of Commerce (Commerce) is amending its preliminarily affirmative determination in the less-than-fair value (LTFV) investigation of crystalline silicon photovoltaic cells, whether or not assembled into modules (solar cells), from the Lao People's Democratic Republic (Laos) to correct significant ministerial errors. The period of investigation (POI) is January 1, 2025, through June 30, 2025.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/26/2026-10426/crystalline-silicon-photovoltaic-cells-whether-or-not-assembled-into-modules-from-the-lao-peoples",
+    "tickers": [],
+    "sectors": [
+      "Energy"
+    ],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "3b74a1a3",
+    "date": "2026-05-26",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Foreign-Trade Zone (FTZ) 138, Notification of Proposed Production Activity; Shiseido Americas Corporation; (Cosmetic and Beauty Products); Groveport, Ohio",
+    "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/26/2026-10418/foreign-trade-zone-ftz-138-notification-of-proposed-production-activity-shiseido-americas",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "1cae0c27",
+    "date": "2026-05-26",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Foreign-Trade Zone (FTZ) 200, Notification of Proposed Production Activity; Shiseido America, Inc.; (Cosmetic and Beauty Products); East Windsor and Cranbury, New Jersey",
+    "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/26/2026-10414/foreign-trade-zone-ftz-200-notification-of-proposed-production-activity-shiseido-america-inc",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "ddc76c6f",
+    "date": "2026-05-26",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Foreign-Trade Zone (FTZ) 45, Notification of Proposed Production Activity; JAE Oregon Inc.; (Automotive Electrical Connectors and Components); Tualatin, Oregon",
+    "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/26/2026-10351/foreign-trade-zone-ftz-45-notification-of-proposed-production-activity-jae-oregon-inc-automotive",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "f4c081a7",
+    "date": "2026-05-27",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Aluminum Foil From the People's Republic of China: Amended Final Results of Antidumping Duty Administrative Review; 2023-2024",
+    "summary": "The U.S. Department of Commerce (Commerce) is amending the final results of the administrative review of the antidumping duty (AD) order on certain aluminum foil (aluminum foil) from the People's Republic of China (China) to correct a ministerial error. The period of review (POR), April 1, 2023, through March 31, 2024.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/27/2026-10525/certain-aluminum-foil-from-the-peoples-republic-of-china-amended-final-results-of-antidumping-duty",
+    "tickers": [],
+    "sectors": [
+      "Energy",
+      "Materials"
+    ],
+    "tags": [
+      "Section 232",
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "ce4846cc",
+    "date": "2026-05-27",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Monomers and Oligomers from the Republic of Korea: Final Affirmative Determination of Sales at Less Than Fair Value and Final Affirmative Determination of Critical Circumstances",
+    "summary": "The U.S. Department of Commerce (Commerce) determines that certain monomers and oligomers (monomers and oligomers) from the Republic of Korea (Korea) are being, or are likely to be, sold in the United States at less than fair value (LTFV). The period of investigation (POI) is January 1, 2024, through December 31, 2024.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/27/2026-10520/certain-monomers-and-oligomers-from-the-republic-of-korea-final-affirmative-determination-of-sales",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "250410a2",
+    "date": "2026-05-27",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Crystalline Silicon Photovoltaic Cells, Whether or Not Assembled Into Modules, From Indonesia: Amended Preliminary Affirmative Determination of Sales at Less Than Fair Value",
+    "summary": "The U.S. Department of Commerce (Commerce) is amending its preliminary affirmative determination in the less-than-fair-value (LTFV) investigation of crystalline silicon photovoltaic cells, whether or not assembled into modules (solar cells), from Indonesia to reflect Commerce's determination that it is necessary to rely on facts otherwise available including adverse inferences (AFA) in reaching its preliminary determination. The period of investigation (POI) is July 1, 2024, through June 30, 2025.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/27/2026-10519/crystalline-silicon-photovoltaic-cells-whether-or-not-assembled-into-modules-from-indonesia-amended",
+    "tickers": [],
+    "sectors": [
+      "Energy"
+    ],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "e55d36e9",
+    "date": "2026-05-27",
+    "endDate": null,
+    "category": "tariff",
+    "title": "High Purity Dissolving Pulp From Brazil: Preliminary Affirmative Determination of Sales at Less Than Fair Value, Postponement of Final Determination, and Extension of Provisional Measures",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that high purity dissolving pulp (dissolving pulp) from Brazil is being, or is likely to be, sold in the United States at less than fair value (LTFV). The period of investigation (POI) is July 1, 2024, through June 30, 2025. Interested parties are invited to comment on this preliminary determination.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/27/2026-10523/high-purity-dissolving-pulp-from-brazil-preliminary-affirmative-determination-of-sales-at-less-than",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "0423cc65",
+    "date": "2026-05-27",
+    "endDate": null,
+    "category": "tariff",
+    "title": "High Purity Dissolving Pulp From Norway: Preliminary Affirmative Determination of Sales at Less Than Fair Value, Postponement of Final Determination, and Extension of Provisional Measures",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that high purity dissolving pulp (dissolving pulp) from Norway is being, or is likely to be, sold in the United States at less than fair value (LTFV). The period of investigation (POI) is July 1, 2024, through June 30, 2025. Interested parties are invited to comment on this preliminary determination.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/27/2026-10527/high-purity-dissolving-pulp-from-norway-preliminary-affirmative-determination-of-sales-at-less-than",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "ddab918a",
+    "date": "2026-05-27",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Large Diameter Welded Pipe From the Republic of Türkiye: Preliminary Results and Rescission, In Part, of Antidumping Duty Administrative Review; 2024-2025",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that producers/exporters subject to this review made sales of subject merchandise at less than normal value (NV) during the period of review (POR), May 1, 2024, through April 30, 2025. In addition, we are rescinding the review with respect to 12 companies. Interested parties are invited to comment on these preliminary results of review.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/27/2026-10522/large-diameter-welded-pipe-from-the-republic-of-trkiye-preliminary-results-and-rescission-in-part-of",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "fc722706",
+    "date": "2026-05-27",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Stationary and Portable Air Compressors From the People's Republic of China, Malaysia, and the Socialist Republic of Vietnam: Initiation of Countervailing Duty Investigations",
+    "summary": "Agency: Commerce Department, International Trade Administration",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/27/2026-10526/stationary-and-portable-air-compressors-from-the-peoples-republic-of-china-malaysia-and-the",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "0def2085",
+    "date": "2026-05-27",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Stationary and Portable Air Compressors From the People's Republic of China, Malaysia, and the Socialist Republic of Vietnam: Initiation of Less-Than-Fair-Value Investigations",
+    "summary": "Agency: Commerce Department, International Trade Administration",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/27/2026-10516/stationary-and-portable-air-compressors-from-the-peoples-republic-of-china-malaysia-and-the",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "7e890cb1",
+    "date": "2026-05-28",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Implementing Certain Tariff-Related Elements of a Trade and Security Agreement Between the American Institute in Taiwan and the Taipei Economic and Cultural Representative Office in the United States",
+    "summary": "On September 5, 2025, President Trump issued Executive Order 14346 (Modifying the Scope of Reciprocal Tariffs and Establishing Procedures for Implementing Trade and Security Agreements). Executive Order 14346 directed and authorized the Secretary of Commerce (Secretary) and the United States Trade Representative (Trade Representative) to implement the terms of any framework trade and security agreement or final trade and security agreement concluded between the United States and a foreign trading partner that involve the national emergency declared in Executive Order 14257 of April 2, 2025 (Regulating Imports with a Reciprocal Tariff to Rectify Trade Practices that Contribute to Large and Persistent Annual United States Goods Trade Deficits), or threats to the national security found pursuant to Section 232 of the Trade Expansion Act of 1962 (Section 232). On January 15, 2026, the American Institute in Taiwan (AIT) and the Taipei Economic and Cultural Representative Office in the United States (TECRO) signed the Memorandum of Understanding Between the Taipei Economic and Cultural Representative Office in the United States and the American Institute in Taiwan Relating to Taiwan-U.S. Investment (MOU). In the MOU, the United States committed to, among other things, modify tariffs imposed under Section 232 in certain respects. On February 12, 2026, AIT and TECRO signed the Agreement Between the American Institute in Taiwan and the Taipei Economic and Cultural Representative Office in the United States on Reciprocal Trade Between the United States of America and Taiwan (ART or Agreement). Both the MOU and the ART qualify for implementation under Executive Order 14346. The Secretary and Trade Representative are taking necessary and appropriate action to implement the MOU at this time. The Secretary and Trade Representative are not implementing the ART at this time as it has not yet entered into force. This notice amends the Harmonized Tariff Schedule of the United States (HTSUS) to implement the terms of the MOU pertaining to the modification of certain Section 232 tariffs applied to automobile parts, timber, lumber, and wood derivative products of Taiwan. In addition, the MOU states that the United States will remove derivative Section 232 steel, aluminum, and copper tariffs from aircraft components that are products of Taiwan.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/28/2026-10571/implementing-certain-tariff-related-elements-of-a-trade-and-security-agreement-between-the-american",
+    "tickers": [],
+    "sectors": [
+      "Consumer Discretionary",
+      "Industrials",
+      "Materials"
+    ],
+    "tags": [
+      "HTS",
+      "Section 232",
+      "aircraft",
+      "autos",
+      "lumber",
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "d69e4b47",
+    "date": "2026-05-28",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Large Vertical Shaft Engines Between 225cc and 999cc, and Parts Thereof From the People's Republic of China: Final Results of the Expedited First Sunset Review of the Antidumping Duty Order",
+    "summary": "The U.S. Department of Commerce (Commerce) finds that revocation of the antidumping duty (AD) order on certain large vertical shaft engines between 225cc and 999cc, and parts thereof (vertical shaft engines) from the People's Republic of China (China) would be likely to lead to continuation or recurrence of dumping, at the levels indicated in the \"Final Results of Sunset Review\" section of this notice.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/28/2026-10625/certain-large-vertical-shaft-engines-between-225cc-and-999cc-and-parts-thereof-from-the-peoples",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "f08d2426",
+    "date": "2026-05-28",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Medical Imaging Devices; Notice of Commission Determination Not To Review an Initial Determination Granting Complainants' Motion To Amend the Complaint and Notice of Investigation",
+    "summary": "Notice is hereby given that the U.S. International Trade Commission has determined not to review an initial determination (\"ID\") (Order No. 12) of the presiding administrative law judge (\"ALJ\") granting an unopposed motion to amend the complaint and notice of investigation to add University Health Network (\"UHN\") as a co-complainant.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/28/2026-10549/certain-medical-imaging-devices-notice-of-commission-determination-not-to-review-an-initial",
+    "tickers": [],
+    "sectors": [
+      "Health Care"
+    ],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "ceeca5e8",
+    "date": "2026-05-28",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Difluoromethane (R-32) From the People's Republic of China: Final Results of the Expedited First Sunset Review of the Antidumping Duty Order",
+    "summary": "The U.S. Department of Commerce (Commerce) finds that revocation of the antidumping duty (AD) order on Difluoromethane (R-32) from the People's Republic of China (China) would be likely to lead to continuation or recurrence of dumping, at the levels indicated in the \"Final Results of Sunset Review\" section of this notice.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/28/2026-10624/difluoromethane-r-32-from-the-peoples-republic-of-china-final-results-of-the-expedited-first-sunset",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "99d15a50",
+    "date": "2026-05-28",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Methylene Diphenyl Diisocyanate (MDI) From China; Determination",
+    "summary": "Agency: International Trade Commission",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/28/2026-10550/methylene-diphenyl-diisocyanate-mdi-from-china-determination",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "e6019605",
+    "date": "2026-05-28",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Xanthan Gum From the People's Republic of China: Notice of Court Decision Not in Harmony With the Results of Antidumping Duty Administrative Review; Notice of Amended Final Results",
+    "summary": "On May 12, 2026, the U.S. Court of International Trade (CIT) issued its final judgment in Neimenggu Fufeng Biotechnologies Co., Shandong Fufeng Fermentation Co., Ltd., and Xinjiang Fufeng Biotechnologies Co., Ltd., and Meihua Group International (Hong Kong) Limited and Xinjiang Meihua Amino Acid Co., Ltd., v. United States, Court No. 23-00068, sustaining the U.S. Department of Commerce's (Commerce) second remand results pertaining to the administrative review of the antidumping duty (AD) order on xanthan gum from the People's Republic of China (China) covering the period July 1, 2020, through June 30, 2021. Commerce is notifying the public that the CIT's final judgment is not in harmony with Commerce's final results of the administrative review, and that Commerce is amending the final results with respect to the dumping margin assigned to Fufeng Biotechnologies Co., Ltd. (aka Inner Mongolia Fufeng Biotechnologies Co., Ltd.), Shandong Fufeng Fermentation Co., Ltd., and Xinjiang Fufeng Biotechnologies Co., Ltd. (collectively, Fufeng), and Meihua Group International Trading (Hong Kong) Limited, Langfang Meihua Biotechnology Co., Ltd., and Xinjiang Meihua Amino Acid Co., Ltd. (collectively, Meihua).",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/28/2026-10627/xanthan-gum-from-the-peoples-republic-of-china-notice-of-court-decision-not-in-harmony-with-the",
+    "tickers": [],
+    "sectors": [
+      "Information Technology"
+    ],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "47383773",
+    "date": "2026-05-29",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Preserved Mushrooms From Chile, the People's Republic of China, India, and Indonesia: Final Results of the Expedited Fifth Sunset Reviews of the Antidumping Duty Orders",
+    "summary": "The U.S. Department of Commerce (Commerce) finds that revocation of the antidumping duty (AD) orders on certain preserved mushrooms (mushrooms) from Chile, the People's Republic of China (China), India, and Indonesia would be likely to lead to continuation or recurrence of dumping, at the levels indicated in the \"Final Results of Sunset Reviews\" section of this notice.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/29/2026-10680/certain-preserved-mushrooms-from-chile-the-peoples-republic-of-china-india-and-indonesia-final",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "8e90b68b",
+    "date": "2026-05-29",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Citric Acid and Certain Citrate Salts From the People's Republic of China: Continuation of Antidumping Duty Order and Countervailing Duty Order",
+    "summary": "As a result of the determinations by the U.S. Department of Commerce (Commerce) and the U.S. International Trade Commission (ITC) that revocation of the antidumping duty (AD) and countervailing duty (CVD) orders on citric acid and certain citrate salts (citric acid) from the People's Republic of China (China) would likely lead to the continuation or recurrence of dumping and countervailable subsidies, and material injury to an industry in the United States, Commerce is publishing a notice of continuation of these AD and CVD orders.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/29/2026-10677/citric-acid-and-certain-citrate-salts-from-the-peoples-republic-of-china-continuation-of-antidumping",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "3e11426e",
+    "date": "2026-05-29",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Common Alloy Aluminum Sheet From the Sultanate of Oman: Amended Final Results of Antidumping Duty Administrative Review; 2023-2024",
+    "summary": "The U.S. Department of Commerce (Commerce) is amending the final results of the administrative review of the antidumping duty (AD) order on common alloy aluminum sheet (aluminum sheet) from the Sultanate of Oman (Oman) to correct ministerial errors. The period of review (POR), April 1, 2023, through March 31, 2024.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/29/2026-10795/common-alloy-aluminum-sheet-from-the-sultanate-of-oman-amended-final-results-of-antidumping-duty",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "Section 232"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "d26aedc6",
+    "date": "2026-05-29",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Freight Rail Couplers and Parts Thereof From Czech Republic and India; Scheduling of the Final Phase of Countervailing Duty and Antidumping Duty Investigations",
+    "summary": "The Commission hereby gives notice of the scheduling of the final phase of antidumping and countervailing duty investigation Nos. 701-TA-775 and 731-TA-1759-1760 (Final) pursuant to the Tariff Act of 1930 to determine whether an industry in the United States is materially injured or threatened with material injury, or the establishment of an industry in the United States is materially retarded, by reason of imports of freight rail couplers and parts thereof from Czech Republic and India, provided for in subheading 8607.30.10 of the Harmonized Tariff Schedule of the United States, preliminarily determined by the Department of Commerce (\"Commerce\") to be sold at less-than-fair-value and subsidized by the government of India.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/29/2026-10649/freight-rail-couplers-and-parts-thereof-from-czech-republic-and-india-scheduling-of-the-final-phase",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "HTS"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "6fca210f",
+    "date": "2026-05-29",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Notice of Receipt of Complaint; Solicitation of Comments Relating to the Public Interest",
+    "summary": "Notice is hereby given that the U.S. International Trade Commission has received a complaint entitled Certain Heavy Machinery and Components Thereof, DN 3910; the Commission is soliciting comments on any public interest issues raised by the complaint or complainant's filing pursuant to the Commission's Rules of Practice and Procedure.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/29/2026-10673/notice-of-receipt-of-complaint-solicitation-of-comments-relating-to-the-public-interest",
+    "tickers": [],
+    "sectors": [
+      "Industrials"
+    ],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "861ed72b",
+    "date": "2026-05-29",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Polypropylene Corrugated Boxes From Vietnam; Supplemental Schedule for the Final Phase of the Investigation",
+    "summary": "Agency: International Trade Commission",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/29/2026-10743/polypropylene-corrugated-boxes-from-vietnam-supplemental-schedule-for-the-final-phase-of-the",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "c307a308",
+    "date": "2026-05-29",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Tin Mill Products From China, Taiwan, and Turkey; Determinations",
+    "summary": "Agency: International Trade Commission",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/29/2026-10647/tin-mill-products-from-china-taiwan-and-turkey-determinations",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "42293923",
+    "date": "2026-06-01",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Antidumping or Countervailing Duty Order, Finding, or Suspended Investigation; Advance Notification of Sunset Review",
+    "summary": "Agency: Commerce Department, International Trade Administration",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/01/2026-10942/antidumping-or-countervailing-duty-order-finding-or-suspended-investigation-advance-notification-of",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "77605fa1",
+    "date": "2026-06-01",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Coated Confectionery Products and Components Thereof; Notice of Institution of Investigation",
+    "summary": "Notice is hereby given that a complaint was filed with the U.S. International Trade Commission on April 8, 2026, under section 337 of the Tariff Act of 1930, as amended, on behalf of Promotion in Motion, Inc. of Park Ridge, New Jersey. A supplement to the complaint was filed on May 6, 2026. The complaint, as supplemented, alleges violations of section 337 based upon the importation into the United States, the sale for importation, and the sale within the United States after importation of certain coated confectionery products and components thereof by reason of the infringement of certain claims of U.S. Patent No. 9,750,267 (\"the '267 patent\") and U.S. Patent No. 11,317,640 (\"the '640 patent\"). The complaint, as supplemented, further alleges that an industry in the United States exists or is in the process of being established as required by the applicable Federal Statute. The complainant requests that the Commission institute an investigation and, after the investigation, issue a limited exclusion order and cease and desist orders.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/01/2026-10845/certain-coated-confectionery-products-and-components-thereof-notice-of-institution-of-investigation",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "5c181202",
+    "date": "2026-06-01",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain New Pneumatic Off-the-Road Tires From India: Preliminary Results and Rescission, in Part, of Antidumping Duty Administrative Review; 2024-2025",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that producers/exporters subject to this review made sales of subject merchandise at less than normal value (NV) during the period of review (POR), March 1, 2024, through February 28, 2025. In addition, we are rescinding the review with respect to 25 companies. Interested parties are invited to comment on these preliminary results of review.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/01/2026-10866/certain-new-pneumatic-off-the-road-tires-from-india-preliminary-results-and-rescission-in-part-of",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "8e754fbe",
+    "date": "2026-06-01",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain TOPCon Solar Cells, Modules, Panels, Components Thereof, and Products Containing Same; Commission Determination Not To Review an Initial Determination Granting a Motion To Intervene",
+    "summary": "Notice is hereby given that the U.S. International Trade Commission has determined not to review an initial determination (\"ID\") (Order No. 7) of the presiding administrative law judge (\"ALJ\") granting a motion to intervene filed by non-party BYD America LLC (\"BYD\").",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/01/2026-10848/certain-topcon-solar-cells-modules-panels-components-thereof-and-products-containing-same-commission",
+    "tickers": [],
+    "sectors": [
+      "Energy"
+    ],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "63c9b761",
+    "date": "2026-06-01",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Diffusion-Annealed, Nickel-Plated Flat-Rolled Steel Products From Japan: Notice of Court Decision Not in Harmony With the Results of Antidumping Administrative Review; Notice of Amended Final Results",
+    "summary": "On May 22, 2026, the U.S. Court of International Trade (CIT) issued its final judgment in Toyo Kohan Co., Ltd. v. United States, Consol. Court no. 24-00261, sustaining the Department of Commerce's (Commerce's) remand results pertaining to the administrative review of the antidumping duty (AD) order on diffusion-annealed, nickel-plated flat-rolled steel products (nickel-plated steel products) from Japan covering the period May 1, 2022, through April 30, 2023. Commerce is notifying the public that the CIT's final judgment is not in harmony with Commerce's final results of the administrative review, and that Commerce is amending the final results with respect to the dumping margin assigned to Toyo Kohan Co., Ltd (Toyo Kohan).",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/01/2026-10867/diffusion-annealed-nickel-plated-flat-rolled-steel-products-from-japan-notice-of-court-decision-not",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "Section 232"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "3a7793c4",
+    "date": "2026-06-01",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Initiation of Five-Year (Sunset) Reviews",
+    "summary": "In accordance with the Tariff Act of 1930, as amended (the Act), the U.S. Department of Commerce (Commerce) is automatically initiating the five-year reviews (Sunset Reviews) of the antidumping duty (AD) and countervailing duty (CVD) orders and suspended investigations listed below. The U.S. International Trade Commission (ITC) is publishing concurrently with this notice its notice of Institution of Five-Year Reviews which covers the same orders and suspended investigations.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/01/2026-10941/initiation-of-five-year-sunset-reviews",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "54666ca3",
+    "date": "2026-06-01",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Utility Scale Wind Towers From the Republic of Korea: Final Results of Antidumping Duty Administrative Review; 2023-2024",
+    "summary": "The U.S. Department of Commerce (Commerce) determines that utility scale wind towers (wind towers) from the Republic of Korea (Korea) were made at less than normal value during the period of review (POR) August 1, 2023, through July 31, 2024.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/01/2026-10865/utility-scale-wind-towers-from-the-republic-of-korea-final-results-of-antidumping-duty",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "438dd240",
+    "date": "2026-06-02",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Announcement of the National Customs Automation Program (NCAP) Test Regarding Pipeline Global Interoperability Standards for Crude Oil",
+    "summary": "This notice announces that U.S. Customs and Border Protection (CBP) will conduct a National Customs Automation Program (NCAP) test of a new method of data collection, including the collection of new data, for crude oil transported via pipeline into the United States. The Pipeline Global Interoperability Standards Test will utilize data transmitted to the Automated Commercial Environment (ACE) using unique entity identifiers and tamper-proof credentials documenting the movement (including ownership changes) of Canadian and Mexican crude oil for CBP review in near real time. This notice provides a description of the test, gives instructions regarding public involvement, and invites comments on all aspects of the test.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/02/2026-10979/announcement-of-the-national-customs-automation-program-ncap-test-regarding-pipeline-global",
+    "tickers": [],
+    "sectors": [
+      "Energy"
+    ],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "81d012dd",
+    "date": "2026-06-02",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Antidumping or Countervailing Duty Order, Finding, or Suspended Investigation; Opportunity To Request Administrative Review and Join Annual Inquiry Service List; Note Regarding Format of Review Requests",
+    "summary": "Agency: Commerce Department, International Trade Administration",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/02/2026-10938/antidumping-or-countervailing-duty-order-finding-or-suspended-investigation-opportunity-to-request",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "32c5ee66",
+    "date": "2026-06-02",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Activated Carbon From the People's Republic of China: Amended Final Results of Antidumping Duty Administrative Review; 2023-2024",
+    "summary": "The U.S. Department of Commerce (Commerce) is amending its final results of the administrative review of the antidumping duty (AD) order on certain activated carbon from the People's Republic of China (China) to correct ministerial errors. The period of review (POR), April 1, 2023, through March 31, 2024.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/02/2026-10940/certain-activated-carbon-from-the-peoples-republic-of-china-amended-final-results-of-antidumping",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "8981b83c",
+    "date": "2026-06-02",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Initiation of Antidumping and Countervailing Duty Administrative Reviews",
+    "summary": "The U.S. Department of Commerce (Commerce) has received requests to conduct administrative reviews of various antidumping duty (AD) and countervailing duty (CVD) orders with April anniversary dates. In accordance with Commerce's regulations, we are initiating those administrative reviews.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/02/2026-10939/initiation-of-antidumping-and-countervailing-duty-administrative-reviews",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "e97acd6b",
+    "date": "2026-06-02",
+    "endDate": null,
+    "category": "tariff",
+    "title": "N-Cyclohexylbenzothiazole-2-Sulfenamide from the People's Republic of China: Initiation of Countervailing Duty Investigation",
+    "summary": "Agency: Commerce Department, International Trade Administration",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/02/2026-11001/n-cyclohexylbenzothiazole-2-sulfenamide-from-the-peoples-republic-of-china-initiation-of",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "e1c9280c",
+    "date": "2026-06-02",
+    "endDate": null,
+    "category": "tariff",
+    "title": "N-Cyclohexylbenzothiazole-2-Sulfenamide From the People's Republic of China: Initiation of Less-Than-Fair-Value Investigation",
+    "summary": "Agency: Commerce Department, International Trade Administration",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/02/2026-11000/n-cyclohexylbenzothiazole-2-sulfenamide-from-the-peoples-republic-of-china-initiation-of",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "11309484",
+    "date": "2026-06-02",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Notice of Receipt of Complaint; Solicitation of Comments Relating to the Public Interest",
+    "summary": "Notice is hereby given that the U.S. International Trade Commission has received a complaint entitled Certain Systems, Devices, Software, Compositions, Chemicals, and Laboratory Supplies for Studying Proteins, DN 3911; the Commission is soliciting comments on any public interest issues raised by the complaint or complainant's filing pursuant to the Commission's Rules of Practice and Procedure.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/02/2026-10997/notice-of-receipt-of-complaint-solicitation-of-comments-relating-to-the-public-interest",
+    "tickers": [],
+    "sectors": [
+      "Information Technology",
+      "Materials"
+    ],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "17a4ada5",
+    "date": "2026-06-02",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Prestressed Concrete Steel Wire Strand From Brazil, India, Japan, Mexico, South Korea, and Thailand",
+    "summary": "Agency: International Trade Commission",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/02/2026-11007/prestressed-concrete-steel-wire-strand-from-brazil-india-japan-mexico-south-korea-and-thailand",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "Section 232",
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "f768c884",
+    "date": "2026-06-03",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Large Vertical Shaft Engines Between 225cc and 999cc, and Parts Thereof from The People's Republic of China: Final Results of the Expedited First Sunset Review of the Countervailing Duty Order",
+    "summary": "The U.S. Department of Commerce (Commerce) finds that revocation of the countervailing duty (CVD) order on certain large vertical shaft engines between 225cc and 999cc, and parts thereof (vertical shaft engines) from the People's Republic of China (China) would be likely to lead to continuation or recurrence of countervailable subsidies at the levels indicated in the \"Final Results of Sunset Review\" section of this notice.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/03/2026-11119/certain-large-vertical-shaft-engines-between-225cc-and-999cc-and-parts-thereof-from-the-peoples",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "b010496c",
+    "date": "2026-06-03",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Uncoated Paper From Portugal: Preliminary Results of Antidumping Duty Administrative Review; 2024-2025",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that producers/exporters subject to this review made sales of subject merchandise at less than normal value (NV) during the period of review (POR), March 1, 2024, through February 28, 2025. Interested parties are invited to comment on these preliminary results of review.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/03/2026-11122/certain-uncoated-paper-from-portugal-preliminary-results-of-antidumping-duty-administrative-review",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "efb72325",
+    "date": "2026-06-03",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Circular Welded Carbon-Quality Steel Pipe From the United Arab Emirates: Preliminary Results of Antidumping Duty Administrative Review; 2023-2024",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that producers/exporters subject to this review made sales of subject merchandise at less than normal value (NV) during the period of review (POR), December 1, 2023, through November 30, 2024. Interested parties are invited to comment on these preliminary results of review.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/03/2026-11118/circular-welded-carbon-quality-steel-pipe-from-the-united-arab-emirates-preliminary-results-of",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "Section 232"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "b7c1eecb",
+    "date": "2026-06-03",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Foreign-Trade Zone (FTZ) 151, Notification of Proposed Production Activity; Callies Performance Products Inc; (Auto Parts); Fostoria, Ohio",
+    "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/03/2026-11123/foreign-trade-zone-ftz-151-notification-of-proposed-production-activity-callies-performance-products",
+    "tickers": [],
+    "sectors": [
+      "Consumer Discretionary"
+    ],
+    "tags": [
+      "autos"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "b2ea322e",
+    "date": "2026-06-03",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Initiation of Section 301 Investigation and Request for Public Comments: Vietnam's Acts, Policies, and Practices Related to Intellectual Property Protection and Enforcement",
+    "summary": "Pursuant to section 182(a)(2) of the Trade Act of 1974, as amended (Trade Act), the U.S. Trade Representative (Trade Representative) identified Vietnam as a priority foreign country due to Vietnam's denial of adequate and effective protection of intellectual property (IP) rights and its denial of fair and equitable market access to persons that rely on IP protection. Pursuant to section 302(b)(2) of the Trade Act, the Trade Representative is initiating a Section 301 investigation of the acts, policies, and practices of the Government of Vietnam related to IP protection and enforcement that resulted in the identification of Vietnam as a priority foreign country. The Office of the U.S. Trade Representative (USTR) proposes to determine that these acts, policies, and practices are actionable under section 301(b). USTR invites interested persons to submit written comments concerning the issues covered in the investigation.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/03/2026-11043/initiation-of-section-301-investigation-and-request-for-public-comments-vietnams-acts-policies-and",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "HTS"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "a0acfeae",
+    "date": "2026-06-03",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Prestressed Concrete Steel Wire Strand From Malaysia: Final Results of Antidumping Duty Administrative Review; 2023-2024",
+    "summary": "The U.S. Department of Commerce (Commerce) determines that Kiswire Sdn. Bhd. (Kiswire), Southern PC Steel Sdn. Bhd (Southern PC Steel), and Wei Dat Steel Wire Sdn. Bhd. (Wei Dat) did not make sales of prestressed concrete steel wire strand (PC strand) from Malaysia in the United States at prices below normal value (NV) during the period of review. The period of review (POR) is June 1, 2023, through May 31, 2024.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/03/2026-11120/prestressed-concrete-steel-wire-strand-from-malaysia-final-results-of-antidumping-duty",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "Section 232"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "a85ea40d",
+    "date": "2026-06-03",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Raw Honey From Brazil: Final Results of Antidumping Duty Administrative Review, 2023-2024",
+    "summary": "The U.S. Department of Commerce (Commerce) determines that raw honey from Brazil was sold in the United States at prices below normal value. The period of review (POR) is June 1, 2023, through May 31, 2024.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/03/2026-11121/raw-honey-from-brazil-final-results-of-antidumping-duty-administrative-review-2023-2024",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "c93ee84a",
+    "date": "2026-06-03",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Tuna Tariff-Rate Quota for Calendar Year 2026 for Tuna Classifiable Under Subheading 1604.14.22, Harmonized Tariff Schedule of the United States (HTSUS)",
+    "summary": "Each year, the tariff-rate quota for tuna described in subheading 1604.14.22, Harmonized Tariff Schedule of the United States (HTSUS), is calculated as a percentage of the tuna in airtight containers entered, or withdrawn from warehouse, for consumption during the preceding calendar year. This document sets forth the tariff-rate quota for Calendar Year 2026.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/03/2026-11113/tuna-tariff-rate-quota-for-calendar-year-2026-for-tuna-classifiable-under-subheading-16041422",
+    "tickers": [],
+    "sectors": [
+      "Consumer Staples"
+    ],
+    "tags": [
+      "HTS",
+      "food/agriculture"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "444887b1",
+    "date": "2026-06-04",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Corrosion Inhibitors From the People's Republic of China: Preliminary Results of the Antidumping Duty Administrative Review; 2024-2025",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that producers/exporters subject to this review made sales of subject merchandise at less than normal value (NV) during the period of review (POR) March 1, 2024, through February 28, 2025. Interested parties are invited to comment on these preliminary results of review.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/04/2026-11261/certain-corrosion-inhibitors-from-the-peoples-republic-of-china-preliminary-results-of-the",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "ad3660ab",
+    "date": "2026-06-04",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Energy Drinks and Labeling and Packaging Thereof; Notice of Institution of Investigation",
+    "summary": "Notice is hereby given that a complaint was filed with the U.S. International Trade Commission on April 17, 2026, under section 337 of the Tariff Act of 1930, as amended, on behalf of Monster Energy Company of Corona, California. A supplement to the complaint was filed on May 21, 2026. The complaint, as supplemented, alleges violations of section 337 based upon the importation into the United States, the sale for importation, and the sale within the United States after importation of certain energy drinks and labeling and packaging thereof by reason of the infringement of one or more of U.S. Trademark Registration No. 6,760,278 (\"the '278 mark\"); U.S. Trademark Registration No 6,451,182 (\"the '182 mark\"); U.S. Trademark Registration No. 2,903,214 (\"the '214 mark\"); and U.S. Trademark Registration No. 3,434,821 (\"the '821 mark\"). The complaint further alleges that an industry in the United States exists as required by the applicable Federal Statute. The complainant requests that the Commission institute an investigation and, after the investigation, issue a general exclusion order, or in the alternative a limited exclusion order, and cease and desist orders.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/04/2026-11201/certain-energy-drinks-and-labeling-and-packaging-thereof-notice-of-institution-of-investigation",
+    "tickers": [],
+    "sectors": [
+      "Energy"
+    ],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "53abd26f",
+    "date": "2026-06-04",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Freight Rail Couplers and Parts Thereof From Mexico: Final Results of Antidumping Duty Administrative Review; 2023-2024",
+    "summary": "The U.S. Department of Commerce (Commerce) determines that certain freight rail couplers and parts thereof (freight rail couplers) from Mexico were sold in the United States at less than normal value during the period of review (POR), May 3, 2023, through October 31, 2024.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/04/2026-11263/certain-freight-rail-couplers-and-parts-thereof-from-mexico-final-results-of-antidumping-duty",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "630f1d2d",
+    "date": "2026-06-04",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Oil Country Tubular Goods From Austria: Postponement of Preliminary Determination in the Countervailing Duty Investigation",
+    "summary": "Agency: Commerce Department, International Trade Administration",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/04/2026-11265/certain-oil-country-tubular-goods-from-austria-postponement-of-preliminary-determination-in-the",
+    "tickers": [],
+    "sectors": [
+      "Energy"
+    ],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "3c96e252",
+    "date": "2026-06-04",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Chlorinated Isocyanurates From Spain: Final Results of Antidumping Duty Administrative Review; 2023-2024",
+    "summary": "The U.S. Department of Commerce (Commerce) determines that sales of chlorinated isocyanurates (chlorinated isos) from Spain were not sold in the United States at less than normal value during the period of review (POR), June 1, 2023, through May 31, 2024.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/04/2026-11260/chlorinated-isocyanurates-from-spain-final-results-of-antidumping-duty-administrative-review",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "5b5d77ce",
+    "date": "2026-06-04",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Large Diameter Welded Pipe From the Republic of Türkiye: Preliminary Results and Rescission, in Part, of Countervailing Duty Administrative Review; 2024",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that countervailable subsidies were provided to HDM [Ccedil]elik Boru Sanayi Ve Ticaret A.S. (HDM [Ccedil]elik), a producer/exporter of large diameter welded pipe (LDWP) from the Republic of T[uuml]rkiye (T[uuml]rkiye) during the period of review (POR) January 1, 2024, through December 31, 2024. In addition, Commerce is rescinding this review, in part, with respect to 11 companies. Interested parties are invited to comment on these preliminary results.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/04/2026-11264/large-diameter-welded-pipe-from-the-republic-of-trkiye-preliminary-results-and-rescission-in-part-of",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "4bfa2d10",
+    "date": "2026-06-04",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Lattice Boom Crawler Cranes From Japan: Final Affirmative Determination of Sales at Less Than Fair Value",
+    "summary": "The U.S. Department of Commerce (Commerce) determines that lattice boom crawler cranes (cranes) from Japan are being, or likely to be, sold in the United States at less than fair value (LTFV). The period of investigation is April 1, 2024, through March 31, 2025.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/04/2026-11262/lattice-boom-crawler-cranes-from-japan-final-affirmative-determination-of-sales-at-less-than-fair",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "a9c33d2a",
+    "date": "2026-06-04",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Notice of Determination and Request for Comments Concerning Action Pursuant to Section 301: Brazil's Acts, Policies, and Practices Related to Digital Trade and Electronic Payment Services; Unfair, Preferential Tariffs; Anti-Corruption Enforcement; Intellectual Property Protection; Ethanol Market Access; and Illegal Deforestation",
+    "summary": "The United States Trade Representative (Trade Representative) has determined that certain of Brazil's acts, policies, and practices at issue in this investigation are actionable under Section 301(b) and Section 304(a) of the Trade Act of 1974, as amended (Trade Act). The Trade Representative is proposing action, including tariffs on articles of Brazil and certain exemptions, and invites comments from the public.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/04/2026-11158/notice-of-determination-and-request-for-comments-concerning-action-pursuant-to-section-301-brazils",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "546c0c70",
+    "date": "2026-06-04",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Notice of Receipt of Complaint; Solicitation of Comments Relating to the Public Interest",
+    "summary": "Notice is hereby given that the U.S. International Trade Commission has received a complaint entitled Certain Vehicle Space Guards, DN 3912; the Commission is soliciting comments on any public interest issues raised by the complaint or complainant's filing pursuant to the Commission's Rules of Practice and Procedure.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/04/2026-11196/notice-of-receipt-of-complaint-solicitation-of-comments-relating-to-the-public-interest",
+    "tickers": [],
+    "sectors": [
+      "Consumer Discretionary"
+    ],
+    "tags": [
+      "autos"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "6ac0c28c",
+    "date": "2026-06-04",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Prestressed Concrete Steel Wire Strand From Brazil, India, Japan, Mexico, the Republic of Korea, and Thailand: Continuation of Antidumping Duty and Countervailing Duty Orders",
+    "summary": "As a result of the determinations by the U.S. Department of Commerce (Commerce) and the U.S. International Trade Commission (ITC) finding that revocation of the antidumping duty (AD) orders on prestressed concrete steel wire strand (PC strand) from Brazil, India, Japan, Mexico, the Republic of Korea (Korea), and Thailand and the countervailing duty (CVD) order on PC strand from India would likely lead to the continuation or recurrence of dumping, countervailable subsidies, and material injury to an industry in the United States, Commerce is publishing a notice of continuation of these AD and CVD orders.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/04/2026-11266/prestressed-concrete-steel-wire-strand-from-brazil-india-japan-mexico-the-republic-of-korea-and",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "Section 232",
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "3649d610",
+    "date": "2026-06-05",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Notice of Determinations and Request for Comments Concerning Actions in Section 301 Investigations of Acts, Policies, and Practices of Various Economies Related to the Failure To Impose and Effectively Enforce a Prohibition on the Importation of Goods Produced With Forced Labor",
+    "summary": "On March 12, 2026, the United States Trade Representative (Trade Representative) initiated 60 investigations related to the failure of various economies to impose and effectively enforce a prohibition on the importation of goods produced with forced labor. The Trade Representative has determined that 54 of the investigated economies have failed to impose and effectively enforce a forced labor import prohibition. The Trade Representative has determined that six of the investigated economies have failed to effectively enforce a forced labor import prohibition. The Trade Representative has determined that the failure of each of the investigated economies to impose and effectively enforce a force labor import prohibition is unreasonable and burdens or restricts U.S. commerce. As a result of the findings in each investigation, the Trade Representative proposes that appropriate action includes additional duties on all products of the investigated economies, except as provided in Annex A to this Notice. For economies that impose a forced labor import prohibition; have taken on commitments related to forced labor import prohibitions through an Agreement on Reciprocal Trade; or have imposed a partial regime with the effect of preventing the importation of certain forced labor goods, the Trade Representative proposes 10% as the rate of additional duties. For all other economies, the Trade Representative proposes 12.5% as the rate of additional duties. The Trade Representative also proposes a textile mechanism that would allow for a certain volume of apparel and textile imports from certain economies to enter the United States at a reduced Section 301 tariff rate. USTR seeks public comments on the proposed actions in the investigations and will hold public hearings in connection with the proposals.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/05/2026-11296/notice-of-determinations-and-request-for-comments-concerning-actions-in-section-301-investigations",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "0fd19b35",
+    "date": "2026-06-05",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Request for Comments on the Scope and Operation of a Mechanism To Promote Reciprocal Managed Trade With China",
+    "summary": "USTR invites comments from interested parties to inform the development of negotiations with China aimed at optimizing bilateral trade in non-sensitive products in order to promote reciprocity and balance in the U.S.-China trade relationship. In particular, comment is sought on the types of non-sensitive products that would benefit from favorable tariff modifications by both sides, and considerations around the design of a new government-to-government mechanism--a U.S.-China Board of Trade--to manage bilateral trade optimization on an ongoing basis.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/05/2026-11291/request-for-comments-on-the-scope-and-operation-of-a-mechanism-to-promote-reciprocal-managed-trade",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner",
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "7efbc9e8",
+    "date": "2026-06-05",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Van-Type Trailers and Subassemblies Thereof From Mexico: Preliminary Affirmative Countervailing Duty Determination and Alignment of Final Determination With Final Antidumping Duty Determination",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that countervailable subsidies are being provided to producers and exporters of van-type trailers and subassemblies thereof (van-type trailers) from Mexico. The period of investigation (POI) is January 1, 2024, through December 31, 2024. Interested parties are invited to comment on this preliminary determination.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/05/2026-11348/certain-van-type-trailers-and-subassemblies-thereof-from-mexico-preliminary-affirmative",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "71b22deb",
+    "date": "2026-06-05",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Foreign-Trade Zone (FTZ) 124, Notification of Proposed Production Activity; OneSubsea; (Subsea Oil Equipment); Bayou Vista, Louisiana",
+    "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/05/2026-11334/foreign-trade-zone-ftz-124-notification-of-proposed-production-activity-onesubsea-subsea-oil",
+    "tickers": [],
+    "sectors": [
+      "Energy"
+    ],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "6a00888c",
+    "date": "2026-06-05",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Foreign-Trade Zone (FTZ) 153, Notification of Proposed Production Activity; Foxx Development, Inc.; (Smartphones); San Diego, California",
+    "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/05/2026-11333/foreign-trade-zone-ftz-153-notification-of-proposed-production-activity-foxx-development-inc",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "624ee32d",
+    "date": "2026-06-05",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Foreign-Trade Zone (FTZ) 213, Notification of Proposed Production Activity; Project and Construction Welding, Inc. dba IMS Inc.; (Marine Watertight Sliding Doors); Cape Coral, Florida",
+    "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/05/2026-11332/foreign-trade-zone-ftz-213-notification-of-proposed-production-activity-project-and-construction",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "92927228",
+    "date": "2026-06-05",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Monosodium Glutamate From the Republic of Indonesia and the People's Republic of China: Continuation of Antidumping Duty Orders",
+    "summary": "As a result of the determinations by the U.S. Department of Commerce (Commerce) and the U.S. International Trade Commission (ITC) that revocation of the antidumping duty (AD) orders on monosodium glutamate (MSG) from Republic of Indonesia (Indonesia) and the People's Republic of China (China) would likely lead to the continuation or recurrence of dumping and material injury to an industry in the United States, Commerce is publishing a notice of continuation of these AD orders.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/05/2026-11326/monosodium-glutamate-from-the-republic-of-indonesia-and-the-peoples-republic-of-china-continuation",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "5edbbfac",
+    "date": "2026-06-05",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Multifunctional Acrylate and Methacrylate Monomers and Oligomers From South Korea; Supplemental Schedule for the Final Phase of the Investigation",
+    "summary": "Agency: International Trade Commission",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/05/2026-11289/multifunctional-acrylate-and-methacrylate-monomers-and-oligomers-from-south-korea-supplemental",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "2ff1a571",
+    "date": "2026-06-05",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Van-Type Trailers and Subassemblies Thereof From People's Republic of China: Preliminary Affirmative Countervailing Duty Determination and Alignment of Final Determination With Final Antidumping Duty Determination",
+    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that countervailable subsidies are being provided to producers and exporters of van-type trailers and subassemblies thereof (van-type trailers) from the People's Republic of China (China). The period of investigation is January 1, 2024, through December 31, 2024. Interested parties are invited to comment on this preliminary determination.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/05/2026-11350/van-type-trailers-and-subassemblies-thereof-from-peoples-republic-of-china-preliminary-affirmative",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "0cf7b276",
+    "date": "2026-06-08",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Clear Aligners and Components Thereof; Notice of a Commission Determination Not To Review an Initial Determination Granting In Part a Motion To Amend the Complaint and Notice of Investigation",
+    "summary": "Notice is hereby given that the U.S. International Trade Commission has determined not to review the presiding chief administrative law judge's (\"CALJ\") initial determination (\"ID\") (Order No. 11) granting a motion to amend the complaint and notice of investigation (\"NOI\") to (1) add allegations of infringement of claim 24 for U.S. Patent No. 11,766,313 (\"the `313 patent\"); (2) add allegations of infringement of claim 28 for U.S. Patent No. 11,766,314 (\"the `314 patent\"); (3) add allegations of infringement of claims 2 and 14 for U.S. Patent No. 8,866,977 (\"the `977 patent\"); and (4) add allegations of infringement of claim 9 for U.S. Patent No. 10,980,616 (\"the `616 patent\").",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/08/2026-11370/certain-clear-aligners-and-components-thereof-notice-of-a-commission-determination-not-to-review-an",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "14a957d5",
+    "date": "2026-06-08",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Frozen Warmwater Shrimp From Thailand: Amended Final Results of Antidumping Duty Administrative Review and Final Determination of No Shipments; 2023-2024",
+    "summary": "The U.S. Department of Commerce (Commerce) is amending the final results of the administrative review of the antidumping duty (AD) order on certain frozen warmwater shrimp (shrimp) from Thailand. The period of review (POR) is February 1, 2023, through January 31, 2024.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/08/2026-11371/certain-frozen-warmwater-shrimp-from-thailand-amended-final-results-of-antidumping-duty",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "570e3f6a",
+    "date": "2026-06-08",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Pickleball Paddles; Notice of Institution of Investigation",
+    "summary": "Notice is hereby given that a complaint was filed with the U.S. International Trade Commission on April 7, 2026, under section 337 of the Tariff Act of 1930, as amended, on behalf of Sport Squad, Inc. d/b/a JOOLA of North Bethesda, Maryland. An amended complaint was filed on April 17, 2026. A supplement to the amended complaint was filed on May 19, 2026. The amended complaint, as supplemented, alleges violations of section 337 based upon the importation into the United States, the sale for importation, and the sale within the United States after importation of certain pickleball paddles by reason of the infringement of certain claims of U.S. Patent No. 12,465,826 (\"the '826 patent\") and U.S. Patent No. 12,357,891 (\"the '891 patent\"). The amended complaint, as supplemented, further alleges that an industry in the United States exists or is in the process of being established, as required by the applicable Federal Statute. The complainant requests that the Commission institute an investigation and, after the investigation, issue a limited exclusion order and cease and desist orders.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/08/2026-11459/certain-pickleball-paddles-notice-of-institution-of-investigation",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "08c454f4",
+    "date": "2026-06-08",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Women's Flats With Colored Outsoles Thereof; Notice of the Commission's Final Determination Finding a Violation of Section 337: Issuance of a General Exclusion Order and a Limited Exclusion Order; Termination of the Investigation",
+    "summary": "Notice is hereby given that the U.S. International Trade Commission (\"Commission\") has determined that a violation under section 337 of the Tariff Act of 1930, as amended (19 U.S.C. 1337) has occurred. The Commission has further determined to issue a general exclusion order (\"GEO\") and a limited exclusion order (\"LEO\") and set the bond at one hundred percent (100%) of the entered value of the covered articles during the period of Presidential review. The investigation is terminated.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/08/2026-11394/certain-womens-flats-with-colored-outsoles-thereof-notice-of-the-commissions-final-determination",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "5c01d6ed",
+    "date": "2026-06-08",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Chromium Trioxide From India and Turkey; Scheduling of the Final Phase of Countervailing Duty and Antidumping Duty Investigations",
+    "summary": "The Commission hereby gives notice of the scheduling of the final phase of antidumping and countervailing duty investigation Nos. 701-TA-779 and 731-TA-1765-1766 (Final) pursuant to the Tariff Act of 1930 to determine whether an industry in the United States is materially injured or threatened with material injury, or the establishment of an industry in the United States is materially retarded, by reason of imports of chromium trioxide from India and Turkey, provided for in subheading 2819.10.00 of the Harmonized Tariff Schedule of the United States, preliminarily determined by the Department of Commerce (\"Commerce\") to be sold at less-than-fair- value and by reason of imports of chromium trioxide from India preliminarily determined by Commerce to be subsidized by the government of India.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/08/2026-11368/chromium-trioxide-from-india-and-turkey-scheduling-of-the-final-phase-of-countervailing-duty-and",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "HTS"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "2bbe47f2",
+    "date": "2026-06-08",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Finished Carbon Steel Flanges From India: Final Results of Countervailing Duty Administrative Review; 2023",
+    "summary": "The U.S. Department of Commerce (Commerce) determines that countervailable subsidies were provided to producers and exporters of finished carbon steel flanges (steel flanges) from India during the period of review (POR) January 1, 2023, through December 31, 2023.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/08/2026-11374/finished-carbon-steel-flanges-from-india-final-results-of-countervailing-duty-administrative-review",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "Section 232"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "336fed51",
+    "date": "2026-06-08",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Foreign-Trade Zone (FTZ) 72, Notification of Proposed Production Activity; Subaru of Indiana Automotive, Inc.; (Passenger Motor Vehicles); Lafayette, Indiana",
+    "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/08/2026-11375/foreign-trade-zone-ftz-72-notification-of-proposed-production-activity-subaru-of-indiana-automotive",
+    "tickers": [],
+    "sectors": [
+      "Consumer Discretionary"
+    ],
+    "tags": [
+      "autos"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "3c7b0770",
+    "date": "2026-06-08",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Foreign-Trade Zone (FTZ) 84, Notification of Proposed Production Activity; Tesla Inc.; (Battery Storage Products and Components); Brookshire, Texas",
+    "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/08/2026-11431/foreign-trade-zone-ftz-84-notification-of-proposed-production-activity-tesla-inc-battery-storage",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "90461712",
+    "date": "2026-06-16",
+    "endDate": "2026-06-17",
+    "category": "fed",
+    "title": "FOMC meeting with projections",
+    "summary": "Federal Open Market Committee scheduled meeting associated with Summary of Economic Projections.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "SEP"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "d2e54f38",
+    "date": "2026-07-28",
+    "endDate": "2026-07-29",
+    "category": "fed",
+    "title": "FOMC meeting",
+    "summary": "Federal Open Market Committee scheduled meeting.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "meeting"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "32bc9b2e",
+    "date": "2026-09-15",
+    "endDate": "2026-09-16",
+    "category": "fed",
+    "title": "FOMC meeting with projections",
+    "summary": "Federal Open Market Committee scheduled meeting associated with Summary of Economic Projections.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "SEP"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "80f455b1",
+    "date": "2026-10-27",
+    "endDate": "2026-10-28",
+    "category": "fed",
+    "title": "FOMC meeting",
+    "summary": "Federal Open Market Committee scheduled meeting.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "meeting"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "a44116fa",
+    "date": "2026-12-08",
+    "endDate": "2026-12-09",
+    "category": "fed",
+    "title": "FOMC meeting with projections",
+    "summary": "Federal Open Market Committee scheduled meeting associated with Summary of Economic Projections.",
+    "sourceName": "Federal Reserve",
+    "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "FOMC",
+      "SEP"
+    ],
+    "importance": 3
+  }
+]

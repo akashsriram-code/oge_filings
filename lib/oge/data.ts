@@ -2,11 +2,14 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { buildKpis } from './analytics';
 import { EMPTY_SECURITY_REFERENCE } from './enrichment';
+import { buildEventWindows } from './events';
 import { filterTransactions } from './filter';
 import type {
   BaselineHolding,
   CacheMeta,
   EstimatedHolding,
+  EventWindowSummary,
+  OgeEvent,
   ReviewQueueItem,
   SecurityEnrichment,
   SecurityReferenceCache,
@@ -33,6 +36,8 @@ const EMPTY_META: CacheMeta = {
   securityReferenceCount: 0,
   securityEnrichmentCount: 0,
   enrichedTransactionCount: 0,
+  eventCount: 0,
+  eventWindowCount: 0,
   notes: ['Run npm run ingest:trump-oge to generate the cache.'],
 };
 
@@ -44,6 +49,8 @@ export async function loadTrumpOgeDataset(): Promise<TrumpOgeDataset> {
     holdingsEstimates,
     sectorSummaries,
     reviewQueue,
+    events,
+    eventWindows,
     securityReference,
     securityEnrichments,
     cacheMeta,
@@ -54,6 +61,8 @@ export async function loadTrumpOgeDataset(): Promise<TrumpOgeDataset> {
     readJson<EstimatedHolding[]>('holdings-estimates.json', []),
     readJson<SectorSummary[]>('sector-summaries.json', []),
     readJson<ReviewQueueItem[]>('review-queue.json', []),
+    readJson<OgeEvent[]>('events.json', []),
+    readJson<EventWindowSummary[]>('event-windows.json', []),
     readJson<SecurityReferenceCache>('security-reference.json', EMPTY_SECURITY_REFERENCE),
     readJson<SecurityEnrichment[]>('security-enrichment.json', []),
     readJson<CacheMeta>('cache-meta.json', EMPTY_META),
@@ -66,6 +75,8 @@ export async function loadTrumpOgeDataset(): Promise<TrumpOgeDataset> {
     holdingsEstimates,
     sectorSummaries,
     reviewQueue,
+    events,
+    eventWindows,
     securityReference,
     securityEnrichments,
     cacheMeta,
@@ -77,6 +88,7 @@ export function buildApiResponse(dataset: TrumpOgeDataset, filters: TrumpOgeFilt
   const filteredDataset = {
     ...dataset,
     transactions: filteredTransactions,
+    eventWindows: buildEventWindows(dataset.events, filteredTransactions),
   };
 
   return {

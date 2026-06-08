@@ -6,6 +6,8 @@ test('renders overview and switches dashboard views', async ({ page }) => {
   await expect(page.getByText('Volume midpoint')).toBeVisible();
   await expect(page.getByText('Sector Exposure Map')).toBeVisible();
   await expect(page.getByText('Visible transactions are the rows left after the active filters.')).toBeVisible();
+  await expect(page.getByText('Event overlay')).toBeVisible();
+  await expect(page.getByText('Proximity analysis is a reporting prompt only')).toBeVisible();
   await expect(page.getByText('Equity Stocks Bought').first()).toBeVisible();
 
   await page.getByRole('button', { name: 'Holdings' }).click();

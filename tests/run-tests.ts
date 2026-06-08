@@ -11,9 +11,10 @@ import {
   parseNasdaqSymbolDirectory,
   parseSecCompanyTickers,
 } from '../lib/oge/enrichment';
+import { buildEventWindows, eventWindowBounds, federalRegisterDocumentToEvent } from '../lib/oge/events';
 import { filterTransactions } from '../lib/oge/filter';
 import { buildEquityStockSummaries, deriveEquityStockName } from '../lib/oge/stocks';
-import type { OgeTransaction } from '../lib/oge/types';
+import type { OgeEvent, OgeTransaction } from '../lib/oge/types';
 import { buildTrumpOgeWorkbook } from '../lib/oge/workbook';
 
 async function main() {
@@ -21,6 +22,7 @@ async function main() {
   testClassification();
   testSecurityEnrichment();
   testEquityStocks();
+  testEventOverlay();
   await testCacheShape();
   await testFiltering();
   await testWorkbookExport();
@@ -138,6 +140,59 @@ function testSecurityEnrichment() {
   assert.ok(ambiguous.enrichmentFlags.includes('Multiple possible tickers'));
 }
 
+function testEventOverlay() {
+  const federalRegisterEvent = federalRegisterDocumentToEvent({
+    title: 'Adjusting Imports of Automobiles and Automobile Parts Into the United States',
+    publication_date: '2026-03-01',
+    html_url: 'https://www.federalregister.gov/documents/example',
+    abstract: 'Section 232 tariff action affecting vehicles and parts.',
+    document_number: '2026-00001',
+  });
+  assert.ok(federalRegisterEvent);
+  assert.equal(federalRegisterEvent.category, 'tariff');
+  assert.ok(federalRegisterEvent.sectors.includes('Consumer Discretionary'));
+  assert.equal(eventWindowBounds(federalRegisterEvent, 7).startDate, '2026-02-22');
+
+  const targetedEvent: OgeEvent = {
+    id: 'event-net',
+    date: '2026-03-30',
+    endDate: null,
+    category: 'company-news',
+    title: 'Cloudflare reference event',
+    summary: 'Ticker-targeted event for window tests.',
+    sourceName: 'Manual',
+    sourceUrl: 'https://example.com',
+    tickers: ['NET'],
+    sectors: [],
+    tags: [],
+    importance: 2,
+  };
+  const windows = buildEventWindows([targetedEvent], [
+    makeTransaction({
+      id: 'buy-net',
+      description: 'CLOUDFLARE INC CLASS A',
+      normalizedDescription: 'CLOUDFLARE INC CLASS A',
+      resolvedTicker: 'NET',
+      type: 'Purchase',
+      date: '2026-03-31',
+      amount: parseOgeAmountRange('$50,001-$100,000'),
+    }),
+    makeTransaction({
+      id: 'sale-aap',
+      description: 'ADVANCE AUTO PTS INC',
+      normalizedDescription: 'ADVANCE AUTO PTS INC',
+      resolvedTicker: 'AAP',
+      type: 'Sale',
+      date: '2026-03-31',
+      amount: parseOgeAmountRange('$15,001-$50,000'),
+    }),
+  ]);
+  const sevenDay = windows.find((window) => window.windowDays === 7);
+  assert.equal(sevenDay?.transactionCount, 1);
+  assert.equal(sevenDay?.matchedTickers[0], 'NET');
+  assert.equal(sevenDay?.netMidpoint, 75000.5);
+}
+
 function testAmountParsing() {
   const parsed = parseOgeAmountRange('$1,000,001-$5,000,000');
   assert.equal(parsed.min, 1000001);
@@ -169,8 +224,12 @@ async function testCacheShape() {
   assert.ok(dataset.holdingsEstimates.length >= 1, 'holdings estimates should be present');
   assert.ok(dataset.securityReference.entries.length >= 1, 'security reference should be present');
   assert.ok(dataset.securityEnrichments.length >= 1, 'security enrichment cache should be present');
+  assert.ok(dataset.events.length >= 1, 'event overlay cache should be present');
+  assert.ok(dataset.eventWindows.length >= 1, 'event window cache should be present');
   assert.equal(dataset.cacheMeta.transactionCount, dataset.transactions.length);
   assert.equal(dataset.cacheMeta.sourceFilingCount, dataset.sourceFilings.length);
+  assert.equal(dataset.cacheMeta.eventCount, dataset.events.length);
+  assert.equal(dataset.cacheMeta.eventWindowCount, dataset.eventWindows.length);
 }
 
 async function testFiltering() {
@@ -187,8 +246,9 @@ async function testFiltering() {
 async function testWorkbookExport() {
   const dataset = await loadTrumpOgeDataset();
   const response = buildApiResponse(dataset, { transactionType: 'Purchase' });
+  assert.ok(response.eventWindows.every((window) => window.saleMidpoint === 0), 'filtered event windows should honor API transaction filters');
   const workbook = buildTrumpOgeWorkbook(response);
-  const expectedSheets = ['Transactions', 'Equity Stocks', 'Estimated Holdings', 'Sector Summary', 'Security Enrichment', 'Filing Sources', 'Review Queue', 'Methodology'];
+  const expectedSheets = ['Transactions', 'Equity Stocks', 'Estimated Holdings', 'Sector Summary', 'Security Enrichment', 'Events', 'Event Windows', 'Filing Sources', 'Review Queue', 'Methodology'];
   for (const sheet of expectedSheets) {
     assert.ok(workbook.SheetNames.includes(sheet), `missing sheet ${sheet}`);
   }

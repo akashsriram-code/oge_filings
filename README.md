@@ -21,6 +21,7 @@ The daily GitHub Action in `.github/workflows/trump-oge-refresh.yml` refreshes t
 - fingerprints OGE PDFs with SHA-256,
 - bootstraps structured transaction rows from Open Cabinet,
 - enriches public-company securities from SEC and Nasdaq Trader reference data,
+- builds an event overlay from Federal Register tariff/trade records, FOMC calendar entries, and optional curated manual events,
 - writes versioned cache files under `data/oge/trump/`,
 - runs tests, build, and Playwright smoke checks,
 - commits cache changes when the data changes,
@@ -34,6 +35,8 @@ In GitHub repository settings, set Pages source to **GitHub Actions**. The Pages
 OGE transaction values are disclosed as statutory ranges. Midpoint totals are estimates, not exact trade values.
 
 The current holdings view is transaction-implied until the annual 278e baseline is extracted and reviewed. Rows with missing baseline matches, ambiguous asset types, or low-confidence sector labels are surfaced in the review queue.
+
+The event overlay is proximity analysis only. Automated events come from public Federal Register and Federal Reserve sources; Reuters-curated context can be added to `data/oge/trump/manual-events.json` with source links. Event proximity does not imply motive, coordination, or causation.
 
 ## Verify
 

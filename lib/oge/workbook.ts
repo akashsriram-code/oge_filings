@@ -156,6 +156,46 @@ export function buildTrumpOgeWorkbook(response: TrumpOgeApiResponse): XLSX.WorkB
 
   XLSX.utils.book_append_sheet(
     workbook,
+    XLSX.utils.json_to_sheet(response.events.map((event) => ({
+      date: event.date,
+      end_date: event.endDate || '',
+      category: event.category,
+      importance: event.importance,
+      title: event.title,
+      summary: event.summary,
+      source_name: event.sourceName,
+      source_url: event.sourceUrl,
+      tickers: event.tickers.join('; '),
+      sectors: event.sectors.join('; '),
+      tags: event.tags.join('; '),
+    }))),
+    'Events'
+  );
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    XLSX.utils.json_to_sheet(response.eventWindows.map((window) => {
+      const event = response.events.find((item) => item.id === window.eventId);
+      return {
+        event_date: event?.date || '',
+        event_category: event?.category || '',
+        event_title: event?.title || '',
+        window_days: window.windowDays,
+        transaction_count: window.transactionCount,
+        purchase_midpoint: window.purchaseMidpoint,
+        sale_midpoint: window.saleMidpoint,
+        net_midpoint: window.netMidpoint,
+        matched_tickers: window.matchedTickers.join('; '),
+        matched_sectors: window.matchedSectors.join('; '),
+        first_transaction_date: window.firstTransactionDate || '',
+        last_transaction_date: window.lastTransactionDate || '',
+      };
+    })),
+    'Event Windows'
+  );
+
+  XLSX.utils.book_append_sheet(
+    workbook,
     XLSX.utils.json_to_sheet(response.sourceFilings.map((filing) => ({
       filed_date: filing.filedDate,
       document_type: filing.documentType,
@@ -199,6 +239,9 @@ export function buildTrumpOgeWorkbook(response: TrumpOgeApiResponse): XLSX.WorkB
       { field: 'security_reference_count', value: String(response.cacheMeta.securityReferenceCount) },
       { field: 'security_enrichment_count', value: String(response.cacheMeta.securityEnrichmentCount) },
       { field: 'enriched_transaction_count', value: String(response.cacheMeta.enrichedTransactionCount) },
+      { field: 'event_overlay', value: 'Events are used for proximity analysis only; event proximity does not imply motive or causation.' },
+      { field: 'event_count', value: String(response.cacheMeta.eventCount) },
+      { field: 'event_window_count', value: String(response.cacheMeta.eventWindowCount) },
     ]),
     'Methodology'
   );
