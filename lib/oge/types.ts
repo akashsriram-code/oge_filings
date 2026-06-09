@@ -55,6 +55,30 @@ export interface SourceFiling {
   notes: string;
 }
 
+export type SourceReliability = 'official' | 'archived_copy' | 'metadata_only';
+
+export type HistoricalSourceType =
+  | 'oge_api_pdf'
+  | 'oge_request_metadata'
+  | 'archived_public_pdf';
+
+export interface HistoricalSource {
+  id: string;
+  title: string;
+  filingType: '278-T' | 'Annual 278e' | 'Candidate 278e' | 'Termination 278e' | 'Other';
+  filedDate: string;
+  reportYear: number | null;
+  sourceType: HistoricalSourceType;
+  sourceReliability: SourceReliability;
+  sourceUrl: string;
+  localFilename: string;
+  bytes: number | null;
+  sha256: string | null;
+  fetchStatus: 'ok' | 'metadata_only' | 'failed';
+  sourceReviewStatus: 'verified' | 'needs_review' | 'unavailable';
+  provenanceNote: string;
+}
+
 export interface OgeTransaction {
   id: string;
   description: string;
@@ -130,6 +154,7 @@ export interface EstimatedHolding {
   purchaseCount: number;
   saleCount: number;
   lastTransactionDate: string | null;
+  sourceFilingId: string | null;
   confidence: number;
   missingBaseline: boolean;
   sourceTransactionIds: string[];
@@ -200,6 +225,114 @@ export interface EventWindowSummary {
   lastTransactionDate: string | null;
 }
 
+export interface FinancialDisclosureReport {
+  id: string;
+  sourceId: string;
+  filingType: HistoricalSource['filingType'];
+  filedDate: string;
+  reportYear: number | null;
+  sourceReliability: SourceReliability;
+  parserStatus: ParserStatus;
+  assetIncomeCount: number;
+  liabilityCount: number;
+  notes: string;
+}
+
+export interface AssetIncomeHolding {
+  id: string;
+  sourceId: string;
+  description: string;
+  normalizedDescription: string;
+  value: MoneyRange;
+  incomeType: string | null;
+  income: MoneyRange;
+  assetType: AssetType;
+  sector: string;
+  sourceReliability: SourceReliability;
+  confidence: number;
+  reviewFlags: string[];
+}
+
+export interface Liability {
+  id: string;
+  sourceId: string;
+  creditorName: string;
+  type: string;
+  amount: MoneyRange;
+  yearIncurred: string | null;
+  rate: string | null;
+  term: string | null;
+  sourceReliability: SourceReliability;
+  confidence: number;
+  reviewFlags: string[];
+}
+
+export interface YearlyExposureSummary {
+  year: number;
+  sourceIds: string[];
+  sourceReliability: SourceReliability;
+  assetIncomeCount: number;
+  liabilityCount: number;
+  transactionCount: number;
+  currentMidpoint: number;
+  purchaseMidpoint: number;
+  saleMidpoint: number;
+  netFlowMidpoint: number;
+}
+
+export interface TrumpIndexCitation {
+  sourceId: string | null;
+  sourceUrl: string | null;
+  label: string;
+  filedDate: string | null;
+  sourceReliability: SourceReliability;
+}
+
+export interface TrumpIndexEntry {
+  id: string;
+  displayName: string;
+  assetType: AssetType;
+  sector: string;
+  resolvedTicker: string | null;
+  resolvedIssuerName: string | null;
+  resolvedExchange: string | null;
+  resolvedCik: number | null;
+  currentRange: MoneyRange;
+  currentMidpoint: number;
+  previousRange: MoneyRange;
+  changeMidpoint: number;
+  changePct: number | null;
+  purchaseMidpoint: number;
+  saleMidpoint: number;
+  netFlowMidpoint: number;
+  netDirection: 'Net buy' | 'Net sale' | 'Hold';
+  transactionCount: number;
+  filingCount: number;
+  firstSeenDate: string | null;
+  lastSeenDate: string | null;
+  score: number;
+  exposureComponent: number;
+  changeComponent: number;
+  activityComponent: number;
+  confidence: number;
+  sourceReliability: SourceReliability;
+  reviewFlags: string[];
+  citations: TrumpIndexCitation[];
+}
+
+export interface TrumpIndexRollup {
+  id: string;
+  rollupType: 'sector' | 'assetType';
+  key: string;
+  entryCount: number;
+  currentMidpoint: number;
+  purchaseMidpoint: number;
+  saleMidpoint: number;
+  netFlowMidpoint: number;
+  averageScore: number;
+  topEntryIds: string[];
+}
+
 export interface CacheMeta {
   generatedAt: string;
   dataThrough: string | null;
@@ -216,6 +349,11 @@ export interface CacheMeta {
   enrichedTransactionCount: number;
   eventCount: number;
   eventWindowCount: number;
+  historicalSourceCount: number;
+  financialDisclosureReportCount: number;
+  assetIncomeHoldingCount: number;
+  liabilityCount: number;
+  trumpIndexCount: number;
   notes: string[];
 }
 
@@ -278,11 +416,18 @@ export interface SecurityEnrichment {
 }
 
 export interface TrumpOgeDataset {
+  historicalSources: HistoricalSource[];
   sourceFilings: SourceFiling[];
   transactions: OgeTransaction[];
   baselineHoldings: BaselineHolding[];
+  financialDisclosureReports: FinancialDisclosureReport[];
+  assetIncomeHoldings: AssetIncomeHolding[];
+  liabilities: Liability[];
+  yearlyExposureSummaries: YearlyExposureSummary[];
   holdingsEstimates: EstimatedHolding[];
   sectorSummaries: SectorSummary[];
+  trumpIndex: TrumpIndexEntry[];
+  trumpIndexRollups: TrumpIndexRollup[];
   reviewQueue: ReviewQueueItem[];
   events: OgeEvent[];
   eventWindows: EventWindowSummary[];
@@ -292,11 +437,16 @@ export interface TrumpOgeDataset {
 }
 
 export interface TrumpOgeFilters {
+  year?: string | number | null;
   startDate?: string | null;
   endDate?: string | null;
   assetType?: string | null;
   sector?: string | null;
   transactionType?: string | null;
+  sourceReliability?: string | null;
+  ticker?: string | null;
+  issuer?: string | null;
+  dataClass?: string | null;
   lateOnly?: boolean;
   query?: string | null;
   confidence?: number | null;

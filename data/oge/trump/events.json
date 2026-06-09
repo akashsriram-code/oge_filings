@@ -1,5 +1,67 @@
 [
   {
+    "id": "450fa752",
+    "date": "2021-10-26",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Publication of a Report on the Effect of Imports of Titanium Sponge on the National Security: An Investigation Conducted Under Section 232 of the Trade Expansion Act of 1962, as Amended",
+    "summary": "The Bureau of Industry and Security (BIS) in this notice is publishing a report that summarizes the findings of an investigation conducted by the U.S. Department of Commerce (the \"Department\") pursuant to Section 232 of the Trade Expansion Act of 1962, as amended (\"Section 232\"), into the effect of imports of titanium sponge on the national security of the United States. This report was completed on November 29, 2019 and posted on the BIS website in July 2021. BIS has not published the appendices to the report in this notification of report findings, but they are available online at the BIS website, along with the rest of the report (see the ADDRESSES section).",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2021/10/26/2021-23301/publication-of-a-report-on-the-effect-of-imports-of-titanium-sponge-on-the-national-security-an",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "Section 232"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "feb37972",
+    "date": "2023-09-18",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Reciprocal Switching for Inadequate Service",
+    "summary": "This decision proposes, in a new subdocket, a new set of regulations that would provide for the prescription of reciprocal switching agreements to address inadequate rail service, as determined using objective standards based on a carrier's original estimated time of arrival, transit time, and first-mile and last-mile service. To help implement the new regulations, the Surface Transportation Board (Board or STB) proposes to require Class I carriers to submit certain data, which would be publicly accessible and generalized; and to adopt a new requirement that, upon written request by a customer, a rail carrier must provide to that customer individualized, machine-readable service data.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2023/09/18/2023-19543/reciprocal-switching-for-inadequate-service",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
+    "id": "ae06de53",
+    "date": "2024-02-15",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Defense Federal Acquisition Regulation Supplement: DFARS Buy American Act Requirements (DFARS Case 2022-D019)",
+    "summary": "DoD is issuing a final rule amending the Defense Federal Acquisition Regulation Supplement (DFARS) to implement an Executive order addressing domestic preferences in DoD procurement.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2024/02/15/2024-01220/defense-federal-acquisition-regulation-supplement-dfars-buy-american-act-requirements-dfars-case",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 3
+  },
+  {
+    "id": "eec637bc",
+    "date": "2024-05-07",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Reciprocal Switching for Inadequate Service",
+    "summary": "The Board adopts new regulations that provide for the prescription of reciprocal switching agreements as a means to promote adequate rail service through access to an additional line haul carrier. Under the new regulations, eligibility for prescription of a reciprocal switching agreement will be determined in part using objective performance standards that address reliability in time of arrival, consistency in transit time, and reliability in providing first-mile and last-mile service. The Board will also consider, in determining whether to prescribe a reciprocal switching agreement, certain affirmative defenses and the practicability of a reciprocal switching agreement. To help implement the new regulations, the Board will require all Class I railroads to submit certain service data on an ongoing and standardized basis, which will be generalized and publicly accessible. Railroads will also be required to provide individualized, machine-readable service data to a customer upon a written request from that customer.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2024/05/07/2024-09483/reciprocal-switching-for-inadequate-service",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "reciprocal tariffs"
+    ],
+    "importance": 3
+  },
+  {
     "id": "074844d3",
     "date": "2025-01-28",
     "endDate": "2025-01-29",
@@ -826,60 +888,6 @@
     "importance": 3
   },
   {
-    "id": "842aaa5d",
-    "date": "2026-05-08",
-    "endDate": null,
-    "category": "tariff",
-    "title": "Certain Cut-to-Length Carbon-Quality Steel Plate Products From the Republic of Korea: Final Results of Antidumping Duty Administrative Review; 2024-2025",
-    "summary": "The U.S. Department of Commerce (Commerce) determines that the producers and exporters subject to this administrative review made sales of certain cut-to-length carbon-quality steel plate products (CTL plate) from the Republic of Korea (Korea) at prices below normal value during the period of review (POR) covering February 1, 2024, through January 31, 2025.",
-    "sourceName": "Federal Register",
-    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/08/2026-09131/certain-cut-to-length-carbon-quality-steel-plate-products-from-the-republic-of-korea-final-results",
-    "tickers": [],
-    "sectors": [
-      "Materials"
-    ],
-    "tags": [
-      "Section 232",
-      "country/trade partner"
-    ],
-    "importance": 2
-  },
-  {
-    "id": "a0bbb64b",
-    "date": "2026-05-12",
-    "endDate": null,
-    "category": "tariff",
-    "title": "Agency Information Collection Activities; Submission to the Office of Management and Budget (OMB) for Review and Approval; Comment Request; Parts Tariff Offset Program for Motor Vehicles and Motor Vehicle Parts",
-    "summary": "Agency: Commerce Department, International Trade Administration",
-    "sourceName": "Federal Register",
-    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/12/2026-09318/agency-information-collection-activities-submission-to-the-office-of-management-and-budget-omb-for",
-    "tickers": [],
-    "sectors": [
-      "Consumer Discretionary"
-    ],
-    "tags": [
-      "autos"
-    ],
-    "importance": 2
-  },
-  {
-    "id": "76101dee",
-    "date": "2026-05-12",
-    "endDate": null,
-    "category": "tariff",
-    "title": "N-Cyclohexylbenzothiazole-2-sulfenamide From China; Institution of Antidumping and Countervailing Duty Investigations and Scheduling of Preliminary Phase Investigations",
-    "summary": "The Commission hereby gives notice of the institution of investigations and commencement of preliminary phase antidumping and countervailing duty investigation Nos. 701-TA-797 and 731-TA-1793 (Preliminary) pursuant to the Tariff Act of 1930 to determine whether there is a reasonable indication that an industry in the United States is materially injured or threatened with material injury, or the establishment of an industry in the United States is materially retarded, by reason of imports of N-Cyclohexylbenzothiazole-2- sulfenamide (\"CBS\") from China, provided for in subheadings 2934.20.80, 3812.10.10, and 3812.10.50 of the Harmonized Tariff Schedule of the United States that are alleged to be sold in the United States at less than fair value and alleged to be subsidized by the Government of China. Unless the Department of Commerce (\"Commerce\") extends the time for initiation, the Commission must reach a preliminary determination in antidumping and countervailing duty investigations in 45 days, or in this case by June 22, 2026. The Commission's views must be transmitted to Commerce within five business days thereafter, or by June 29, 2026.",
-    "sourceName": "Federal Register",
-    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/12/2026-09337/n-cyclohexylbenzothiazole-2-sulfenamide-from-china-institution-of-antidumping-and-countervailing",
-    "tickers": [],
-    "sectors": [],
-    "tags": [
-      "HTS",
-      "country/trade partner"
-    ],
-    "importance": 2
-  },
-  {
     "id": "0fe052d1",
     "date": "2026-05-13",
     "endDate": null,
@@ -941,25 +949,6 @@
     "tickers": [],
     "sectors": [],
     "tags": [],
-    "importance": 2
-  },
-  {
-    "id": "ed9b7578",
-    "date": "2026-05-13",
-    "endDate": null,
-    "category": "tariff",
-    "title": "Temporary Steel Fencing From the People's Republic of China: Antidumping Duty Order and Countervailing Duty Order",
-    "summary": "Based on affirmative final determinations by the U.S. Department of Commerce (Commerce) and the U.S. International Trade Commission (ITC), Commerce is issuing antidumping duty (AD) and countervailing duty (CVD) orders on temporary steel fencing from the People's Republic of China (China).",
-    "sourceName": "Federal Register",
-    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/13/2026-09460/temporary-steel-fencing-from-the-peoples-republic-of-china-antidumping-duty-order-and-countervailing",
-    "tickers": [],
-    "sectors": [
-      "Materials"
-    ],
-    "tags": [
-      "Section 232",
-      "country/trade partner"
-    ],
     "importance": 2
   },
   {

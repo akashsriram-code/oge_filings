@@ -1,14 +1,5 @@
 [
   {
-    "id": "baseline-not-parsed",
-    "severity": "high",
-    "kind": "baseline",
-    "title": "Annual 278e baseline not parsed",
-    "detail": "Holdings estimates are transaction-implied until the annual 278e asset table is extracted and reviewed.",
-    "relatedId": "274cdff5",
-    "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/4EC9A8E6DD078F2985258CA9002C9377/$FILE/Trump%2C%20Donald%20J.%202025%20Annual%20278.pdf"
-  },
-  {
     "id": "665402fe",
     "severity": "medium",
     "kind": "classification",
@@ -3361,7 +3352,7 @@
     "severity": "medium",
     "kind": "classification",
     "title": "Review Equity classification",
-    "detail": "FEDEX CORP | Needs sector review, Multiple possible tickers",
+    "detail": "FEDEX CORP | Needs sector review, No SEC/SIC sector",
     "relatedId": "63a93f1f",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3370,7 +3361,7 @@
     "severity": "medium",
     "kind": "classification",
     "title": "Review Equity classification",
-    "detail": "FEDEX CORP UNSOLICITED | Needs sector review, Multiple possible tickers",
+    "detail": "FEDEX CORP UNSOLICITED | Needs sector review, Low-confidence issuer match, No SEC/SIC sector",
     "relatedId": "f5e975f1",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -4497,6 +4488,15 @@
     "title": "Review Equity classification",
     "detail": "VSE CORP | Needs sector review, Multiple possible tickers",
     "relatedId": "f15f3ef8",
+    "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
+  },
+  {
+    "id": "6bc041ae",
+    "severity": "high",
+    "kind": "classification",
+    "title": "Review Other classification",
+    "detail": "VULCAN MATLS CO | Needs sector review, Needs asset-type review",
+    "relatedId": "9f27d0c8",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   }
 ]

@@ -27,6 +27,7 @@ const ETF_PATTERN = /\b(ETF|ISHARES|SPDR|VANGUARD|INVESCO|SELECT SECTOR|JPMORGAN
 const PREFERRED_PATTERN = /\b(PFD|PREFERRED|CONV PFD|DEPOSITARY SH|HYBRID|CAP SECS)\b/;
 const BOND_PATTERN = /\b(DUE|DTD|CUSIP|NOTE|NT\b|BOND|DEBENTURE|SR UNSEC|REGS DUE|% DUE|CALLABLE)\b|\b\d{1,2}\.\d{2,3}%\b/;
 const EQUITY_PATTERN = /\b(INC|CORP|PLC|LTD|HLDGS|HOLDINGS|CLASS [A-Z]|COM STK|COMMON|EQUITY|SHARES)\b/;
+const CASH_PATTERN = /\b(CASH|MONEY MARKET|BANK ACCOUNT|BROKERAGE ACCOUNT MONEY MARKET|U S BANK ACCOUNT)\b/;
 
 export function classifySecurity(description: string): ClassificationResult {
   const normalizedDescription = normalizeSecurityDescription(description);
@@ -36,7 +37,11 @@ export function classifySecurity(description: string): ClassificationResult {
   let sector = 'Other';
   let confidence = 0.55;
 
-  if (MUNICIPAL_PATTERN.test(normalizedDescription) && BOND_PATTERN.test(normalizedDescription)) {
+  if (CASH_PATTERN.test(normalizedDescription)) {
+    assetType = 'Other';
+    sector = 'Cash & Bank Accounts';
+    confidence = 0.82;
+  } else if (MUNICIPAL_PATTERN.test(normalizedDescription) && BOND_PATTERN.test(normalizedDescription)) {
     assetType = 'Municipal Bond';
     sector = 'Municipal Bonds';
     confidence = 0.9;
@@ -68,7 +73,7 @@ export function classifySecurity(description: string): ClassificationResult {
   if (sector === 'Other' || sector === 'Unclassified Equity' || confidence < 0.7) {
     flags.push('Needs sector review');
   }
-  if (assetType === 'Other') {
+  if (assetType === 'Other' && sector !== 'Cash & Bank Accounts') {
     flags.push('Needs asset-type review');
   }
 

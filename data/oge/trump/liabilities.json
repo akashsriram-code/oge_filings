@@ -1,0 +1,222 @@
+[
+  {
+    "id": "a0278306",
+    "sourceId": "aa609a38",
+    "creditorName": "Axos Bank",
+    "type": "Trump Tower (mortgage)",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2022",
+    "rate": "4.25%",
+    "term": "Matures in 2032",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "a86a89dd",
+    "sourceId": "aa609a38",
+    "creditorName": "Axos Bank",
+    "type": "Trump National Doral (mortgage)",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2022",
+    "rate": "4.90%",
+    "term": "Matures in 2032",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "3a1c9955",
+    "sourceId": "aa609a38",
+    "creditorName": "E. Jean Carroll",
+    "type": "Litigation; stayed pending appeal; bonded",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2024",
+    "rate": null,
+    "term": "N/A",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "dbe03911",
+    "sourceId": "aa609a38",
+    "creditorName": "Ladder Capital Finance I LLC",
+    "type": "40 Wall Street (mortgage)",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2015",
+    "rate": "3.665%",
+    "term": "Matures in 2025",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "c24adcdc",
+    "sourceId": "aa609a38",
+    "creditorName": "New York Attorney General",
+    "type": "Litigation; stayed pending appeal; bonded",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2024",
+    "rate": null,
+    "term": "N/A",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "8787845b",
+    "sourceId": "aa609a38",
+    "creditorName": "Ladder Capital Finance LLC",
+    "type": "TIHT Commercial NY (mortgage)",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2016",
+    "rate": "4.05%",
+    "term": "Matures in 2026",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "e0d630f3",
+    "sourceId": "aa609a38",
+    "creditorName": "Ladder Capital Finance LLC",
+    "type": "Trump Plaza (mortgage)",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2014",
+    "rate": "3.85%",
+    "term": "Paid Off Apr 2024",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "e3cae991",
+    "sourceId": "aa609a38",
+    "creditorName": "Professional Bank",
+    "type": "1125 South Ocean Blvd (mortgage)",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2018",
+    "rate": "4.50%",
+    "term": "Matures in 2048",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "f1e87f46",
+    "sourceId": "aa609a38",
+    "creditorName": "The Bryn Mawr Trust Company",
+    "type": "Seven Springs (mortgage)",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2000",
+    "rate": "4.50%",
+    "term": "Matures in 2029",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "60ab2a37",
+    "sourceId": "aa609a38",
+    "creditorName": "E. Jean Carroll",
+    "type": "Litigation; stayed pending appeal; bonded",
+    "amount": {
+      "label": "$1,000,001-$5,000,000",
+      "min": 1000001,
+      "max": 5000000,
+      "midpoint": 3000000.5
+    },
+    "yearIncurred": "2023",
+    "rate": null,
+    "term": "N/A",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "13fb89c4",
+    "sourceId": "aa609a38",
+    "creditorName": "American Express",
+    "type": "Credit Card",
+    "amount": {
+      "label": "$15,001-$50,000",
+      "min": 15001,
+      "max": 50000,
+      "midpoint": 32500.5
+    },
+    "yearIncurred": "2024",
+    "rate": null,
+    "term": "Monthly -- 147 of 234 -- Filer's Name \tPage Number OGE Form 278e (Updated 08/2024) (Expires 08/31/2027) Instructions for Part 9 If you need more pages, follow these instructions. Note: You must add pages before entering information. Note: This is a public form. Do not include account numbers, street addresses, or family members' names. See instructions for required information. Donald J. Trump",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  }
+]

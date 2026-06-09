@@ -1,0 +1,74 @@
+[
+  {
+    "id": "456e432c",
+    "sourceId": "historical-trump-2015-candidate-wapo",
+    "filingType": "Candidate 278e",
+    "filedDate": "2015-07-15",
+    "reportYear": 2015,
+    "sourceReliability": "archived_copy",
+    "parserStatus": "needs-review",
+    "assetIncomeCount": 0,
+    "liabilityCount": 0,
+    "notes": "Source registered for coverage; holdings, income assets, and liabilities need PDF-table extraction review."
+  },
+  {
+    "id": "2700210b",
+    "sourceId": "historical-trump-2016-candidate-wapo",
+    "filingType": "Candidate 278e",
+    "filedDate": "2016-05-18",
+    "reportYear": 2016,
+    "sourceReliability": "archived_copy",
+    "parserStatus": "needs-review",
+    "assetIncomeCount": 0,
+    "liabilityCount": 0,
+    "notes": "Source registered for coverage; holdings, income assets, and liabilities need PDF-table extraction review."
+  },
+  {
+    "id": "f9c4c554",
+    "sourceId": "5f75c22d",
+    "filingType": "Annual 278e",
+    "filedDate": "2020-08-01",
+    "reportYear": 2020,
+    "sourceReliability": "official",
+    "parserStatus": "needs-review",
+    "assetIncomeCount": 0,
+    "liabilityCount": 0,
+    "notes": "Source registered for coverage; holdings, income assets, and liabilities need PDF-table extraction review."
+  },
+  {
+    "id": "3df66ee5",
+    "sourceId": "c7f30770",
+    "filingType": "Termination 278e",
+    "filedDate": "2021-01-20",
+    "reportYear": 2021,
+    "sourceReliability": "official",
+    "parserStatus": "needs-review",
+    "assetIncomeCount": 0,
+    "liabilityCount": 0,
+    "notes": "Source registered for coverage; holdings, income assets, and liabilities need PDF-table extraction review."
+  },
+  {
+    "id": "cf8d2d9f",
+    "sourceId": "180f5894",
+    "filingType": "Candidate 278e",
+    "filedDate": "2023-07-08",
+    "reportYear": 2023,
+    "sourceReliability": "metadata_only",
+    "parserStatus": "needs-review",
+    "assetIncomeCount": 0,
+    "liabilityCount": 0,
+    "notes": "Source registered for coverage; holdings, income assets, and liabilities need PDF-table extraction review."
+  },
+  {
+    "id": "c9eb9e0b",
+    "sourceId": "aa609a38",
+    "filingType": "Annual 278e",
+    "filedDate": "2025-06-14",
+    "reportYear": 2025,
+    "sourceReliability": "official",
+    "parserStatus": "parsed",
+    "assetIncomeCount": 2990,
+    "liabilityCount": 11,
+    "notes": "Structured annual/candidate disclosure rows are present in the cache."
+  }
+]

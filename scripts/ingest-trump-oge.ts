@@ -1,6 +1,7 @@
 import { createHash } from 'crypto';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { PDFParse } from 'pdf-parse';
 import { addRanges, parseOgeAmountRange } from '../lib/oge/amounts';
 import { buildHoldingsEstimates, buildReviewQueue, buildSectorSummaries, stableId } from '../lib/oge/analytics';
 import { classifySecurity } from '../lib/oge/classify';
@@ -21,9 +22,14 @@ import {
   parseSecCompanyTickers,
   type ParsedNasdaqSecurity,
 } from '../lib/oge/enrichment';
+import { buildTrumpIndex } from '../lib/oge/index';
 import type {
+  AssetIncomeHolding,
   BaselineHolding,
   CacheMeta,
+  FinancialDisclosureReport,
+  HistoricalSource,
+  Liability,
   OgeEvent,
   OgeTransaction,
   SecurityReferenceCache,
@@ -31,7 +37,9 @@ import type {
   SecurityReferenceSource,
   SourceFiling,
   TransactionType,
+  TrumpIndexEntry,
   TrumpOgeDataset,
+  YearlyExposureSummary,
 } from '../lib/oge/types';
 
 const OGE_API_BASE = 'https://extapps2.oge.gov/201/Presiden.nsf/API.xsp/v2/rest';
@@ -43,7 +51,7 @@ const NASDAQ_OTHER_LISTED_URL = 'https://www.nasdaqtrader.com/dynamic/SymDir/oth
 const FEDERAL_REGISTER_DOCUMENTS_URL = 'https://www.federalregister.gov/api/v1/documents.json';
 const DATA_ROOT = path.join(process.cwd(), 'data', 'oge', 'trump');
 const OGE_PAGE_SIZE = 1000;
-const MIN_DOC_DATE = '2025-01-01';
+const MIN_DOC_DATE = '2015-01-01';
 const TRUMP_NAME_RE = /^Trump,\s*Donald\s+J\.?$/i;
 
 interface OgeApiRecord {
@@ -93,9 +101,24 @@ interface FederalRegisterPage {
   }>;
 }
 
+interface HistoricalSourceSeed {
+  id: string;
+  title: string;
+  filingType: HistoricalSource['filingType'];
+  filedDate: string;
+  reportYear: number | null;
+  sourceType: HistoricalSource['sourceType'];
+  sourceReliability: HistoricalSource['sourceReliability'];
+  sourceUrl: string;
+  localFilename?: string;
+  sourceReviewStatus?: HistoricalSource['sourceReviewStatus'];
+  provenanceNote: string;
+}
+
 async function main() {
   const sourceRecords = await fetchTrumpOgeSourceRecords();
   const sourceFilings = await buildSourceFilings(sourceRecords);
+  const historicalSources = await buildHistoricalSources(sourceRecords, sourceFilings);
   const bootstrapTransactions = await buildBootstrapTransactions(sourceFilings);
   const baseSecurityReference = await buildPublicSecurityReference();
   const firstPassEnrichment = enrichTransactions(bootstrapTransactions, baseSecurityReference);
@@ -104,9 +127,28 @@ async function main() {
     collectResolvedCiks(firstPassEnrichment.transactions)
   );
   const { transactions, securityEnrichments } = enrichTransactions(bootstrapTransactions, securityReference);
-  const baselineHoldings = await buildBaselineHoldings(sourceFilings);
+  const cachedBaselineHoldings = await buildBaselineHoldings(sourceFilings);
+  const assetIncomeHoldings = await buildAssetIncomeHoldings(cachedBaselineHoldings, historicalSources);
+  const baselineHoldings = cachedBaselineHoldings.length > 0
+    ? cachedBaselineHoldings
+    : buildBaselineHoldingsFromAssetIncome(assetIncomeHoldings);
+  const liabilities = await buildLiabilities(historicalSources);
+  const financialDisclosureReports = buildFinancialDisclosureReports(historicalSources, assetIncomeHoldings, liabilities);
   const holdingsEstimates = buildHoldingsEstimates(transactions, baselineHoldings);
   const sectorSummaries = buildSectorSummaries(transactions);
+  const { entries: trumpIndex, rollups: trumpIndexRollups } = buildTrumpIndex({
+    holdings: holdingsEstimates,
+    transactions,
+    sourceFilings,
+    historicalSources,
+  });
+  const yearlyExposureSummaries = buildYearlyExposureSummaries({
+    historicalSources,
+    transactions,
+    assetIncomeHoldings,
+    liabilities,
+    trumpIndex,
+  });
   const events = await buildEvents();
   const eventWindows = buildEventWindows(events, transactions);
   const reviewQueue = buildReviewQueue({
@@ -116,11 +158,18 @@ async function main() {
     holdingsEstimates,
   });
   const cacheMeta = buildCacheMeta({
+    historicalSources,
     sourceFilings,
     transactions,
     baselineHoldings,
+    financialDisclosureReports,
+    assetIncomeHoldings,
+    liabilities,
+    yearlyExposureSummaries,
     holdingsEstimates,
     sectorSummaries,
+    trumpIndex,
+    trumpIndexRollups,
     reviewQueue,
     events,
     eventWindows,
@@ -129,11 +178,18 @@ async function main() {
   });
 
   await writeDataset({
+    historicalSources,
     sourceFilings,
     transactions,
     baselineHoldings,
+    financialDisclosureReports,
+    assetIncomeHoldings,
+    liabilities,
+    yearlyExposureSummaries,
     holdingsEstimates,
     sectorSummaries,
+    trumpIndex,
+    trumpIndexRollups,
     reviewQueue,
     events,
     eventWindows,
@@ -145,9 +201,14 @@ async function main() {
   console.log(JSON.stringify({
     generatedAt: cacheMeta.generatedAt,
     sourceFilingCount: sourceFilings.length,
+    historicalSourceCount: historicalSources.length,
     transactionCount: transactions.length,
     baselineHoldingCount: baselineHoldings.length,
+    financialDisclosureReportCount: financialDisclosureReports.length,
+    assetIncomeHoldingCount: assetIncomeHoldings.length,
+    liabilityCount: liabilities.length,
     estimatedHoldingCount: holdingsEstimates.length,
+    trumpIndexCount: trumpIndex.length,
     reviewQueueCount: reviewQueue.length,
     securityReferenceCount: securityReference.entries.length,
     securityEnrichmentCount: securityEnrichments.length,
@@ -177,7 +238,6 @@ async function fetchTrumpOgeSourceRecords(): Promise<OgeApiRecord[]> {
   return records
     .filter((record) => TRUMP_NAME_RE.test(record.name || ''))
     .filter((record) => isoDate(record.docDate) >= MIN_DOC_DATE)
-    .filter((record) => extractPdfUrl(record.type))
     .filter((record) => isSupportedDisclosure(record.type))
     .sort((a, b) => isoDate(a.docDate).localeCompare(isoDate(b.docDate)) || extractPdfUrl(a.type).localeCompare(extractPdfUrl(b.type)));
 }
@@ -219,6 +279,429 @@ async function buildSourceFilings(records: OgeApiRecord[]): Promise<SourceFiling
   }
 
   return filings.sort((a, b) => a.filedDate.localeCompare(b.filedDate) || a.localFilename.localeCompare(b.localFilename));
+}
+
+async function buildHistoricalSources(records: OgeApiRecord[], sourceFilings: SourceFiling[]): Promise<HistoricalSource[]> {
+  const filingsByUrl = new Map(sourceFilings.map((filing) => [filing.ogeUrl, filing]));
+  const sources = new Map<string, HistoricalSource>();
+
+  for (const record of records) {
+    const sourceUrl = extractPdfUrl(record.type) || extractHref(record.type);
+    const filing = sourceUrl ? filingsByUrl.get(sourceUrl) : null;
+    const filingType = classifyHistoricalFilingType(record.type);
+    const filedDate = isoDate(record.docDate);
+    const title = textFromHtml(record.type) || `${filingType} filed ${filedDate}`;
+    const key = sourceUrl || `${filedDate}|${filingType}|${title}`;
+    if (sources.has(key)) continue;
+
+    if (filing) {
+      sources.set(key, {
+        id: stableId(`historical-source|official|${filing.id}`),
+        title,
+        filingType,
+        filedDate,
+        reportYear: reportYearFromText(record.type, filedDate),
+        sourceType: 'oge_api_pdf',
+        sourceReliability: 'official',
+        sourceUrl,
+        localFilename: filing.localFilename,
+        bytes: filing.bytes,
+        sha256: filing.sha256,
+        fetchStatus: filing.sha256 ? 'ok' : 'failed',
+        sourceReviewStatus: filing.sha256 ? 'verified' : 'needs_review',
+        provenanceNote: 'Official OGE API source record with direct PDF URL and SHA-256 provenance when fetchable.',
+      });
+      continue;
+    }
+
+    sources.set(key, {
+      id: stableId(`historical-source|metadata|${key}`),
+      title,
+      filingType,
+      filedDate,
+      reportYear: reportYearFromText(record.type, filedDate),
+      sourceType: 'oge_request_metadata',
+      sourceReliability: 'metadata_only',
+      sourceUrl,
+      localFilename: sourceUrl ? decodeURIComponent(sourceUrl.split('/').pop() || '') : '',
+      bytes: null,
+      sha256: null,
+      fetchStatus: 'metadata_only',
+      sourceReviewStatus: 'unavailable',
+      provenanceNote: 'OGE API metadata record does not expose a direct PDF in the public response; retain for coverage and request tracking.',
+    });
+  }
+
+  const seededSources = await buildSeededHistoricalSources();
+  for (const source of seededSources) {
+    if (source.sourceUrl && sources.has(source.sourceUrl)) continue;
+    sources.set(source.sourceUrl || source.id, source);
+  }
+
+  return Array.from(sources.values()).sort((a, b) =>
+    a.filedDate.localeCompare(b.filedDate) ||
+    a.sourceReliability.localeCompare(b.sourceReliability) ||
+    a.title.localeCompare(b.title)
+  );
+}
+
+async function buildSeededHistoricalSources(): Promise<HistoricalSource[]> {
+  const seeds = await readJson<HistoricalSourceSeed[]>('historical-source-seeds.json', []);
+  const sources: HistoricalSource[] = [];
+
+  for (const seed of seeds) {
+    const fileInfo = seed.sourceUrl && /\.pdf(?:$|\?)/i.test(seed.sourceUrl)
+      ? await fetchPdfFingerprint(seed.sourceUrl)
+      : { bytes: null, sha256: null };
+    const status: HistoricalSource['fetchStatus'] = fileInfo.sha256
+      ? 'ok'
+      : seed.sourceReliability === 'metadata_only'
+        ? 'metadata_only'
+        : 'failed';
+    sources.push({
+      id: seed.id,
+      title: seed.title,
+      filingType: seed.filingType,
+      filedDate: seed.filedDate,
+      reportYear: seed.reportYear,
+      sourceType: seed.sourceType,
+      sourceReliability: seed.sourceReliability,
+      sourceUrl: seed.sourceUrl,
+      localFilename: seed.localFilename || decodeURIComponent(seed.sourceUrl.split('/').pop() || `${seed.id}.pdf`),
+      bytes: fileInfo.bytes,
+      sha256: fileInfo.sha256,
+      fetchStatus: status,
+      sourceReviewStatus: seed.sourceReviewStatus || (status === 'ok' ? 'needs_review' : 'unavailable'),
+      provenanceNote: fileInfo.sha256
+        ? seed.provenanceNote
+        : `${seed.provenanceNote} Fetch status: ${fileInfo.error || status}.`,
+    });
+    await sleep(120);
+  }
+
+  return sources;
+}
+
+function buildFinancialDisclosureReports(
+  historicalSources: HistoricalSource[],
+  assetIncomeHoldings: AssetIncomeHolding[],
+  liabilities: Liability[]
+): FinancialDisclosureReport[] {
+  return historicalSources
+    .filter((source) => source.filingType !== '278-T')
+    .map((source) => {
+      const assets = assetIncomeHoldings.filter((item) => item.sourceId === source.id);
+      const sourceLiabilities = liabilities.filter((item) => item.sourceId === source.id);
+      const parserStatus: FinancialDisclosureReport['parserStatus'] = assets.length > 0 || sourceLiabilities.length > 0 ? 'parsed' : 'needs-review';
+      return {
+        id: stableId(`financial-report|${source.id}`),
+        sourceId: source.id,
+        filingType: source.filingType,
+        filedDate: source.filedDate,
+        reportYear: source.reportYear,
+        sourceReliability: source.sourceReliability,
+        parserStatus,
+        assetIncomeCount: assets.length,
+        liabilityCount: sourceLiabilities.length,
+        notes: assets.length > 0 || sourceLiabilities.length > 0
+          ? 'Structured annual/candidate disclosure rows are present in the cache.'
+          : 'Source registered for coverage; holdings, income assets, and liabilities need PDF-table extraction review.',
+      };
+    })
+    .sort((a, b) => a.filedDate.localeCompare(b.filedDate) || a.filingType.localeCompare(b.filingType));
+}
+
+async function buildAssetIncomeHoldings(
+  baselineHoldings: BaselineHolding[],
+  historicalSources: HistoricalSource[]
+): Promise<AssetIncomeHolding[]> {
+  const existing = await readJson<AssetIncomeHolding[]>('asset-income-holdings.json', []);
+  const latestAnnualSource = latestDisclosureSource(historicalSources, 'Annual 278e');
+  if (latestAnnualSource?.sourceUrl) {
+    try {
+      const text = await extractPdfText(latestAnnualSource.sourceUrl);
+      const parsed = parseAssetIncomeHoldingsFromText(text, latestAnnualSource);
+      if (parsed.length > 0) return parsed;
+    } catch (error) {
+      console.warn(`[Annual disclosure parser] Could not parse ${latestAnnualSource.sourceUrl}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  if (existing.length > 0) return existing;
+
+  if (!latestAnnualSource || baselineHoldings.length === 0) return [];
+
+  return baselineHoldings.map((holding) => ({
+    id: stableId(`asset-income-holding|${latestAnnualSource.id}|${holding.id}`),
+    sourceId: latestAnnualSource.id,
+    description: holding.description,
+    normalizedDescription: holding.normalizedDescription,
+    value: holding.value,
+    incomeType: null,
+    income: parseOgeAmountRange('None'),
+    assetType: holding.assetType,
+    sector: holding.sector,
+    sourceReliability: latestAnnualSource.sourceReliability,
+    confidence: holding.confidence,
+    reviewFlags: holding.reviewFlags,
+  }));
+}
+
+function buildBaselineHoldingsFromAssetIncome(assetIncomeHoldings: AssetIncomeHolding[]): BaselineHolding[] {
+  return assetIncomeHoldings
+    .filter((asset) => asset.value.midpoint > 0)
+    .map((asset) => ({
+      id: stableId(`baseline-holding|${asset.sourceId}|${asset.normalizedDescription}|${asset.value.label}`),
+      description: asset.description,
+      normalizedDescription: asset.normalizedDescription,
+      ...emptyEnrichmentFields(),
+      value: asset.value,
+      assetType: asset.assetType,
+      sector: asset.sector,
+      sourceFilingId: asset.sourceId,
+      confidence: Math.min(asset.confidence, 0.74),
+      reviewFlags: [
+        ...new Set([
+          ...asset.reviewFlags,
+          'Parsed from annual 278e text; review source row before publication.',
+        ]),
+      ],
+    }));
+}
+
+async function buildLiabilities(historicalSources: HistoricalSource[]): Promise<Liability[]> {
+  const existing = await readJson<Liability[]>('liabilities.json', []);
+  const latestAnnualSource = latestDisclosureSource(historicalSources, 'Annual 278e');
+  if (latestAnnualSource?.sourceUrl) {
+    try {
+      const text = await extractPdfText(latestAnnualSource.sourceUrl);
+      const parsed = parseLiabilitiesFromText(text, latestAnnualSource);
+      if (parsed.length > 0) return parsed;
+    } catch (error) {
+      console.warn(`[Annual disclosure parser] Could not parse liabilities from ${latestAnnualSource.sourceUrl}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  return existing;
+}
+
+function latestDisclosureSource(
+  historicalSources: HistoricalSource[],
+  filingType: HistoricalSource['filingType']
+): HistoricalSource | null {
+  return historicalSources
+    .filter((source) => source.filingType === filingType)
+    .filter((source) => source.sourceUrl && source.fetchStatus !== 'failed')
+    .sort((a, b) =>
+      b.filedDate.localeCompare(a.filedDate) ||
+      sourceReliabilityRank(b.sourceReliability) - sourceReliabilityRank(a.sourceReliability)
+    )[0] || null;
+}
+
+async function extractPdfText(url: string): Promise<string> {
+  const parser = new PDFParse({ url });
+  try {
+    const result = await parser.getText();
+    return result.text || '';
+  } finally {
+    await parser.destroy();
+  }
+}
+
+function parseAssetIncomeHoldingsFromText(text: string, source: HistoricalSource): AssetIncomeHolding[] {
+  const rows: AssetIncomeHolding[] = [];
+  const rowPattern = numberedAssetRowPattern();
+  const seen = new Set<string>();
+  let inPart6 = false;
+
+  for (const rawLine of text.split(/\r?\n/)) {
+    const line = normalizePdfLine(rawLine);
+    if (/Part 6:\s*Other Assets and Income/i.test(line)) {
+      inPart6 = true;
+      continue;
+    }
+    if (inPart6 && /Part 7:\s*Transactions|Part 8:\s*Liabilities|Part 9:\s*Gifts/i.test(line)) {
+      inPart6 = false;
+      continue;
+    }
+    if (!inPart6) continue;
+
+    const match = line.match(rowPattern);
+    if (!match) continue;
+    const [, rowNumber, description, valueLabel, incomeTypeRaw, incomeLabelRaw] = match;
+    const cleanedDescription = description.trim();
+    if (!cleanedDescription || cleanedDescription === 'N/A') continue;
+    const value = parseOgeAmountRange(valueLabel);
+    const incomeType = cleanIncomeType(incomeTypeRaw);
+    const income = parseOgeAmountRange(incomeLabelRaw || incomeTypeRaw);
+    const classification = classifySecurity(cleanedDescription);
+    const key = `${rowNumber}|${cleanedDescription}|${value.label}|${income.label}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    rows.push({
+      id: stableId(`asset-income-holding|${source.id}|${key}`),
+      sourceId: source.id,
+      description: cleanedDescription,
+      normalizedDescription: classification.normalizedDescription,
+      value,
+      incomeType,
+      income,
+      assetType: classification.assetType,
+      sector: classification.sector,
+      sourceReliability: source.sourceReliability,
+      confidence: Math.min(0.78, classification.confidence),
+      reviewFlags: [
+        ...new Set([
+          ...classification.flags,
+          'Parsed from annual 278e Part 6 text; verify PDF row before publication.',
+          ...(value.midpoint === 0 ? ['No disclosed value range parsed'] : []),
+        ]),
+      ],
+    });
+  }
+
+  return rows.sort((a, b) => b.value.midpoint - a.value.midpoint || a.description.localeCompare(b.description));
+}
+
+function parseLiabilitiesFromText(text: string, source: HistoricalSource): Liability[] {
+  const part8 = text.match(/Part 8:\s*Liabilities([\s\S]*?)(?:Part 9:\s*Gifts|Schedule 1 for Part 2|$)/i)?.[1] || '';
+  if (!part8) return [];
+
+  const chunks: string[] = [];
+  let current = '';
+  for (const rawLine of part8.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || /^(# Creditor|Instructions|Filer's Name|Page \d+|--|\d+\.)$/i.test(line)) continue;
+    const startsNewRow = /^\d+\.\s+/.test(line) || /^(New York Attorney General|American Express)\s+/i.test(line);
+    if (startsNewRow && current) {
+      chunks.push(current);
+      current = line;
+    } else {
+      current = current ? `${current}\n${line}` : line;
+    }
+  }
+  if (current) chunks.push(current);
+
+  const liabilities: Liability[] = [];
+  const seen = new Set<string>();
+  const amountPattern = disclosureAmountPattern();
+  const amountTail = new RegExp(`\\s(${amountPattern})\\s+(\\d{4}|N/A)\\s+([0-9.]+%|N/A)\\s+(.+)$`, 'i');
+
+  for (const chunk of chunks) {
+    const columnText = chunk.replace(/\r?\n/g, ' ').replace(/ +/g, ' ').trim();
+    const amountMatch = columnText.match(amountTail);
+    if (!amountMatch || amountMatch.index === undefined) continue;
+    const beforeAmount = columnText.slice(0, amountMatch.index).replace(/^\d+\.\s*/, '').trim();
+    const parts = beforeAmount.split(/\t+/).map((part) => part.trim()).filter(Boolean);
+    const creditorName = parts[0] || inferCreditorName(beforeAmount.replace(/\t+/g, ' '));
+    const type = parts.length > 1 ? parts.slice(1).join(' ') : beforeAmount.replace(/\t+/g, ' ').slice(creditorName.length).trim() || 'Unspecified liability';
+    const amount = parseOgeAmountRange(amountMatch[1]);
+    const key = `${creditorName}|${type}|${amount.label}|${amountMatch[2]}`;
+    if (!creditorName || seen.has(key)) continue;
+    seen.add(key);
+
+    liabilities.push({
+      id: stableId(`liability|${source.id}|${key}`),
+      sourceId: source.id,
+      creditorName,
+      type,
+      amount,
+      yearIncurred: amountMatch[2] === 'N/A' ? null : amountMatch[2],
+      rate: amountMatch[3] === 'N/A' ? null : amountMatch[3],
+      term: amountMatch[4].trim(),
+      sourceReliability: source.sourceReliability,
+      confidence: 0.78,
+      reviewFlags: ['Parsed from annual 278e Part 8 text; verify PDF row before publication.'],
+    });
+  }
+
+  return liabilities.sort((a, b) => b.amount.midpoint - a.amount.midpoint || a.creditorName.localeCompare(b.creditorName));
+}
+
+function disclosureAmountPattern(): string {
+  return String.raw`(?:None \(or less than \$1,001\)|None \(or less than \$201\)|Over \$50,000,000|\$[0-9,]+\s*-\s*\$[0-9,]+|\$[0-9,]+)`;
+}
+
+function numberedAssetRowPattern(): RegExp {
+  const amount = disclosureAmountPattern();
+  return new RegExp(String.raw`^(\d{1,4})\s+(.+?)\s+N/A\s+(${amount})\s+(.+?)(?:\s+(${amount}))?$`, 'i');
+}
+
+function normalizePdfLine(value: string): string {
+  return value.replace(/\t+/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function cleanIncomeType(value: string): string | null {
+  const cleaned = value.trim();
+  if (!cleaned || /^None \(or less than \$201\)$/i.test(cleaned)) return null;
+  return cleaned;
+}
+
+function inferCreditorName(value: string): string {
+  const match = value.match(/^(.+?)\s+(mortgage|litigation|credit card|Seven Springs|TIHT|Trump Plaza|40 Wall Street)/i);
+  return match?.[1]?.trim() || value.trim();
+}
+
+function sourceReliabilityRank(reliability: HistoricalSource['sourceReliability']): number {
+  if (reliability === 'official') return 3;
+  if (reliability === 'archived_copy') return 2;
+  return 1;
+}
+
+function buildYearlyExposureSummaries(params: {
+  historicalSources: HistoricalSource[];
+  transactions: OgeTransaction[];
+  assetIncomeHoldings: AssetIncomeHolding[];
+  liabilities: Liability[];
+  trumpIndex: TrumpIndexEntry[];
+}): YearlyExposureSummary[] {
+  const years = new Set<number>();
+  for (const source of params.historicalSources) {
+    if (source.reportYear) years.add(source.reportYear);
+    const filedYear = Number(source.filedDate.slice(0, 4));
+    if (Number.isFinite(filedYear)) years.add(filedYear);
+  }
+  for (const tx of params.transactions) {
+    const year = Number(tx.date.slice(0, 4));
+    if (Number.isFinite(year)) years.add(year);
+  }
+
+  const latestTransactionYear = Math.max(0, ...params.transactions.map((tx) => Number(tx.date.slice(0, 4))).filter(Number.isFinite));
+  return Array.from(years)
+    .sort((a, b) => a - b)
+    .map((year) => {
+      const sources = params.historicalSources.filter((source) =>
+        source.reportYear === year || Number(source.filedDate.slice(0, 4)) === year
+      );
+      const assets = params.assetIncomeHoldings.filter((asset) =>
+        sources.some((source) => source.id === asset.sourceId)
+      );
+      const liabilities = params.liabilities.filter((liability) =>
+        sources.some((source) => source.id === liability.sourceId)
+      );
+      const transactions = params.transactions.filter((tx) => Number(tx.date.slice(0, 4)) === year);
+      const purchases = transactions.filter((tx) => tx.type === 'Purchase').map((tx) => tx.amount);
+      const sales = transactions.filter((tx) => tx.type === 'Sale').map((tx) => tx.amount);
+      const sourceReliability = strongestSourceReliability(sources.map((source) => source.sourceReliability));
+      const assetCurrent = assets.reduce((total, asset) => total + asset.value.midpoint, 0);
+      const latestIndexCurrent = year === latestTransactionYear
+        ? params.trumpIndex.reduce((total, entry) => total + entry.currentMidpoint, 0)
+        : 0;
+
+      return {
+        year,
+        sourceIds: sources.map((source) => source.id),
+        sourceReliability,
+        assetIncomeCount: assets.length,
+        liabilityCount: liabilities.length,
+        transactionCount: transactions.length,
+        currentMidpoint: assetCurrent || latestIndexCurrent,
+        purchaseMidpoint: addRanges('Purchases', purchases).midpoint,
+        saleMidpoint: addRanges('Sales', sales).midpoint,
+        netFlowMidpoint: addRanges('Purchases', purchases).midpoint - addRanges('Sales', sales).midpoint,
+      };
+    });
 }
 
 async function buildBootstrapTransactions(sourceFilings: SourceFiling[]): Promise<OgeTransaction[]> {
@@ -544,7 +1027,12 @@ function normalizeTransaction(
 function buildCacheMeta(dataset: Omit<TrumpOgeDataset, 'cacheMeta'>): CacheMeta {
   const estimatedVolume = addRanges('Estimated transaction volume', dataset.transactions.map((tx) => tx.amount));
   const latestFilingDate = dataset.sourceFilings.map((filing) => filing.filedDate).sort().at(-1) || null;
-  const annual = dataset.sourceFilings.find((filing) => filing.documentType === 'Annual 278e');
+  const annual = dataset.historicalSources
+    .filter((filing) => filing.filingType === 'Annual 278e')
+    .sort((a, b) => b.filedDate.localeCompare(a.filedDate))[0] ||
+    dataset.sourceFilings
+      .filter((filing) => filing.documentType === 'Annual 278e')
+      .sort((a, b) => b.filedDate.localeCompare(a.filedDate))[0];
   const enrichedTransactionCount = dataset.transactions.filter((tx) => tx.resolvedTicker).length;
 
   return {
@@ -563,14 +1051,25 @@ function buildCacheMeta(dataset: Omit<TrumpOgeDataset, 'cacheMeta'>): CacheMeta 
     enrichedTransactionCount,
     eventCount: dataset.events.length,
     eventWindowCount: dataset.eventWindows.length,
+    historicalSourceCount: dataset.historicalSources.length,
+    financialDisclosureReportCount: dataset.financialDisclosureReports.length,
+    assetIncomeHoldingCount: dataset.assetIncomeHoldings.length,
+    liabilityCount: dataset.liabilities.length,
+    trumpIndexCount: dataset.trumpIndex.length,
     notes: [
       'OGE PDF URLs and SHA-256 fingerprints are treated as canonical source provenance.',
+      'Historical source registry starts at Jan. 1, 2015 and separates official PDFs, archived public copies, and request-only metadata.',
       'Transaction values are statutory disclosure ranges; midpoint totals are estimates, not exact trading value.',
+      'Trump Index score = 50% log-scaled current exposure rank + 30% absolute midpoint change rank + 20% gross transaction activity rank.',
       annual
-        ? `Annual 278e source located at ${annual.filedDate}; holdings estimates remain transaction-implied until that baseline is extracted.`
+        ? dataset.assetIncomeHoldings.length > 0
+          ? `Annual 278e source located at ${annual.filedDate}; annual asset/income rows are parsed into baseline holdings with review flags.`
+          : `Annual 278e source located at ${annual.filedDate}; holdings estimates remain transaction-implied until that baseline is extracted.`
         : 'No annual 278e source was found in the current OGE record set.',
+      'Annual/candidate/termination disclosure rows remain parser-reviewed unless structured asset-income and liability rows are present in the cache.',
       'Security enrichment uses public SEC and Nasdaq Trader reference data; sector labels are SEC/SIC-derived broad sectors, not proprietary GICS classifications.',
       `Security enrichment resolved ${enrichedTransactionCount.toLocaleString('en-US')} transaction rows to public-company tickers.`,
+      `Annual disclosure parser produced ${dataset.assetIncomeHoldings.length.toLocaleString('en-US')} asset/income rows and ${dataset.liabilities.length.toLocaleString('en-US')} liability rows.`,
       'Event overlay uses public Federal Register and Federal Reserve sources plus optional manual events; event proximity does not imply motive or causation.',
       'Rules-based classifications remain as fallback and include review flags for ambiguous or unmatched rows.',
     ],
@@ -580,11 +1079,18 @@ function buildCacheMeta(dataset: Omit<TrumpOgeDataset, 'cacheMeta'>): CacheMeta 
 async function writeDataset(dataset: TrumpOgeDataset) {
   await fs.mkdir(DATA_ROOT, { recursive: true });
   await Promise.all([
+    writeJson('historical-sources.json', dataset.historicalSources),
     writeJson('source-filings.json', dataset.sourceFilings),
     writeJson('transactions.json', dataset.transactions),
     writeJson('baseline-holdings.json', dataset.baselineHoldings),
+    writeJson('financial-disclosure-reports.json', dataset.financialDisclosureReports),
+    writeJson('asset-income-holdings.json', dataset.assetIncomeHoldings),
+    writeJson('liabilities.json', dataset.liabilities),
+    writeJson('yearly-exposure-summaries.json', dataset.yearlyExposureSummaries),
     writeJson('holdings-estimates.json', dataset.holdingsEstimates),
     writeJson('sector-summaries.json', dataset.sectorSummaries),
+    writeJson('trump-index.json', dataset.trumpIndex),
+    writeJson('trump-index-rollups.json', dataset.trumpIndexRollups),
     writeJson('review-queue.json', dataset.reviewQueue),
     writeJson('events.json', dataset.events),
     writeJson('event-windows.json', dataset.eventWindows),
@@ -657,18 +1163,60 @@ async function writeJson(filename: string, value: unknown) {
 }
 
 function extractPdfUrl(typeField: string): string {
-  const match = String(typeField || '').match(/href='([^']+\.pdf)'/i);
+  const match = String(typeField || '').match(/href=['"]([^'"]+\.pdf(?:\?[^'"]*)?)['"]/i);
+  return match?.[1] || '';
+}
+
+function extractHref(typeField: string): string {
+  const match = String(typeField || '').match(/href=['"]([^'"]+)['"]/i);
   return match?.[1] || '';
 }
 
 function isSupportedDisclosure(typeField: string): boolean {
-  return /278 Transaction|278T|278-T|Annual \(2025\)/i.test(typeField);
+  return /278 Transaction|278T|278-T|Annual|Termination|Presidential Candidate|Candidate/i.test(typeField);
 }
 
 function classifyDocumentType(typeField: string): SourceFiling['documentType'] {
   if (/278 Transaction|278T|278-T/i.test(typeField)) return '278-T';
   if (/Annual/i.test(typeField)) return 'Annual 278e';
   return 'Other';
+}
+
+function classifyHistoricalFilingType(typeField: string): HistoricalSource['filingType'] {
+  if (/278 Transaction|278T|278-T/i.test(typeField)) return '278-T';
+  if (/Termination/i.test(typeField)) return 'Termination 278e';
+  if (/Presidential Candidate|Candidate/i.test(typeField)) return 'Candidate 278e';
+  if (/Annual/i.test(typeField)) return 'Annual 278e';
+  return 'Other';
+}
+
+function textFromHtml(value: string): string {
+  return String(value || '')
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&quot;/gi, '"')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function reportYearFromText(typeField: string, filedDate: string): number | null {
+  const text = textFromHtml(typeField);
+  const annualMatch = text.match(/Annual\s*\((20\d{2})\)/i);
+  if (annualMatch) return Number(annualMatch[1]);
+  const explicitYear = text.match(/\b(20\d{2})\b/);
+  if (explicitYear) return Number(explicitYear[1]);
+  const filedYear = Number(filedDate.slice(0, 4));
+  return Number.isFinite(filedYear) ? filedYear : null;
+}
+
+function strongestSourceReliability(values: HistoricalSource['sourceReliability'][]): HistoricalSource['sourceReliability'] {
+  if (values.includes('official')) return 'official';
+  if (values.includes('archived_copy')) return 'archived_copy';
+  return 'metadata_only';
 }
 
 function normalizeTransactionType(type: string): TransactionType {

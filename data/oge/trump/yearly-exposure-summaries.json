@@ -1,0 +1,114 @@
+[
+  {
+    "year": 2015,
+    "sourceIds": [
+      "historical-trump-2015-candidate-wapo"
+    ],
+    "sourceReliability": "archived_copy",
+    "assetIncomeCount": 0,
+    "liabilityCount": 0,
+    "transactionCount": 0,
+    "currentMidpoint": 0,
+    "purchaseMidpoint": 0,
+    "saleMidpoint": 0,
+    "netFlowMidpoint": 0
+  },
+  {
+    "year": 2016,
+    "sourceIds": [
+      "historical-trump-2016-candidate-wapo"
+    ],
+    "sourceReliability": "archived_copy",
+    "assetIncomeCount": 0,
+    "liabilityCount": 0,
+    "transactionCount": 0,
+    "currentMidpoint": 0,
+    "purchaseMidpoint": 0,
+    "saleMidpoint": 0,
+    "netFlowMidpoint": 0
+  },
+  {
+    "year": 2020,
+    "sourceIds": [
+      "5f75c22d"
+    ],
+    "sourceReliability": "official",
+    "assetIncomeCount": 0,
+    "liabilityCount": 0,
+    "transactionCount": 0,
+    "currentMidpoint": 0,
+    "purchaseMidpoint": 0,
+    "saleMidpoint": 0,
+    "netFlowMidpoint": 0
+  },
+  {
+    "year": 2021,
+    "sourceIds": [
+      "c7f30770"
+    ],
+    "sourceReliability": "official",
+    "assetIncomeCount": 0,
+    "liabilityCount": 0,
+    "transactionCount": 0,
+    "currentMidpoint": 0,
+    "purchaseMidpoint": 0,
+    "saleMidpoint": 0,
+    "netFlowMidpoint": 0
+  },
+  {
+    "year": 2023,
+    "sourceIds": [
+      "180f5894"
+    ],
+    "sourceReliability": "metadata_only",
+    "assetIncomeCount": 0,
+    "liabilityCount": 0,
+    "transactionCount": 0,
+    "currentMidpoint": 0,
+    "purchaseMidpoint": 0,
+    "saleMidpoint": 0,
+    "netFlowMidpoint": 0
+  },
+  {
+    "year": 2025,
+    "sourceIds": [
+      "aa609a38",
+      "3a318e1f",
+      "c640df51",
+      "342f9181",
+      "0fb2f702",
+      "f795663b",
+      "7d02f5e7",
+      "6e19c32f",
+      "41c4a76d",
+      "eb902f8a"
+    ],
+    "sourceReliability": "official",
+    "assetIncomeCount": 2990,
+    "liabilityCount": 11,
+    "transactionCount": 1284,
+    "currentMidpoint": 336139785,
+    "purchaseMidpoint": 574405637,
+    "saleMidpoint": 9082505,
+    "netFlowMidpoint": 565323132
+  },
+  {
+    "year": 2026,
+    "sourceIds": [
+      "317d4b74",
+      "c4881bff",
+      "5c2670d5",
+      "09661d86",
+      "7241f7d3",
+      "0da7b973"
+    ],
+    "sourceReliability": "official",
+    "assetIncomeCount": 0,
+    "liabilityCount": 0,
+    "transactionCount": 3727,
+    "currentMidpoint": 1108412915,
+    "purchaseMidpoint": 292262219.5,
+    "saleMidpoint": 190879144,
+    "netFlowMidpoint": 101383075.5
+  }
+]

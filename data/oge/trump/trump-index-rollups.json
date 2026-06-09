@@ -1,0 +1,430 @@
+[
+  {
+    "id": "82f1d4c2",
+    "rollupType": "sector",
+    "key": "Municipal Bonds",
+    "entryCount": 1193,
+    "currentMidpoint": 473799630.5,
+    "purchaseMidpoint": 333606955.5,
+    "saleMidpoint": 4875002,
+    "netFlowMidpoint": 328731953.5,
+    "averageScore": 62.8,
+    "topEntryIds": [
+      "9346b2a6",
+      "d54db6a6",
+      "11432249",
+      "399b4c87",
+      "1df12c89"
+    ]
+  },
+  {
+    "id": "715561b4",
+    "rollupType": "sector",
+    "key": "Corporate Credit",
+    "entryCount": 202,
+    "currentMidpoint": 266561132.5,
+    "purchaseMidpoint": 168711093,
+    "saleMidpoint": 8000.5,
+    "netFlowMidpoint": 168703092.5,
+    "averageScore": 65.9,
+    "topEntryIds": [
+      "306c99d8",
+      "977d91df",
+      "00bea5c4",
+      "51e6dbd0",
+      "ec57552e"
+    ]
+  },
+  {
+    "id": "e86c4b8a",
+    "rollupType": "sector",
+    "key": "Financials",
+    "entryCount": 183,
+    "currentMidpoint": 69728604.5,
+    "purchaseMidpoint": 27922126.5,
+    "saleMidpoint": 5540554.5,
+    "netFlowMidpoint": 22381572,
+    "averageScore": 54,
+    "topEntryIds": [
+      "431d2479",
+      "a90f8026",
+      "ddf2b6fc",
+      "efb885f1",
+      "b9c2261d"
+    ]
+  },
+  {
+    "id": "62af7d99",
+    "rollupType": "sector",
+    "key": "Unclassified Equity",
+    "entryCount": 676,
+    "currentMidpoint": 68916888,
+    "purchaseMidpoint": 82825883,
+    "saleMidpoint": 36130229,
+    "netFlowMidpoint": 46695654,
+    "averageScore": 46.8,
+    "topEntryIds": [
+      "1c497552",
+      "d63009d9",
+      "1b513bb9",
+      "0e47fba9",
+      "a533438f"
+    ]
+  },
+  {
+    "id": "e6696720",
+    "rollupType": "sector",
+    "key": "Information Technology",
+    "entryCount": 219,
+    "currentMidpoint": 56560121.5,
+    "purchaseMidpoint": 66432677.5,
+    "saleMidpoint": 39625095,
+    "netFlowMidpoint": 26807582.5,
+    "averageScore": 52.5,
+    "topEntryIds": [
+      "20d17dd9",
+      "4d5760d8",
+      "f152539b",
+      "8b4eb4b6",
+      "54126d5a"
+    ]
+  },
+  {
+    "id": "7d2dd890",
+    "rollupType": "sector",
+    "key": "Other",
+    "entryCount": 291,
+    "currentMidpoint": 40776164.5,
+    "purchaseMidpoint": 34163641,
+    "saleMidpoint": 7559553,
+    "netFlowMidpoint": 26604088,
+    "averageScore": 50.4,
+    "topEntryIds": [
+      "d8e6b51c",
+      "a4266320",
+      "622ed7ee",
+      "ae1cd1f3",
+      "56e9b57e"
+    ]
+  },
+  {
+    "id": "82730ef4",
+    "rollupType": "sector",
+    "key": "ETF / Funds",
+    "entryCount": 63,
+    "currentMidpoint": 37908036.5,
+    "purchaseMidpoint": 45007041.5,
+    "saleMidpoint": 36788510,
+    "netFlowMidpoint": 8218531.5,
+    "averageScore": 69.4,
+    "topEntryIds": [
+      "47939fdc",
+      "99cb15b7",
+      "ce693632",
+      "a5254a29",
+      "c923c1d9"
+    ]
+  },
+  {
+    "id": "2229769a",
+    "rollupType": "sector",
+    "key": "Industrials",
+    "entryCount": 193,
+    "currentMidpoint": 29810592,
+    "purchaseMidpoint": 36779625,
+    "saleMidpoint": 17074551.5,
+    "netFlowMidpoint": 19705073.5,
+    "averageScore": 52.1,
+    "topEntryIds": [
+      "04916079",
+      "5e07b429",
+      "027f7ac7",
+      "3c8db452",
+      "0802b35c"
+    ]
+  },
+  {
+    "id": "21188302",
+    "rollupType": "sector",
+    "key": "Consumer Discretionary",
+    "entryCount": 68,
+    "currentMidpoint": 19525524.5,
+    "purchaseMidpoint": 19413046,
+    "saleMidpoint": 19841530.5,
+    "netFlowMidpoint": -428484.5,
+    "averageScore": 51.1,
+    "topEntryIds": [
+      "3a2f6c5a",
+      "d92cd52c",
+      "03db49dc",
+      "85f0d3e8",
+      "b7f8a9d1"
+    ]
+  },
+  {
+    "id": "17270908",
+    "rollupType": "sector",
+    "key": "Energy",
+    "entryCount": 75,
+    "currentMidpoint": 12474556,
+    "purchaseMidpoint": 12210049.5,
+    "saleMidpoint": 1515011,
+    "netFlowMidpoint": 10695038.5,
+    "averageScore": 56.3,
+    "topEntryIds": [
+      "96577c8c",
+      "1df01025",
+      "45f99b7a",
+      "8dc4db46",
+      "9da455cf"
+    ]
+  },
+  {
+    "id": "aecf2ff5",
+    "rollupType": "sector",
+    "key": "Health Care",
+    "entryCount": 107,
+    "currentMidpoint": 11131049.5,
+    "purchaseMidpoint": 13067069.5,
+    "saleMidpoint": 7681538,
+    "netFlowMidpoint": 5385531.5,
+    "averageScore": 51.6,
+    "topEntryIds": [
+      "81f0f913",
+      "ced4c3a6",
+      "2eccf2e9",
+      "a6da8de4",
+      "37ceb134"
+    ]
+  },
+  {
+    "id": "6282cc08",
+    "rollupType": "sector",
+    "key": "Communication Services",
+    "entryCount": 49,
+    "currentMidpoint": 9864528.5,
+    "purchaseMidpoint": 12159044.5,
+    "saleMidpoint": 17652022.5,
+    "netFlowMidpoint": -5492978,
+    "averageScore": 54.3,
+    "topEntryIds": [
+      "3c39736c",
+      "0d1f7f33",
+      "893a3210",
+      "87a09378",
+      "fa699436"
+    ]
+  },
+  {
+    "id": "80965200",
+    "rollupType": "sector",
+    "key": "Consumer Staples",
+    "entryCount": 37,
+    "currentMidpoint": 4917023,
+    "purchaseMidpoint": 5709032,
+    "saleMidpoint": 1636517.5,
+    "netFlowMidpoint": 4072514.5,
+    "averageScore": 53.3,
+    "topEntryIds": [
+      "37a19c24",
+      "5a09233b",
+      "02bf44aa",
+      "10f441c6",
+      "088bd9d9"
+    ]
+  },
+  {
+    "id": "a72bd9ac",
+    "rollupType": "sector",
+    "key": "Materials",
+    "entryCount": 48,
+    "currentMidpoint": 2611521,
+    "purchaseMidpoint": 3170526,
+    "saleMidpoint": 690009,
+    "netFlowMidpoint": 2480517,
+    "averageScore": 49,
+    "topEntryIds": [
+      "64f69742",
+      "41b92466",
+      "fe0a68da",
+      "90df0bd5",
+      "3fafac20"
+    ]
+  },
+  {
+    "id": "ed2101ae",
+    "rollupType": "sector",
+    "key": "Real Estate",
+    "entryCount": 54,
+    "currentMidpoint": 2092020.5,
+    "purchaseMidpoint": 3206522,
+    "saleMidpoint": 1938520,
+    "netFlowMidpoint": 1268002,
+    "averageScore": 43.2,
+    "topEntryIds": [
+      "5f27022c",
+      "4cb721e7",
+      "3fc32a9b",
+      "a43936a4",
+      "5d6c5494"
+    ]
+  },
+  {
+    "id": "c499508a",
+    "rollupType": "sector",
+    "key": "Utilities",
+    "entryCount": 29,
+    "currentMidpoint": 1254518,
+    "purchaseMidpoint": 1802520,
+    "saleMidpoint": 1397004.5,
+    "netFlowMidpoint": 405515.5,
+    "averageScore": 56.3,
+    "topEntryIds": [
+      "049c1d8a",
+      "b52bafbe",
+      "21e14f86",
+      "360aec1f",
+      "267e4e0d"
+    ]
+  },
+  {
+    "id": "2ab35e6c",
+    "rollupType": "sector",
+    "key": "Preferred / Hybrid",
+    "entryCount": 5,
+    "currentMidpoint": 481004,
+    "purchaseMidpoint": 481004,
+    "saleMidpoint": 0,
+    "netFlowMidpoint": 481004,
+    "averageScore": 68.1,
+    "topEntryIds": [
+      "8369d717",
+      "223df093",
+      "39fc000f",
+      "2b7d3ca7",
+      "0e15fb3d"
+    ]
+  },
+  {
+    "id": "f9214e63",
+    "rollupType": "sector",
+    "key": "Cash & Bank Accounts",
+    "entryCount": 1,
+    "currentMidpoint": 0,
+    "purchaseMidpoint": 0,
+    "saleMidpoint": 8000.5,
+    "netFlowMidpoint": -8000.5,
+    "averageScore": 27.1,
+    "topEntryIds": [
+      "88726577"
+    ]
+  },
+  {
+    "id": "ac1e0819",
+    "rollupType": "assetType",
+    "key": "Municipal Bond",
+    "entryCount": 1193,
+    "currentMidpoint": 473799630.5,
+    "purchaseMidpoint": 333606955.5,
+    "saleMidpoint": 4875002,
+    "netFlowMidpoint": 328731953.5,
+    "averageScore": 62.8,
+    "topEntryIds": [
+      "9346b2a6",
+      "d54db6a6",
+      "11432249",
+      "399b4c87",
+      "1df12c89"
+    ]
+  },
+  {
+    "id": "e8358686",
+    "rollupType": "assetType",
+    "key": "Corporate Bond",
+    "entryCount": 244,
+    "currentMidpoint": 348311165,
+    "purchaseMidpoint": 226661119,
+    "saleMidpoint": 3298503,
+    "netFlowMidpoint": 223362616,
+    "averageScore": 66.7,
+    "topEntryIds": [
+      "306c99d8",
+      "20d17dd9",
+      "977d91df",
+      "00bea5c4",
+      "51e6dbd0"
+    ]
+  },
+  {
+    "id": "05565f8d",
+    "rollupType": "assetType",
+    "key": "Equity",
+    "entryCount": 1652,
+    "currentMidpoint": 204379898,
+    "purchaseMidpoint": 223384071,
+    "saleMidpoint": 146155066,
+    "netFlowMidpoint": 77229005,
+    "averageScore": 49.7,
+    "topEntryIds": [
+      "4d5760d8",
+      "f152539b",
+      "1c497552",
+      "3a2f6c5a",
+      "d63009d9"
+    ]
+  },
+  {
+    "id": "ae258548",
+    "rollupType": "assetType",
+    "key": "Other",
+    "entryCount": 333,
+    "currentMidpoint": 43411678,
+    "purchaseMidpoint": 37406162.5,
+    "saleMidpoint": 8844568,
+    "netFlowMidpoint": 28561594.5,
+    "averageScore": 50.1,
+    "topEntryIds": [
+      "d8e6b51c",
+      "a4266320",
+      "622ed7ee",
+      "ae1cd1f3",
+      "56e9b57e"
+    ]
+  },
+  {
+    "id": "3e9023a7",
+    "rollupType": "assetType",
+    "key": "ETF / Fund",
+    "entryCount": 63,
+    "currentMidpoint": 37908036.5,
+    "purchaseMidpoint": 45007041.5,
+    "saleMidpoint": 36788510,
+    "netFlowMidpoint": 8218531.5,
+    "averageScore": 69.4,
+    "topEntryIds": [
+      "47939fdc",
+      "99cb15b7",
+      "ce693632",
+      "a5254a29",
+      "c923c1d9"
+    ]
+  },
+  {
+    "id": "ddfc1cb4",
+    "rollupType": "assetType",
+    "key": "Preferred / Hybrid",
+    "entryCount": 8,
+    "currentMidpoint": 602507,
+    "purchaseMidpoint": 602507,
+    "saleMidpoint": 0,
+    "netFlowMidpoint": 602507,
+    "averageScore": 65.9,
+    "topEntryIds": [
+      "8369d717",
+      "223df093",
+      "39fc000f",
+      "2b7d3ca7",
+      "e754a680"
+    ]
+  }
+]

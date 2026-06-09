@@ -14,6 +14,7 @@ import {
   FileText,
   Filter,
   Layers,
+  MessageSquare,
   RefreshCw,
   Search,
   ShieldCheck,
@@ -39,17 +40,18 @@ import {
   eventWindowBounds,
 } from '@/lib/oge/events';
 import { filterTransactions } from '@/lib/oge/filter';
+import { buildTrumpIndex, buildTrumpIndexRollups } from '@/lib/oge/index';
 import { formatMoney, formatRange } from '@/lib/oge/amounts';
 import { confidenceLabel, describeAssetType, describeSector, describeTransaction, summarizeSector } from '@/lib/oge/descriptions';
 import { buildEquityStockSummaries, deriveEquityStockName, type EquityStockSummary } from '@/lib/oge/stocks';
 import { buildTrumpOgeWorkbook, trumpOgeWorkbookFilename } from '@/lib/oge/workbook';
-import type { AssetType, EventCategory, EventWindowSummary, OgeEvent, OgeTransaction, SectorSummary, TrumpOgeApiResponse, TrumpOgeFilters } from '@/lib/oge/types';
+import type { AssetType, EventCategory, EventWindowSummary, HistoricalSource, OgeEvent, OgeTransaction, SectorSummary, SourceReliability, TrumpIndexCitation, TrumpIndexEntry, TrumpOgeApiResponse, TrumpOgeFilters } from '@/lib/oge/types';
 
 interface TrumpOgeDashboardProps {
   initialData: TrumpOgeApiResponse;
 }
 
-type Tab = 'overview' | 'holdings' | 'transactions' | 'filings' | 'review';
+type Tab = 'index' | 'holdings' | 'transactions' | 'filings' | 'review';
 
 const ASSET_COLORS: Record<string, string> = {
   Equity: '#2563eb',
@@ -61,11 +63,15 @@ const ASSET_COLORS: Record<string, string> = {
 };
 
 const FILTER_DEFAULTS: TrumpOgeFilters = {
+  year: 'All',
   startDate: '',
   endDate: '',
   assetType: 'All',
   sector: 'All',
   transactionType: 'All',
+  sourceReliability: 'All',
+  ticker: '',
+  issuer: '',
   lateOnly: false,
   query: '',
   confidence: null,
@@ -76,9 +82,11 @@ const EVENT_CATEGORIES: EventCategory[] = ['tariff', 'fed', 'white-house', 'mark
 export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
   const mounted = useClientReady();
   const [filters, setFilters] = useState<TrumpOgeFilters>(FILTER_DEFAULTS);
-  const [activeTab, setActiveTab] = useState<Tab>('overview');
+  const [activeTab, setActiveTab] = useState<Tab>('index');
   const [activeEventCategories, setActiveEventCategories] = useState<EventCategory[]>(EVENT_CATEGORIES);
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+  const [methodologyOpen, setMethodologyOpen] = useState(false);
+  const [selectedIndexIds, setSelectedIndexIds] = useState<string[]>([]);
 
   const filteredTransactions = useMemo(
     () => filterTransactions(initialData.transactions, filters),
@@ -99,6 +107,45 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
   const holdings = useMemo(
     () => buildHoldingsEstimates(filteredTransactions, initialData.baselineHoldings),
     [filteredTransactions, initialData.baselineHoldings]
+  );
+  const trumpIndexResult = useMemo(
+    () => buildTrumpIndex({
+      holdings,
+      transactions: filteredTransactions,
+      sourceFilings: initialData.sourceFilings,
+      historicalSources: initialData.historicalSources,
+    }),
+    [filteredTransactions, holdings, initialData.historicalSources, initialData.sourceFilings]
+  );
+  const trumpIndexEntries = useMemo(
+    () => trumpIndexResult.entries.filter((entry) => {
+      if (filters.sourceReliability && filters.sourceReliability !== 'All' && entry.sourceReliability !== filters.sourceReliability) return false;
+      if (filters.ticker && entry.resolvedTicker?.toUpperCase() !== String(filters.ticker).toUpperCase()) return false;
+      if (filters.issuer) {
+        const issuer = String(filters.issuer).trim().toLowerCase();
+        if (issuer && !(entry.resolvedIssuerName || entry.displayName).toLowerCase().includes(issuer)) return false;
+      }
+      return true;
+    }),
+    [filters.issuer, filters.sourceReliability, filters.ticker, trumpIndexResult.entries]
+  );
+  const trumpIndexRollups = useMemo(
+    () => buildTrumpIndexRollups(trumpIndexEntries),
+    [trumpIndexEntries]
+  );
+  const indexLeaders = useMemo(() => ({
+    exposures: [...trumpIndexEntries].sort((a, b) => b.currentMidpoint - a.currentMidpoint).slice(0, 5),
+    movers: [...trumpIndexEntries].sort((a, b) => Math.abs(b.changeMidpoint) - Math.abs(a.changeMidpoint)).slice(0, 5),
+    netBuys: trumpIndexEntries.filter((entry) => entry.netFlowMidpoint > 0).sort((a, b) => b.netFlowMidpoint - a.netFlowMidpoint).slice(0, 5),
+    netSells: trumpIndexEntries.filter((entry) => entry.netFlowMidpoint < 0).sort((a, b) => a.netFlowMidpoint - b.netFlowMidpoint).slice(0, 5),
+  }), [trumpIndexEntries]);
+  const filteredHistoricalSources = useMemo(
+    () => initialData.historicalSources.filter((source) => {
+      if (filters.year && filters.year !== 'All' && source.reportYear !== Number(filters.year) && !source.filedDate.startsWith(String(filters.year))) return false;
+      if (filters.sourceReliability && filters.sourceReliability !== 'All' && source.sourceReliability !== filters.sourceReliability) return false;
+      return true;
+    }),
+    [filters.sourceReliability, filters.year, initialData.historicalSources]
   );
   const equityStocks = useMemo(
     () => buildEquityStockSummaries(filteredTransactions),
@@ -140,6 +187,13 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
   const assetSummary = buildAssetSummary(filteredTransactions);
   const enrichedTransactionCount = filteredTransactions.filter((tx) => tx.resolvedTicker).length;
   const publicCompanyCount = new Set(filteredTransactions.map((tx) => tx.resolvedTicker).filter(Boolean)).size;
+  const availableYears = useMemo(
+    () => Array.from(new Set([
+      ...initialData.transactions.map((tx) => tx.date.slice(0, 4)),
+      ...initialData.historicalSources.map((source) => source.reportYear ? String(source.reportYear) : source.filedDate.slice(0, 4)),
+    ].filter(Boolean))).sort((a, b) => b.localeCompare(a)),
+    [initialData.historicalSources, initialData.transactions]
+  );
 
   const exportWorkbook = () => {
     const response: TrumpOgeApiResponse = {
@@ -147,6 +201,8 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
       transactions: filteredTransactions,
       holdingsEstimates: holdings,
       sectorSummaries,
+      trumpIndex: trumpIndexEntries,
+      trumpIndexRollups,
       eventWindows: buildEventWindows(initialData.events, filteredTransactions),
       kpis,
       filters: {
@@ -169,6 +225,12 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
 
   const updateFilter = (key: keyof TrumpOgeFilters, value: string | boolean | number | null) => {
     setFilters((current) => ({ ...current, [key]: value }));
+  };
+
+  const toggleIndexSelection = (id: string) => {
+    setSelectedIndexIds((current) =>
+      current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
+    );
   };
 
   const toggleEventCategory = (category: EventCategory) => {
@@ -197,8 +259,8 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
               <Database className="h-4 w-4" />
             </div>
             <div className="min-w-0">
-              <h1 className="truncate text-base font-bold tracking-tight">Trump OGE Filings</h1>
-              <div className="text-xs text-slate-500">Data through {initialData.cacheMeta.dataThrough || 'pending'} | refreshed {formatDateTime(initialData.cacheMeta.generatedAt)}</div>
+              <h1 className="truncate text-base font-bold tracking-tight">Trump Index</h1>
+              <div className="text-xs text-slate-500">OGE financial disclosure signal | data through {initialData.cacheMeta.dataThrough || 'pending'} | refreshed {formatDateTime(initialData.cacheMeta.generatedAt)}</div>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -222,7 +284,7 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
       </header>
 
       <div className="mx-auto max-w-[1500px] px-5 py-5">
-        <section className="mb-5 grid gap-3 border border-slate-200 bg-white p-3 shadow-sm lg:grid-cols-[1.3fr_0.8fr_0.8fr_0.8fr_auto]">
+        <section className="mb-5 grid gap-3 border border-slate-200 bg-white p-3 shadow-sm md:grid-cols-2 xl:grid-cols-[1.35fr_0.55fr_0.75fr_0.75fr_0.75fr_0.75fr_auto]">
           <label className="relative block">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input
@@ -232,6 +294,28 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
               className="h-10 w-full rounded-md border border-slate-200 bg-slate-50 pl-9 pr-3 text-sm outline-none focus:border-sky-500 focus:bg-white"
             />
           </label>
+          <select
+            value={filters.year || 'All'}
+            onChange={(event) => updateFilter('year', event.target.value)}
+            className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm outline-none focus:border-sky-500"
+          >
+            <option value="All">All years</option>
+            {availableYears.map((year) => (
+              <option key={year} value={year}>{year}</option>
+            ))}
+          </select>
+          <input
+            value={filters.ticker || ''}
+            onChange={(event) => updateFilter('ticker', event.target.value)}
+            placeholder="Ticker"
+            className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm uppercase outline-none focus:border-sky-500"
+          />
+          <input
+            value={filters.issuer || ''}
+            onChange={(event) => updateFilter('issuer', event.target.value)}
+            placeholder="Issuer"
+            className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm outline-none focus:border-sky-500"
+          />
           <select
             value={filters.assetType || 'All'}
             onChange={(event) => updateFilter('assetType', event.target.value)}
@@ -252,16 +336,6 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
               <option key={sector} value={sector}>{sector}</option>
             ))}
           </select>
-          <select
-            value={filters.transactionType || 'All'}
-            onChange={(event) => updateFilter('transactionType', event.target.value)}
-            className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm outline-none focus:border-sky-500"
-          >
-            <option value="All">All actions</option>
-            <option value="Purchase">Purchases</option>
-            <option value="Sale">Sales</option>
-            <option value="Exchange">Exchanges</option>
-          </select>
           <button
             onClick={() => updateFilter('lateOnly', !filters.lateOnly)}
             className={`flex h-10 items-center justify-center gap-2 rounded-md border px-3 text-xs font-semibold ${filters.lateOnly ? 'border-amber-300 bg-amber-50 text-amber-800' : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'}`}
@@ -269,11 +343,31 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
             <Filter className="h-3.5 w-3.5" />
             Late only
           </button>
+          <select
+            value={filters.transactionType || 'All'}
+            onChange={(event) => updateFilter('transactionType', event.target.value)}
+            className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm outline-none focus:border-sky-500 xl:col-start-4"
+          >
+            <option value="All">All actions</option>
+            <option value="Purchase">Purchases</option>
+            <option value="Sale">Sales</option>
+            <option value="Exchange">Exchanges</option>
+          </select>
+          <select
+            value={filters.sourceReliability || 'All'}
+            onChange={(event) => updateFilter('sourceReliability', event.target.value)}
+            className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm outline-none focus:border-sky-500"
+          >
+            <option value="All">All sources</option>
+            <option value="official">Official</option>
+            <option value="archived_copy">Archived copy</option>
+            <option value="metadata_only">Metadata only</option>
+          </select>
         </section>
 
         <nav className="mb-5 flex flex-wrap gap-2">
           {[
-            ['overview', 'Overview'],
+            ['index', 'Trump Index'],
             ['holdings', 'Holdings'],
             ['transactions', 'Transactions'],
             ['filings', 'Filings'],
@@ -290,8 +384,8 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
         </nav>
 
         <section className="mb-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-          <KpiCard label="Transactions" value={formatInteger(kpis.transactionCount)} sub={`${formatInteger(kpis.uniqueSecurities)} securities; ${formatInteger(enrichedTransactionCount)} public matches`} icon={<Layers className="h-4 w-4" />} />
-          <KpiCard label="Volume midpoint" value={formatMoney(kpis.estimatedVolume.midpoint)} sub={formatRange(kpis.estimatedVolume)} icon={<RefreshCw className="h-4 w-4" />} />
+          <KpiCard label="Index entries" value={formatInteger(trumpIndexEntries.length)} sub={`${formatInteger(kpis.uniqueSecurities)} securities; ${formatInteger(enrichedTransactionCount)} public matches`} icon={<Layers className="h-4 w-4" />} />
+          <KpiCard label="Visible exposure" value={formatMoney(trumpIndexEntries.reduce((total, entry) => total + entry.currentMidpoint, 0))} sub={`Top score ${trumpIndexEntries[0]?.score.toFixed(1) || '0.0'} of 100`} icon={<RefreshCw className="h-4 w-4" />} />
           <KpiCard label="Purchases" value={formatInteger(kpis.purchaseCount)} sub={`${formatPct(kpis.purchaseCount, kpis.transactionCount)} of visible transactions`} icon={<ArrowUpRight className="h-4 w-4" />} tone="buy" />
           <KpiCard label="Sales" value={formatInteger(kpis.saleCount)} sub={`${formatPct(kpis.saleCount, kpis.transactionCount)} of visible transactions`} icon={<ArrowDownRight className="h-4 w-4" />} tone="sell" />
           <KpiCard label="Late filings" value={formatInteger(kpis.lateCount)} sub={`${formatPct(kpis.lateCount, kpis.transactionCount)} of visible transactions`} icon={<AlertTriangle className="h-4 w-4" />} tone="warn" />
@@ -305,8 +399,60 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
           </span>
         </div>
 
-        {activeTab === 'overview' && (
+        {activeTab === 'index' && (
           <div className="space-y-5">
+            <div className="grid gap-5 xl:grid-cols-[1.35fr_0.65fr]">
+              <Panel
+                title="Trump Index"
+                subtitle={`${formatInteger(trumpIndexEntries.length)} ranked issuer/security exposures; score is calculated from exposure, change, and activity`}
+              >
+                <TrumpIndexTable
+                  entries={trumpIndexEntries.slice(0, 80)}
+                  selectedIds={selectedIndexIds}
+                  onToggleSelected={toggleIndexSelection}
+                />
+              </Panel>
+              <AskTrumpIndexPanel
+                filters={filters}
+                selectedIndexIds={selectedIndexIds}
+                topEntries={trumpIndexEntries.slice(0, 6)}
+              />
+            </div>
+
+            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+              <IndexLeaderPanel title="Top exposures" entries={indexLeaders.exposures} metric="current" />
+              <IndexLeaderPanel title="Top movers" entries={indexLeaders.movers} metric="change" />
+              <IndexLeaderPanel title="Net buys" entries={indexLeaders.netBuys} metric="net" tone="buy" />
+              <IndexLeaderPanel title="Net sells" entries={indexLeaders.netSells} metric="net" tone="sell" />
+            </div>
+
+            <div className="grid gap-5 xl:grid-cols-[1fr_1fr]">
+              <Panel title="Index Rollups" subtitle="Sector and asset-type exposure totals from visible index entries">
+                <IndexRollupBars rollups={trumpIndexRollups} />
+              </Panel>
+              <Panel title="Source Coverage" subtitle={`${formatInteger(filteredHistoricalSources.length)} historical source records from Jan. 1, 2015 onward`}>
+                <SourceCoverageTimeline sources={filteredHistoricalSources} />
+              </Panel>
+            </div>
+
+            <div className="border border-slate-200 bg-white shadow-sm">
+              <button
+                type="button"
+                onClick={() => setMethodologyOpen((value) => !value)}
+                className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm font-bold"
+              >
+                <span>Index Methodology</span>
+                <span className="text-xs font-semibold text-slate-500">{methodologyOpen ? 'Hide' : 'Show'}</span>
+              </button>
+              {methodologyOpen && (
+                <div className="border-t border-slate-100 px-4 py-3 text-xs leading-5 text-slate-600">
+                  Score = 50% log-scaled current midpoint exposure rank + 30% absolute midpoint change rank + 20% gross transaction activity rank.
+                  Confidence, source reliability, archived-copy badges, and metadata-only badges stay visible beside the score but do not reduce it.
+                  Event dots are contextual only and are not scoring inputs.
+                </div>
+              )}
+            </div>
+
             <div className="grid gap-5 xl:grid-cols-[1.25fr_0.75fr]">
               <Panel title="Sector Exposure Map" subtitle="Tile size is estimated midpoint volume; color is net buying vs selling">
                 {mounted ? <SectorTreemap tiles={sectorTiles} /> : <ChartPlaceholder />}
@@ -471,43 +617,88 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
         )}
 
         {activeTab === 'filings' && (
-          <Panel title="Filings & Audit" subtitle={`${initialData.sourceFilings.length} OGE source documents`}>
-            <DataTable>
-              <thead>
-                <tr>
-                  <Th>Date</Th>
-                  <Th>Type</Th>
-                  <Th>Filename</Th>
-                  <Th align="right">Bytes</Th>
-                  <Th>SHA-256</Th>
-                  <Th>Status</Th>
-                  <Th align="right">Source</Th>
-                </tr>
-              </thead>
-              <tbody>
-                {initialData.sourceFilings.map((filing) => (
-                  <tr key={filing.id}>
-                    <Td mono>{filing.filedDate}</Td>
-                    <Td>{filing.documentType}{filing.isAmendment ? ' amended' : ''}</Td>
-                    <Td>
-                      <div className="max-w-[320px] truncate font-semibold">{filing.localFilename}</div>
-                      <div className="text-[11px] text-slate-500">{filing.notes}</div>
-                    </Td>
-                    <Td align="right" mono>{filing.bytes ? formatInteger(filing.bytes) : 'N/A'}</Td>
-                    <Td mono>
-                      <span className="block max-w-[220px] truncate">{filing.sha256 || 'N/A'}</span>
-                    </Td>
-                    <Td><StatusPill tone={filing.parserStatus === 'failed' ? 'warn' : 'ok'} label={filing.parserStatus} /></Td>
-                    <Td align="right">
-                      <a href={filing.ogeUrl} target="_blank" rel="noreferrer" className="inline-flex items-center justify-end gap-1 text-xs font-semibold text-sky-700 hover:text-sky-900">
-                        OGE <ExternalLink className="h-3 w-3" />
-                      </a>
-                    </Td>
+          <div className="space-y-5">
+            <Panel title="Historical Source Registry" subtitle={`${filteredHistoricalSources.length} records after source filters; official PDFs, archived copies, and request-only metadata`}>
+              <DataTable>
+                <thead>
+                  <tr>
+                    <Th>Date</Th>
+                    <Th>Report</Th>
+                    <Th>Reliability</Th>
+                    <Th>Title</Th>
+                    <Th align="right">Bytes</Th>
+                    <Th>SHA-256</Th>
+                    <Th>Status</Th>
+                    <Th align="right">Source</Th>
                   </tr>
-                ))}
-              </tbody>
-            </DataTable>
-          </Panel>
+                </thead>
+                <tbody>
+                  {filteredHistoricalSources.map((source) => (
+                    <tr key={source.id}>
+                      <Td mono>{source.filedDate}</Td>
+                      <Td>
+                        <div className="font-semibold">{source.filingType}</div>
+                        <div className="text-[11px] text-slate-500">{source.reportYear || 'No report year'}</div>
+                      </Td>
+                      <Td><StatusPill tone={sourceReliabilityTone(source.sourceReliability)} label={sourceReliabilityLabel(source.sourceReliability)} /></Td>
+                      <Td>
+                        <div className="max-w-[360px] truncate font-semibold">{source.title}</div>
+                        <div className="text-[11px] text-slate-500">{source.provenanceNote}</div>
+                      </Td>
+                      <Td align="right" mono>{source.bytes ? formatInteger(source.bytes) : 'N/A'}</Td>
+                      <Td mono><span className="block max-w-[220px] truncate">{source.sha256 || 'N/A'}</span></Td>
+                      <Td><StatusPill tone={source.fetchStatus === 'ok' ? 'ok' : source.fetchStatus === 'failed' ? 'warn' : 'neutral'} label={source.fetchStatus} /></Td>
+                      <Td align="right">
+                        {source.sourceUrl ? (
+                          <a href={source.sourceUrl} target="_blank" rel="noreferrer" className="inline-flex items-center justify-end gap-1 text-xs font-semibold text-sky-700 hover:text-sky-900">
+                            Source <ExternalLink className="h-3 w-3" />
+                          </a>
+                        ) : 'N/A'}
+                      </Td>
+                    </tr>
+                  ))}
+                </tbody>
+              </DataTable>
+            </Panel>
+
+            <Panel title="Current OGE PDF Sources" subtitle={`${initialData.sourceFilings.length} direct OGE source documents`}>
+              <DataTable>
+                <thead>
+                  <tr>
+                    <Th>Date</Th>
+                    <Th>Type</Th>
+                    <Th>Filename</Th>
+                    <Th align="right">Bytes</Th>
+                    <Th>SHA-256</Th>
+                    <Th>Status</Th>
+                    <Th align="right">Source</Th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {initialData.sourceFilings.map((filing) => (
+                    <tr key={filing.id}>
+                      <Td mono>{filing.filedDate}</Td>
+                      <Td>{filing.documentType}{filing.isAmendment ? ' amended' : ''}</Td>
+                      <Td>
+                        <div className="max-w-[320px] truncate font-semibold">{filing.localFilename}</div>
+                        <div className="text-[11px] text-slate-500">{filing.notes}</div>
+                      </Td>
+                      <Td align="right" mono>{filing.bytes ? formatInteger(filing.bytes) : 'N/A'}</Td>
+                      <Td mono>
+                        <span className="block max-w-[220px] truncate">{filing.sha256 || 'N/A'}</span>
+                      </Td>
+                      <Td><StatusPill tone={filing.parserStatus === 'failed' ? 'warn' : 'ok'} label={filing.parserStatus} /></Td>
+                      <Td align="right">
+                        <a href={filing.ogeUrl} target="_blank" rel="noreferrer" className="inline-flex items-center justify-end gap-1 text-xs font-semibold text-sky-700 hover:text-sky-900">
+                          OGE <ExternalLink className="h-3 w-3" />
+                        </a>
+                      </Td>
+                    </tr>
+                  ))}
+                </tbody>
+              </DataTable>
+            </Panel>
+          </div>
         )}
 
         {activeTab === 'review' && (
@@ -909,6 +1100,359 @@ function Panel({ title, subtitle, children }: { title: string; subtitle: string;
       <div className="p-4">{children}</div>
     </section>
   );
+}
+
+function TrumpIndexTable({
+  entries,
+  selectedIds,
+  onToggleSelected,
+}: {
+  entries: TrumpIndexEntry[];
+  selectedIds: string[];
+  onToggleSelected: (id: string) => void;
+}) {
+  if (entries.length === 0) {
+    return <div className="border border-slate-100 bg-slate-50 p-6 text-sm text-slate-500">No index entries match the current filters.</div>;
+  }
+
+  return (
+    <DataTable>
+      <thead>
+        <tr>
+          <Th>Focus</Th>
+          <Th align="right">Score</Th>
+          <Th>Exposure</Th>
+          <Th>Public Reference</Th>
+          <Th align="right">Current</Th>
+          <Th align="right">Change</Th>
+          <Th align="right">Net Flow</Th>
+          <Th>Signal</Th>
+          <Th>Source</Th>
+        </tr>
+      </thead>
+      <tbody>
+        {entries.map((entry) => (
+          <tr key={entry.id}>
+            <Td>
+              <input
+                type="checkbox"
+                checked={selectedIds.includes(entry.id)}
+                onChange={() => onToggleSelected(entry.id)}
+                className="h-4 w-4 rounded border-slate-300"
+                aria-label={`Select ${entry.displayName}`}
+              />
+            </Td>
+            <Td align="right">
+              <div className="font-mono text-lg font-bold">{entry.score.toFixed(1)}</div>
+              <div className="font-mono text-[11px] text-slate-500">
+                E {entry.exposureComponent.toFixed(0)} / C {entry.changeComponent.toFixed(0)} / A {entry.activityComponent.toFixed(0)}
+              </div>
+            </Td>
+            <Td>
+              <div className="max-w-[320px] truncate font-semibold">{entry.displayName}</div>
+              <div className="text-[11px] leading-4 text-slate-500">{entry.assetType} | {entry.sector}</div>
+              <div className="text-[11px] leading-4 text-slate-500">
+                {entry.transactionCount} transactions; {entry.filingCount} filing source{entry.filingCount === 1 ? '' : 's'}
+              </div>
+            </Td>
+            <Td>
+              <div className="font-semibold text-sky-800">{entry.resolvedTicker || 'No ticker'}</div>
+              <div className="max-w-[260px] text-[11px] leading-4 text-slate-500">
+                {entry.resolvedExchange ? `${entry.resolvedExchange}; ` : ''}
+                {entry.resolvedCik ? `CIK ${entry.resolvedCik}` : entry.resolvedIssuerName || 'No public issuer match'}
+              </div>
+            </Td>
+            <Td align="right">
+              <div className="font-mono text-xs">{formatRange(entry.currentRange)}</div>
+              <div className="font-mono text-[11px] text-slate-500">{formatMoney(entry.currentMidpoint)} midpoint</div>
+            </Td>
+            <Td align="right">
+              <div className={`font-mono text-xs font-semibold ${entry.changeMidpoint >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>
+                {formatSignedMoney(entry.changeMidpoint)}
+              </div>
+              <div className="font-mono text-[11px] text-slate-500">{entry.changePct === null ? 'N/A' : `${entry.changePct.toFixed(1)}%`}</div>
+            </Td>
+            <Td align="right">
+              <div className={`font-mono text-xs font-semibold ${entry.netFlowMidpoint >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>
+                {formatSignedMoney(entry.netFlowMidpoint)}
+              </div>
+              <div className="font-mono text-[11px] text-slate-500">Buy {formatMoney(entry.purchaseMidpoint)} | Sell {formatMoney(entry.saleMidpoint)}</div>
+            </Td>
+            <Td>
+              <div className="space-y-1">
+                <StatusPill tone={entry.netDirection === 'Net buy' ? 'buy' : entry.netDirection === 'Net sale' ? 'sell' : 'neutral'} label={entry.netDirection} />
+                <StatusPill tone={entry.confidence >= 0.7 ? 'ok' : 'warn'} label={`${confidenceLabel(entry.confidence)} confidence`} />
+                <StatusPill tone={sourceReliabilityTone(entry.sourceReliability)} label={sourceReliabilityLabel(entry.sourceReliability)} />
+              </div>
+            </Td>
+            <Td>
+              <div className="space-y-1">
+                {entry.citations.slice(0, 2).map((citation) => (
+                  citation.sourceUrl ? (
+                    <a key={citation.sourceUrl} href={citation.sourceUrl} target="_blank" rel="noreferrer" className="block max-w-[220px] truncate text-xs font-semibold text-sky-700">
+                      {citation.label} <ExternalLink className="inline h-3 w-3" />
+                    </a>
+                  ) : (
+                    <div key={citation.label} className="max-w-[220px] truncate text-xs text-slate-500">{citation.label}</div>
+                  )
+                ))}
+                {entry.reviewFlags.length > 0 && <EnrichmentBadges flags={entry.reviewFlags} />}
+              </div>
+            </Td>
+          </tr>
+        ))}
+      </tbody>
+    </DataTable>
+  );
+}
+
+interface AskResponse {
+  answer: string;
+  citations: TrumpIndexCitation[];
+  caveats: string[];
+  openArenaStatus?: string;
+  openArenaError?: string | null;
+  cacheVersion: string;
+}
+
+function AskTrumpIndexPanel({
+  filters,
+  selectedIndexIds,
+  topEntries,
+}: {
+  filters: TrumpOgeFilters;
+  selectedIndexIds: string[];
+  topEntries: TrumpIndexEntry[];
+}) {
+  const [question, setQuestion] = useState('What are the strongest Trump Index signals in the current filters?');
+  const [apiKey, setApiKey] = useState('');
+  const [answer, setAnswer] = useState<AskResponse | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const apiBase = (process.env.NEXT_PUBLIC_OPENARENA_API_BASE || '').replace(/\/$/, '');
+
+  const submit = async () => {
+    setError(null);
+    if (!apiBase) {
+      setError('Set NEXT_PUBLIC_OPENARENA_API_BASE to the Vercel API host for live questions.');
+      return;
+    }
+    setLoading(true);
+    try {
+      const response = await fetch(`${apiBase}/api/ask`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(apiKey ? { 'X-OpenArena-API-Key': apiKey } : {}),
+        },
+        body: JSON.stringify({
+          question,
+          filters,
+          selectedIndexIds,
+          includeSourceDocuments: false,
+        }),
+      });
+      const json = await response.json();
+      if (!response.ok) throw new Error(json.error || `HTTP ${response.status}`);
+      setAnswer(json as AskResponse);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Panel title="Ask The Index" subtitle={`${selectedIndexIds.length || topEntries.length} focused entries sent as deterministic facts`}>
+      <div className="space-y-3">
+        <textarea
+          value={question}
+          onChange={(event) => setQuestion(event.target.value)}
+          rows={4}
+          className="w-full resize-none rounded-md border border-slate-200 bg-slate-50 p-3 text-sm outline-none focus:border-sky-500 focus:bg-white"
+        />
+        <input
+          value={apiKey}
+          onChange={(event) => setApiKey(event.target.value)}
+          placeholder="Optional shared API key"
+          className="h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm outline-none focus:border-sky-500"
+        />
+        <button
+          type="button"
+          onClick={submit}
+          disabled={loading}
+          className="flex h-10 w-full items-center justify-center gap-2 rounded-md bg-slate-900 px-3 text-xs font-semibold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+        >
+          <MessageSquare className="h-4 w-4" />
+          {loading ? 'Asking...' : 'Ask'}
+        </button>
+        {error && <div className="border border-amber-200 bg-amber-50 p-3 text-xs leading-5 text-amber-900">{error}</div>}
+        {answer && (
+          <div className="space-y-3 border border-slate-100 bg-slate-50 p-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <StatusPill tone={answer.openArenaStatus === 'openarena' ? 'ok' : 'neutral'} label={answer.openArenaStatus || 'fallback'} />
+              <span className="text-[11px] font-mono text-slate-500">{formatDateTime(answer.cacheVersion)}</span>
+            </div>
+            {answer.openArenaError && <div className="text-[11px] leading-4 text-amber-800">{answer.openArenaError}</div>}
+            <div className="whitespace-pre-wrap text-sm leading-6 text-slate-800">{answer.answer}</div>
+            {answer.citations.length > 0 && (
+              <div className="space-y-1 border-t border-slate-200 pt-2">
+                {answer.citations.slice(0, 5).map((citation) => (
+                  citation.sourceUrl ? (
+                    <a key={citation.sourceUrl} href={citation.sourceUrl} target="_blank" rel="noreferrer" className="block truncate text-xs font-semibold text-sky-700">
+                      {citation.label} <ExternalLink className="inline h-3 w-3" />
+                    </a>
+                  ) : (
+                    <div key={citation.label} className="truncate text-xs text-slate-500">{citation.label}</div>
+                  )
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </Panel>
+  );
+}
+
+function IndexLeaderPanel({
+  title,
+  entries,
+  metric,
+  tone = 'neutral',
+}: {
+  title: string;
+  entries: TrumpIndexEntry[];
+  metric: 'current' | 'change' | 'net';
+  tone?: 'buy' | 'sell' | 'neutral';
+}) {
+  return (
+    <div className="border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <h3 className="text-sm font-bold">{title}</h3>
+        <StatusPill tone={tone} label={metric} />
+      </div>
+      <div className="space-y-3">
+        {entries.length === 0 && <div className="text-xs text-slate-500">No visible entry.</div>}
+        {entries.map((entry) => (
+          <div key={`${title}-${entry.id}`}>
+            <div className="flex items-center justify-between gap-3">
+              <span className="max-w-[190px] truncate text-sm font-semibold">{entry.displayName}</span>
+              <span className="font-mono text-xs text-slate-600">
+                {metric === 'current' ? formatMoney(entry.currentMidpoint) : metric === 'change' ? formatSignedMoney(entry.changeMidpoint) : formatSignedMoney(entry.netFlowMidpoint)}
+              </span>
+            </div>
+            <div className="mt-1 flex items-center justify-between gap-3 text-[11px] text-slate-500">
+              <span>{entry.resolvedTicker || entry.assetType} | score {entry.score.toFixed(1)}</span>
+              <span>{sourceReliabilityLabel(entry.sourceReliability)}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function IndexRollupBars({ rollups }: { rollups: TrumpOgeApiResponse['trumpIndexRollups'] }) {
+  const sectorRollups = rollups.filter((rollup) => rollup.rollupType === 'sector').slice(0, 8);
+  const assetRollups = rollups.filter((rollup) => rollup.rollupType === 'assetType');
+  const maxValue = Math.max(1, ...rollups.map((rollup) => rollup.currentMidpoint));
+
+  return (
+    <div className="grid gap-4 lg:grid-cols-2">
+      <RollupGroup title="Sectors" rows={sectorRollups} maxValue={maxValue} />
+      <RollupGroup title="Asset Types" rows={assetRollups} maxValue={maxValue} />
+    </div>
+  );
+}
+
+function RollupGroup({
+  title,
+  rows,
+  maxValue,
+}: {
+  title: string;
+  rows: TrumpOgeApiResponse['trumpIndexRollups'];
+  maxValue: number;
+}) {
+  return (
+    <div className="space-y-3">
+      <div className="text-xs font-bold uppercase tracking-wide text-slate-500">{title}</div>
+      {rows.map((row) => (
+        <div key={row.id}>
+          <div className="mb-1 flex items-center justify-between gap-3 text-xs">
+            <span className="max-w-[260px] truncate font-semibold">{row.key}</span>
+            <span className="font-mono text-slate-600">{formatMoney(row.currentMidpoint)}</span>
+          </div>
+          <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+            <div
+              className="h-full rounded-full bg-slate-800"
+              style={{ width: `${Math.max(3, (row.currentMidpoint / maxValue) * 100)}%` }}
+            />
+          </div>
+          <div className="mt-1 text-[11px] text-slate-500">
+            {formatInteger(row.entryCount)} entries | avg score {row.averageScore.toFixed(1)} | net {formatSignedMoney(row.netFlowMidpoint)}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function SourceCoverageTimeline({ sources }: { sources: HistoricalSource[] }) {
+  const rows = buildSourceCoverageRows(sources);
+  if (rows.length === 0) {
+    return <div className="border border-slate-100 bg-slate-50 p-6 text-sm text-slate-500">No historical sources match the current filters.</div>;
+  }
+
+  const maxCount = Math.max(1, ...rows.map((row) => row.total));
+  return (
+    <div className="space-y-3">
+      {rows.map((row) => (
+        <div key={row.year} className="grid grid-cols-[58px_1fr_54px] items-center gap-3">
+          <div className="font-mono text-xs text-slate-600">{row.year}</div>
+          <div className="flex h-4 overflow-hidden rounded-full bg-slate-100">
+            <div className="bg-emerald-600" style={{ width: `${(row.official / maxCount) * 100}%` }} title={`${row.official} official`} />
+            <div className="bg-amber-500" style={{ width: `${(row.archived / maxCount) * 100}%` }} title={`${row.archived} archived`} />
+            <div className="bg-slate-500" style={{ width: `${(row.metadata / maxCount) * 100}%` }} title={`${row.metadata} metadata-only`} />
+          </div>
+          <div className="text-right font-mono text-xs text-slate-600">{row.total}</div>
+        </div>
+      ))}
+      <div className="flex flex-wrap gap-3 border-t border-slate-100 pt-3 text-[11px] font-semibold text-slate-500">
+        <span><span className="mr-1 inline-block h-2 w-2 rounded-full bg-emerald-600" /> Official PDF</span>
+        <span><span className="mr-1 inline-block h-2 w-2 rounded-full bg-amber-500" /> Archived copy</span>
+        <span><span className="mr-1 inline-block h-2 w-2 rounded-full bg-slate-500" /> Metadata only</span>
+      </div>
+    </div>
+  );
+}
+
+function buildSourceCoverageRows(sources: HistoricalSource[]) {
+  const rows = new Map<number, { year: number; official: number; archived: number; metadata: number; total: number }>();
+  for (const source of sources) {
+    const year = source.reportYear || Number(source.filedDate.slice(0, 4));
+    if (!Number.isFinite(year)) continue;
+    const row = rows.get(year) || { year, official: 0, archived: 0, metadata: 0, total: 0 };
+    if (source.sourceReliability === 'official') row.official += 1;
+    if (source.sourceReliability === 'archived_copy') row.archived += 1;
+    if (source.sourceReliability === 'metadata_only') row.metadata += 1;
+    row.total += 1;
+    rows.set(year, row);
+  }
+  return Array.from(rows.values()).sort((a, b) => a.year - b.year);
+}
+
+function sourceReliabilityTone(reliability: SourceReliability): 'ok' | 'warn' | 'neutral' {
+  if (reliability === 'official') return 'ok';
+  if (reliability === 'archived_copy') return 'warn';
+  return 'neutral';
+}
+
+function sourceReliabilityLabel(reliability: SourceReliability): string {
+  if (reliability === 'official') return 'Official';
+  if (reliability === 'archived_copy') return 'Archived copy';
+  return 'Metadata only';
 }
 
 function TransactionTable({ transactions }: { transactions: OgeTransaction[] }) {

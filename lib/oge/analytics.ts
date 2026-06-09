@@ -29,7 +29,7 @@ export function buildHoldingsEstimates(
     grouped.set(key, rows);
   }
 
-  return Array.from(grouped.entries())
+  const transactionBacked = Array.from(grouped.entries())
     .map(([key, rows]) => {
       const sample = rows[0];
       const baseline = baselineByKey.get(key);
@@ -88,6 +88,7 @@ export function buildHoldingsEstimates(
         purchaseCount: purchases.length,
         saleCount: sales.length,
         lastTransactionDate: rows.map((tx) => tx.date).sort().at(-1) || null,
+        sourceFilingId: baseline?.sourceFilingId || null,
         confidence,
         missingBaseline,
         sourceTransactionIds: rows.map((tx) => tx.id),
@@ -96,9 +97,56 @@ export function buildHoldingsEstimates(
     })
     .sort((a, b) =>
       b.estimatedCurrent.midpoint - a.estimatedCurrent.midpoint ||
-      b.transactionCount - a.transactionCount ||
+        b.transactionCount - a.transactionCount ||
+        a.description.localeCompare(b.description)
+    );
+
+  const baselineOnly = baselineHoldings
+    .filter((holding) => !grouped.has(buildSecurityKey(holding.description)))
+    .map((holding) => ({
+      id: stableId(`holding|${buildSecurityKey(holding.description)}`),
+      description: holding.description,
+      normalizedDescription: buildSecurityKey(holding.description),
+      ticker: null,
+      resolvedTicker: holding.resolvedTicker,
+      resolvedIssuerName: holding.resolvedIssuerName,
+      resolvedExchange: holding.resolvedExchange,
+      resolvedCik: holding.resolvedCik,
+      resolvedSector: holding.resolvedSector,
+      resolvedSic: holding.resolvedSic,
+      resolvedSicDescription: holding.resolvedSicDescription,
+      enrichmentSource: holding.enrichmentSource,
+      enrichmentConfidence: holding.enrichmentConfidence,
+      enrichmentFlags: holding.enrichmentFlags,
+      assetType: holding.assetType,
+      sector: holding.sector,
+      baseline: holding.value,
+      purchases: ZERO_RANGE,
+      sales: ZERO_RANGE,
+      estimatedCurrent: {
+        ...holding.value,
+        label: 'Estimated current',
+      },
+      transactionCount: 0,
+      purchaseCount: 0,
+      saleCount: 0,
+      lastTransactionDate: null,
+      sourceFilingId: holding.sourceFilingId,
+      confidence: Math.min(holding.confidence, 0.74),
+      missingBaseline: false,
+      sourceTransactionIds: [],
+      reviewFlags: holding.reviewFlags,
+    } satisfies EstimatedHolding))
+    .sort((a, b) =>
+      b.estimatedCurrent.midpoint - a.estimatedCurrent.midpoint ||
       a.description.localeCompare(b.description)
     );
+
+  return [...transactionBacked, ...baselineOnly].sort((a, b) =>
+    b.estimatedCurrent.midpoint - a.estimatedCurrent.midpoint ||
+    b.transactionCount - a.transactionCount ||
+    a.description.localeCompare(b.description)
+  );
 }
 
 export function buildSectorSummaries(transactions: OgeTransaction[]): SectorSummary[] {

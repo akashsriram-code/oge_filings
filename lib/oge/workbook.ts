@@ -9,6 +9,57 @@ export function buildTrumpOgeWorkbook(response: TrumpOgeApiResponse): XLSX.WorkB
 
   XLSX.utils.book_append_sheet(
     workbook,
+    XLSX.utils.json_to_sheet(response.trumpIndex.map((entry) => ({
+      score: entry.score,
+      display_name: entry.displayName,
+      asset_type: entry.assetType,
+      sector: entry.sector,
+      resolved_ticker: entry.resolvedTicker || '',
+      resolved_issuer_name: entry.resolvedIssuerName || '',
+      resolved_exchange: entry.resolvedExchange || '',
+      resolved_cik: entry.resolvedCik || '',
+      current_range: formatRange(entry.currentRange),
+      current_midpoint: entry.currentMidpoint,
+      previous_range: formatRange(entry.previousRange),
+      change_midpoint: entry.changeMidpoint,
+      change_pct: entry.changePct ?? '',
+      purchase_midpoint: entry.purchaseMidpoint,
+      sale_midpoint: entry.saleMidpoint,
+      net_flow_midpoint: entry.netFlowMidpoint,
+      net_direction: entry.netDirection,
+      transaction_count: entry.transactionCount,
+      filing_count: entry.filingCount,
+      first_seen_date: entry.firstSeenDate || '',
+      last_seen_date: entry.lastSeenDate || '',
+      exposure_component: entry.exposureComponent,
+      change_component: entry.changeComponent,
+      activity_component: entry.activityComponent,
+      confidence: entry.confidence,
+      source_reliability: entry.sourceReliability,
+      review_flags: entry.reviewFlags.join('; '),
+      citations: entry.citations.map((citation) => citation.sourceUrl || citation.label).join('; '),
+    }))),
+    'Trump Index'
+  );
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    XLSX.utils.json_to_sheet(response.trumpIndexRollups.map((rollup) => ({
+      rollup_type: rollup.rollupType,
+      key: rollup.key,
+      entry_count: rollup.entryCount,
+      current_midpoint: rollup.currentMidpoint,
+      purchase_midpoint: rollup.purchaseMidpoint,
+      sale_midpoint: rollup.saleMidpoint,
+      net_flow_midpoint: rollup.netFlowMidpoint,
+      average_score: rollup.averageScore,
+      top_entry_ids: rollup.topEntryIds.join('; '),
+    }))),
+    'Trump Index Rollups'
+  );
+
+  XLSX.utils.book_append_sheet(
+    workbook,
     XLSX.utils.json_to_sheet(response.transactions.map((tx) => ({
       date: tx.date,
       type: tx.type,
@@ -106,6 +157,7 @@ export function buildTrumpOgeWorkbook(response: TrumpOgeApiResponse): XLSX.WorkB
       sales_midpoint: holding.sales.midpoint,
       transaction_count: holding.transactionCount,
       last_transaction_date: holding.lastTransactionDate || '',
+      source_filing_id: holding.sourceFilingId || '',
       missing_baseline: holding.missingBaseline ? 'yes' : 'no',
       confidence: holding.confidence,
       review_flags: holding.reviewFlags.join('; '),
@@ -214,6 +266,96 @@ export function buildTrumpOgeWorkbook(response: TrumpOgeApiResponse): XLSX.WorkB
 
   XLSX.utils.book_append_sheet(
     workbook,
+    XLSX.utils.json_to_sheet(response.historicalSources.map((source) => ({
+      filed_date: source.filedDate,
+      report_year: source.reportYear || '',
+      filing_type: source.filingType,
+      source_type: source.sourceType,
+      source_reliability: source.sourceReliability,
+      fetch_status: source.fetchStatus,
+      source_review_status: source.sourceReviewStatus,
+      title: source.title,
+      filename: source.localFilename,
+      bytes: source.bytes || '',
+      sha256: source.sha256 || '',
+      source_url: source.sourceUrl,
+      provenance_note: source.provenanceNote,
+    }))),
+    'Historical Sources'
+  );
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    XLSX.utils.json_to_sheet(response.financialDisclosureReports.map((report) => ({
+      filed_date: report.filedDate,
+      report_year: report.reportYear || '',
+      filing_type: report.filingType,
+      source_reliability: report.sourceReliability,
+      parser_status: report.parserStatus,
+      asset_income_count: report.assetIncomeCount,
+      liability_count: report.liabilityCount,
+      source_id: report.sourceId,
+      notes: report.notes,
+    }))),
+    'Disclosure Reports'
+  );
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    XLSX.utils.json_to_sheet(response.assetIncomeHoldings.map((holding) => ({
+      source_id: holding.sourceId,
+      description: holding.description,
+      value_range: formatRange(holding.value),
+      value_midpoint: holding.value.midpoint,
+      income_type: holding.incomeType || '',
+      income_range: formatRange(holding.income),
+      income_midpoint: holding.income.midpoint,
+      asset_type: holding.assetType,
+      sector: holding.sector,
+      source_reliability: holding.sourceReliability,
+      confidence: holding.confidence,
+      review_flags: holding.reviewFlags.join('; '),
+    }))),
+    'Asset Income Holdings'
+  );
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    XLSX.utils.json_to_sheet(response.liabilities.map((liability) => ({
+      source_id: liability.sourceId,
+      creditor_name: liability.creditorName,
+      type: liability.type,
+      amount_range: formatRange(liability.amount),
+      amount_midpoint: liability.amount.midpoint,
+      year_incurred: liability.yearIncurred || '',
+      rate: liability.rate || '',
+      term: liability.term || '',
+      source_reliability: liability.sourceReliability,
+      confidence: liability.confidence,
+      review_flags: liability.reviewFlags.join('; '),
+    }))),
+    'Liabilities'
+  );
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    XLSX.utils.json_to_sheet(response.yearlyExposureSummaries.map((summary) => ({
+      year: summary.year,
+      source_reliability: summary.sourceReliability,
+      asset_income_count: summary.assetIncomeCount,
+      liability_count: summary.liabilityCount,
+      transaction_count: summary.transactionCount,
+      current_midpoint: summary.currentMidpoint,
+      purchase_midpoint: summary.purchaseMidpoint,
+      sale_midpoint: summary.saleMidpoint,
+      net_flow_midpoint: summary.netFlowMidpoint,
+      source_ids: summary.sourceIds.join('; '),
+    }))),
+    'Yearly Exposure'
+  );
+
+  XLSX.utils.book_append_sheet(
+    workbook,
     XLSX.utils.json_to_sheet(response.reviewQueue.map((item) => ({
       severity: item.severity,
       kind: item.kind,
@@ -232,6 +374,9 @@ export function buildTrumpOgeWorkbook(response: TrumpOgeApiResponse): XLSX.WorkB
       { field: 'data_through', value: response.cacheMeta.dataThrough || '' },
       { field: 'source', value: response.cacheMeta.source },
       { field: 'methodology', value: 'Values are OGE statutory ranges. Midpoint totals are estimates, not exact trading values.' },
+      { field: 'trump_index_formula', value: 'Score is 50% log-scaled current midpoint exposure rank, 30% absolute midpoint change rank, and 20% gross transaction activity rank.' },
+      { field: 'trump_index_confidence', value: 'Confidence and source reliability are displayed beside the score but do not reduce the score.' },
+      { field: 'historical_coverage', value: 'Source registry starts on Jan. 1, 2015 and separates official OGE PDFs, archived public copies, and request-only metadata.' },
       { field: 'holdings_estimates', value: 'Holdings are transaction-implied until the annual 278e baseline is extracted and reviewed.' },
       { field: 'classification', value: 'Asset type labels remain rules-based and carry confidence/review flags.' },
       { field: 'security_enrichment', value: 'Resolved tickers, exchanges, CIKs, and SIC-derived broad sectors use public SEC and Nasdaq Trader reference data.' },
@@ -242,6 +387,11 @@ export function buildTrumpOgeWorkbook(response: TrumpOgeApiResponse): XLSX.WorkB
       { field: 'event_overlay', value: 'Events are used for proximity analysis only; event proximity does not imply motive or causation.' },
       { field: 'event_count', value: String(response.cacheMeta.eventCount) },
       { field: 'event_window_count', value: String(response.cacheMeta.eventWindowCount) },
+      { field: 'historical_source_count', value: String(response.cacheMeta.historicalSourceCount) },
+      { field: 'financial_disclosure_report_count', value: String(response.cacheMeta.financialDisclosureReportCount) },
+      { field: 'asset_income_holding_count', value: String(response.cacheMeta.assetIncomeHoldingCount) },
+      { field: 'liability_count', value: String(response.cacheMeta.liabilityCount) },
+      { field: 'trump_index_count', value: String(response.cacheMeta.trumpIndexCount) },
     ]),
     'Methodology'
   );

@@ -5,6 +5,7 @@ export function filterTransactions(transactions: OgeTransaction[], filters: Trum
   const minConfidence = filters.confidence ?? null;
 
   return transactions.filter((tx) => {
+    if (filters.year && String(filters.year) !== 'All' && !tx.date.startsWith(String(filters.year))) return false;
     if (filters.startDate && tx.date < filters.startDate) return false;
     if (filters.endDate && tx.date > filters.endDate) return false;
     if (filters.assetType && filters.assetType !== 'All' && tx.assetType !== filters.assetType) return false;
@@ -27,17 +28,30 @@ export function filterTransactions(transactions: OgeTransaction[], filters: Trum
       ].join(' ').toLowerCase();
       if (!haystack.includes(query)) return false;
     }
+    if (filters.ticker && filters.ticker !== 'All') {
+      const ticker = (tx.resolvedTicker || tx.ticker || '').toUpperCase();
+      if (ticker !== String(filters.ticker).toUpperCase()) return false;
+    }
+    if (filters.issuer) {
+      const issuer = String(filters.issuer).trim().toLowerCase();
+      if (issuer && !(tx.resolvedIssuerName || tx.description).toLowerCase().includes(issuer)) return false;
+    }
     return true;
   });
 }
 
 export function filtersFromSearchParams(params: URLSearchParams): TrumpOgeFilters {
   return {
+    year: clean(params.get('year')),
     startDate: clean(params.get('startDate')),
     endDate: clean(params.get('endDate')),
     assetType: clean(params.get('assetType')),
     sector: clean(params.get('sector')),
     transactionType: clean(params.get('transactionType')),
+    sourceReliability: clean(params.get('sourceReliability')),
+    ticker: clean(params.get('ticker')),
+    issuer: clean(params.get('issuer')),
+    dataClass: clean(params.get('dataClass')),
     lateOnly: params.get('lateOnly') === 'true',
     query: clean(params.get('query')),
     confidence: parseConfidence(params.get('confidence')),

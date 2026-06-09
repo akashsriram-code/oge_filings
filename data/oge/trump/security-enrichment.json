@@ -3198,9 +3198,9 @@
     "candidateTickers": [
       "BLK",
       "BHK",
-      "BKRRF",
       "BKT",
-      "TCPC"
+      "TCPC",
+      "BLW"
     ],
     "transactionCount": 5,
     "assetTypes": [
@@ -3431,32 +3431,6 @@
     "transactionCount": 5,
     "assetTypes": [
       "Equity"
-    ]
-  },
-  {
-    "id": "8c90b9c1",
-    "securityKey": "VICTORIAS SECRET CO REGS",
-    "description": "VICTORIAS SECRET CO REGS DUE 07/15/2029 04.825% JJ 15 DISCRETIONARY ORDER IF THIS CONFIRMATION IS IN CONNECTION WITH A SALE PURSUANT TO REG. S",
-    "normalizedDescription": "VICTORIAS SECRET CO REGS DUE 07/15/2029 04 825% JJ 15 DISCRETIONARY ORDER IF THIS CONFIRMATION IS IN CONNECTION WITH A SALE PURSUANT TO REG S",
-    "sourceTicker": "",
-    "resolvedTicker": null,
-    "resolvedIssuerName": null,
-    "resolvedExchange": null,
-    "resolvedCik": null,
-    "resolvedSector": null,
-    "resolvedSic": null,
-    "resolvedSicDescription": null,
-    "enrichmentSource": "none",
-    "enrichmentConfidence": 0.9039999999999999,
-    "enrichmentFlags": [
-      "Low-confidence issuer match"
-    ],
-    "candidateTickers": [
-      "VSXY"
-    ],
-    "transactionCount": 5,
-    "assetTypes": [
-      "Corporate Bond"
     ]
   },
   {
@@ -4165,6 +4139,28 @@
     "transactionCount": 5,
     "assetTypes": [
       "ETF / Fund"
+    ]
+  },
+  {
+    "id": "8c90b9c1",
+    "securityKey": "VICTORIAS SECRET CO REGS",
+    "description": "VICTORIAS SECRET CO REGS DUE 07/15/2029 04.825% JJ 15 DISCRETIONARY ORDER IF THIS CONFIRMATION IS IN CONNECTION WITH A SALE PURSUANT TO REG. S",
+    "normalizedDescription": "VICTORIAS SECRET CO REGS DUE 07/15/2029 04 825% JJ 15 DISCRETIONARY ORDER IF THIS CONFIRMATION IS IN CONNECTION WITH A SALE PURSUANT TO REG S",
+    "sourceTicker": "",
+    "resolvedTicker": null,
+    "resolvedIssuerName": null,
+    "resolvedExchange": null,
+    "resolvedCik": null,
+    "resolvedSector": null,
+    "resolvedSic": null,
+    "resolvedSicDescription": null,
+    "enrichmentSource": "none",
+    "enrichmentConfidence": 0,
+    "enrichmentFlags": [],
+    "candidateTickers": [],
+    "transactionCount": 5,
+    "assetTypes": [
+      "Corporate Bond"
     ]
   },
   {
@@ -21790,21 +21786,21 @@
     "description": "FEDEX CORP UNSOLICITED",
     "normalizedDescription": "FEDEX CORP UNSOLICITED",
     "sourceTicker": "",
-    "resolvedTicker": null,
-    "resolvedIssuerName": null,
-    "resolvedExchange": null,
-    "resolvedCik": null,
+    "resolvedTicker": "FDX",
+    "resolvedIssuerName": "FEDEX CORP",
+    "resolvedExchange": "NYSE",
+    "resolvedCik": 1048911,
     "resolvedSector": null,
-    "resolvedSic": null,
-    "resolvedSicDescription": null,
-    "enrichmentSource": "none",
+    "resolvedSic": "4513",
+    "resolvedSicDescription": "Air Courier Services",
+    "enrichmentSource": "sec-fuzzy",
     "enrichmentConfidence": 0.8635294117647059,
     "enrichmentFlags": [
-      "Multiple possible tickers"
+      "Low-confidence issuer match",
+      "No SEC/SIC sector"
     ],
     "candidateTickers": [
-      "FDX",
-      "FDX-WI"
+      "FDX"
     ],
     "transactionCount": 2,
     "assetTypes": [
@@ -26093,23 +26089,21 @@
     "description": "FEDEX CORP",
     "normalizedDescription": "FEDEX CORP",
     "sourceTicker": "",
-    "resolvedTicker": null,
-    "resolvedIssuerName": null,
-    "resolvedExchange": null,
-    "resolvedCik": null,
+    "resolvedTicker": "FDX",
+    "resolvedIssuerName": "FEDEX CORP",
+    "resolvedExchange": "NYSE",
+    "resolvedCik": 1048911,
     "resolvedSector": null,
-    "resolvedSic": null,
-    "resolvedSicDescription": null,
-    "enrichmentSource": "none",
+    "resolvedSic": "4513",
+    "resolvedSicDescription": "Air Courier Services",
+    "enrichmentSource": "sec-exact",
     "enrichmentConfidence": 0.96,
     "enrichmentFlags": [
-      "Multiple possible tickers"
+      "No SEC/SIC sector"
     ],
     "candidateTickers": [
       "FDX",
-      "FDX-WI",
-      "FDXF",
-      "FDXF-WI"
+      "FDXF"
     ],
     "transactionCount": 1,
     "assetTypes": [
@@ -26440,30 +26434,6 @@
     "enrichmentFlags": [],
     "candidateTickers": [
       "HUBB"
-    ],
-    "transactionCount": 1,
-    "assetTypes": [
-      "Equity"
-    ]
-  },
-  {
-    "id": "562c4b3f",
-    "securityKey": "IAC INC",
-    "description": "IAC INC",
-    "normalizedDescription": "IAC INC",
-    "sourceTicker": "",
-    "resolvedTicker": "IAC",
-    "resolvedIssuerName": "IAC Inc.",
-    "resolvedExchange": "Nasdaq",
-    "resolvedCik": 1800227,
-    "resolvedSector": "Information Technology",
-    "resolvedSic": "7370",
-    "resolvedSicDescription": "Services-Computer Programming, Data Processing, Etc.",
-    "enrichmentSource": "sec-exact",
-    "enrichmentConfidence": 0.96,
-    "enrichmentFlags": [],
-    "candidateTickers": [
-      "IAC"
     ],
     "transactionCount": 1,
     "assetTypes": [
@@ -40269,6 +40239,33 @@
     ]
   },
   {
+    "id": "f29241b6",
+    "securityKey": "INVESCO PREMIER U S GOVERNMENT MONEY MARKET PORTFOLIO INVESTOR CLASS 5 - FREE SOLICITED ORDER DISCRETION EXERCISED",
+    "description": "Invesco Premier U.S. Government Money Market Portfolio Investor Class 5 - Free Solicited Order Discretion Exercised",
+    "normalizedDescription": "INVESCO PREMIER U S GOVERNMENT MONEY MARKET PORTFOLIO INVESTOR CLASS 5 - FREE SOLICITED ORDER DISCRETION EXERCISED",
+    "sourceTicker": "",
+    "resolvedTicker": null,
+    "resolvedIssuerName": null,
+    "resolvedExchange": null,
+    "resolvedCik": null,
+    "resolvedSector": null,
+    "resolvedSic": null,
+    "resolvedSicDescription": null,
+    "enrichmentSource": "none",
+    "enrichmentConfidence": 0.8452830188679245,
+    "enrichmentFlags": [
+      "Multiple possible tickers"
+    ],
+    "candidateTickers": [
+      "IVZ",
+      "VBF"
+    ],
+    "transactionCount": 1,
+    "assetTypes": [
+      "Other"
+    ]
+  },
+  {
     "id": "ac0f94ca",
     "securityKey": "APPLE INC COM SOLICITED ORDER DISCRETION EXERCISED ALLOCATED ORDER YOUR BROKER ACTED AS AGENT",
     "description": "Apple Inc Com Solicited Order Discretion Exercised Allocated Order Your Broker Acted As Agent",
@@ -49635,6 +49632,30 @@
     ]
   },
   {
+    "id": "562c4b3f",
+    "securityKey": "IAC INC",
+    "description": "IAC INC",
+    "normalizedDescription": "IAC INC",
+    "sourceTicker": "",
+    "resolvedTicker": null,
+    "resolvedIssuerName": null,
+    "resolvedExchange": null,
+    "resolvedCik": null,
+    "resolvedSector": null,
+    "resolvedSic": null,
+    "resolvedSicDescription": null,
+    "enrichmentSource": "none",
+    "enrichmentConfidence": 0,
+    "enrichmentFlags": [
+      "No public match"
+    ],
+    "candidateTickers": [],
+    "transactionCount": 1,
+    "assetTypes": [
+      "Equity"
+    ]
+  },
+  {
     "id": "af266aa4",
     "securityKey": "IDAHO HEALTH FACS AUTH REV BDS ST LUKES HEALTH SYS LTD 2025 II 5 000% 03/01/43 B/E",
     "description": "Idaho Health Facs Auth Rev Bds St Lukes Health Sys Ltd 2025 II 5.000% 03/01/43 B/e Dtd 02/__ Clb Solicited Order Yld 3.974 To Par",
@@ -50129,28 +50150,6 @@
     "securityKey": "INVESCO EXCHANGE-TRADED FD TR S AND P 500 EQUAL WEIGHT ETF SOLICITED ORDER DISCRETION EXERCISED AVERAGE UNIT PRICE TRANSACTION YOUR BROKER",
     "description": "Invesco Exchange-Traded Fd Tr S&P 500 Equal Weight ETF Solicited Order Discretion Exercised Average Unit Price Transaction Your Broker",
     "normalizedDescription": "INVESCO EXCHANGE-TRADED FD TR S AND P 500 EQUAL WEIGHT ETF SOLICITED ORDER DISCRETION EXERCISED AVERAGE UNIT PRICE TRANSACTION YOUR BROKER",
-    "sourceTicker": "",
-    "resolvedTicker": null,
-    "resolvedIssuerName": null,
-    "resolvedExchange": null,
-    "resolvedCik": null,
-    "resolvedSector": null,
-    "resolvedSic": null,
-    "resolvedSicDescription": null,
-    "enrichmentSource": "none",
-    "enrichmentConfidence": 0,
-    "enrichmentFlags": [],
-    "candidateTickers": [],
-    "transactionCount": 1,
-    "assetTypes": [
-      "ETF / Fund"
-    ]
-  },
-  {
-    "id": "f29241b6",
-    "securityKey": "INVESCO PREMIER U S GOVERNMENT MONEY MARKET PORTFOLIO INVESTOR CLASS 5 - FREE SOLICITED ORDER DISCRETION EXERCISED",
-    "description": "Invesco Premier U.S. Government Money Market Portfolio Investor Class 5 - Free Solicited Order Discretion Exercised",
-    "normalizedDescription": "INVESCO PREMIER U S GOVERNMENT MONEY MARKET PORTFOLIO INVESTOR CLASS 5 - FREE SOLICITED ORDER DISCRETION EXERCISED",
     "sourceTicker": "",
     "resolvedTicker": null,
     "resolvedIssuerName": null,

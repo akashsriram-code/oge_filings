@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import * as XLSX from 'xlsx';
+import askHandler from '../api/ask';
 import { parseOgeAmountRange } from '../lib/oge/amounts';
+import { buildHoldingsEstimates } from '../lib/oge/analytics';
 import { classifySecurity } from '../lib/oge/classify';
 import { buildApiResponse, loadTrumpOgeDataset } from '../lib/oge/data';
 import {
@@ -13,8 +15,9 @@ import {
 } from '../lib/oge/enrichment';
 import { buildEventWindows, eventWindowBounds, federalRegisterDocumentToEvent } from '../lib/oge/events';
 import { filterTransactions } from '../lib/oge/filter';
+import { buildTrumpIndex } from '../lib/oge/index';
 import { buildEquityStockSummaries, deriveEquityStockName } from '../lib/oge/stocks';
-import type { OgeEvent, OgeTransaction } from '../lib/oge/types';
+import type { BaselineHolding, OgeEvent, OgeTransaction, SourceFiling } from '../lib/oge/types';
 import { buildTrumpOgeWorkbook } from '../lib/oge/workbook';
 
 async function main() {
@@ -23,8 +26,10 @@ async function main() {
   testSecurityEnrichment();
   testEquityStocks();
   testEventOverlay();
+  testTrumpIndex();
   await testCacheShape();
   await testFiltering();
+  await testAskApiFallback();
   await testWorkbookExport();
   console.log('All tests passed.');
 }
@@ -215,6 +220,58 @@ function testClassification() {
 
   const etf = classifySecurity('SPDR S&P 500 ETF TRUST');
   assert.equal(etf.assetType, 'ETF / Fund');
+
+  const cash = classifySecurity('U.S. Bank Money Market Account (Cash)');
+  assert.equal(cash.assetType, 'Other');
+  assert.equal(cash.sector, 'Cash & Bank Accounts');
+  assert.ok(!cash.flags.includes('Needs asset-type review'));
+}
+
+function testTrumpIndex() {
+  const sourceFiling: SourceFiling = {
+    id: 'annual-source',
+    officialName: 'Trump, Donald J.',
+    title: 'President',
+    agency: 'White House Office',
+    documentType: 'Annual 278e',
+    filedAt: '2025-06-14',
+    filedDate: '2025-06-14',
+    amendedAt: null,
+    isAmendment: false,
+    ogeUrl: 'https://example.com/annual.pdf',
+    localFilename: 'annual.pdf',
+    bytes: 100,
+    sha256: 'SHA',
+    parserStatus: 'parsed',
+    transactionCount: null,
+    notes: 'fixture',
+  };
+  const baseline: BaselineHolding = {
+    id: 'baseline-cash',
+    description: 'U.S. Bank Money Market Account (Cash)',
+    normalizedDescription: 'U S BANK MONEY MARKET ACCOUNT CASH',
+    ...emptyEnrichmentFields(),
+    value: parseOgeAmountRange('$1,000,001-$5,000,000'),
+    assetType: 'Other',
+    sector: 'Cash & Bank Accounts',
+    sourceFilingId: sourceFiling.id,
+    confidence: 0.74,
+    reviewFlags: [],
+  };
+  const holdings = buildHoldingsEstimates([], [baseline]);
+  assert.equal(holdings.length, 1);
+  assert.equal(holdings[0].sourceFilingId, sourceFiling.id);
+
+  const index = buildTrumpIndex({
+    holdings,
+    transactions: [],
+    sourceFilings: [sourceFiling],
+    historicalSources: [],
+  }).entries;
+  assert.equal(index.length, 1);
+  assert.equal(index[0].displayName, baseline.description);
+  assert.equal(index[0].sourceReliability, 'official');
+  assert.equal(index[0].citations[0].sourceUrl, sourceFiling.ogeUrl);
 }
 
 async function testCacheShape() {
@@ -226,10 +283,18 @@ async function testCacheShape() {
   assert.ok(dataset.securityEnrichments.length >= 1, 'security enrichment cache should be present');
   assert.ok(dataset.events.length >= 1, 'event overlay cache should be present');
   assert.ok(dataset.eventWindows.length >= 1, 'event window cache should be present');
+  assert.ok(dataset.historicalSources.length >= 1, 'historical sources should be present');
+  assert.ok(dataset.financialDisclosureReports.length >= 1, 'financial disclosure reports should be present');
+  assert.ok(dataset.assetIncomeHoldings.length >= 1, 'annual asset-income holdings should be present');
+  assert.ok(dataset.baselineHoldings.length >= 1, 'baseline holdings should be present');
+  assert.ok(dataset.liabilities.length >= 1, 'annual liabilities should be present');
+  assert.ok(dataset.trumpIndex.length >= 1, 'Trump Index should be present');
+  assert.ok(dataset.trumpIndexRollups.length >= 1, 'Trump Index rollups should be present');
   assert.equal(dataset.cacheMeta.transactionCount, dataset.transactions.length);
   assert.equal(dataset.cacheMeta.sourceFilingCount, dataset.sourceFilings.length);
   assert.equal(dataset.cacheMeta.eventCount, dataset.events.length);
   assert.equal(dataset.cacheMeta.eventWindowCount, dataset.eventWindows.length);
+  assert.equal(dataset.cacheMeta.trumpIndexCount, dataset.trumpIndex.length);
 }
 
 async function testFiltering() {
@@ -248,7 +313,25 @@ async function testWorkbookExport() {
   const response = buildApiResponse(dataset, { transactionType: 'Purchase' });
   assert.ok(response.eventWindows.every((window) => window.saleMidpoint === 0), 'filtered event windows should honor API transaction filters');
   const workbook = buildTrumpOgeWorkbook(response);
-  const expectedSheets = ['Transactions', 'Equity Stocks', 'Estimated Holdings', 'Sector Summary', 'Security Enrichment', 'Events', 'Event Windows', 'Filing Sources', 'Review Queue', 'Methodology'];
+  const expectedSheets = [
+    'Trump Index',
+    'Trump Index Rollups',
+    'Transactions',
+    'Equity Stocks',
+    'Estimated Holdings',
+    'Sector Summary',
+    'Security Enrichment',
+    'Events',
+    'Event Windows',
+    'Filing Sources',
+    'Historical Sources',
+    'Disclosure Reports',
+    'Asset Income Holdings',
+    'Liabilities',
+    'Yearly Exposure',
+    'Review Queue',
+    'Methodology',
+  ];
   for (const sheet of expectedSheets) {
     assert.ok(workbook.SheetNames.includes(sheet), `missing sheet ${sheet}`);
   }
@@ -256,6 +339,51 @@ async function testWorkbookExport() {
   assert.ok('resolved_ticker' in transactionRows[0], 'transactions export should include resolved_ticker');
   const stockRows = XLSX.utils.sheet_to_json<Record<string, unknown>>(workbook.Sheets['Equity Stocks']);
   assert.ok('net_direction' in stockRows[0], 'equity stocks export should include net_direction');
+}
+
+async function testAskApiFallback() {
+  const oldVercel = process.env.VERCEL;
+  const oldToken = process.env.OPENARENA_BEARER_TOKEN;
+  const oldWorkflow = process.env.OPENARENA_TRUMP_INDEX_WORKFLOW_ID;
+  const oldSharedSecret = process.env.OPENARENA_API_SHARED_SECRET;
+  process.env.VERCEL = '1';
+  delete process.env.OPENARENA_BEARER_TOKEN;
+  delete process.env.OPENARENA_TRUMP_INDEX_WORKFLOW_ID;
+  delete process.env.OPENARENA_API_SHARED_SECRET;
+
+  let statusCode = 0;
+  let payload: Record<string, unknown> = {};
+  await askHandler(
+    {
+      method: 'POST',
+      headers: {},
+      body: {
+        question: 'What are the top Trump Index signals?',
+        filters: { assetType: 'Equity' },
+      },
+    },
+    {
+      status(code: number) {
+        statusCode = code;
+        return this;
+      },
+      setHeader() {},
+      json(body: unknown) {
+        payload = body as Record<string, unknown>;
+      },
+      end() {},
+    }
+  );
+
+  process.env.VERCEL = oldVercel;
+  if (oldToken) process.env.OPENARENA_BEARER_TOKEN = oldToken;
+  if (oldWorkflow) process.env.OPENARENA_TRUMP_INDEX_WORKFLOW_ID = oldWorkflow;
+  if (oldSharedSecret) process.env.OPENARENA_API_SHARED_SECRET = oldSharedSecret;
+
+  assert.equal(statusCode, 200);
+  assert.equal(payload.openArenaStatus, 'fallback');
+  assert.ok(String(payload.answer || '').includes('deterministic fallback'));
+  assert.ok(Array.isArray(payload.citations));
 }
 
 function makeTransaction(overrides: Partial<OgeTransaction>): OgeTransaction {
