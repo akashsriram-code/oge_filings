@@ -826,20 +826,6 @@
     "importance": 3
   },
   {
-    "id": "3cbbd4ef",
-    "date": "2026-05-06",
-    "endDate": null,
-    "category": "tariff",
-    "title": "Certain Freight Rail Couplers and Parts Thereof From India: Preliminary Affirmative Determination of Sales at Less Than Fair Value, Postponement of Final Determination, and Extension of Provisional Measures",
-    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that certain freight rail couplers and parts thereof (freight rail couplers) from India are being, or are likely to be, sold in the United States at less than fair value (LTFV). The period of investigation (POI) is July 1, 2024, through June 30, 2025. Interested parties are invited to comment on this preliminary determination.",
-    "sourceName": "Federal Register",
-    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/06/2026-08956/certain-freight-rail-couplers-and-parts-thereof-from-india-preliminary-affirmative-determination-of",
-    "tickers": [],
-    "sectors": [],
-    "tags": [],
-    "importance": 2
-  },
-  {
     "id": "842aaa5d",
     "date": "2026-05-08",
     "endDate": null,
@@ -855,24 +841,6 @@
     "tags": [
       "Section 232",
       "country/trade partner"
-    ],
-    "importance": 2
-  },
-  {
-    "id": "7f3712da",
-    "date": "2026-05-08",
-    "endDate": null,
-    "category": "tariff",
-    "title": "Foreign-Trade Zone (FTZ) 81, Notification of Proposed Production Activity; Turbocam Inc.; (Turbocharger and Aircraft Engine Compressor Components); Barrington, Dover, and Rochester, New Hampshire",
-    "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
-    "sourceName": "Federal Register",
-    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/08/2026-09222/foreign-trade-zone-ftz-81-notification-of-proposed-production-activity-turbocam-inc-turbocharger-and",
-    "tickers": [],
-    "sectors": [
-      "Industrials"
-    ],
-    "tags": [
-      "aircraft"
     ],
     "importance": 2
   },
@@ -1242,20 +1210,6 @@
     "summary": "The U.S. Department of Commerce (Commerce) determines that countervailable subsidies are being provided to producers and exporters of unwrought palladium (palladium) from the Russian Federation (Russia). The period of investigation is January 1, 2024, through December 31, 2024.",
     "sourceName": "Federal Register",
     "sourceUrl": "https://www.federalregister.gov/documents/2026/05/22/2026-10342/unwrought-palladium-from-the-russian-federation-final-affirmative-countervailing-duy-determination",
-    "tickers": [],
-    "sectors": [],
-    "tags": [],
-    "importance": 2
-  },
-  {
-    "id": "1ec7bae8",
-    "date": "2026-05-26",
-    "endDate": null,
-    "category": "tariff",
-    "title": "Certain Paper Shopping Bags From Colombia: Notice of Court Decision Not in Harmony With the Final Determination of Antidumping Investigation; Notice of Amended Final Determination; Notice of Amended Antidumping Duty Order, in Part",
-    "summary": "On April 13, 2026, the U.S. Court of International Trade (CIT) issued its final judgment in Coalition for Fair Trade in Shopping Bags v. United States, Court No. 24-00157, sustaining in full the U.S. Department of Commerce (Commerce)'s remand redetermination pertaining to the final determination in the investigation of sales at less than fair value (LTFV) of certain paper shopping bags from Colombia covering the period of investigation (POI) April 1, 2022, through March 31, 2023. Commerce is notifying the public that the CIT's final judgment is not in harmony with Commerce's Final Determination, and that Commerce is amending the Final Determination and the resulting antidumping duty Order with respect to the estimated weighted-average dumping margin determined for Ditar, S.A. (Ditar), the sole respondent individually- reviewed in the underlying investigation and, as a consequence, the estimated weighted-average dumping margin determined for all other producers and exporters based on Ditar's margin.",
-    "sourceName": "Federal Register",
-    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/26/2026-10402/certain-paper-shopping-bags-from-colombia-notice-of-court-decision-not-in-harmony-with-the-final",
     "tickers": [],
     "sectors": [],
     "tags": [],
@@ -2480,6 +2434,52 @@
     "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
     "sourceName": "Federal Register",
     "sourceUrl": "https://www.federalregister.gov/documents/2026/06/08/2026-11431/foreign-trade-zone-ftz-84-notification-of-proposed-production-activity-tesla-inc-battery-storage",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "4a690289",
+    "date": "2026-06-09",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Acetone From the Republic of Korea: Final Results of Antidumping Duty Administrative Review; 2024-2025",
+    "summary": "The U.S. Department of Commerce (Commerce) determines that Kumho P&B Chemicals, Inc. (KPB), a producer/exporter subject to this administrative review, made sales of acetone from the Republic of Korea (Korea) at less than normal value during the period of review (POR) March 1, 2024, through February 28, 2025.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/09/2026-11549/acetone-from-the-republic-of-korea-final-results-of-antidumping-duty-administrative-review-2024-2025",
+    "tickers": [],
+    "sectors": [
+      "Materials"
+    ],
+    "tags": [
+      "country/trade partner"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "3b05b7cb",
+    "date": "2026-06-09",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Foreign-Trade Zone (FTZ) 218, Notification of Proposed Production Activity; OCULUS Surgical, Inc.; (Ophthalmic Diagnostic Equipment); Port St. Lucie, Florida",
+    "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/09/2026-11547/foreign-trade-zone-ftz-218-notification-of-proposed-production-activity-oculus-surgical-inc",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "3354126c",
+    "date": "2026-06-09",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Foreign-Trade Zone (FTZ) 52, Notification of Proposed Production Activity; Photonics Industries International, Inc.; (Laser Systems); Ronkonkoma, New York",
+    "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/09/2026-11546/foreign-trade-zone-ftz-52-notification-of-proposed-production-activity-photonics-industries",
     "tickers": [],
     "sectors": [],
     "tags": [],

@@ -65,14 +65,14 @@
     "key": "All|Information Technology",
     "sector": "Information Technology",
     "assetType": "All",
-    "enrichedTransactionCount": 741,
-    "publicCompanyCount": 155,
-    "enrichmentConfidence": 0.9308767769075493,
+    "enrichedTransactionCount": 742,
+    "publicCompanyCount": 156,
+    "enrichmentConfidence": 0.9309160265343586,
     "purchases": {
       "label": "Purchases",
-      "min": 38330481,
-      "max": 141275000,
-      "midpoint": 89802740.5
+      "min": 38345482,
+      "max": 141325000,
+      "midpoint": 89835241
     },
     "sales": {
       "label": "Sales",
@@ -82,15 +82,15 @@
     },
     "net": {
       "label": "Net",
-      "min": -58974519,
-      "max": 114602706,
-      "midpoint": 27814093.5
+      "min": -58959518,
+      "max": 114652706,
+      "midpoint": 27846594
     },
-    "transactionCount": 775,
-    "purchaseCount": 481,
+    "transactionCount": 776,
+    "purchaseCount": 482,
     "saleCount": 294,
-    "lateCount": 767,
-    "confidence": 0.9015092795980493
+    "lateCount": 768,
+    "confidence": 0.90153310784599
   },
   {
     "key": "All|Other",
@@ -189,14 +189,14 @@
     "key": "All|Unclassified Equity",
     "sector": "Unclassified Equity",
     "assetType": "All",
-    "enrichedTransactionCount": 88,
-    "publicCompanyCount": 32,
-    "enrichmentConfidence": 0.923469463992343,
+    "enrichedTransactionCount": 85,
+    "publicCompanyCount": 31,
+    "enrichmentConfidence": 0.9244500471505501,
     "purchases": {
       "label": "Purchases",
-      "min": 19077442,
-      "max": 52005000,
-      "midpoint": 35541221
+      "min": 19062441,
+      "max": 51955000,
+      "midpoint": 35508720.5
     },
     "sales": {
       "label": "Sales",
@@ -206,14 +206,14 @@
     },
     "net": {
       "label": "Net",
-      "min": -1027558,
-      "max": 43747783,
-      "midpoint": 21360112.5
+      "min": -1042559,
+      "max": 43697783,
+      "midpoint": 21327612
     },
-    "transactionCount": 659,
-    "purchaseCount": 442,
+    "transactionCount": 658,
+    "purchaseCount": 441,
     "saleCount": 217,
-    "lateCount": 649,
+    "lateCount": 648,
     "confidence": 0.6200000000000035
   },
   {
@@ -623,14 +623,14 @@
     "key": "Equity|Unclassified Equity",
     "sector": "Unclassified Equity",
     "assetType": "Equity",
-    "enrichedTransactionCount": 88,
-    "publicCompanyCount": 32,
-    "enrichmentConfidence": 0.923469463992343,
+    "enrichedTransactionCount": 85,
+    "publicCompanyCount": 31,
+    "enrichmentConfidence": 0.9244500471505501,
     "purchases": {
       "label": "Purchases",
-      "min": 19077442,
-      "max": 52005000,
-      "midpoint": 35541221
+      "min": 19062441,
+      "max": 51955000,
+      "midpoint": 35508720.5
     },
     "sales": {
       "label": "Sales",
@@ -640,14 +640,14 @@
     },
     "net": {
       "label": "Net",
-      "min": -1027558,
-      "max": 43747783,
-      "midpoint": 21360112.5
+      "min": -1042559,
+      "max": 43697783,
+      "midpoint": 21327612
     },
-    "transactionCount": 659,
-    "purchaseCount": 442,
+    "transactionCount": 658,
+    "purchaseCount": 441,
     "saleCount": 217,
-    "lateCount": 649,
+    "lateCount": 648,
     "confidence": 0.6200000000000035
   },
   {
@@ -685,14 +685,14 @@
     "key": "Equity|Information Technology",
     "sector": "Information Technology",
     "assetType": "Equity",
-    "enrichedTransactionCount": 714,
-    "publicCompanyCount": 152,
-    "enrichmentConfidence": 0.9308258987233811,
+    "enrichedTransactionCount": 715,
+    "publicCompanyCount": 153,
+    "enrichmentConfidence": 0.9308667016622295,
     "purchases": {
       "label": "Purchases",
-      "min": 31397463,
-      "max": 112130000,
-      "midpoint": 71763731.5
+      "min": 31412464,
+      "max": 112180000,
+      "midpoint": 71796232
     },
     "sales": {
       "label": "Sales",
@@ -702,15 +702,15 @@
     },
     "net": {
       "label": "Net",
-      "min": -59112537,
-      "max": 87205719,
-      "midpoint": 14046591
+      "min": -59097536,
+      "max": 87255719,
+      "midpoint": 14079091.5
     },
-    "transactionCount": 744,
-    "purchaseCount": 463,
+    "transactionCount": 745,
+    "purchaseCount": 464,
     "saleCount": 281,
-    "lateCount": 741,
-    "confidence": 0.9014915210866794
+    "lateCount": 742,
+    "confidence": 0.9015163646825362
   },
   {
     "key": "Equity|Industrials",
