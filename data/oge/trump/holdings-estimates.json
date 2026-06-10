@@ -13568,20 +13568,30 @@
     "resolvedSic": null,
     "resolvedSicDescription": null,
     "enrichmentSource": "none",
-    "enrichmentConfidence": 0,
-    "enrichmentFlags": [],
+    "enrichmentConfidence": 0.9039999999999999,
+    "enrichmentFlags": [
+      "Low-confidence issuer match",
+      "Issuer context only; not direct instrument ticker"
+    ],
     "instrumentKind": "corporate bond/note",
     "instrumentIssuerName": "VICTORIAS SECRET COMPANY REGS",
     "instrumentCoupon": 4.825,
     "instrumentMaturityDate": "2029-07-15",
-    "instrumentSummary": "Victorias Secret Company Regs corporate bond/note (4.825% coupon; due Jul 15, 2029).",
+    "instrumentSummary": "Victorias Secret & Co. Common Stock corporate bond/note (4.825% coupon; due Jul 15, 2029). Issuer context: VSXY on NYSE; not a direct bond identifier.",
     "instrumentMatchSource": "description-parser",
     "instrumentMatchConfidence": 0.84,
     "instrumentContextFlags": [
       "No CUSIP/ISIN parsed"
     ],
-    "issuerContextConfidence": 0,
-    "issuerContextFlags": [],
+    "issuerContextTicker": "VSXY",
+    "issuerContextIssuerName": "Victorias Secret & Co. Common Stock",
+    "issuerContextExchange": "NYSE",
+    "issuerContextSource": "nasdaq-issuer-context",
+    "issuerContextConfidence": 0.9,
+    "issuerContextFlags": [
+      "Issuer context only; not direct instrument ticker",
+      "No SEC CIK for issuer context"
+    ],
     "assetType": "Corporate Bond",
     "sector": "Corporate Credit",
     "baseline": {
@@ -13623,7 +13633,9 @@
       "12d8bbbb"
     ],
     "reviewFlags": [
-      "Missing annual-baseline match; estimate is transaction-implied"
+      "Missing annual-baseline match; estimate is transaction-implied",
+      "Low-confidence issuer match",
+      "Issuer context only; not direct instrument ticker"
     ]
   },
   {
@@ -127507,18 +127519,17 @@
     "description": "FEDEX CORP UNSOLICITED",
     "normalizedDescription": "FEDEX CORP UNSOLICITED",
     "ticker": null,
-    "resolvedTicker": "FDX",
-    "resolvedIssuerName": "FEDEX CORP",
-    "resolvedExchange": "NYSE",
-    "resolvedCik": 1048911,
+    "resolvedTicker": null,
+    "resolvedIssuerName": null,
+    "resolvedExchange": null,
+    "resolvedCik": null,
     "resolvedSector": null,
-    "resolvedSic": "4513",
-    "resolvedSicDescription": "Air Courier Services",
-    "enrichmentSource": "sec-fuzzy",
+    "resolvedSic": null,
+    "resolvedSicDescription": null,
+    "enrichmentSource": "none",
     "enrichmentConfidence": 0.8635294117647059,
     "enrichmentFlags": [
-      "Low-confidence issuer match",
-      "No SEC/SIC sector"
+      "Multiple possible tickers"
     ],
     "instrumentMatchSource": "none",
     "instrumentMatchConfidence": 0,
@@ -127565,8 +127576,7 @@
     "reviewFlags": [
       "Missing annual-baseline match; estimate is transaction-implied",
       "Needs sector review",
-      "Low-confidence issuer match",
-      "No SEC/SIC sector"
+      "Multiple possible tickers"
     ]
   },
   {
@@ -145346,25 +145356,23 @@
     "description": "IAC INC",
     "normalizedDescription": "IAC INC",
     "ticker": null,
-    "resolvedTicker": null,
-    "resolvedIssuerName": null,
-    "resolvedExchange": null,
-    "resolvedCik": null,
-    "resolvedSector": null,
-    "resolvedSic": null,
-    "resolvedSicDescription": null,
-    "enrichmentSource": "none",
-    "enrichmentConfidence": 0,
-    "enrichmentFlags": [
-      "No public match"
-    ],
+    "resolvedTicker": "IAC",
+    "resolvedIssuerName": "IAC Inc.",
+    "resolvedExchange": "Nasdaq",
+    "resolvedCik": 1800227,
+    "resolvedSector": "Information Technology",
+    "resolvedSic": "7370",
+    "resolvedSicDescription": "Services-Computer Programming, Data Processing, Etc.",
+    "enrichmentSource": "sec-exact",
+    "enrichmentConfidence": 0.96,
+    "enrichmentFlags": [],
     "instrumentMatchSource": "none",
     "instrumentMatchConfidence": 0,
     "instrumentContextFlags": [],
     "issuerContextConfidence": 0,
     "issuerContextFlags": [],
     "assetType": "Equity",
-    "sector": "Unclassified Equity",
+    "sector": "Information Technology",
     "baseline": {
       "label": "$0",
       "min": 0,
@@ -145400,9 +145408,7 @@
       "280ebb88"
     ],
     "reviewFlags": [
-      "Missing annual-baseline match; estimate is transaction-implied",
-      "Needs sector review",
-      "No public match"
+      "Missing annual-baseline match; estimate is transaction-implied"
     ]
   },
   {
@@ -164976,17 +164982,17 @@
     "description": "FEDEX CORP",
     "normalizedDescription": "FEDEX CORP",
     "ticker": null,
-    "resolvedTicker": "FDX",
-    "resolvedIssuerName": "FEDEX CORP",
-    "resolvedExchange": "NYSE",
-    "resolvedCik": 1048911,
+    "resolvedTicker": null,
+    "resolvedIssuerName": null,
+    "resolvedExchange": null,
+    "resolvedCik": null,
     "resolvedSector": null,
-    "resolvedSic": "4513",
-    "resolvedSicDescription": "Air Courier Services",
+    "resolvedSic": null,
+    "resolvedSicDescription": null,
     "enrichmentSource": "none",
     "enrichmentConfidence": 0.96,
     "enrichmentFlags": [
-      "No SEC/SIC sector"
+      "Multiple possible tickers"
     ],
     "instrumentMatchSource": "none",
     "instrumentMatchConfidence": 0,
@@ -165031,7 +165037,7 @@
     ],
     "reviewFlags": [
       "Needs sector review",
-      "No SEC/SIC sector"
+      "Multiple possible tickers"
     ]
   },
   {

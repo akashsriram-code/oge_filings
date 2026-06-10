@@ -44476,17 +44476,17 @@
     "description": "FEDEX CORP",
     "normalizedDescription": "FEDEX CORP",
     "ticker": null,
-    "resolvedTicker": "FDX",
-    "resolvedIssuerName": "FEDEX CORP",
-    "resolvedExchange": "NYSE",
-    "resolvedCik": 1048911,
+    "resolvedTicker": null,
+    "resolvedIssuerName": null,
+    "resolvedExchange": null,
+    "resolvedCik": null,
     "resolvedSector": null,
-    "resolvedSic": "4513",
-    "resolvedSicDescription": "Air Courier Services",
-    "enrichmentSource": "sec-exact",
+    "resolvedSic": null,
+    "resolvedSicDescription": null,
+    "enrichmentSource": "none",
     "enrichmentConfidence": 0.96,
     "enrichmentFlags": [
-      "No SEC/SIC sector"
+      "Multiple possible tickers"
     ],
     "instrumentKind": null,
     "instrumentIssuerName": null,
@@ -44534,7 +44534,7 @@
     "parserStatus": "bootstrap-structured",
     "reviewFlags": [
       "Needs sector review",
-      "No SEC/SIC sector"
+      "Multiple possible tickers"
     ]
   },
   {
@@ -44542,18 +44542,17 @@
     "description": "FEDEX CORP UNSOLICITED",
     "normalizedDescription": "FEDEX CORP UNSOLICITED",
     "ticker": null,
-    "resolvedTicker": "FDX",
-    "resolvedIssuerName": "FEDEX CORP",
-    "resolvedExchange": "NYSE",
-    "resolvedCik": 1048911,
+    "resolvedTicker": null,
+    "resolvedIssuerName": null,
+    "resolvedExchange": null,
+    "resolvedCik": null,
     "resolvedSector": null,
-    "resolvedSic": "4513",
-    "resolvedSicDescription": "Air Courier Services",
-    "enrichmentSource": "sec-fuzzy",
+    "resolvedSic": null,
+    "resolvedSicDescription": null,
+    "enrichmentSource": "none",
     "enrichmentConfidence": 0.8635294117647059,
     "enrichmentFlags": [
-      "Low-confidence issuer match",
-      "No SEC/SIC sector"
+      "Multiple possible tickers"
     ],
     "instrumentKind": null,
     "instrumentIssuerName": null,
@@ -44601,8 +44600,7 @@
     "parserStatus": "bootstrap-structured",
     "reviewFlags": [
       "Needs sector review",
-      "Low-confidence issuer match",
-      "No SEC/SIC sector"
+      "Multiple possible tickers"
     ]
   },
   {
@@ -120492,18 +120490,16 @@
     "description": "IAC INC",
     "normalizedDescription": "IAC INC",
     "ticker": null,
-    "resolvedTicker": null,
-    "resolvedIssuerName": null,
-    "resolvedExchange": null,
-    "resolvedCik": null,
-    "resolvedSector": null,
-    "resolvedSic": null,
-    "resolvedSicDescription": null,
-    "enrichmentSource": "none",
-    "enrichmentConfidence": 0,
-    "enrichmentFlags": [
-      "No public match"
-    ],
+    "resolvedTicker": "IAC",
+    "resolvedIssuerName": "IAC Inc.",
+    "resolvedExchange": "Nasdaq",
+    "resolvedCik": 1800227,
+    "resolvedSector": "Information Technology",
+    "resolvedSic": "7370",
+    "resolvedSicDescription": "Services-Computer Programming, Data Processing, Etc.",
+    "enrichmentSource": "sec-exact",
+    "enrichmentConfidence": 0.96,
+    "enrichmentFlags": [],
     "instrumentKind": null,
     "instrumentIssuerName": null,
     "instrumentCusip": null,
@@ -120545,13 +120541,10 @@
     "sourceFilingId": null,
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf",
     "assetType": "Equity",
-    "sector": "Unclassified Equity",
-    "classificationConfidence": 0.62,
+    "sector": "Information Technology",
+    "classificationConfidence": 0.92,
     "parserStatus": "bootstrap-structured",
-    "reviewFlags": [
-      "Needs sector review",
-      "No public match"
-    ]
+    "reviewFlags": []
   },
   {
     "id": "8597f774",
@@ -132105,18 +132098,17 @@
     "description": "FEDEX CORP UNSOLICITED",
     "normalizedDescription": "FEDEX CORP UNSOLICITED",
     "ticker": null,
-    "resolvedTicker": "FDX",
-    "resolvedIssuerName": "FEDEX CORP",
-    "resolvedExchange": "NYSE",
-    "resolvedCik": 1048911,
+    "resolvedTicker": null,
+    "resolvedIssuerName": null,
+    "resolvedExchange": null,
+    "resolvedCik": null,
     "resolvedSector": null,
-    "resolvedSic": "4513",
-    "resolvedSicDescription": "Air Courier Services",
-    "enrichmentSource": "sec-fuzzy",
+    "resolvedSic": null,
+    "resolvedSicDescription": null,
+    "enrichmentSource": "none",
     "enrichmentConfidence": 0.8635294117647059,
     "enrichmentFlags": [
-      "Low-confidence issuer match",
-      "No SEC/SIC sector"
+      "Multiple possible tickers"
     ],
     "instrumentKind": null,
     "instrumentIssuerName": null,
@@ -132164,8 +132156,7 @@
     "parserStatus": "bootstrap-structured",
     "reviewFlags": [
       "Needs sector review",
-      "Low-confidence issuer match",
-      "No SEC/SIC sector"
+      "Multiple possible tickers"
     ]
   },
   {
@@ -236471,8 +236462,11 @@
     "resolvedSic": null,
     "resolvedSicDescription": null,
     "enrichmentSource": "none",
-    "enrichmentConfidence": 0,
-    "enrichmentFlags": [],
+    "enrichmentConfidence": 0.9039999999999999,
+    "enrichmentFlags": [
+      "Low-confidence issuer match",
+      "Issuer context only; not direct instrument ticker"
+    ],
     "instrumentKind": "corporate bond/note",
     "instrumentIssuerName": "VICTORIAS SECRET COMPANY REGS",
     "instrumentCusip": null,
@@ -236490,20 +236484,23 @@
     "instrumentReferenceLabel": null,
     "instrumentReferenceSource": null,
     "instrumentReferenceUrl": null,
-    "instrumentSummary": "Victorias Secret Company Regs corporate bond/note (4.825% coupon; due Jul 15, 2029).",
+    "instrumentSummary": "Victorias Secret & Co. Common Stock corporate bond/note (4.825% coupon; due Jul 15, 2029). Issuer context: VSXY on NYSE; not a direct bond identifier.",
     "instrumentMatchSource": "description-parser",
     "instrumentMatchConfidence": 0.84,
     "instrumentContextFlags": [
       "No CUSIP/ISIN parsed"
     ],
-    "issuerContextTicker": null,
-    "issuerContextIssuerName": null,
-    "issuerContextExchange": null,
+    "issuerContextTicker": "VSXY",
+    "issuerContextIssuerName": "Victorias Secret & Co. Common Stock",
+    "issuerContextExchange": "NYSE",
     "issuerContextCik": null,
     "issuerContextSector": null,
-    "issuerContextSource": null,
-    "issuerContextConfidence": 0,
-    "issuerContextFlags": [],
+    "issuerContextSource": "nasdaq-issuer-context",
+    "issuerContextConfidence": 0.9,
+    "issuerContextFlags": [
+      "Issuer context only; not direct instrument ticker",
+      "No SEC CIK for issuer context"
+    ],
     "type": "Purchase",
     "date": "2026-01-02",
     "amount": {
@@ -236519,7 +236516,10 @@
     "sector": "Corporate Credit",
     "classificationConfidence": 0.78,
     "parserStatus": "bootstrap-structured",
-    "reviewFlags": []
+    "reviewFlags": [
+      "Low-confidence issuer match",
+      "Issuer context only; not direct instrument ticker"
+    ]
   },
   {
     "id": "456417cc",
@@ -239005,8 +239005,11 @@
     "resolvedSic": null,
     "resolvedSicDescription": null,
     "enrichmentSource": "none",
-    "enrichmentConfidence": 0,
-    "enrichmentFlags": [],
+    "enrichmentConfidence": 0.9039999999999999,
+    "enrichmentFlags": [
+      "Low-confidence issuer match",
+      "Issuer context only; not direct instrument ticker"
+    ],
     "instrumentKind": "corporate bond/note",
     "instrumentIssuerName": "VICTORIAS SECRET COMPANY REGS",
     "instrumentCusip": null,
@@ -239024,20 +239027,23 @@
     "instrumentReferenceLabel": null,
     "instrumentReferenceSource": null,
     "instrumentReferenceUrl": null,
-    "instrumentSummary": "Victorias Secret Company Regs corporate bond/note (4.625% coupon; due Jul 15, 2029).",
+    "instrumentSummary": "Victorias Secret & Co. Common Stock corporate bond/note (4.625% coupon; due Jul 15, 2029). Issuer context: VSXY on NYSE; not a direct bond identifier.",
     "instrumentMatchSource": "description-parser",
     "instrumentMatchConfidence": 0.84,
     "instrumentContextFlags": [
       "No CUSIP/ISIN parsed"
     ],
-    "issuerContextTicker": null,
-    "issuerContextIssuerName": null,
-    "issuerContextExchange": null,
+    "issuerContextTicker": "VSXY",
+    "issuerContextIssuerName": "Victorias Secret & Co. Common Stock",
+    "issuerContextExchange": "NYSE",
     "issuerContextCik": null,
     "issuerContextSector": null,
-    "issuerContextSource": null,
-    "issuerContextConfidence": 0,
-    "issuerContextFlags": [],
+    "issuerContextSource": "nasdaq-issuer-context",
+    "issuerContextConfidence": 0.9,
+    "issuerContextFlags": [
+      "Issuer context only; not direct instrument ticker",
+      "No SEC CIK for issuer context"
+    ],
     "type": "Purchase",
     "date": "2025-12-16",
     "amount": {
@@ -239053,7 +239059,10 @@
     "sector": "Corporate Credit",
     "classificationConfidence": 0.78,
     "parserStatus": "bootstrap-structured",
-    "reviewFlags": []
+    "reviewFlags": [
+      "Low-confidence issuer match",
+      "Issuer context only; not direct instrument ticker"
+    ]
   },
   {
     "id": "03b901ea",
@@ -240706,8 +240715,11 @@
     "resolvedSic": null,
     "resolvedSicDescription": null,
     "enrichmentSource": "none",
-    "enrichmentConfidence": 0,
-    "enrichmentFlags": [],
+    "enrichmentConfidence": 0.9039999999999999,
+    "enrichmentFlags": [
+      "Low-confidence issuer match",
+      "Issuer context only; not direct instrument ticker"
+    ],
     "instrumentKind": "corporate bond/note",
     "instrumentIssuerName": "VICTORIAS SECRET COMPANY REGS",
     "instrumentCusip": null,
@@ -240725,20 +240737,23 @@
     "instrumentReferenceLabel": null,
     "instrumentReferenceSource": null,
     "instrumentReferenceUrl": null,
-    "instrumentSummary": "Victorias Secret Company Regs corporate bond/note (4.625% coupon; due Jul 15, 2029).",
+    "instrumentSummary": "Victorias Secret & Co. Common Stock corporate bond/note (4.625% coupon; due Jul 15, 2029). Issuer context: VSXY on NYSE; not a direct bond identifier.",
     "instrumentMatchSource": "description-parser",
     "instrumentMatchConfidence": 0.84,
     "instrumentContextFlags": [
       "No CUSIP/ISIN parsed"
     ],
-    "issuerContextTicker": null,
-    "issuerContextIssuerName": null,
-    "issuerContextExchange": null,
+    "issuerContextTicker": "VSXY",
+    "issuerContextIssuerName": "Victorias Secret & Co. Common Stock",
+    "issuerContextExchange": "NYSE",
     "issuerContextCik": null,
     "issuerContextSector": null,
-    "issuerContextSource": null,
-    "issuerContextConfidence": 0,
-    "issuerContextFlags": [],
+    "issuerContextSource": "nasdaq-issuer-context",
+    "issuerContextConfidence": 0.9,
+    "issuerContextFlags": [
+      "Issuer context only; not direct instrument ticker",
+      "No SEC CIK for issuer context"
+    ],
     "type": "Purchase",
     "date": "2025-12-12",
     "amount": {
@@ -240754,7 +240769,10 @@
     "sector": "Corporate Credit",
     "classificationConfidence": 0.78,
     "parserStatus": "bootstrap-structured",
-    "reviewFlags": []
+    "reviewFlags": [
+      "Low-confidence issuer match",
+      "Issuer context only; not direct instrument ticker"
+    ]
   },
   {
     "id": "50392099",
@@ -252197,8 +252215,11 @@
     "resolvedSic": null,
     "resolvedSicDescription": null,
     "enrichmentSource": "none",
-    "enrichmentConfidence": 0,
-    "enrichmentFlags": [],
+    "enrichmentConfidence": 0.9039999999999999,
+    "enrichmentFlags": [
+      "Low-confidence issuer match",
+      "Issuer context only; not direct instrument ticker"
+    ],
     "instrumentKind": "corporate bond/note",
     "instrumentIssuerName": "VICTORIAS SECRET COMPANY REGS",
     "instrumentCusip": null,
@@ -252216,20 +252237,23 @@
     "instrumentReferenceLabel": null,
     "instrumentReferenceSource": null,
     "instrumentReferenceUrl": null,
-    "instrumentSummary": "Victorias Secret Company Regs corporate bond/note (4.625% coupon; due Jul 15, 2029).",
+    "instrumentSummary": "Victorias Secret & Co. Common Stock corporate bond/note (4.625% coupon; due Jul 15, 2029). Issuer context: VSXY on NYSE; not a direct bond identifier.",
     "instrumentMatchSource": "description-parser",
     "instrumentMatchConfidence": 0.84,
     "instrumentContextFlags": [
       "No CUSIP/ISIN parsed"
     ],
-    "issuerContextTicker": null,
-    "issuerContextIssuerName": null,
-    "issuerContextExchange": null,
+    "issuerContextTicker": "VSXY",
+    "issuerContextIssuerName": "Victorias Secret & Co. Common Stock",
+    "issuerContextExchange": "NYSE",
     "issuerContextCik": null,
     "issuerContextSector": null,
-    "issuerContextSource": null,
-    "issuerContextConfidence": 0,
-    "issuerContextFlags": [],
+    "issuerContextSource": "nasdaq-issuer-context",
+    "issuerContextConfidence": 0.9,
+    "issuerContextFlags": [
+      "Issuer context only; not direct instrument ticker",
+      "No SEC CIK for issuer context"
+    ],
     "type": "Purchase",
     "date": "2025-11-04",
     "amount": {
@@ -252245,7 +252269,10 @@
     "sector": "Corporate Credit",
     "classificationConfidence": 0.78,
     "parserStatus": "bootstrap-structured",
-    "reviewFlags": []
+    "reviewFlags": [
+      "Low-confidence issuer match",
+      "Issuer context only; not direct instrument ticker"
+    ]
   },
   {
     "id": "9123c45a",
@@ -316935,8 +316962,11 @@
     "resolvedSic": null,
     "resolvedSicDescription": null,
     "enrichmentSource": "none",
-    "enrichmentConfidence": 0,
-    "enrichmentFlags": [],
+    "enrichmentConfidence": 0.9039999999999999,
+    "enrichmentFlags": [
+      "Low-confidence issuer match",
+      "Issuer context only; not direct instrument ticker"
+    ],
     "instrumentKind": "corporate bond/note",
     "instrumentIssuerName": "VICTORIAS SECRET COMPANY REGS",
     "instrumentCusip": null,
@@ -316954,20 +316984,23 @@
     "instrumentReferenceLabel": null,
     "instrumentReferenceSource": null,
     "instrumentReferenceUrl": null,
-    "instrumentSummary": "Victorias Secret Company Regs corporate bond/note (4.825% coupon; due Jul 15, 2029).",
+    "instrumentSummary": "Victorias Secret & Co. Common Stock corporate bond/note (4.825% coupon; due Jul 15, 2029). Issuer context: VSXY on NYSE; not a direct bond identifier.",
     "instrumentMatchSource": "description-parser",
     "instrumentMatchConfidence": 0.84,
     "instrumentContextFlags": [
       "No CUSIP/ISIN parsed"
     ],
-    "issuerContextTicker": null,
-    "issuerContextIssuerName": null,
-    "issuerContextExchange": null,
+    "issuerContextTicker": "VSXY",
+    "issuerContextIssuerName": "Victorias Secret & Co. Common Stock",
+    "issuerContextExchange": "NYSE",
     "issuerContextCik": null,
     "issuerContextSector": null,
-    "issuerContextSource": null,
-    "issuerContextConfidence": 0,
-    "issuerContextFlags": [],
+    "issuerContextSource": "nasdaq-issuer-context",
+    "issuerContextConfidence": 0.9,
+    "issuerContextFlags": [
+      "Issuer context only; not direct instrument ticker",
+      "No SEC CIK for issuer context"
+    ],
     "type": "Purchase",
     "date": "2025-01-20",
     "amount": {
@@ -316983,7 +317016,10 @@
     "sector": "Corporate Credit",
     "classificationConfidence": 0.78,
     "parserStatus": "bootstrap-structured",
-    "reviewFlags": []
+    "reviewFlags": [
+      "Low-confidence issuer match",
+      "Issuer context only; not direct instrument ticker"
+    ]
   },
   {
     "id": "ba6507cf",

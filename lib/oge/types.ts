@@ -548,3 +548,58 @@ export interface TrumpOgeApiResponse extends TrumpOgeDataset {
   availableSectors: string[];
   availableAssetTypes: string[];
 }
+
+export type TrumpOgePageName =
+  | 'index'
+  | 'equities'
+  | 'corporate-bonds'
+  | 'municipal-bonds'
+  | 'funds'
+  | 'preferred'
+  | 'other'
+  | 'holdings'
+  | 'sectors'
+  | 'timing'
+  | 'transactions'
+  | 'filings'
+  | 'review';
+
+export interface TrumpOgeBootstrap {
+  cacheMeta: CacheMeta;
+  kpis: TrumpOgeKpis;
+  filters: Required<Pick<TrumpOgeFilters, 'lateOnly'>> & Omit<TrumpOgeFilters, 'lateOnly'>;
+  availableSectors: string[];
+  availableAssetTypes: string[];
+  availableYears: string[];
+  sourceAudit: SourceAudit;
+  yearlyExposureSummaries: YearlyExposureSummary[];
+  trumpIndex: TrumpIndexEntry[];
+  trumpIndexRollups: TrumpIndexRollup[];
+}
+
+export interface TrumpOgePageResponse {
+  page: TrumpOgePageName;
+  cacheMeta: CacheMeta;
+  kpis: TrumpOgeKpis;
+  filters: Required<Pick<TrumpOgeFilters, 'lateOnly'>> & Omit<TrumpOgeFilters, 'lateOnly'>;
+  availableSectors: string[];
+  availableAssetTypes: string[];
+  availableYears: string[];
+  historicalSources?: HistoricalSource[];
+  sourceFilings?: SourceFiling[];
+  transactions?: OgeTransaction[];
+  baselineHoldings?: BaselineHolding[];
+  financialDisclosureReports?: FinancialDisclosureReport[];
+  assetIncomeHoldings?: AssetIncomeHolding[];
+  liabilities?: Liability[];
+  yearlyExposureSummaries?: YearlyExposureSummary[];
+  sourceAudit?: SourceAudit;
+  holdingsEstimates?: EstimatedHolding[];
+  sectorSummaries?: SectorSummary[];
+  trumpIndex?: TrumpIndexEntry[];
+  trumpIndexRollups?: TrumpIndexRollup[];
+  reviewQueue?: ReviewQueueItem[];
+  events?: OgeEvent[];
+  eventWindows?: EventWindowSummary[];
+  securityEnrichments?: SecurityEnrichment[];
+}

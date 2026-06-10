@@ -22,15 +22,15 @@ export const EVENT_CATEGORY_LABELS: Record<EventCategory, string> = {
 };
 
 export const EVENT_CATEGORY_COLORS: Record<EventCategory, string> = {
-  tariff: '#be123c',
+  tariff: '#e11d48',
   fed: '#2563eb',
-  'white-house': '#0f766e',
-  market: '#7c2d12',
-  'company-news': '#7c3aed',
-  'truth-social': '#334155',
-  interview: '#0e7490',
-  reuters: '#1d4ed8',
-  manual: '#b45309',
+  'white-house': '#059669',
+  market: '#f97316',
+  'company-news': '#8b5cf6',
+  'truth-social': '#111827',
+  interview: '#06b6d4',
+  reuters: '#4f46e5',
+  manual: '#ca8a04',
 };
 
 export function normalizeManualEvents(events: OgeEvent[]): OgeEvent[] {

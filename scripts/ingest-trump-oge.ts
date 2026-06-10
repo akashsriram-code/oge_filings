@@ -6,6 +6,8 @@ import { addRanges, parseOgeAmountRange } from '../lib/oge/amounts';
 import { buildHoldingsEstimates, buildReviewQueue, buildSectorSummaries, stableId } from '../lib/oge/analytics';
 import { classifySecurity } from '../lib/oge/classify';
 import { fetchTrumpContextDbEvents } from '../lib/oge/context-db';
+import { buildDashboardBootstrap } from '../lib/oge/data';
+import { isPostgresConfigured, syncTrumpOgeDatasetToPostgres } from '../lib/oge/postgres';
 import {
   buildEventWindows,
   buildFomcEvents,
@@ -181,7 +183,7 @@ async function main() {
     securityEnrichments,
   });
 
-  await writeDataset({
+  const dataset: TrumpOgeDataset = {
     historicalSources,
     sourceFilings,
     transactions,
@@ -201,7 +203,12 @@ async function main() {
     securityReference,
     securityEnrichments,
     cacheMeta,
-  });
+  };
+
+  await writeDataset(dataset);
+  const postgresSynced = isPostgresConfigured()
+    ? await syncDatasetToPostgresIfAvailable(dataset)
+    : false;
 
   console.log(JSON.stringify({
     generatedAt: cacheMeta.generatedAt,
@@ -224,7 +231,17 @@ async function main() {
     eventCount: events.length,
     eventWindowCount: eventWindows.length,
     latestFilingDate: cacheMeta.dataThrough,
+    postgresSynced,
   }, null, 2));
+}
+
+async function syncDatasetToPostgresIfAvailable(dataset: TrumpOgeDataset): Promise<boolean> {
+  try {
+    return await syncTrumpOgeDatasetToPostgres(dataset);
+  } catch (error) {
+    console.warn(`[Trump OGE Postgres] Sync skipped after ingestion: ${error instanceof Error ? error.message : String(error)}`);
+    return false;
+  }
 }
 
 async function fetchTrumpOgeSourceRecords(): Promise<OgeApiRecord[]> {
@@ -315,7 +332,13 @@ async function buildHistoricalSources(records: OgeApiRecord[], sourceFilings: So
     const filingType = classifyHistoricalFilingType(record.type);
     const filedDate = isoDate(record.docDate);
     const title = textFromHtml(record.type) || `${filingType} filed ${filedDate}`;
-    const key = sourceUrl || `${filedDate}|${filingType}|${title}`;
+    const key = historicalSourceKey({
+      sourceUrl,
+      filedDate,
+      filingType,
+      title,
+      sourceReliability: filing ? 'official' : 'metadata_only',
+    });
     if (sources.has(key)) continue;
 
     if (filing) {
@@ -358,14 +381,21 @@ async function buildHistoricalSources(records: OgeApiRecord[], sourceFilings: So
 
   const seededSources = await buildSeededHistoricalSources();
   for (const source of seededSources) {
-    if (source.sourceUrl && sources.has(source.sourceUrl)) continue;
-    sources.set(source.sourceUrl || source.id, source);
+    const key = historicalSourceKey(source);
+    if (sources.has(key)) continue;
+    sources.set(key, source);
   }
 
   const existingSources = await readJson<HistoricalSource[]>('historical-sources.json', []);
   for (const source of existingSources) {
-    const key = source.sourceUrl || source.id;
+    const key = historicalSourceKey(source);
     if (!key || sources.has(key)) continue;
+    if (
+      source.fetchStatus === 'failed' &&
+      Array.from(sources.values()).some((candidate) => historicalDisclosureCoverageKey(candidate) === historicalDisclosureCoverageKey(source))
+    ) {
+      continue;
+    }
     sources.set(key, source);
   }
 
@@ -374,6 +404,17 @@ async function buildHistoricalSources(records: OgeApiRecord[], sourceFilings: So
     a.sourceReliability.localeCompare(b.sourceReliability) ||
     a.title.localeCompare(b.title)
   );
+}
+
+function historicalSourceKey(source: Pick<HistoricalSource, 'sourceUrl' | 'filedDate' | 'filingType' | 'title' | 'sourceReliability'>): string {
+  if (source.sourceReliability === 'metadata_only') {
+    return `metadata|${source.filedDate}|${source.filingType}|${source.title}|${source.sourceUrl || ''}`;
+  }
+  return source.sourceUrl ? `pdf|${source.sourceUrl}` : `source|${source.filedDate}|${source.filingType}|${source.title}`;
+}
+
+function historicalDisclosureCoverageKey(source: Pick<HistoricalSource, 'filedDate' | 'filingType' | 'reportYear'>): string {
+  return `${source.reportYear || source.filedDate.slice(0, 4)}|${source.filingType}`;
 }
 
 async function buildSeededHistoricalSources(): Promise<HistoricalSource[]> {
@@ -447,19 +488,35 @@ async function buildAssetIncomeHoldings(
   historicalSources: HistoricalSource[]
 ): Promise<AssetIncomeHolding[]> {
   const existing = await readJson<AssetIncomeHolding[]>('asset-income-holdings.json', []);
-  const latestAnnualSource = latestDisclosureSource(historicalSources, 'Annual 278e');
-  if (latestAnnualSource?.sourceUrl) {
+  const parsed: AssetIncomeHolding[] = [];
+  const parsedSourceIds = new Set<string>();
+
+  for (const source of parseableDisclosureSources(historicalSources)) {
     try {
-      const text = await extractPdfText(latestAnnualSource.sourceUrl);
-      const parsed = parseAssetIncomeHoldingsFromText(text, latestAnnualSource);
-      if (parsed.length > 0) return parsed;
+      const text = await extractPdfText(source.sourceUrl);
+      const rows = parseAssetIncomeHoldingsFromText(text, source);
+      if (rows.length > 0) {
+        parsed.push(...rows);
+        parsedSourceIds.add(source.id);
+      }
     } catch (error) {
-      console.warn(`[Annual disclosure parser] Could not parse ${latestAnnualSource.sourceUrl}: ${error instanceof Error ? error.message : String(error)}`);
+      console.warn(`[Disclosure parser] Could not parse assets from ${source.sourceUrl}: ${error instanceof Error ? error.message : String(error)}`);
     }
+    await sleep(80);
+  }
+
+  if (parsed.length > 0) {
+    const preserved = existing.filter((item) => !parsedSourceIds.has(item.sourceId));
+    return [...parsed, ...preserved].sort((a, b) =>
+      b.value.midpoint - a.value.midpoint ||
+      a.sourceId.localeCompare(b.sourceId) ||
+      a.description.localeCompare(b.description)
+    );
   }
 
   if (existing.length > 0) return existing;
 
+  const latestAnnualSource = latestDisclosureSource(historicalSources, 'Annual 278e');
   if (!latestAnnualSource || baselineHoldings.length === 0) return [];
 
   return baselineHoldings.map((holding) => ({
@@ -502,15 +559,30 @@ function buildBaselineHoldingsFromAssetIncome(assetIncomeHoldings: AssetIncomeHo
 
 async function buildLiabilities(historicalSources: HistoricalSource[]): Promise<Liability[]> {
   const existing = await readJson<Liability[]>('liabilities.json', []);
-  const latestAnnualSource = latestDisclosureSource(historicalSources, 'Annual 278e');
-  if (latestAnnualSource?.sourceUrl) {
+  const parsed: Liability[] = [];
+  const parsedSourceIds = new Set<string>();
+
+  for (const source of parseableDisclosureSources(historicalSources)) {
     try {
-      const text = await extractPdfText(latestAnnualSource.sourceUrl);
-      const parsed = parseLiabilitiesFromText(text, latestAnnualSource);
-      if (parsed.length > 0) return parsed;
+      const text = await extractPdfText(source.sourceUrl);
+      const rows = parseLiabilitiesFromText(text, source);
+      if (rows.length > 0) {
+        parsed.push(...rows);
+        parsedSourceIds.add(source.id);
+      }
     } catch (error) {
-      console.warn(`[Annual disclosure parser] Could not parse liabilities from ${latestAnnualSource.sourceUrl}: ${error instanceof Error ? error.message : String(error)}`);
+      console.warn(`[Disclosure parser] Could not parse liabilities from ${source.sourceUrl}: ${error instanceof Error ? error.message : String(error)}`);
     }
+    await sleep(80);
+  }
+
+  if (parsed.length > 0) {
+    const preserved = existing.filter((item) => !parsedSourceIds.has(item.sourceId));
+    return [...parsed, ...preserved].sort((a, b) =>
+      b.amount.midpoint - a.amount.midpoint ||
+      a.sourceId.localeCompare(b.sourceId) ||
+      a.creditorName.localeCompare(b.creditorName)
+    );
   }
 
   return existing;
@@ -529,6 +601,19 @@ function latestDisclosureSource(
     )[0] || null;
 }
 
+function parseableDisclosureSources(historicalSources: HistoricalSource[]): HistoricalSource[] {
+  const supportedTypes = new Set<HistoricalSource['filingType']>(['Annual 278e', 'Candidate 278e', 'Termination 278e']);
+  return historicalSources
+    .filter((source) => supportedTypes.has(source.filingType))
+    .filter((source) => Boolean(source.sourceUrl) && /\.pdf(?:$|\?)/i.test(source.sourceUrl))
+    .filter((source) => source.fetchStatus !== 'failed')
+    .sort((a, b) =>
+      a.filedDate.localeCompare(b.filedDate) ||
+      sourceReliabilityRank(b.sourceReliability) - sourceReliabilityRank(a.sourceReliability) ||
+      a.title.localeCompare(b.title)
+    );
+}
+
 async function extractPdfText(url: string): Promise<string> {
   const parser = new PDFParse({ url });
   try {
@@ -541,39 +626,25 @@ async function extractPdfText(url: string): Promise<string> {
 
 function parseAssetIncomeHoldingsFromText(text: string, source: HistoricalSource): AssetIncomeHolding[] {
   const rows: AssetIncomeHolding[] = [];
-  const rowPattern = numberedAssetRowPattern();
   const seen = new Set<string>();
-  let inPart6 = false;
+  const chunks = collectAssetIncomeChunks(text);
 
-  for (const rawLine of text.split(/\r?\n/)) {
-    const line = normalizePdfLine(rawLine);
-    if (/Part 6:\s*Other Assets and Income/i.test(line)) {
-      inPart6 = true;
-      continue;
-    }
-    if (inPart6 && /Part 7:\s*Transactions|Part 8:\s*Liabilities|Part 9:\s*Gifts/i.test(line)) {
-      inPart6 = false;
-      continue;
-    }
-    if (!inPart6) continue;
-
-    const match = line.match(rowPattern);
-    if (!match) continue;
-    const [, rowNumber, description, valueLabel, incomeTypeRaw, incomeLabelRaw] = match;
-    const cleanedDescription = description.trim();
-    if (!cleanedDescription || cleanedDescription === 'N/A') continue;
+  for (const chunk of chunks) {
+    const parsed = parseAssetIncomeChunk(chunk);
+    if (!parsed) continue;
+    const { rowNumber, description, valueLabel, incomeTypeRaw, incomeLabelRaw, partLabel } = parsed;
     const value = parseOgeAmountRange(valueLabel);
-    const incomeType = cleanIncomeType(incomeTypeRaw);
-    const income = parseOgeAmountRange(incomeLabelRaw || incomeTypeRaw);
-    const classification = classifySecurity(cleanedDescription);
-    const key = `${rowNumber}|${cleanedDescription}|${value.label}|${income.label}`;
+    const incomeType = cleanIncomeType(incomeTypeRaw || '');
+    const income = parseOgeAmountRange(incomeLabelRaw || '');
+    const classification = classifySecurity(description);
+    const key = `${partLabel}|${rowNumber}|${description}|${value.label}|${income.label}`;
     if (seen.has(key)) continue;
     seen.add(key);
 
     rows.push({
       id: stableId(`asset-income-holding|${source.id}|${key}`),
       sourceId: source.id,
-      description: cleanedDescription,
+      description,
       normalizedDescription: classification.normalizedDescription,
       value,
       incomeType,
@@ -585,7 +656,7 @@ function parseAssetIncomeHoldingsFromText(text: string, source: HistoricalSource
       reviewFlags: [
         ...new Set([
           ...classification.flags,
-          'Parsed from annual 278e Part 6 text; verify PDF row before publication.',
+          `Parsed from ${partLabel} text; verify PDF row before publication.`,
           ...(value.midpoint === 0 ? ['No disclosed value range parsed'] : []),
         ]),
       ],
@@ -597,7 +668,7 @@ function parseAssetIncomeHoldingsFromText(text: string, source: HistoricalSource
 
 function parseLiabilitiesFromText(text: string, source: HistoricalSource): Liability[] {
   const part8 = text.match(/Part 8:\s*Liabilities([\s\S]*?)(?:Part 9:\s*Gifts|Schedule 1 for Part 2|$)/i)?.[1] || '';
-  if (!part8) return [];
+  if (!part8) return parseColumnarLiabilitiesFromText(text, source);
 
   const chunks: string[] = [];
   let current = '';
@@ -647,6 +718,19 @@ function parseLiabilitiesFromText(text: string, source: HistoricalSource): Liabi
     });
   }
 
+  const fallbackRows = liabilities.length === 0
+    ? [
+        ...parseInlineLiabilityRowsFromText(part8, source),
+        ...parseColumnarLiabilitiesFromText(text, source),
+      ]
+    : parseColumnarLiabilitiesFromText(text, source);
+  for (const liability of fallbackRows) {
+    const key = liabilityDedupKey(liability);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    liabilities.push(liability);
+  }
+
   return liabilities.sort((a, b) => b.amount.midpoint - a.amount.midpoint || a.creditorName.localeCompare(b.creditorName));
 }
 
@@ -654,13 +738,332 @@ function disclosureAmountPattern(): string {
   return String.raw`(?:None \(or less than \$1,001\)|None \(or less than \$201\)|Over \$50,000,000|\$[0-9,]+\s*-\s*\$[0-9,]+|\$[0-9,]+)`;
 }
 
-function numberedAssetRowPattern(): RegExp {
-  const amount = disclosureAmountPattern();
-  return new RegExp(String.raw`^(\d{1,4})\s+(.+?)\s+N/A\s+(${amount})\s+(.+?)(?:\s+(${amount}))?$`, 'i');
+interface AssetIncomeChunk {
+  partLabel: 'Part 2' | 'Part 6';
+  rowNumber: string;
+  lines: string[];
+}
+
+interface ParsedAssetIncomeChunk {
+  partLabel: AssetIncomeChunk['partLabel'];
+  rowNumber: string;
+  description: string;
+  valueLabel: string;
+  incomeTypeRaw: string | null;
+  incomeLabelRaw: string | null;
+}
+
+function collectAssetIncomeChunks(text: string): AssetIncomeChunk[] {
+  const chunks: AssetIncomeChunk[] = [];
+  let activePart: AssetIncomeChunk['partLabel'] | null = null;
+  let current: AssetIncomeChunk | null = null;
+
+  const flush = () => {
+    if (current) chunks.push(current);
+    current = null;
+  };
+
+  for (const rawLine of text.split(/\r?\n/)) {
+    const line = normalizePdfLine(rawLine);
+    if (!line) continue;
+    if (/Part 2:\s*Filer's Employment Assets/i.test(line)) {
+      flush();
+      activePart = 'Part 2';
+      continue;
+    }
+    if (/Part 6:\s*Other Assets and Income/i.test(line)) {
+      flush();
+      activePart = 'Part 6';
+      continue;
+    }
+    if (activePart === 'Part 2' && /Part 3:\s*Filer's Employment Agreements|Part 4:\s*Filer's Sources/i.test(line)) {
+      flush();
+      activePart = null;
+      continue;
+    }
+    if (activePart === 'Part 6' && /Part 7:\s*Transactions|Part 8:\s*Liabilities|Part 9:\s*Gifts|Schedule 1 for Part 2/i.test(line)) {
+      flush();
+      activePart = null;
+      continue;
+    }
+    if (!activePart || shouldSkipDisclosureLine(line)) continue;
+
+    const rowStart = line.match(/^(\d{1,4}(?:\.\d+)?)\.?\s+(.+)/);
+    if (rowStart && !/^(of|Page|Filer|Instructions)\b/i.test(rowStart[2])) {
+      flush();
+      current = {
+        partLabel: activePart,
+        rowNumber: rowStart[1],
+        lines: [line],
+      };
+      continue;
+    }
+
+    if (current) current.lines.push(line);
+  }
+
+  flush();
+  return chunks;
+}
+
+function parseAssetIncomeChunk(chunk: AssetIncomeChunk): ParsedAssetIncomeChunk | null {
+  const amountPattern = new RegExp(disclosureAmountPattern(), 'gi');
+  const combined = normalizePdfLine(chunk.lines.join(' ')).replace(/^\d{1,4}(?:\.\d+)?\.?\s+/, '');
+  const amounts = Array.from(combined.matchAll(amountPattern));
+  if (amounts.length === 0) return null;
+
+  const valueMatch = amounts[0];
+  if (valueMatch.index === undefined) return null;
+  const valueLabel = valueMatch[0];
+  const beforeValue = combined.slice(0, valueMatch.index).trim();
+  const valueEnd = valueMatch.index + valueLabel.length;
+  const afterValue = combined.slice(valueEnd).trim();
+  const incomeMatch = Array.from(afterValue.matchAll(amountPattern)).at(-1);
+  const incomeLabelRaw = incomeMatch?.[0] || null;
+  const incomeTypeRaw = incomeMatch && incomeMatch.index !== undefined
+    ? afterValue.slice(0, incomeMatch.index).trim()
+    : afterValue.trim();
+  const description = cleanAssetIncomeDescription(beforeValue);
+  if (!description || /^N\/A$/i.test(description)) return null;
+
+  return {
+    partLabel: chunk.partLabel,
+    rowNumber: chunk.rowNumber,
+    description,
+    valueLabel,
+    incomeTypeRaw,
+    incomeLabelRaw,
+  };
+}
+
+function cleanAssetIncomeDescription(value: string): string {
+  return value
+    .replace(/\b(?:N\/A|NIA|No|Y|N)\s+\d{1,4}(?:\.\d+)?$/i, '')
+    .replace(/\b(?:N\/A|NIA|No|Y|N)$/i, '')
+    .replace(/\bValue reported reflects\b[\s\S]*$/i, '')
+    .replace(/\bAdditional Underlying Asset\b[\s\S]*$/i, '')
+    .replace(/\bUnderlying Assets?\b[\s\S]*$/i, '')
+    .replace(/\bLocation:\b[\s\S]*$/i, '')
+    .replace(/\bSee attached schedule\b[\s\S]*$/i, '')
+    .replace(/\bThe Fred C\. Trump\b[\s\S]*$/i, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/[;:,.\s]+$/g, '');
+}
+
+function shouldSkipDisclosureLine(line: string): boolean {
+  return /^(Instructions|Note:|Filer's Name|Page Number|-- \d+ of|\d+ of \d+|OGE Form|# Description|Reference #|Ownership %|Income Amount|Value Income Type|attached schedule|I Page Number)$/i.test(line);
+}
+
+function parseColumnarLiabilitiesFromText(text: string, source: HistoricalSource): Liability[] {
+  const amountBlock = text.match(/# Amount Year Incurred Rate Term([\s\S]*?)Part 8:\s*Liabilities/i)?.[1] || '';
+  const nameBlock = text.match(/Part 8:\s*Liabilities([\s\S]*?)(?:\*In\s+\d{4}|# Source Name|Part 9:\s*Gifts|Schedule 1 for Part 2|$)/i)?.[1] || '';
+  if (!amountBlock || !nameBlock) return [];
+
+  const amountRows = collectColumnarLiabilityAmounts(amountBlock);
+  const nameRows = collectColumnarLiabilityNames(nameBlock);
+  const liabilities: Liability[] = [];
+
+  for (let index = 0; index < Math.min(amountRows.length, nameRows.length); index += 1) {
+    const amountRow = amountRows[index];
+    const nameRow = nameRows[index];
+    const amount = parseOgeAmountRange(amountRow.amountLabel);
+    const split = splitCreditorAndLiabilityType(nameRow);
+    const key = `${split.creditorName}|${split.type}|${amount.label}|${amountRow.yearIncurred || ''}`;
+    liabilities.push({
+      id: stableId(`liability|${source.id}|columnar|${key}`),
+      sourceId: source.id,
+      creditorName: split.creditorName,
+      type: split.type,
+      amount,
+      yearIncurred: amountRow.yearIncurred,
+      rate: amountRow.rate,
+      term: amountRow.term,
+      sourceReliability: source.sourceReliability,
+      confidence: 0.7,
+      reviewFlags: ['Parsed from columnar 278e Part 8 text; verify PDF row before publication.'],
+    });
+  }
+
+  return liabilities;
+}
+
+function collectColumnarLiabilityAmounts(block: string): Array<{
+  amountLabel: string;
+  yearIncurred: string | null;
+  rate: string | null;
+  term: string | null;
+}> {
+  const amountPattern = disclosureAmountPattern();
+  const rows: string[] = [];
+  let current = '';
+  let pendingRowNumber = '';
+
+  for (const rawLine of block.split(/\r?\n/)) {
+    const line = normalizePdfLine(rawLine);
+    if (!line || shouldSkipDisclosureLine(line)) continue;
+    if (/^\d{1,2}\.$/.test(line)) {
+      pendingRowNumber = line.replace('.', '');
+      continue;
+    }
+    const startsRow = new RegExp(String.raw`^(\d{1,2})\.\s+(${amountPattern})\s+(\d{4}|N/A)\b`, 'i').test(line);
+    const startsPendingRow = pendingRowNumber && new RegExp(String.raw`^(${amountPattern})\s+(\d{4}|N/A)\b`, 'i').test(line);
+    if ((startsRow || startsPendingRow) && current) {
+      rows.push(current);
+      current = startsPendingRow ? `${pendingRowNumber}. ${line}` : line;
+      pendingRowNumber = '';
+      continue;
+    }
+    if (startsRow || startsPendingRow) {
+      current = startsPendingRow ? `${pendingRowNumber}. ${line}` : line;
+      pendingRowNumber = '';
+      continue;
+    }
+    current = current ? `${current} ${line}` : line;
+  }
+  if (current) rows.push(current);
+
+  return rows
+    .map((row) => {
+      const match = row.match(new RegExp(String.raw`^\d{1,2}\.\s+(${amountPattern})\s+(\d{4}|N/A)\s+(.+)$`, 'i'));
+      if (!match) return null;
+      const rest = match[3].trim();
+      const termIndex = rest.search(/\b(Matures|Monthly|Demand|Springing|repaid|due)\b/i);
+      return {
+        amountLabel: match[1],
+        yearIncurred: match[2] === 'N/A' ? null : match[2],
+        rate: termIndex >= 0 ? rest.slice(0, termIndex).trim() || null : rest || null,
+        term: termIndex >= 0 ? rest.slice(termIndex).trim() : null,
+      };
+    })
+    .filter((row): row is { amountLabel: string; yearIncurred: string | null; rate: string | null; term: string | null } => Boolean(row));
+}
+
+function collectColumnarLiabilityNames(block: string): string[] {
+  const rows: string[] = [];
+  let current = '';
+
+  for (const rawLine of block.split(/\r?\n/)) {
+    const line = normalizePdfLine(rawLine);
+    if (!line || shouldSkipDisclosureLine(line) || /^(Creditor Name Type|# Creditor Name Type)$/i.test(line)) continue;
+    if (/^\*/.test(line)) break;
+    current = current ? `${current} ${line}` : line;
+    if (/\b(mortgage|loan|bonds?|credit card)\b/i.test(current)) {
+      rows.push(current.replace(/\s+/g, ' ').trim());
+      current = '';
+    }
+  }
+
+  return rows;
+}
+
+function parseInlineLiabilityRowsFromText(part8: string, source: HistoricalSource): Liability[] {
+  const amountPattern = disclosureAmountPattern();
+  const rows: Liability[] = [];
+  const seen = new Set<string>();
+  const lines = part8.split(/\r?\n/).map(normalizePdfLine).filter(Boolean);
+
+  for (let index = 0; index < lines.length; index += 1) {
+    let line = lines[index];
+    if (
+      shouldSkipDisclosureLine(line) ||
+      /^(# Creditor Name Type|Rate|Term|Value|Year Incurred|\d{4}|LIBOR|Prime|Six month|Page Number)\b/i.test(line) ||
+      /^\d{1,2}\.?$/.test(line) ||
+      /^\*/.test(line)
+    ) {
+      if (/^\*/.test(line)) break;
+      continue;
+    }
+
+    const amountMatch = line.match(new RegExp(`\\s(${amountPattern})(?:\\s+(\\d{4}|N/A))?\\b`, 'i'));
+    if (!amountMatch || amountMatch.index === undefined) continue;
+
+    const nextLine = lines[index + 1] || '';
+    if (/-\s*$/.test(line.slice(0, amountMatch.index)) && /^(mortgage|loan|issuer|springing|term|Neck LLC|Washington DC LLC)/i.test(nextLine)) {
+      line = `${line.slice(0, amountMatch.index)}${nextLine} ${line.slice(amountMatch.index)}`;
+      index += 1;
+    }
+
+    const refreshedAmountMatch = line.match(new RegExp(`\\s(${amountPattern})(?:\\s+(\\d{4}|N/A))?\\b`, 'i'));
+    if (!refreshedAmountMatch || refreshedAmountMatch.index === undefined) continue;
+    const beforeAmount = line.slice(0, refreshedAmountMatch.index).replace(/^\d{1,2}\.\s*/, '').trim();
+    const split = splitCreditorAndLiabilityType(beforeAmount);
+    if (!split.creditorName || /^\d{4}$/.test(split.creditorName)) continue;
+    const amount = parseOgeAmountRange(refreshedAmountMatch[1]);
+    const yearIncurred = refreshedAmountMatch[2] && refreshedAmountMatch[2] !== 'N/A' ? refreshedAmountMatch[2] : null;
+    const key = `${split.creditorName}|${split.type}|${amount.label}|${yearIncurred || ''}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    rows.push({
+      id: stableId(`liability|${source.id}|inline|${key}`),
+      sourceId: source.id,
+      creditorName: split.creditorName,
+      type: split.type,
+      amount,
+      yearIncurred,
+      rate: null,
+      term: null,
+      sourceReliability: source.sourceReliability,
+      confidence: yearIncurred ? 0.68 : 0.62,
+      reviewFlags: ['Parsed from inline 278e Part 8 text; rate/term columns may require PDF review.'],
+    });
+  }
+
+  return rows;
+}
+
+function splitCreditorAndLiabilityType(value: string): { creditorName: string; type: string } {
+  const cleaned = value.replace(/\s+-\s+/g, ' - ').trim();
+  const markers = [
+    ' Trump ',
+    ' 40 Wall',
+    ' Fifty-Seventh',
+    ' Seven Springs',
+    ' TIHT',
+    ' 1125 South',
+    ' Chicago Unit',
+  ];
+  const markerIndex = markers
+    .map((marker) => cleaned.indexOf(marker))
+    .filter((index) => index > 0)
+    .sort((a, b) => a - b)[0];
+  if (markerIndex) {
+    return {
+      creditorName: cleaned.slice(0, markerIndex).trim(),
+      type: cleaned.slice(markerIndex).trim(),
+    };
+  }
+
+  const creditorName = inferCreditorName(cleaned);
+  return {
+    creditorName,
+    type: cleaned.slice(creditorName.length).trim() || 'Unspecified liability',
+  };
+}
+
+function liabilityDedupKey(liability: Pick<Liability, 'creditorName' | 'type' | 'amount' | 'yearIncurred'>): string {
+  return `${liability.creditorName}|${liability.type}|${liability.amount.label}|${liability.yearIncurred || ''}`;
 }
 
 function normalizePdfLine(value: string): string {
-  return value.replace(/\t+/g, ' ').replace(/\s+/g, ' ').trim();
+  return normalizeDisclosureText(value.replace(/\t+/g, ' ').replace(/\s+/g, ' ').trim());
+}
+
+function normalizeDisclosureText(value: string): string {
+  return value
+    .replace(/\bOrer\b/gi, 'Over')
+    .replace(/\bOve r\b/gi, 'Over')
+    .replace(/\bNIA\b/g, 'N/A')
+    .replace(/\{or/gi, '(or')
+    .replace(/\$\s*\d+(?:\s*[,\.]\s*\d+)*/g, (match) => formatCurrencyToken(match));
+}
+
+function formatCurrencyToken(value: string): string {
+  const digits = value.replace(/[^\d]/g, '');
+  if (!digits) return value.trim();
+  const trailingWhitespace = value.match(/\s+$/)?.[0] || '';
+  return `$${digits.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}${trailingWhitespace}`;
 }
 
 function cleanIncomeType(value: string): string | null {
@@ -1277,6 +1680,7 @@ async function writeDataset(dataset: TrumpOgeDataset) {
     writeJson('security-reference.json', dataset.securityReference),
     writeJson('security-enrichment.json', dataset.securityEnrichments),
     writeJson('cache-meta.json', dataset.cacheMeta),
+    writeJson('dashboard-bootstrap.json', buildDashboardBootstrap(dataset)),
   ]);
 }
 

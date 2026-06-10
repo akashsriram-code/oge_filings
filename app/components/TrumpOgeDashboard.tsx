@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import * as XLSX from 'xlsx';
 import {
   AlertTriangle,
@@ -32,15 +32,14 @@ import { hierarchy, treemap } from 'd3-hierarchy';
 import { scaleLinear } from 'd3-scale';
 import {
   CartesianGrid,
+  ComposedChart,
   Line,
-  LineChart,
-  ReferenceDot,
   ResponsiveContainer,
+  Scatter,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
-import { buildHoldingsEstimates, buildKpis, buildSectorSummaries } from '@/lib/oge/analytics';
 import {
   buildEventWindows,
   EVENT_CATEGORY_COLORS,
@@ -49,41 +48,36 @@ import {
   eventWindowBounds,
 } from '@/lib/oge/events';
 import { filterTransactions } from '@/lib/oge/filter';
-import { buildTrumpIndex, buildTrumpIndexRollups } from '@/lib/oge/index';
 import { EMPTY_SECURITY_REFERENCE } from '@/lib/oge/enrichment';
 import { formatMoney, formatRange } from '@/lib/oge/amounts';
 import { confidenceLabel, describeAssetType, describeSector, describeTransaction, summarizeSector } from '@/lib/oge/descriptions';
 import { buildEquityStockSummaries, deriveEquityStockName, type EquityStockSummary } from '@/lib/oge/stocks';
 import { buildTrumpOgeWorkbook, trumpOgeWorkbookFilename } from '@/lib/oge/workbook';
 import type {
-  AssetIncomeHolding,
   AssetType,
-  BaselineHolding,
   CacheMeta,
   EstimatedHolding,
   EventCategory,
   EventWindowSummary,
-  FinancialDisclosureReport,
   HistoricalSource,
-  Liability,
   OgeEvent,
   OgeTransaction,
-  ReviewQueueItem,
-  SecurityEnrichment,
   SectorSummary,
   SourceAudit,
-  SourceFiling,
   SourceReliability,
+  TransactionType,
+  TrumpOgeBootstrap,
   TrumpIndexCitation,
   TrumpIndexEntry,
   TrumpOgeApiResponse,
   TrumpOgeDataset,
   TrumpOgeFilters,
-  YearlyExposureSummary,
+  TrumpOgePageName,
+  TrumpOgePageResponse,
 } from '@/lib/oge/types';
 
 interface TrumpOgeDashboardProps {
-  initialData?: TrumpOgeApiResponse | null;
+  initialData?: TrumpOgeBootstrap | TrumpOgeApiResponse | null;
 }
 
 type PageKey =
@@ -153,17 +147,27 @@ const FILTER_DEFAULTS: TrumpOgeFilters = {
 };
 
 const EVENT_CATEGORIES: EventCategory[] = ['tariff', 'fed', 'white-house', 'market', 'company-news', 'truth-social', 'interview', 'reuters', 'manual'];
+type TimingRangePreset = 'visible' | 'full' | 'since2025' | 'last24' | 'last12' | 'custom';
+
+interface DateRange {
+  startDate: string;
+  endDate: string;
+  label: string;
+}
 
 export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
-  const [loadedData, setLoadedData] = useState<TrumpOgeApiResponse | null>(initialData || null);
+  const [bootstrap, setBootstrap] = useState<TrumpOgeBootstrap | null>(initialData ? bootstrapFromInitialData(initialData) : null);
+  const [initialFullData] = useState<DashboardData | null>(() =>
+    initialData && isFullApiResponse(initialData) ? dashboardDataFromFullResponse(initialData) : null
+  );
   const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (initialData || loadedData) return;
+    if (initialData || bootstrap) return;
     let cancelled = false;
-    loadDashboardData()
+    loadDashboardBootstrap()
       .then((data) => {
-        if (!cancelled) setLoadedData(data);
+        if (!cancelled) setBootstrap(data);
       })
       .catch((error) => {
         if (!cancelled) setLoadError(error instanceof Error ? error.message : String(error));
@@ -171,29 +175,89 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
     return () => {
       cancelled = true;
     };
-  }, [initialData, loadedData]);
+  }, [bootstrap, initialData]);
 
-  const data = initialData || loadedData;
-  if (!data) {
+  if (!bootstrap) {
     return <DashboardLoading error={loadError} />;
   }
 
-  return <TrumpOgeDashboardLoaded initialData={data} />;
+  return <TrumpOgeDashboardLoaded bootstrap={bootstrap} initialFullData={initialFullData} />;
 }
 
-function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResponse }) {
+function TrumpOgeDashboardLoaded({
+  bootstrap,
+  initialFullData,
+}: {
+  bootstrap: TrumpOgeBootstrap;
+  initialFullData: DashboardData | null;
+}) {
   const mounted = useClientReady();
   const [filters, setFilters] = useState<TrumpOgeFilters>(FILTER_DEFAULTS);
   const [activePage, setActivePage] = useState<PageKey>('ask');
+  const [pageResponses, setPageResponses] = useState<Record<string, TrumpOgePageResponse>>({});
+  const [pageErrors, setPageErrors] = useState<Record<string, string>>({});
+  const inflightPageKeys = useRef(new Set<string>());
+  const [exporting, setExporting] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
   const [activeEventCategories, setActiveEventCategories] = useState<EventCategory[]>(EVENT_CATEGORIES);
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+  const [timingRangePreset, setTimingRangePreset] = useState<TimingRangePreset>('visible');
+  const [timingCustomStartDate, setTimingCustomStartDate] = useState('');
+  const [timingCustomEndDate, setTimingCustomEndDate] = useState('');
   const [methodologyOpen, setMethodologyOpen] = useState(false);
   const [selectedIndexIds, setSelectedIndexIds] = useState<string[]>([]);
   const activePageDefinition = PAGE_DEFINITIONS.find((page) => page.key === activePage) || PAGE_DEFINITIONS[0];
-  const pageFilters = useMemo(
-    () => activePageDefinition.assetType ? { ...filters, assetType: 'All' } : filters,
-    [activePageDefinition.assetType, filters]
+  const pageName = pageNameForPageKey(activePage);
+  const pageRequestFilters = useMemo(
+    () => filtersForPageRequest(activePageDefinition, filters),
+    [activePageDefinition, filters]
   );
+  const pageCacheKey = useMemo(
+    () => pageName ? buildPageCacheKey(pageName, pageRequestFilters, bootstrap.cacheMeta.generatedAt) : '',
+    [bootstrap.cacheMeta.generatedAt, pageName, pageRequestFilters]
+  );
+  const activePageResponse = pageCacheKey ? pageResponses[pageCacheKey] || null : null;
+  const activePageNeedsData = activePage !== 'ask';
+  const activePageReady = !activePageNeedsData || Boolean(initialFullData || activePageResponse);
+  const activePageError = pageCacheKey ? pageErrors[pageCacheKey] || null : null;
+  const activePageLoading = activePageNeedsData && !activePageReady && !activePageError;
+  const initialData = useMemo(
+    () => mergeDashboardData(bootstrap, activePageResponse, initialFullData),
+    [activePageResponse, bootstrap, initialFullData]
+  );
+
+  useEffect(() => {
+    if (!pageName || initialFullData || pageResponses[pageCacheKey] || inflightPageKeys.current.has(pageCacheKey)) return;
+    let cancelled = false;
+    inflightPageKeys.current.add(pageCacheKey);
+
+    loadPageData(pageName, pageRequestFilters)
+      .then((payload) => {
+        if (cancelled) return;
+        setPageResponses((current) => ({ ...current, [pageCacheKey]: payload }));
+        setPageErrors((current) => {
+          const next = { ...current };
+          delete next[pageCacheKey];
+          return next;
+        });
+      })
+      .catch((error) => {
+        if (cancelled) return;
+        setPageErrors((current) => ({
+          ...current,
+          [pageCacheKey]: error instanceof Error ? error.message : String(error),
+        }));
+      })
+      .finally(() => {
+        inflightPageKeys.current.delete(pageCacheKey);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [initialFullData, pageCacheKey, pageName, pageRequestFilters, pageResponses]);
+
+  const pageFilters = pageRequestFilters;
 
   const baseFilteredTransactions = useMemo(
     () => filterTransactions(initialData.transactions, pageFilters),
@@ -205,62 +269,14 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
       : baseFilteredTransactions,
     [activePageDefinition.assetType, baseFilteredTransactions]
   );
-  const kpis = useMemo(
-    () => buildKpis({
-      sourceFilings: initialData.sourceFilings,
-      transactions: filteredTransactions,
-      reviewQueue: initialData.reviewQueue,
-    }),
-    [filteredTransactions, initialData.reviewQueue, initialData.sourceFilings]
-  );
-  const sectorSummaries = useMemo(
-    () => buildSectorSummaries(filteredTransactions),
-    [filteredTransactions]
-  );
-  const holdings = useMemo(
-    () => buildHoldingsEstimates(filteredTransactions, initialData.baselineHoldings),
-    [filteredTransactions, initialData.baselineHoldings]
-  );
-  const trumpIndexResult = useMemo(
-    () => buildTrumpIndex({
-      holdings,
-      transactions: filteredTransactions,
-      sourceFilings: initialData.sourceFilings,
-      historicalSources: initialData.historicalSources,
-    }),
-    [filteredTransactions, holdings, initialData.historicalSources, initialData.sourceFilings]
-  );
+  const kpis = initialData.kpis;
+  const sectorSummaries = initialData.sectorSummaries;
+  const holdings = initialData.holdingsEstimates;
   const trumpIndexEntries = useMemo(
-    () => trumpIndexResult.entries.filter((entry) => {
-      if (filters.sourceReliability && filters.sourceReliability !== 'All' && entry.sourceReliability !== filters.sourceReliability) return false;
-      if (filters.ticker) {
-        const ticker = String(filters.ticker).toUpperCase();
-        const tickers = [entry.resolvedTicker, entry.issuerContextTicker].filter(Boolean).map((value) => String(value).toUpperCase());
-        if (!tickers.includes(ticker)) return false;
-      }
-      if (filters.issuer) {
-        const issuer = String(filters.issuer).trim().toLowerCase();
-        const haystack = [
-          entry.resolvedIssuerName || '',
-          entry.issuerContextIssuerName || '',
-          entry.instrumentIssuerName || '',
-          entry.instrumentIssuerState || '',
-          entry.instrumentIssuerCategory || '',
-          entry.instrumentReferenceLabel || '',
-          entry.instrumentReferenceSource || '',
-          entry.displayName,
-          entry.instrumentSummary || '',
-        ].join(' ').toLowerCase();
-        if (issuer && !haystack.includes(issuer)) return false;
-      }
-      return true;
-    }),
-    [filters.issuer, filters.sourceReliability, filters.ticker, trumpIndexResult.entries]
+    () => initialData.trumpIndex,
+    [initialData.trumpIndex]
   );
-  const trumpIndexRollups = useMemo(
-    () => buildTrumpIndexRollups(trumpIndexEntries),
-    [trumpIndexEntries]
-  );
+  const trumpIndexRollups = initialData.trumpIndexRollups;
   const indexLeaders = useMemo(() => ({
     exposures: [...trumpIndexEntries].sort((a, b) => b.currentMidpoint - a.currentMidpoint).slice(0, 5),
     movers: [...trumpIndexEntries].sort((a, b) => Math.abs(b.changeMidpoint) - Math.abs(a.changeMidpoint)).slice(0, 5),
@@ -280,18 +296,58 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
     [filteredTransactions]
   );
 
-  const monthlyFlow = useMemo(() => buildMonthlyFlow(filteredTransactions), [filteredTransactions]);
-  const monthlyActivity = useMemo(() => buildMonthlyActivity(filteredTransactions), [filteredTransactions]);
+  const timingDateBounds = useMemo(
+    () => buildTimingDateBounds(initialData.transactions, initialData.events, initialData.historicalSources, initialData.cacheMeta),
+    [initialData.cacheMeta, initialData.events, initialData.historicalSources, initialData.transactions]
+  );
+  const timingDateRange = useMemo(
+    () => resolveTimingDateRange({
+      preset: timingRangePreset,
+      filters,
+      customStartDate: timingCustomStartDate,
+      customEndDate: timingCustomEndDate,
+      bounds: timingDateBounds,
+      visibleTransactions: filteredTransactions,
+    }),
+    [filteredTransactions, filters, timingCustomEndDate, timingCustomStartDate, timingDateBounds, timingRangePreset]
+  );
+  const timingFilters = useMemo<TrumpOgeFilters>(
+    () => ({
+      ...pageFilters,
+      year: 'All',
+      startDate: timingDateRange.startDate,
+      endDate: timingDateRange.endDate,
+    }),
+    [pageFilters, timingDateRange.endDate, timingDateRange.startDate]
+  );
+  const timingTransactions = useMemo(
+    () => filterTransactions(initialData.transactions, timingFilters),
+    [initialData.transactions, timingFilters]
+  );
+  const monthlyFlow = useMemo(() => buildMonthlyFlow(timingTransactions), [timingTransactions]);
+  const monthlyActivity = useMemo(() => buildMonthlyActivity(timingTransactions), [timingTransactions]);
+  const dateScopedEvents = useMemo(
+    () => filterEventsForTiming(initialData.events, timingFilters, timingTransactions, initialData.cacheMeta.generatedAt.slice(0, 10)),
+    [timingFilters, timingTransactions, initialData.cacheMeta.generatedAt, initialData.events]
+  );
+  const timingMonthlyFlow = useMemo(
+    () => buildTimingMonthlyFlow(monthlyFlow, dateScopedEvents, activeEventCategories, timingDateRange),
+    [activeEventCategories, dateScopedEvents, monthlyFlow, timingDateRange]
+  );
   const timelineEvents = useMemo(
-    () => buildTimelineEvents(initialData.events, monthlyFlow, activeEventCategories),
-    [activeEventCategories, initialData.events, monthlyFlow]
+    () => buildTimelineEvents(dateScopedEvents, timingMonthlyFlow, activeEventCategories),
+    [activeEventCategories, dateScopedEvents, timingMonthlyFlow]
   );
   const eventWindows = useMemo(
-    () => buildEventWindows(timelineEvents, filteredTransactions),
-    [filteredTransactions, timelineEvents]
+    () => buildEventWindows(timelineEvents, timingTransactions),
+    [timingTransactions, timelineEvents]
   );
-  const chartMaxY = useMemo(() => buildChartMaxY(monthlyFlow), [monthlyFlow]);
-  const eventMarkers = useMemo(() => buildEventMarkers(timelineEvents, monthlyFlow, chartMaxY), [chartMaxY, timelineEvents, monthlyFlow]);
+  const chartMaxY = useMemo(() => buildChartMaxY(timingMonthlyFlow), [timingMonthlyFlow]);
+  const transactionMarkers = useMemo(
+    () => buildTransactionMarkers(timingTransactions, timingMonthlyFlow, chartMaxY),
+    [chartMaxY, timingTransactions, timingMonthlyFlow]
+  );
+  const eventMarkers = useMemo(() => buildEventMarkers(timelineEvents, timingMonthlyFlow, chartMaxY), [chartMaxY, timelineEvents, timingMonthlyFlow]);
   const selectedEvent = timelineEvents.find((event) => event.id === selectedEventId) || timelineEvents[0] || null;
   const selectedEventWindows = selectedEvent
     ? eventWindows.filter((window) => window.eventId === selectedEvent.id)
@@ -312,45 +368,38 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
     .filter((summary) => summary.net.midpoint < 0)
     .sort((a, b) => a.net.midpoint - b.net.midpoint)
     .slice(0, 4);
-  const assetSummary = buildAssetSummary(filteredTransactions);
-  const enrichedTransactionCount = filteredTransactions.filter((tx) => tx.resolvedTicker).length;
-  const issuerContextCount = filteredTransactions.filter((tx) =>
-    !tx.resolvedTicker && (tx.issuerContextTicker || tx.instrumentReferenceLabel)
-  ).length;
-  const availableYears = useMemo(
-    () => Array.from(new Set([
-      ...initialData.transactions.map((tx) => tx.date.slice(0, 4)),
-      ...initialData.historicalSources.map((source) => source.reportYear ? String(source.reportYear) : source.filedDate.slice(0, 4)),
-    ].filter(Boolean))).sort((a, b) => b.localeCompare(a)),
-    [initialData.historicalSources, initialData.transactions]
-  );
+  const assetSummary = filteredTransactions.length > 0
+    ? buildAssetSummary(filteredTransactions)
+    : buildAssetSummaryFromSectorSummaries(sectorSummaries);
+  const enrichedTransactionCount = filteredTransactions.length > 0
+    ? filteredTransactions.filter((tx) => tx.resolvedTicker).length
+    : initialData.cacheMeta.enrichedTransactionCount;
+  const issuerContextCount = filteredTransactions.length > 0
+    ? filteredTransactions.filter((tx) => !tx.resolvedTicker && (tx.issuerContextTicker || tx.instrumentReferenceLabel)).length
+    : initialData.cacheMeta.instrumentContextCount;
+  const availableYears = initialData.availableYears;
 
-  const exportWorkbook = () => {
-    const response: TrumpOgeApiResponse = {
-      ...initialData,
-      transactions: filteredTransactions,
-      holdingsEstimates: holdings,
-      sectorSummaries,
-      trumpIndex: trumpIndexEntries,
-      trumpIndexRollups,
-      eventWindows: buildEventWindows(initialData.events, filteredTransactions),
-      kpis,
-      filters: {
-        ...filters,
-        lateOnly: Boolean(filters.lateOnly),
-      },
-    };
-    const workbook = buildTrumpOgeWorkbook(response);
-    const buffer = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' }) as ArrayBuffer;
-    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    const href = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = href;
-    link.download = trumpOgeWorkbookFilename(response);
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(href);
+  const exportWorkbook = async () => {
+    setExporting(true);
+    setExportError(null);
+    try {
+      const response = await loadFullApiResponse(filters);
+      const workbook = buildTrumpOgeWorkbook(response);
+      const buffer = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' }) as ArrayBuffer;
+      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const href = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = trumpOgeWorkbookFilename(response);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(href);
+    } catch (error) {
+      setExportError(error instanceof Error ? error.message : String(error));
+    } finally {
+      setExporting(false);
+    }
   };
 
   const updateFilter = (key: keyof TrumpOgeFilters, value: string | boolean | number | null) => {
@@ -369,6 +418,12 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
         ? current.filter((item) => item !== category)
         : [...current, category]
     );
+  };
+  const selectAllEventCategories = () => {
+    setActiveEventCategories(EVENT_CATEGORIES);
+  };
+  const clearEventCategories = () => {
+    setActiveEventCategories([]);
   };
 
   const applyEventWindowFilter = (event: OgeEvent, windowDays: 7 | 30) => {
@@ -404,10 +459,11 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
             <button
               type="button"
               onClick={exportWorkbook}
+              disabled={exporting}
               className="liquid-button-primary flex h-9 items-center gap-2 px-3 text-xs font-semibold"
             >
               <Download className="h-3.5 w-3.5" />
-              Export
+              {exporting ? 'Exporting...' : 'Export'}
             </button>
           </div>
         </div>
@@ -513,7 +569,28 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
 
         <PageIntro page={activePageDefinition} transactionCount={filteredTransactions.length} indexCount={trumpIndexEntries.length} />
 
-        {activePage !== 'ask' && (
+        {exportError && (
+          <div className="mb-5 rounded-2xl border border-amber-200 bg-amber-50/80 px-3 py-2 text-xs leading-5 text-amber-900">
+            Export failed: {exportError}
+          </div>
+        )}
+
+        {activePage !== 'ask' && !activePageReady && (
+          <Panel title="Loading Page Data" subtitle={activePageLoading ? 'Fetching the page-scoped cache payload' : 'Preparing the page-scoped cache payload'}>
+            <div className="space-y-3">
+              <div className="h-2 overflow-hidden rounded-full bg-white/45">
+                <div className="h-full w-1/2 animate-pulse rounded-full bg-slate-900/85" />
+              </div>
+              <div className="text-sm leading-6 text-slate-600">
+                {activePageError
+                  ? `Could not load this page: ${activePageError}`
+                  : 'The first screen stays light; this tab loads its heavier cache only when opened.'}
+              </div>
+            </div>
+          </Panel>
+        )}
+
+        {activePage !== 'ask' && activePageReady && (
           <>
             <section className="mb-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
               <KpiCard label="Index entries" value={formatInteger(trumpIndexEntries.length)} sub={`${formatInteger(kpis.uniqueSecurities)} securities; ${formatInteger(enrichedTransactionCount)} direct, ${formatInteger(issuerContextCount)} issuer/instrument refs`} icon={<Layers className="h-4 w-4" />} />
@@ -543,7 +620,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
           />
         )}
 
-        {activePageDefinition.assetType && (
+        {activePageReady && activePageDefinition.assetType && (
           <AssetClassPage
             assetType={activePageDefinition.assetType}
             transactions={filteredTransactions}
@@ -556,7 +633,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
           />
         )}
 
-        {activePage === 'index' && (
+        {activePageReady && activePage === 'index' && (
           <div className="space-y-5">
             <Panel
               title="Trump Index"
@@ -605,7 +682,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
           </div>
         )}
 
-        {activePage === 'sectors' && (
+        {activePageReady && activePage === 'sectors' && (
           <div className="space-y-5">
             <div className="grid gap-5 xl:grid-cols-[1.25fr_0.75fr]">
               <Panel title="Sector Exposure Map" subtitle="Tile size is estimated midpoint volume; color is net buying vs selling">
@@ -632,25 +709,42 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
           </div>
         )}
 
-        {activePage === 'timing' && (
+        {activePageReady && activePage === 'timing' && (
           <TimingPage
             mounted={mounted}
-            monthlyFlow={monthlyFlow}
+            monthlyFlow={timingMonthlyFlow}
             monthlyActivity={monthlyActivity}
+            transactionMarkers={transactionMarkers}
             eventMarkers={eventMarkers}
+            dateRange={timingDateRange}
+            dateBounds={timingDateBounds}
+            rangePreset={timingRangePreset}
+            customStartDate={timingCustomStartDate}
+            customEndDate={timingCustomEndDate}
             selectedEvent={selectedEvent}
             selectedEventWindows={selectedEventWindows}
             chartMaxY={chartMaxY}
             availableEventCategories={availableEventCategories}
             activeEventCategories={activeEventCategories}
+            onRangePresetChange={(preset) => {
+              setTimingRangePreset(preset);
+              if (preset === 'custom') {
+                setTimingCustomStartDate((current) => current || timingDateRange.startDate);
+                setTimingCustomEndDate((current) => current || timingDateRange.endDate);
+              }
+            }}
+            onCustomStartDateChange={setTimingCustomStartDate}
+            onCustomEndDateChange={setTimingCustomEndDate}
             onSelectEvent={setSelectedEventId}
             onToggleCategory={toggleEventCategory}
+            onSelectAllCategories={selectAllEventCategories}
+            onClearCategories={clearEventCategories}
             onApplyWindow={applyEventWindowFilter}
             onClearWindow={() => setFilters((current) => ({ ...current, startDate: '', endDate: '' }))}
           />
         )}
 
-        {activePage === 'holdings' && (
+        {activePageReady && activePage === 'holdings' && (
           <div className="space-y-5">
             <Panel title="Estimated Holdings" subtitle="Transaction-implied ranges with baseline flags">
               <HoldingsTable holdings={holdings.slice(0, 120)} />
@@ -658,13 +752,13 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
           </div>
         )}
 
-        {activePage === 'transactions' && (
+        {activePageReady && activePage === 'transactions' && (
           <Panel title="Transactions" subtitle={`${formatInteger(filteredTransactions.length)} filtered rows`}>
             <TransactionTable transactions={filteredTransactions.slice(0, 250)} />
           </Panel>
         )}
 
-        {activePage === 'filings' && (
+        {activePageReady && activePage === 'filings' && (
           <div className="space-y-5">
             <Panel title="Source Completeness Audit" subtitle={`${sourceAuditStatusLabel(initialData.sourceAudit.completenessStatus)} | ${formatInteger(initialData.sourceAudit.gaps.length)} historical gaps flagged`}>
               <SourceAuditPanel audit={initialData.sourceAudit} />
@@ -753,7 +847,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
           </div>
         )}
 
-        {activePage === 'review' && (
+        {activePageReady && activePage === 'review' && (
           <Panel title="Review Queue" subtitle={`${initialData.reviewQueue.length} parser, baseline, and classification flags`}>
             <div className="grid gap-3 lg:grid-cols-2">
               {initialData.reviewQueue.slice(0, 120).map((item) => (
@@ -789,7 +883,7 @@ function DashboardLoading({ error }: { error: string | null }) {
           </div>
           <div>
             <h1 className="text-base font-bold">Trump Index</h1>
-            <div className="text-xs text-slate-500">Loading versioned OGE cache files</div>
+            <div className="text-xs text-slate-500">Loading the dashboard bootstrap cache</div>
           </div>
         </div>
         {error ? (
@@ -809,76 +903,134 @@ function DashboardLoading({ error }: { error: string | null }) {
   );
 }
 
-async function loadDashboardData(): Promise<TrumpOgeApiResponse> {
-  const [
-    historicalSources,
-    sourceFilings,
-    transactions,
-    baselineHoldings,
-    financialDisclosureReports,
-    assetIncomeHoldings,
-    liabilities,
-    yearlyExposureSummaries,
-    sourceAudit,
-    reviewQueue,
-    events,
-    securityEnrichments,
-    cacheMeta,
-  ] = await Promise.all([
-    importJson<HistoricalSource[]>(() => import('@/data/oge/trump/historical-sources.json')),
-    importJson<SourceFiling[]>(() => import('@/data/oge/trump/source-filings.json')),
-    importJson<OgeTransaction[]>(() => import('@/data/oge/trump/transactions.json')),
-    importJson<BaselineHolding[]>(() => import('@/data/oge/trump/baseline-holdings.json')),
-    importJson<FinancialDisclosureReport[]>(() => import('@/data/oge/trump/financial-disclosure-reports.json')),
-    importJson<AssetIncomeHolding[]>(() => import('@/data/oge/trump/asset-income-holdings.json')),
-    importJson<Liability[]>(() => import('@/data/oge/trump/liabilities.json')),
-    importJson<YearlyExposureSummary[]>(() => import('@/data/oge/trump/yearly-exposure-summaries.json')),
-    importJson<SourceAudit>(() => import('@/data/oge/trump/source-audit.json')),
-    importJson<ReviewQueueItem[]>(() => import('@/data/oge/trump/review-queue.json')),
-    importJson<OgeEvent[]>(() => import('@/data/oge/trump/events.json')),
-    importJson<SecurityEnrichment[]>(() => import('@/data/oge/trump/security-enrichment.json')),
-    importJson<CacheMeta>(() => import('@/data/oge/trump/cache-meta.json')),
-  ]);
+type DashboardData = TrumpOgeApiResponse & { availableYears: string[] };
 
-  const dataset: TrumpOgeDataset = {
-    historicalSources,
-    sourceFilings,
-    transactions,
-    baselineHoldings,
-    financialDisclosureReports,
-    assetIncomeHoldings,
-    liabilities,
-    yearlyExposureSummaries,
-    sourceAudit,
-    holdingsEstimates: [],
-    sectorSummaries: [],
-    trumpIndex: [],
-    trumpIndexRollups: [],
-    reviewQueue,
-    events,
-    eventWindows: [],
-    securityReference: EMPTY_SECURITY_REFERENCE,
-    securityEnrichments,
-    cacheMeta,
-  };
+async function loadDashboardBootstrap(): Promise<TrumpOgeBootstrap> {
+  return fetchJson<TrumpOgeBootstrap>(apiUrl('/api/trump-oge/bootstrap'));
+}
 
+async function loadPageData(page: TrumpOgePageName, filters: TrumpOgeFilters): Promise<TrumpOgePageResponse> {
+  const params = filtersToSearchParams(filters);
+  params.set('name', page);
+  return fetchJson<TrumpOgePageResponse>(apiUrl(`/api/trump-oge/page?${params.toString()}`));
+}
+
+async function loadFullApiResponse(filters: TrumpOgeFilters): Promise<TrumpOgeApiResponse> {
+  const params = filtersToSearchParams(filters);
+  params.set('full', 'true');
+  return fetchJson<TrumpOgeApiResponse>(apiUrl(`/api/trump-oge?${params.toString()}`));
+}
+
+async function fetchJson<T>(url: string): Promise<T> {
+  const response = await fetch(url);
+  if (!response.ok) {
+    const message = await response.text().catch(() => '');
+    throw new Error(message || `HTTP ${response.status}`);
+  }
+  return await response.json() as T;
+}
+
+function apiUrl(pathname: string): string {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  return `${basePath}${pathname}`;
+}
+
+function filtersToSearchParams(filters: TrumpOgeFilters): URLSearchParams {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(filters)) {
+    if (value === undefined || value === null || value === '' || value === false) continue;
+    params.set(key, String(value));
+  }
+  return params;
+}
+
+function pageNameForPageKey(page: PageKey): TrumpOgePageName | null {
+  return page === 'ask' ? null : page;
+}
+
+function filtersForPageRequest(page: PageDefinition, filters: TrumpOgeFilters): TrumpOgeFilters {
+  const next = page.assetType ? { ...filters, assetType: page.assetType } : { ...filters };
+  if (page.key === 'timing') {
+    return {
+      ...next,
+      year: 'All',
+      startDate: '',
+      endDate: '',
+    };
+  }
+  return next;
+}
+
+function buildPageCacheKey(page: TrumpOgePageName, filters: TrumpOgeFilters, cacheVersion: string): string {
+  return `${cacheVersion}|${page}|${filtersToSearchParams(filters).toString()}`;
+}
+
+function isFullApiResponse(data: TrumpOgeBootstrap | TrumpOgeApiResponse): data is TrumpOgeApiResponse {
+  return 'transactions' in data && Array.isArray(data.transactions);
+}
+
+function bootstrapFromInitialData(data: TrumpOgeBootstrap | TrumpOgeApiResponse): TrumpOgeBootstrap {
+  if (!isFullApiResponse(data)) return data;
   return {
-    ...dataset,
-    kpis: buildKpis({
-      sourceFilings,
-      transactions,
-      reviewQueue,
-    }),
-    filters: {
-      lateOnly: false,
-    },
-    availableSectors: Array.from(new Set(transactions.map((tx) => tx.sector))).sort(),
-    availableAssetTypes: Array.from(new Set(transactions.map((tx) => tx.assetType))).sort(),
+    cacheMeta: data.cacheMeta,
+    kpis: data.kpis,
+    filters: data.filters,
+    availableSectors: data.availableSectors,
+    availableAssetTypes: data.availableAssetTypes,
+    availableYears: buildAvailableYearsFromData(data),
+    sourceAudit: data.sourceAudit,
+    yearlyExposureSummaries: data.yearlyExposureSummaries,
+    trumpIndex: data.trumpIndex.slice(0, 80),
+    trumpIndexRollups: data.trumpIndexRollups,
   };
 }
 
-async function importJson<T>(loader: () => Promise<{ default: unknown }>): Promise<T> {
-  return (await loader()).default as T;
+function dashboardDataFromFullResponse(response: TrumpOgeApiResponse): DashboardData {
+  return {
+    ...response,
+    availableYears: buildAvailableYearsFromData(response),
+  };
+}
+
+function mergeDashboardData(
+  bootstrap: TrumpOgeBootstrap,
+  page: TrumpOgePageResponse | null,
+  fullData: DashboardData | null
+): DashboardData {
+  if (fullData) return fullData;
+  return {
+    historicalSources: page?.historicalSources || [],
+    sourceFilings: page?.sourceFilings || [],
+    transactions: page?.transactions || [],
+    baselineHoldings: page?.baselineHoldings || [],
+    financialDisclosureReports: page?.financialDisclosureReports || [],
+    assetIncomeHoldings: page?.assetIncomeHoldings || [],
+    liabilities: page?.liabilities || [],
+    yearlyExposureSummaries: page?.yearlyExposureSummaries || bootstrap.yearlyExposureSummaries,
+    sourceAudit: page?.sourceAudit || bootstrap.sourceAudit,
+    holdingsEstimates: page?.holdingsEstimates || [],
+    sectorSummaries: page?.sectorSummaries || [],
+    trumpIndex: page?.trumpIndex || bootstrap.trumpIndex,
+    trumpIndexRollups: page?.trumpIndexRollups || bootstrap.trumpIndexRollups,
+    reviewQueue: page?.reviewQueue || [],
+    events: page?.events || [],
+    eventWindows: page?.eventWindows || [],
+    securityReference: EMPTY_SECURITY_REFERENCE,
+    securityEnrichments: page?.securityEnrichments || [],
+    cacheMeta: bootstrap.cacheMeta,
+    kpis: page?.kpis || bootstrap.kpis,
+    filters: page?.filters || bootstrap.filters,
+    availableSectors: page?.availableSectors || bootstrap.availableSectors,
+    availableAssetTypes: page?.availableAssetTypes || bootstrap.availableAssetTypes,
+    availableYears: page?.availableYears || bootstrap.availableYears,
+  };
+}
+
+function buildAvailableYearsFromData(data: Pick<TrumpOgeDataset, 'transactions' | 'historicalSources'>): string[] {
+  return Array.from(new Set([
+    ...data.transactions.map((tx) => tx.date.slice(0, 4)),
+    ...data.historicalSources.map((source) => source.reportYear ? String(source.reportYear) : source.filedDate.slice(0, 4)),
+  ].filter(Boolean))).sort((a, b) => b.localeCompare(a));
 }
 
 function useClientReady() {
@@ -1152,69 +1304,262 @@ function TimingPage({
   mounted,
   monthlyFlow,
   monthlyActivity,
+  transactionMarkers,
   eventMarkers,
+  dateRange,
+  dateBounds,
+  rangePreset,
+  customStartDate,
+  customEndDate,
   selectedEvent,
   selectedEventWindows,
   chartMaxY,
   availableEventCategories,
   activeEventCategories,
+  onRangePresetChange,
+  onCustomStartDateChange,
+  onCustomEndDateChange,
   onSelectEvent,
   onToggleCategory,
+  onSelectAllCategories,
+  onClearCategories,
   onApplyWindow,
   onClearWindow,
 }: {
   mounted: boolean;
-  monthlyFlow: Array<{ month: string; purchaseMidpoint: number; saleMidpoint: number; count: number }>;
+  monthlyFlow: TimingFlowRow[];
   monthlyActivity: MonthActivityRow[];
+  transactionMarkers: TransactionMarker[];
   eventMarkers: EventMarker[];
+  dateRange: DateRange;
+  dateBounds: DateRange;
+  rangePreset: TimingRangePreset;
+  customStartDate: string;
+  customEndDate: string;
   selectedEvent: OgeEvent | null;
   selectedEventWindows: EventWindowSummary[];
   chartMaxY: number;
   availableEventCategories: EventCategory[];
   activeEventCategories: EventCategory[];
+  onRangePresetChange: (preset: TimingRangePreset) => void;
+  onCustomStartDateChange: (value: string) => void;
+  onCustomEndDateChange: (value: string) => void;
   onSelectEvent: (id: string) => void;
   onToggleCategory: (category: EventCategory) => void;
+  onSelectAllCategories: () => void;
+  onClearCategories: () => void;
   onApplyWindow: (event: OgeEvent, windowDays: 7 | 30) => void;
   onClearWindow: () => void;
 }) {
+  const chartRows = useMemo<TimingChartRow[]>(
+    () => monthlyFlow.map((row, index) => ({ ...row, monthIndex: index })),
+    [monthlyFlow]
+  );
+  const monthLabelByIndex = useMemo(
+    () => new Map(chartRows.map((row) => [row.monthIndex, row.month])),
+    [chartRows]
+  );
+  const xAxisTicks = useMemo(
+    () => selectTimelineTicks(chartRows.map((row) => row.monthIndex)),
+    [chartRows]
+  );
+  const eventCounts = useMemo(
+    () => availableEventCategories
+      .map((category) => ({
+        category,
+        count: eventMarkers.filter((marker) => marker.category === category).length,
+        active: activeEventCategories.includes(category),
+      }))
+      .filter((row) => row.count > 0 || row.active),
+    [activeEventCategories, availableEventCategories, eventMarkers]
+  );
+  const visibleEventCount = eventMarkers.length;
+  const chartEventPins = useMemo(
+    () => buildChartEventPins(eventMarkers, selectedEvent?.id || null),
+    [eventMarkers, selectedEvent?.id]
+  );
+  const transactionTypeOptions = useMemo(
+    () => buildTransactionTypeOptions(transactionMarkers),
+    [transactionMarkers]
+  );
+  const transactionSectorOptions = useMemo(
+    () => buildTransactionSectorOptions(transactionMarkers),
+    [transactionMarkers]
+  );
+  const [activeTransactionTypes, setActiveTransactionTypes] = useState<TransactionType[]>(['Purchase', 'Sale']);
+  const [activeTransactionSectors, setActiveTransactionSectors] = useState<string[]>([]);
+  const visibleTransactionMarkers = useMemo(
+    () => transactionMarkers.filter((marker) =>
+      activeTransactionTypes.includes(marker.type) &&
+      activeTransactionSectors.includes(marker.sector)
+    ),
+    [activeTransactionSectors, activeTransactionTypes, transactionMarkers]
+  );
+  const transactionCounts = useMemo(
+    () => ({
+      purchases: visibleTransactionMarkers.filter((marker) => marker.type === 'Purchase').length,
+      sales: visibleTransactionMarkers.filter((marker) => marker.type === 'Sale').length,
+      other: visibleTransactionMarkers.filter((marker) => marker.type !== 'Purchase' && marker.type !== 'Sale').length,
+    }),
+    [visibleTransactionMarkers]
+  );
+  const toggleTransactionType = (type: TransactionType) => {
+    setActiveTransactionTypes((current) =>
+      current.includes(type) ? current.filter((item) => item !== type) : [...current, type]
+    );
+  };
+  const toggleTransactionSector = (sector: string) => {
+    setActiveTransactionSectors((current) =>
+      current.includes(sector) ? current.filter((item) => item !== sector) : [...current, sector]
+    );
+  };
+  const selectTopTransactionSectors = () => {
+    setActiveTransactionSectors(transactionSectorOptions.slice(0, 5).map((option) => option.sector));
+  };
+  const selectAllTransactionSectors = () => {
+    setActiveTransactionSectors(transactionSectorOptions.map((option) => option.sector));
+  };
+
   return (
     <div className="space-y-5">
-      <Panel title="Transaction Timing" subtitle="Transaction dates from the filings, with public events shown as contextual dots">
+      <Panel title="Transaction Timing" subtitle={`Transaction-date flow from ${dateRange.startDate} to ${dateRange.endDate}`}>
+        <TimelineRangeControl
+          preset={rangePreset}
+          range={dateRange}
+          bounds={dateBounds}
+          customStartDate={customStartDate}
+          customEndDate={customEndDate}
+          onPresetChange={onRangePresetChange}
+          onCustomStartDateChange={onCustomStartDateChange}
+          onCustomEndDateChange={onCustomEndDateChange}
+        />
+        <div className="mb-3 flex flex-wrap items-center gap-2">
+          <span className="rounded-full border border-white/55 bg-white/45 px-2.5 py-1 text-[11px] font-semibold text-slate-600 shadow-sm">
+            {formatInteger(visibleEventCount)} visible events
+          </span>
+          <span className="rounded-full border border-white/55 bg-white/35 px-2.5 py-1 text-[11px] font-semibold text-slate-500 shadow-sm">
+            {formatInteger(chartEventPins.length)} chart pins
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/55 bg-white/45 px-2.5 py-1 text-[11px] font-semibold text-slate-600 shadow-sm">
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-600 ring-2 ring-white/70" />
+            {formatInteger(transactionCounts.purchases)} buy dots
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/55 bg-white/45 px-2.5 py-1 text-[11px] font-semibold text-slate-600 shadow-sm">
+            <span className="h-2.5 w-2.5 rounded-full bg-rose-600 ring-2 ring-white/70" />
+            {formatInteger(transactionCounts.sales)} sale dots
+          </span>
+          {transactionCounts.other > 0 && (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/55 bg-white/45 px-2.5 py-1 text-[11px] font-semibold text-slate-600 shadow-sm">
+              <span className="h-2.5 w-2.5 rounded-full bg-slate-500 ring-2 ring-white/70" />
+              {formatInteger(transactionCounts.other)} other dots
+            </span>
+          )}
+          {eventCounts.map(({ category, count, active }) => (
+            <button
+              key={category}
+              type="button"
+              onClick={() => onToggleCategory(category)}
+              className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold shadow-sm backdrop-blur-xl ${
+                active ? 'border-white/65 bg-white/55 text-slate-800' : 'border-white/35 bg-white/15 text-slate-400'
+              }`}
+              title={`${eventCategoryLabel(category)}: ${formatInteger(count)} visible event dots`}
+            >
+              <span
+                className="h-2.5 w-2.5 rounded-full ring-2 ring-white/70"
+                style={{ backgroundColor: active ? EVENT_CATEGORY_COLORS[category] : '#cbd5e1' }}
+              />
+              {eventCategoryLabel(category)}
+              <span className="font-mono text-[10px] text-slate-500">{formatInteger(count)}</span>
+            </button>
+          ))}
+        </div>
+        <TransactionDotFilterPanel
+          totalCount={transactionMarkers.length}
+          visibleCount={visibleTransactionMarkers.length}
+          typeOptions={transactionTypeOptions}
+          sectorOptions={transactionSectorOptions}
+          activeTypes={activeTransactionTypes}
+          activeSectors={activeTransactionSectors}
+          onToggleType={toggleTransactionType}
+          onToggleSector={toggleTransactionSector}
+          onSelectTopSectors={selectTopTransactionSectors}
+          onSelectAllSectors={selectAllTransactionSectors}
+          onClearSectors={() => setActiveTransactionSectors([])}
+        />
         <div className="h-[430px] w-full min-w-0">
           {mounted ? (
             <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-              <LineChart data={monthlyFlow}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="month" tick={{ fontSize: 11 }} />
+              <ComposedChart data={chartRows} margin={{ top: 12, right: 16, bottom: 4, left: 4 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(100, 116, 139, 0.24)" />
+                <XAxis
+                  dataKey="monthIndex"
+                  type="number"
+                  domain={[-0.45, Math.max(0, chartRows.length - 1) + 0.45]}
+                  ticks={xAxisTicks}
+                  tickFormatter={(value) => monthLabelByIndex.get(Number(value)) || ''}
+                  tick={{ fontSize: 11 }}
+                  interval="preserveStartEnd"
+                />
                 <YAxis domain={[0, chartMaxY]} tickFormatter={(value) => formatMoney(Number(value))} width={78} />
-                <Tooltip formatter={(value) => formatMoney(Number(value))} />
-                {eventMarkers.map((marker) => (
-                  <ReferenceDot
-                    key={`${marker.month}-${marker.leadEventId}`}
-                    x={marker.month}
-                    y={marker.y}
-                    r={selectedEvent?.id === marker.leadEventId ? 8 : Math.min(8, 4 + marker.count)}
-                    fill={EVENT_CATEGORY_COLORS[marker.category]}
-                    stroke={selectedEvent?.id === marker.leadEventId ? '#0f172a' : '#ffffff'}
-                    strokeWidth={2}
-                    ifOverflow="visible"
-                    cursor="pointer"
-                    onClick={() => onSelectEvent(marker.leadEventId)}
-                    label={{
-                      value: marker.count > 1 ? `${marker.count}` : '',
-                      position: 'top',
-                      fill: EVENT_CATEGORY_COLORS[marker.category],
-                      fontSize: 10,
-                      fontWeight: 700,
-                    }}
-                  />
-                ))}
-                <Line type="monotone" dataKey="purchaseMidpoint" name="Purchases" stroke="#059669" strokeWidth={2.5} dot={false} />
-                <Line type="monotone" dataKey="saleMidpoint" name="Sales" stroke="#dc2626" strokeWidth={2.5} dot={false} />
-              </LineChart>
+                <Tooltip content={<TimingChartTooltip />} cursor={{ stroke: '#94a3b8', strokeDasharray: '3 3' }} />
+                <Line
+                  type="monotone"
+                  dataKey="purchaseMidpoint"
+                  name="Purchases"
+                  stroke="#059669"
+                  strokeWidth={2.5}
+                  dot={false}
+                  activeDot={{ r: 4, strokeWidth: 2 }}
+                  isAnimationActive={false}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="saleMidpoint"
+                  name="Sales"
+                  stroke="#dc2626"
+                  strokeWidth={2.5}
+                  dot={false}
+                  activeDot={{ r: 4, strokeWidth: 2 }}
+                  isAnimationActive={false}
+                />
+                <Scatter
+                  name="Transactions"
+                  data={visibleTransactionMarkers}
+                  dataKey="y"
+                  isAnimationActive={false}
+                  shape={(props: unknown) => (
+                    <TimingTransactionDot {...(props as TransactionDotShapeProps)} />
+                  )}
+                />
+                <Scatter
+                  name="Representative events"
+                  data={chartEventPins}
+                  dataKey="y"
+                  isAnimationActive={false}
+                  shape={(props: unknown) => (
+                    <TimingEventDot
+                      {...(props as TimingDotShapeProps)}
+                      selectedEventId={selectedEvent?.id || null}
+                      onSelectEvent={onSelectEvent}
+                    />
+                  )}
+                />
+              </ComposedChart>
             </ResponsiveContainer>
           ) : <ChartPlaceholder />}
         </div>
+        <div className="mt-2 text-[11px] leading-4 text-slate-500">
+          Pins show the highest-signal event for each month/category, plus the selected event. The grid below accounts for every visible event without turning the flow chart into static.
+        </div>
+        <EventDensityMatrix
+          markers={eventMarkers}
+          months={chartRows.map((row) => row.month)}
+          categories={availableEventCategories}
+          activeCategories={activeEventCategories}
+          selectedEventId={selectedEvent?.id || null}
+          onSelectEvent={onSelectEvent}
+          onToggleCategory={onToggleCategory}
+        />
       </Panel>
 
       <div className="grid gap-5 xl:grid-cols-[0.8fr_1.2fr]">
@@ -1226,6 +1571,8 @@ function TimingPage({
             categories={availableEventCategories}
             activeCategories={activeEventCategories}
             onToggleCategory={onToggleCategory}
+            onSelectAllCategories={onSelectAllCategories}
+            onClearCategories={onClearCategories}
           />
           <EventWindowDetail
             event={selectedEvent}
@@ -1234,6 +1581,515 @@ function TimingPage({
             onClearWindow={onClearWindow}
           />
         </Panel>
+      </div>
+    </div>
+  );
+}
+
+interface TimingDotShapeProps {
+  cx?: number;
+  cy?: number;
+  payload?: EventMarker;
+}
+
+function TimingEventDot({
+  cx,
+  cy,
+  payload,
+  selectedEventId,
+  onSelectEvent,
+}: TimingDotShapeProps & {
+  selectedEventId: string | null;
+  onSelectEvent: (id: string) => void;
+}) {
+  if (typeof cx !== 'number' || typeof cy !== 'number' || !payload) return null;
+
+  const color = EVENT_CATEGORY_COLORS[payload.category];
+  const selected = selectedEventId === payload.eventId;
+  const radius = selected ? 6 : Math.max(2.4, Math.min(4.4, 2.3 + payload.importance * 0.55));
+
+  return (
+    <g
+      role="button"
+      tabIndex={0}
+      aria-label={`${eventCategoryLabel(payload.category)} event: ${payload.title}`}
+      onClick={() => onSelectEvent(payload.eventId)}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onSelectEvent(payload.eventId);
+        }
+      }}
+      style={{ cursor: 'pointer', outline: 'none' }}
+    >
+      <title>{`${payload.date} | ${eventCategoryLabel(payload.category)} | ${payload.title}`}</title>
+      <circle cx={cx} cy={cy} r={radius + 5} fill={color} opacity={selected ? 0.24 : 0.1} />
+      <circle
+        cx={cx}
+        cy={cy}
+        r={radius}
+        fill={color}
+        opacity={selected ? 1 : 0.82}
+        stroke={selected ? '#0f172a' : 'rgba(255,255,255,0.92)'}
+        strokeWidth={selected ? 2.4 : 1.4}
+      />
+    </g>
+  );
+}
+
+interface TransactionDotShapeProps {
+  cx?: number;
+  cy?: number;
+  payload?: TransactionMarker;
+}
+
+function TimingTransactionDot({ cx, cy, payload }: TransactionDotShapeProps) {
+  if (typeof cx !== 'number' || typeof cy !== 'number' || !payload) return null;
+
+  const color = transactionColor(payload.type);
+  const radius = Math.max(2, Math.min(5.4, 2 + Math.log10(payload.amountMidpoint + 10_000) * 0.52));
+
+  return (
+    <g style={{ pointerEvents: 'all' }}>
+      <title>{`${payload.date} | ${payload.type} | ${payload.displayName} | ${formatMoney(payload.amountMidpoint)} midpoint`}</title>
+      <circle cx={cx} cy={cy} r={radius + 3.5} fill={color} opacity={0.08} />
+      <circle
+        cx={cx}
+        cy={cy}
+        r={radius}
+        fill={color}
+        opacity={0.46}
+        stroke="rgba(255,255,255,0.82)"
+        strokeWidth={0.9}
+      />
+    </g>
+  );
+}
+
+interface TimingTooltipPayload {
+  name?: string;
+  value?: number;
+  color?: string;
+  dataKey?: string;
+  payload?: unknown;
+}
+
+function TimingChartTooltip({
+  active,
+  payload,
+}: {
+  active?: boolean;
+  payload?: TimingTooltipPayload[];
+}) {
+  if (!active || !payload?.length) return null;
+
+  const transactionPayload = payload.map((item) => item.payload).find(isTransactionMarker);
+  if (transactionPayload) {
+    const color = transactionColor(transactionPayload.type);
+    return (
+      <div className="max-w-[340px] rounded-2xl border border-white/60 bg-white/85 p-3 text-xs shadow-xl shadow-slate-900/10 backdrop-blur-2xl">
+        <div className="mb-2 flex flex-wrap items-center gap-2">
+          <span className="h-2.5 w-2.5 rounded-full ring-2 ring-white" style={{ backgroundColor: color }} />
+          <span className="font-bold text-slate-900">{transactionPayload.type}</span>
+          <span className="font-mono text-[11px] text-slate-500">{transactionPayload.date}</span>
+          {transactionPayload.lateFilingFlag && (
+            <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-800 ring-1 ring-amber-200">
+              reported late
+            </span>
+          )}
+        </div>
+        <div className="font-semibold leading-4 text-slate-900">{transactionPayload.displayName}</div>
+        <div className="mt-2 grid gap-1.5">
+          <div className="flex items-center justify-between gap-5">
+            <span className="text-slate-500">Range</span>
+            <span className="font-mono font-semibold text-slate-800">{transactionPayload.amountLabel}</span>
+          </div>
+          <div className="flex items-center justify-between gap-5">
+            <span className="text-slate-500">Midpoint</span>
+            <span className="font-mono font-semibold text-slate-800">{formatMoney(transactionPayload.amountMidpoint)}</span>
+          </div>
+        </div>
+        <div className="mt-2 text-[11px] leading-4 text-slate-500">
+          {transactionPayload.assetType} | {transactionPayload.sector}
+          {transactionPayload.ticker ? ` | ${transactionPayload.ticker}` : ''}
+        </div>
+      </div>
+    );
+  }
+
+  const eventPayload = payload.map((item) => item.payload).find(isEventMarker);
+  if (eventPayload) {
+    return (
+      <div className="max-w-[320px] rounded-2xl border border-white/60 bg-white/85 p-3 text-xs shadow-xl shadow-slate-900/10 backdrop-blur-2xl">
+        <div className="mb-2 flex flex-wrap items-center gap-2">
+          <span
+            className="h-2.5 w-2.5 rounded-full ring-2 ring-white"
+            style={{ backgroundColor: EVENT_CATEGORY_COLORS[eventPayload.category] }}
+          />
+          <span className="font-bold text-slate-900">{eventCategoryLabel(eventPayload.category)}</span>
+          <span className="font-mono text-[11px] text-slate-500">{eventPayload.date}</span>
+        </div>
+        <div className="font-semibold leading-4 text-slate-900">{eventPayload.title}</div>
+        <div className="mt-1 text-[11px] leading-4 text-slate-500">
+          {eventPayload.sourceName} | importance {eventPayload.importance}/3
+        </div>
+        {eventPayload.summary && (
+          <div className="mt-2 line-clamp-3 text-[11px] leading-4 text-slate-600">{eventPayload.summary}</div>
+        )}
+        <div className="mt-2 text-[10px] font-semibold uppercase tracking-wide text-slate-400">Click for nearby transaction windows</div>
+      </div>
+    );
+  }
+
+  const rowPayload = payload.map((item) => item.payload).find(isTimingChartRow);
+  if (!rowPayload) return null;
+
+  return (
+    <div className="rounded-2xl border border-white/60 bg-white/85 p-3 text-xs shadow-xl shadow-slate-900/10 backdrop-blur-2xl">
+      <div className="mb-2 font-mono text-[11px] font-semibold text-slate-500">{rowPayload.month}</div>
+      {rowPayload.hasTransactionFlow ? (
+        <div className="grid gap-1.5">
+          <div className="flex items-center justify-between gap-5">
+            <span className="text-slate-500">Purchases</span>
+            <span className="font-mono font-semibold text-emerald-700">{formatMoney(rowPayload.purchaseMidpoint || 0)}</span>
+          </div>
+          <div className="flex items-center justify-between gap-5">
+            <span className="text-slate-500">Sales</span>
+            <span className="font-mono font-semibold text-rose-700">{formatMoney(rowPayload.saleMidpoint || 0)}</span>
+          </div>
+          <div className="flex items-center justify-between gap-5">
+            <span className="text-slate-500">Rows</span>
+            <span className="font-mono font-semibold text-slate-700">{formatInteger(rowPayload.count)}</span>
+          </div>
+        </div>
+      ) : (
+        <div className="text-[11px] leading-4 text-slate-500">No disclosed transaction rows in this month; shown because context events exist.</div>
+      )}
+    </div>
+  );
+}
+
+function TimelineRangeControl({
+  preset,
+  range,
+  bounds,
+  customStartDate,
+  customEndDate,
+  onPresetChange,
+  onCustomStartDateChange,
+  onCustomEndDateChange,
+}: {
+  preset: TimingRangePreset;
+  range: DateRange;
+  bounds: DateRange;
+  customStartDate: string;
+  customEndDate: string;
+  onPresetChange: (preset: TimingRangePreset) => void;
+  onCustomStartDateChange: (value: string) => void;
+  onCustomEndDateChange: (value: string) => void;
+}) {
+  return (
+    <div className="mb-3 rounded-2xl border border-white/55 bg-white/35 p-3 shadow-inner shadow-white/30 backdrop-blur-2xl">
+      <div className="grid gap-3 lg:grid-cols-[1fr_auto] lg:items-end">
+        <div>
+          <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500">Timeline range</div>
+          <div className="text-xs leading-5 text-slate-500">
+            Showing {range.label}. The date range affects this timing visualization only; the dashboard filters still control tables and cards.
+          </div>
+        </div>
+        <div className="grid gap-2 sm:grid-cols-[180px_145px_145px]">
+          <label className="grid gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+            Preset
+            <select
+              value={preset}
+              onChange={(event) => onPresetChange(event.target.value as TimingRangePreset)}
+              className="liquid-input h-9 min-w-0 text-xs font-semibold normal-case tracking-normal text-slate-800"
+            >
+              <option value="visible">Visible filters</option>
+              <option value="full">Full source history</option>
+              <option value="since2025">2025 to present</option>
+              <option value="last24">Last 24 months</option>
+              <option value="last12">Last 12 months</option>
+              <option value="custom">Custom dates</option>
+            </select>
+          </label>
+          <label className="grid gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+            Start
+            <input
+              type="date"
+              value={preset === 'custom' ? customStartDate : range.startDate}
+              min={bounds.startDate}
+              max={bounds.endDate}
+              disabled={preset !== 'custom'}
+              onChange={(event) => onCustomStartDateChange(event.target.value)}
+              className="liquid-input h-9 min-w-0 text-xs font-semibold normal-case tracking-normal text-slate-800 disabled:opacity-60"
+            />
+          </label>
+          <label className="grid gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+            End
+            <input
+              type="date"
+              value={preset === 'custom' ? customEndDate : range.endDate}
+              min={bounds.startDate}
+              max={bounds.endDate}
+              disabled={preset !== 'custom'}
+              onChange={(event) => onCustomEndDateChange(event.target.value)}
+              className="liquid-input h-9 min-w-0 text-xs font-semibold normal-case tracking-normal text-slate-800 disabled:opacity-60"
+            />
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TransactionDotFilterPanel({
+  totalCount,
+  visibleCount,
+  typeOptions,
+  sectorOptions,
+  activeTypes,
+  activeSectors,
+  onToggleType,
+  onToggleSector,
+  onSelectTopSectors,
+  onSelectAllSectors,
+  onClearSectors,
+}: {
+  totalCount: number;
+  visibleCount: number;
+  typeOptions: TransactionTypeOption[];
+  sectorOptions: TransactionSectorOption[];
+  activeTypes: TransactionType[];
+  activeSectors: string[];
+  onToggleType: (type: TransactionType) => void;
+  onToggleSector: (sector: string) => void;
+  onSelectTopSectors: () => void;
+  onSelectAllSectors: () => void;
+  onClearSectors: () => void;
+}) {
+  const needsType = activeTypes.length === 0;
+  const needsSector = activeSectors.length === 0;
+
+  return (
+    <div className="mb-3 rounded-2xl border border-white/45 bg-white/28 p-3 shadow-inner shadow-white/35 backdrop-blur-2xl">
+      <div className="mb-3 flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+          <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Transaction dot filters</div>
+          <div className="text-xs leading-5 text-slate-500">
+            {needsType || needsSector
+              ? 'Select at least one action and one sector to draw transaction row dots.'
+              : `${formatInteger(visibleCount)} of ${formatInteger(totalCount)} transaction row dots plotted.`}
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          <button type="button" onClick={onSelectTopSectors} className="liquid-button px-2.5 py-1 text-[11px] font-semibold text-slate-700">
+            Top 5 sectors
+          </button>
+          <button type="button" onClick={onSelectAllSectors} className="liquid-button px-2.5 py-1 text-[11px] font-semibold text-slate-700">
+            All sectors
+          </button>
+          <button type="button" onClick={onClearSectors} className="liquid-button px-2.5 py-1 text-[11px] font-semibold text-slate-700">
+            Clear sectors
+          </button>
+        </div>
+      </div>
+
+      <div className="grid gap-3 xl:grid-cols-[0.7fr_1.3fr]">
+        <div>
+          <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400">Action</div>
+          <div className="flex flex-wrap gap-1.5">
+            {typeOptions.map((option) => {
+              const active = activeTypes.includes(option.type);
+              return (
+                <button
+                  key={option.type}
+                  type="button"
+                  onClick={() => onToggleType(option.type)}
+                  className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold shadow-sm backdrop-blur-xl ${
+                    active ? 'border-white/65 bg-white/60 text-slate-800' : 'border-white/35 bg-white/15 text-slate-400'
+                  }`}
+                  title={`${transactionTypeLabel(option.type)}: ${formatInteger(option.count)} rows`}
+                >
+                  <span
+                    className="h-2.5 w-2.5 rounded-full ring-2 ring-white/70"
+                    style={{ backgroundColor: active ? transactionColor(option.type) : '#cbd5e1' }}
+                  />
+                  {transactionTypeLabel(option.type)}
+                  <span className="font-mono text-[10px] text-slate-500">{formatInteger(option.count)}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <div>
+          <div className="mb-1.5 flex items-center justify-between gap-3">
+            <div className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Sector</div>
+            <div className="text-[10px] font-semibold text-slate-400">{formatInteger(activeSectors.length)} selected</div>
+          </div>
+          <div className="flex max-h-[118px] flex-wrap gap-1.5 overflow-y-auto pr-1">
+            {sectorOptions.map((option) => {
+              const active = activeSectors.includes(option.sector);
+              return (
+                <button
+                  key={option.sector}
+                  type="button"
+                  onClick={() => onToggleSector(option.sector)}
+                  className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold shadow-sm backdrop-blur-xl ${
+                    active ? 'border-white/65 bg-white/60 text-slate-800' : 'border-white/35 bg-white/15 text-slate-400'
+                  }`}
+                  title={`${option.sector}: ${formatInteger(option.count)} rows (${formatInteger(option.purchaseCount)} buys, ${formatInteger(option.saleCount)} sales)`}
+                >
+                  <span className={`h-2 w-2 rounded-full ${active ? 'bg-slate-700' : 'bg-slate-300'}`} />
+                  <span>{option.sector}</span>
+                  <span className="font-mono text-[10px] text-slate-500">{formatInteger(option.count)}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function EventDensityMatrix({
+  markers,
+  months,
+  categories,
+  activeCategories,
+  selectedEventId,
+  onSelectEvent,
+  onToggleCategory,
+}: {
+  markers: EventMarker[];
+  months: string[];
+  categories: EventCategory[];
+  activeCategories: EventCategory[];
+  selectedEventId: string | null;
+  onSelectEvent: (id: string) => void;
+  onToggleCategory: (category: EventCategory) => void;
+}) {
+  const monthSet = new Set(months);
+  const categoryRows = categories
+    .map((category) => {
+      const categoryMarkers = markers.filter((marker) => marker.category === category && monthSet.has(marker.month));
+      return {
+        category,
+        markers: categoryMarkers,
+        count: categoryMarkers.length,
+        active: activeCategories.includes(category),
+      };
+    })
+    .filter((row) => row.count > 0 || row.active);
+  const grouped = new Map<string, EventMarker[]>();
+  for (const marker of markers) {
+    if (!monthSet.has(marker.month)) continue;
+    const key = eventDensityKey(marker.category, marker.month);
+    grouped.set(key, [...(grouped.get(key) || []), marker]);
+  }
+  const maxCount = Math.max(1, ...Array.from(grouped.values()).map((group) => group.length));
+  const busiest = Array.from(grouped.entries())
+    .map(([key, group]) => {
+      const [category, month] = key.split('|') as [EventCategory, string];
+      return { category, month, group };
+    })
+    .sort((a, b) => b.group.length - a.group.length || b.month.localeCompare(a.month))[0];
+  const gridTemplateColumns = `minmax(190px, 1.55fr) repeat(${Math.max(1, months.length)}, minmax(32px, 1fr))`;
+
+  if (categoryRows.length === 0 || months.length === 0) {
+    return <div className="liquid-empty mt-4 p-4 text-sm text-slate-500">No context events in the visible timing range.</div>;
+  }
+
+  return (
+    <div className="mt-4 rounded-2xl border border-white/45 bg-white/28 p-3 shadow-inner shadow-white/35 backdrop-blur-2xl">
+      <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">All-event density</div>
+          <div className="text-xs leading-5 text-slate-500">Every visible event is counted here; darker cells mean more context in that month/category.</div>
+        </div>
+        {busiest && (
+          <div className="rounded-full border border-white/55 bg-white/45 px-2.5 py-1 text-[11px] font-semibold text-slate-600 shadow-sm">
+            Busiest: {shortMonthLabel(busiest.month)} / {eventCategoryLabel(busiest.category)} ({formatInteger(busiest.group.length)})
+          </div>
+        )}
+      </div>
+      <div className="overflow-x-auto pb-1">
+        <div className="min-w-[900px]">
+          <div className="grid items-center gap-1.5" style={{ gridTemplateColumns }}>
+            <div />
+            {months.map((month, index) => (
+              <div key={month} className="text-center font-mono text-[10px] font-semibold text-slate-400">
+                {monthAxisLabel(month, index, months.length)}
+              </div>
+            ))}
+            {categoryRows.map(({ category, count, active }) => {
+              const color = EVENT_CATEGORY_COLORS[category];
+              return (
+                <div key={category} className="contents">
+                  <button
+                    type="button"
+                    onClick={() => onToggleCategory(category)}
+                    className={`flex min-h-8 items-center justify-between gap-2 rounded-xl border px-2 text-left text-[11px] font-semibold shadow-sm backdrop-blur-xl ${
+                      active ? 'border-white/65 bg-white/55 text-slate-800' : 'border-white/35 bg-white/15 text-slate-400'
+                    }`}
+                    title={`Toggle ${eventCategoryLabel(category)}`}
+                  >
+                    <span className="flex min-w-0 items-center gap-1.5">
+                      <span className="h-2.5 w-2.5 shrink-0 rounded-full ring-2 ring-white/70" style={{ backgroundColor: active ? color : '#cbd5e1' }} />
+                      <span className="truncate">{eventCategoryLabel(category)}</span>
+                    </span>
+                    <span className="font-mono text-[10px] text-slate-500">{formatInteger(count)}</span>
+                  </button>
+                  {months.map((month) => {
+                    const cellMarkers = grouped.get(eventDensityKey(category, month)) || [];
+                    const leadMarker = selectLeadEventMarker(cellMarkers);
+                    const selected = Boolean(selectedEventId && cellMarkers.some((marker) => marker.eventId === selectedEventId));
+                    const intensity = cellMarkers.length ? Math.min(0.86, 0.14 + Math.log1p(cellMarkers.length) / Math.log1p(maxCount) * 0.72) : 0;
+                    const size = cellMarkers.length ? Math.min(22, 5 + Math.sqrt(cellMarkers.length) * 2.8) : 0;
+                    const title = cellMarkers.length
+                      ? `${formatInteger(cellMarkers.length)} ${eventCategoryLabel(category)} event${cellMarkers.length === 1 ? '' : 's'} in ${month}; lead: ${leadMarker?.title || 'N/A'}`
+                      : `${eventCategoryLabel(category)}: no events in ${month}`;
+                    return (
+                      <button
+                        key={`${category}-${month}`}
+                        type="button"
+                        disabled={!leadMarker}
+                        onClick={() => leadMarker && onSelectEvent(leadMarker.eventId)}
+                        className={`relative flex h-8 items-center justify-center rounded-lg border transition ${
+                          selected
+                            ? 'border-slate-900 bg-white/70 shadow-md'
+                            : cellMarkers.length
+                              ? 'border-white/55 bg-white/35 hover:bg-white/65'
+                              : 'border-white/20 bg-white/10'
+                        }`}
+                        title={title}
+                      >
+                        {cellMarkers.length > 0 && (
+                          <>
+                            <span
+                              className="absolute inset-0 rounded-lg"
+                              style={{ backgroundColor: hexToRgba(color, intensity) }}
+                            />
+                            <span
+                              className="relative rounded-full ring-2 ring-white/80"
+                              style={{ width: size, height: size, backgroundColor: color, opacity: active ? 0.95 : 0.28 }}
+                            />
+                            {cellMarkers.length >= 10 && (
+                              <span className="absolute bottom-0.5 right-1 font-mono text-[9px] font-bold text-slate-700">
+                                {cellMarkers.length > 99 ? '99+' : cellMarkers.length}
+                              </span>
+                            )}
+                          </>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -1529,19 +2385,31 @@ function EventOverlayPanel({
   categories,
   activeCategories,
   onToggleCategory,
+  onSelectAllCategories,
+  onClearCategories,
 }: {
   categories: EventCategory[];
   activeCategories: EventCategory[];
   onToggleCategory: (category: EventCategory) => void;
+  onSelectAllCategories: () => void;
+  onClearCategories: () => void;
 }) {
   return (
     <div className="space-y-3 border-t border-white/35 pt-3">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Event overlay</div>
-          <div className="text-xs text-slate-500">Dots on the chart; click one for context below.</div>
+          <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Database event categories</div>
+          <div className="text-xs text-slate-500">Toggle context categories in the chart pins and density grid.</div>
         </div>
-        <CalendarDays className="h-4 w-4 text-slate-400" />
+        <div className="flex items-center gap-1.5">
+          <button type="button" onClick={onSelectAllCategories} className="liquid-button px-2.5 py-1 text-[11px] font-semibold text-slate-700">
+            All
+          </button>
+          <button type="button" onClick={onClearCategories} className="liquid-button px-2.5 py-1 text-[11px] font-semibold text-slate-700">
+            Clear
+          </button>
+          <CalendarDays className="h-4 w-4 text-slate-400" />
+        </div>
       </div>
       <div className="flex flex-wrap gap-1.5">
         {categories.map((category) => {
@@ -1565,7 +2433,7 @@ function EventOverlayPanel({
         })}
       </div>
       <div className="liquid-surface p-3 text-xs leading-5 text-slate-600">
-        Event dots are placed near that month&apos;s larger buy/sell flow, with numbered dots marking months that have multiple public events.
+        The main chart shows representative pins; the density grid counts every visible public event by month and category. Click a pin or dense cell to inspect the lead event below.
       </div>
     </div>
   );
@@ -2496,11 +3364,176 @@ function netDirectionTone(direction: EquityStockSummary['netDirection']): 'buy' 
 
 interface EventMarker {
   month: string;
-  count: number;
+  monthIndex: number;
+  eventId: string;
+  date: string;
+  title: string;
+  summary: string;
+  sourceName: string;
   category: EventCategory;
   importance: number;
-  leadEventId: string;
   y: number;
+}
+
+interface TransactionMarker {
+  month: string;
+  monthIndex: number;
+  transactionId: string;
+  date: string;
+  type: TransactionType;
+  displayName: string;
+  amountLabel: string;
+  amountMidpoint: number;
+  assetType: AssetType;
+  sector: string;
+  ticker: string | null;
+  lateFilingFlag: boolean;
+  y: number;
+}
+
+interface TransactionTypeOption {
+  type: TransactionType;
+  count: number;
+}
+
+interface TransactionSectorOption {
+  sector: string;
+  count: number;
+  purchaseCount: number;
+  saleCount: number;
+}
+
+interface TimingChartRow {
+  month: string;
+  monthIndex: number;
+  purchaseMidpoint: number | null;
+  saleMidpoint: number | null;
+  count: number;
+  hasTransactionFlow: boolean;
+}
+
+interface TimingFlowRow {
+  month: string;
+  purchaseMidpoint: number | null;
+  saleMidpoint: number | null;
+  count: number;
+  hasTransactionFlow: boolean;
+}
+
+function buildTimingDateBounds(
+  transactions: OgeTransaction[],
+  events: OgeEvent[],
+  historicalSources: HistoricalSource[],
+  cacheMeta: CacheMeta
+): DateRange {
+  const candidateDates = [
+    ...transactions.map((tx) => tx.date),
+    ...events.flatMap((event) => [event.date, event.endDate || event.date]),
+    ...historicalSources.map((source) => source.filedDate),
+  ].filter(isIsoDate);
+  const sortedDates = candidateDates.sort();
+  const earliestDate = sortedDates[0] || '2015-01-01';
+  const startDate = earliestDate < '2015-01-01' ? earliestDate : '2015-01-01';
+  const endDate = [
+    cacheMeta.dataThrough || '',
+    cacheMeta.generatedAt.slice(0, 10),
+    ...sortedDates,
+  ].filter(isIsoDate).sort().at(-1) || new Date().toISOString().slice(0, 10);
+
+  return {
+    startDate,
+    endDate,
+    label: `${startDate} to ${endDate}`,
+  };
+}
+
+function resolveTimingDateRange({
+  preset,
+  filters,
+  customStartDate,
+  customEndDate,
+  bounds,
+  visibleTransactions,
+}: {
+  preset: TimingRangePreset;
+  filters: TrumpOgeFilters;
+  customStartDate: string;
+  customEndDate: string;
+  bounds: DateRange;
+  visibleTransactions: OgeTransaction[];
+}): DateRange {
+  const transactionDates = visibleTransactions.map((tx) => tx.date).filter(isIsoDate).sort();
+  const clampRange = (startDate: string, endDate: string, label: string): DateRange => {
+    const clampedStart = clampIsoDate(startDate || bounds.startDate, bounds.startDate, bounds.endDate);
+    const clampedEnd = clampIsoDate(endDate || bounds.endDate, bounds.startDate, bounds.endDate);
+    const orderedStart = clampedStart <= clampedEnd ? clampedStart : clampedEnd;
+    const orderedEnd = clampedStart <= clampedEnd ? clampedEnd : clampedStart;
+    return { startDate: orderedStart, endDate: orderedEnd, label };
+  };
+
+  if (preset === 'full') {
+    return clampRange(bounds.startDate, bounds.endDate, 'full source history');
+  }
+  if (preset === 'since2025') {
+    return clampRange('2025-01-01', bounds.endDate, '2025 to present');
+  }
+  if (preset === 'last24') {
+    return clampRange(addMonths(bounds.endDate, -23), bounds.endDate, 'last 24 months');
+  }
+  if (preset === 'last12') {
+    return clampRange(addMonths(bounds.endDate, -11), bounds.endDate, 'last 12 months');
+  }
+  if (preset === 'custom') {
+    return clampRange(customStartDate || bounds.startDate, customEndDate || bounds.endDate, 'custom range');
+  }
+
+  const visibleStart = filters.startDate ||
+    (filters.year && filters.year !== 'All' ? `${filters.year}-01-01` : transactionDates[0] || bounds.startDate);
+  const visibleEnd = filters.endDate ||
+    (filters.year && filters.year !== 'All' ? `${filters.year}-12-31` : bounds.endDate);
+  return clampRange(visibleStart, visibleEnd, 'visible filters');
+}
+
+function filterEventsForTiming(
+  events: OgeEvent[],
+  filters: TrumpOgeFilters,
+  transactions: OgeTransaction[],
+  cacheDate: string
+): OgeEvent[] {
+  const transactionDates = transactions.map((tx) => tx.date).sort();
+  const defaultStartDate = filters.startDate || (filters.year && filters.year !== 'All' ? `${filters.year}-01-01` : transactionDates[0] || '');
+  const defaultEndDate = filters.endDate || cacheDate;
+
+  return events.filter((event) => {
+    if (filters.year && filters.year !== 'All' && !event.date.startsWith(String(filters.year))) return false;
+    if (defaultStartDate && (event.endDate || event.date) < defaultStartDate) return false;
+    if (defaultEndDate && event.date > defaultEndDate) return false;
+    return true;
+  });
+}
+
+function buildTimingMonthlyFlow(
+  transactionMonths: TimingFlowRow[],
+  events: OgeEvent[],
+  activeCategories: EventCategory[],
+  dateRange?: DateRange
+): TimingFlowRow[] {
+  const byMonth = new Map(transactionMonths.map((row) => [row.month, { ...row }]));
+  if (dateRange?.startDate && dateRange.endDate) {
+    for (const month of monthsBetween(dateRange.startDate, dateRange.endDate)) {
+      if (!byMonth.has(month)) {
+        byMonth.set(month, { month, purchaseMidpoint: null, saleMidpoint: null, count: 0, hasTransactionFlow: false });
+      }
+    }
+  }
+  for (const event of events) {
+    if (!activeCategories.includes(event.category)) continue;
+    const month = eventMonth(event);
+    if (!byMonth.has(month)) {
+      byMonth.set(month, { month, purchaseMidpoint: null, saleMidpoint: null, count: 0, hasTransactionFlow: false });
+    }
+  }
+  return Array.from(byMonth.values()).sort((a, b) => a.month.localeCompare(b.month));
 }
 
 function buildTimelineEvents(
@@ -2521,65 +3554,327 @@ function buildTimelineEvents(
     );
 }
 
+function buildTransactionMarkers(
+  transactions: OgeTransaction[],
+  monthlyFlow: TimingFlowRow[],
+  chartMaxY: number
+): TransactionMarker[] {
+  const monthOrder = new Map(monthlyFlow.map((row, index) => [row.month, index]));
+  const stackedByPoint = new Map<string, number>();
+
+  return transactions
+    .flatMap((tx) => {
+      const month = tx.date.slice(0, 7);
+      const monthIndex = monthOrder.get(month);
+      if (monthIndex === undefined) return [];
+
+      const pointKey = `${tx.date}|${tx.type}|${tx.amount.midpoint}|${tx.assetType}`;
+      const stackedIndex = stackedByPoint.get(pointKey) || 0;
+      stackedByPoint.set(pointKey, stackedIndex + 1);
+      const baseX = monthIndex + (eventDateFraction(tx.date) - 0.5) * 0.78;
+      const xJitter = deterministicSignedJitter(tx.id, 0.09);
+      const yJitter = deterministicSignedJitter(`${tx.id}|y`, chartMaxY * 0.006);
+      const minX = monthIndex - 0.42;
+      const maxX = monthIndex + 0.42;
+
+      return {
+        month,
+        monthIndex: Math.min(maxX, Math.max(minX, baseX + xJitter)),
+        transactionId: tx.id,
+        date: tx.date,
+        type: tx.type,
+        displayName: transactionDisplayName(tx),
+        amountLabel: tx.amount.label,
+        amountMidpoint: tx.amount.midpoint,
+        assetType: tx.assetType,
+        sector: tx.sector,
+        ticker: tx.resolvedTicker || tx.ticker,
+        lateFilingFlag: tx.lateFilingFlag,
+        y: Math.max(0, tx.amount.midpoint + yJitter + stackedIndex * chartMaxY * 0.0012),
+      };
+    })
+    .sort((a, b) => a.monthIndex - b.monthIndex || b.amountMidpoint - a.amountMidpoint || a.displayName.localeCompare(b.displayName));
+}
+
+function buildTransactionTypeOptions(markers: TransactionMarker[]): TransactionTypeOption[] {
+  const order: TransactionType[] = ['Purchase', 'Sale', 'Exchange', 'Other'];
+  return order
+    .map((type) => ({
+      type,
+      count: markers.filter((marker) => marker.type === type).length,
+    }))
+    .filter((option) => option.count > 0);
+}
+
+function buildTransactionSectorOptions(markers: TransactionMarker[]): TransactionSectorOption[] {
+  const bySector = new Map<string, TransactionSectorOption>();
+  for (const marker of markers) {
+    const row = bySector.get(marker.sector) || {
+      sector: marker.sector,
+      count: 0,
+      purchaseCount: 0,
+      saleCount: 0,
+    };
+    row.count += 1;
+    if (marker.type === 'Purchase') row.purchaseCount += 1;
+    if (marker.type === 'Sale') row.saleCount += 1;
+    bySector.set(marker.sector, row);
+  }
+
+  return Array.from(bySector.values()).sort((a, b) => b.count - a.count || a.sector.localeCompare(b.sector));
+}
+
+function buildChartEventPins(markers: EventMarker[], selectedEventId: string | null): EventMarker[] {
+  const byBucket = new Map<string, EventMarker>();
+  for (const marker of markers) {
+    const key = eventDensityKey(marker.category, marker.month);
+    const current = byBucket.get(key);
+    if (!current || compareEventMarkerSignal(marker, current) < 0) {
+      byBucket.set(key, marker);
+    }
+  }
+
+  const pins = Array.from(byBucket.values());
+  if (selectedEventId && !pins.some((marker) => marker.eventId === selectedEventId)) {
+    const selected = markers.find((marker) => marker.eventId === selectedEventId);
+    if (selected) pins.push(selected);
+  }
+
+  return pins.sort((a, b) => a.monthIndex - b.monthIndex || compareEventMarkerSignal(a, b));
+}
+
 function buildEventMarkers(
   events: OgeEvent[],
-  monthlyFlow: Array<{ month: string; purchaseMidpoint: number; saleMidpoint: number }>,
+  monthlyFlow: TimingFlowRow[],
   chartMaxY: number
 ): EventMarker[] {
   const monthOrder = new Map(monthlyFlow.map((row, index) => [row.month, index]));
-  const flowByMonth = new Map(monthlyFlow.map((row) => [row.month, row]));
-  const byMonth = new Map<string, OgeEvent[]>();
+  const stackedByLane = new Map<string, number>();
+  const laneCount = Math.max(1, EVENT_CATEGORIES.length);
+  const laneStep = Math.min(0.045, 0.39 / Math.max(1, laneCount - 1));
 
-  for (const event of events) {
-    const month = eventMonth(event);
-    if (!monthOrder.has(month)) continue;
-    byMonth.set(month, [...(byMonth.get(month) || []), event]);
-  }
+  return [...events]
+    .sort((a, b) =>
+      a.date.localeCompare(b.date) ||
+      EVENT_CATEGORIES.indexOf(a.category) - EVENT_CATEGORIES.indexOf(b.category) ||
+      b.importance - a.importance ||
+      a.title.localeCompare(b.title)
+    )
+    .flatMap((event) => {
+      const month = eventMonth(event);
+      const monthIndex = monthOrder.get(month);
+      if (monthIndex === undefined) return [];
 
-  return Array.from(byMonth.entries())
-    .map(([month, monthEvents]) => {
-      const leadEvent = [...monthEvents].sort((a, b) =>
-        b.importance - a.importance ||
-        a.date.localeCompare(b.date) ||
-        a.title.localeCompare(b.title)
-      )[0];
-      const flow = flowByMonth.get(month);
-      const monthPeak = Math.max(flow?.purchaseMidpoint || 0, flow?.saleMidpoint || 0);
-      const dotY = Math.min(
-        chartMaxY * 0.94,
-        Math.max(chartMaxY * 0.12, monthPeak + chartMaxY * 0.045)
-      );
+      const categoryIndex = Math.max(0, EVENT_CATEGORIES.indexOf(event.category));
+      const laneKey = `${month}|${event.date}|${event.category}`;
+      const stackedIndex = stackedByLane.get(laneKey) || 0;
+      stackedByLane.set(laneKey, stackedIndex + 1);
+      const laneY = chartMaxY * (0.95 - categoryIndex * laneStep);
+      const collisionOffset = chartMaxY * 0.006 * (stackedIndex % 6);
+
       return {
         month,
-        count: monthEvents.length,
-        category: leadEvent.category,
-        importance: leadEvent.importance,
-        leadEventId: leadEvent.id,
-        y: dotY,
+        monthIndex: monthIndex + (eventDateFraction(event.date) - 0.5) * 0.78,
+        eventId: event.id,
+        date: event.date,
+        title: event.title,
+        summary: event.summary,
+        sourceName: event.sourceName,
+        category: event.category,
+        importance: event.importance,
+        y: Math.max(chartMaxY * 0.5, laneY - collisionOffset),
       };
     })
-    .sort((a, b) => (monthOrder.get(a.month) || 0) - (monthOrder.get(b.month) || 0));
+    .sort((a, b) => a.monthIndex - b.monthIndex || b.importance - a.importance || a.title.localeCompare(b.title));
+}
+
+function selectLeadEventMarker(markers: EventMarker[]): EventMarker | null {
+  return [...markers].sort(compareEventMarkerSignal)[0] || null;
+}
+
+function compareEventMarkerSignal(a: EventMarker, b: EventMarker): number {
+  return (
+    b.importance - a.importance ||
+    b.date.localeCompare(a.date) ||
+    a.title.localeCompare(b.title)
+  );
+}
+
+function eventDensityKey(category: EventCategory, month: string): string {
+  return `${category}|${month}`;
+}
+
+function transactionDisplayName(tx: OgeTransaction): string {
+  return (
+    tx.resolvedIssuerName ||
+    tx.instrumentIssuerName ||
+    tx.instrumentReferenceLabel ||
+    tx.description
+  );
+}
+
+function transactionColor(type: TransactionType): string {
+  if (type === 'Purchase') return '#059669';
+  if (type === 'Sale') return '#dc2626';
+  return '#64748b';
+}
+
+function transactionTypeLabel(type: TransactionType): string {
+  if (type === 'Purchase') return 'Buys';
+  if (type === 'Sale') return 'Sells';
+  return type;
+}
+
+function deterministicSignedJitter(seed: string, amplitude: number): number {
+  let hash = 0;
+  for (let index = 0; index < seed.length; index += 1) {
+    hash = (hash * 31 + seed.charCodeAt(index)) >>> 0;
+  }
+  const normalized = (hash % 10_000) / 10_000;
+  return (normalized - 0.5) * 2 * amplitude;
+}
+
+function eventDateFraction(date: string): number {
+  const year = Number(date.slice(0, 4));
+  const month = Number(date.slice(5, 7));
+  const day = Number(date.slice(8, 10));
+  if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day) || month < 1 || month > 12) {
+    return 0.5;
+  }
+
+  const daysInMonth = new Date(year, month, 0).getDate();
+  if (daysInMonth <= 1) return 0.5;
+  return Math.min(1, Math.max(0, (day - 1) / (daysInMonth - 1)));
+}
+
+function isEventMarker(value: unknown): value is EventMarker {
+  return Boolean(
+    value &&
+    typeof value === 'object' &&
+    'eventId' in value &&
+    'category' in value &&
+    'date' in value
+  );
+}
+
+function isTransactionMarker(value: unknown): value is TransactionMarker {
+  return Boolean(
+    value &&
+    typeof value === 'object' &&
+    'transactionId' in value &&
+    'amountMidpoint' in value &&
+    'assetType' in value
+  );
+}
+
+function isTimingChartRow(value: unknown): value is TimingChartRow {
+  return Boolean(
+    value &&
+    typeof value === 'object' &&
+    'month' in value &&
+    'purchaseMidpoint' in value &&
+    'saleMidpoint' in value
+  );
+}
+
+const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function shortMonthLabel(month: string): string {
+  const monthIndex = Number(month.slice(5, 7)) - 1;
+  const year = month.slice(2, 4);
+  return `${MONTH_LABELS[monthIndex] || month.slice(5, 7)} '${year}`;
+}
+
+function monthAxisLabel(month: string, index: number, total: number): string {
+  if (total > 24 && index % 2 !== 0) return '';
+  const monthNumber = month.slice(5, 7);
+  if (monthNumber === '01' || index === 0) return shortMonthLabel(month);
+  return MONTH_LABELS[Number(monthNumber) - 1] || monthNumber;
+}
+
+function hexToRgba(hex: string, alpha: number): string {
+  const value = hex.replace('#', '');
+  const full = value.length === 3
+    ? value.split('').map((char) => `${char}${char}`).join('')
+    : value;
+  const numeric = Number.parseInt(full, 16);
+  if (!Number.isFinite(numeric)) return `rgba(100, 116, 139, ${alpha})`;
+  const red = (numeric >> 16) & 255;
+  const green = (numeric >> 8) & 255;
+  const blue = numeric & 255;
+  return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+}
+
+function isIsoDate(value: string | null | undefined): value is string {
+  return Boolean(value && /^\d{4}-\d{2}-\d{2}$/.test(value));
+}
+
+function clampIsoDate(value: string, min: string, max: string): string {
+  if (!isIsoDate(value)) return min;
+  if (value < min) return min;
+  if (value > max) return max;
+  return value;
+}
+
+function addMonths(date: string, monthDelta: number): string {
+  if (!isIsoDate(date)) return date;
+  const year = Number(date.slice(0, 4));
+  const month = Number(date.slice(5, 7));
+  const day = Number(date.slice(8, 10));
+  if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) return date;
+
+  const next = new Date(Date.UTC(year, month - 1 + monthDelta, 1));
+  const daysInMonth = new Date(Date.UTC(next.getUTCFullYear(), next.getUTCMonth() + 1, 0)).getUTCDate();
+  next.setUTCDate(Math.min(day, daysInMonth));
+  return next.toISOString().slice(0, 10);
+}
+
+function monthsBetween(startDate: string, endDate: string): string[] {
+  if (!isIsoDate(startDate) || !isIsoDate(endDate)) return [];
+  const startYear = Number(startDate.slice(0, 4));
+  const startMonth = Number(startDate.slice(5, 7));
+  const endYear = Number(endDate.slice(0, 4));
+  const endMonth = Number(endDate.slice(5, 7));
+  if (![startYear, startMonth, endYear, endMonth].every(Number.isFinite)) return [];
+
+  const months: string[] = [];
+  let cursor = new Date(Date.UTC(startYear, startMonth - 1, 1));
+  const end = new Date(Date.UTC(endYear, endMonth - 1, 1));
+  while (cursor <= end && months.length < 240) {
+    months.push(`${cursor.getUTCFullYear()}-${String(cursor.getUTCMonth() + 1).padStart(2, '0')}`);
+    cursor = new Date(Date.UTC(cursor.getUTCFullYear(), cursor.getUTCMonth() + 1, 1));
+  }
+  return months;
+}
+
+function selectTimelineTicks(indexes: number[]): number[] {
+  if (indexes.length <= 30) return indexes;
+  const maxTicks = 14;
+  const step = Math.max(1, Math.ceil(indexes.length / maxTicks));
+  const ticks = indexes.filter((_, index) => index === 0 || index === indexes.length - 1 || index % step === 0);
+  const last = indexes.at(-1);
+  return last !== undefined && !ticks.includes(last) ? [...ticks, last] : ticks;
 }
 
 function eventDateLabel(event: OgeEvent): string {
   return event.endDate && event.endDate !== event.date ? `${event.date} to ${event.endDate}` : event.date;
 }
 
-function buildChartMaxY(rows: Array<{ purchaseMidpoint: number; saleMidpoint: number }>): number {
+function buildChartMaxY(rows: Array<{ purchaseMidpoint: number | null; saleMidpoint: number | null }>): number {
   const maxValue = Math.max(
     1,
-    ...rows.flatMap((row) => [row.purchaseMidpoint, row.saleMidpoint])
+    ...rows.flatMap((row) => [row.purchaseMidpoint || 0, row.saleMidpoint || 0])
   );
   return maxValue * 1.18;
 }
 
-function buildMonthlyFlow(transactions: OgeTransaction[]) {
-  const byMonth = new Map<string, { month: string; purchaseMidpoint: number; saleMidpoint: number; count: number }>();
+function buildMonthlyFlow(transactions: OgeTransaction[]): TimingFlowRow[] {
+  const byMonth = new Map<string, TimingFlowRow>();
   for (const tx of transactions) {
     const month = tx.date.slice(0, 7);
-    const row = byMonth.get(month) || { month, purchaseMidpoint: 0, saleMidpoint: 0, count: 0 };
-    if (tx.type === 'Purchase') row.purchaseMidpoint += tx.amount.midpoint;
-    if (tx.type === 'Sale') row.saleMidpoint += tx.amount.midpoint;
+    const row = byMonth.get(month) || { month, purchaseMidpoint: 0, saleMidpoint: 0, count: 0, hasTransactionFlow: true };
+    if (tx.type === 'Purchase') row.purchaseMidpoint = (row.purchaseMidpoint || 0) + tx.amount.midpoint;
+    if (tx.type === 'Sale') row.saleMidpoint = (row.saleMidpoint || 0) + tx.amount.midpoint;
     row.count += 1;
     byMonth.set(month, row);
   }
@@ -2615,6 +3910,16 @@ function buildAssetSummary(transactions: OgeTransaction[]) {
   }
   return Array.from(byAsset.entries())
     .map(([assetType, count]) => ({ assetType, count }))
+    .sort((a, b) => b.count - a.count);
+}
+
+function buildAssetSummaryFromSectorSummaries(summaries: SectorSummary[]) {
+  return summaries
+    .filter((summary) => summary.assetType !== 'All')
+    .map((summary) => ({
+      assetType: summary.assetType as AssetType,
+      count: summary.transactionCount,
+    }))
     .sort((a, b) => b.count - a.count);
 }
 

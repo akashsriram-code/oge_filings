@@ -35,6 +35,8 @@ In GitHub repository settings, set Pages source to **GitHub Actions**. The Pages
 
 To add the Trump context database to the timing overlay, store the Postgres URL as a GitHub Actions secret named `DATABASE_URL`. Optional caps are `TRUMP_CONTEXT_DB_EVENT_LIMIT`, `TRUMP_CONTEXT_DB_SOCIAL_LIMIT`, `TRUMP_CONTEXT_DB_DOCUMENT_LIMIT`, and `TRUMP_CONTEXT_DB_REUTERS_LIMIT`. If `DATABASE_URL` is missing, the refresh preserves any already-cached context events and continues.
 
+To back the OGE dashboard cache with Neon/Postgres, store that separate pooled Postgres URL as `TRUMP_OGE_DATABASE_URL` in GitHub Actions and Vercel. Do not reuse `DATABASE_URL`; that remains reserved for the Trump context database. You can backfill the OGE cache database from the current JSON files with `npm run load:trump-oge-postgres`.
+
 ## OpenArena API
 
 GitHub Pages hosts the static dashboard. The live natural-language query endpoint is the Vercel App Router route at `app/api/ask/route.ts`.

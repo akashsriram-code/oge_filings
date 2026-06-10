@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import { buildApiResponse, loadTrumpOgeCacheMeta, loadTrumpOgeDataset } from '@/lib/oge/data';
+import { buildApiResponse, loadTrumpOgeCacheMeta, loadTrumpOgeDataset, ogeCacheHeaders } from '@/lib/oge/data';
 import { filtersFromSearchParams } from '@/lib/oge/filter';
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 export async function GET(req: Request) {
@@ -12,26 +12,12 @@ export async function GET(req: Request) {
       const cacheMeta = await loadTrumpOgeCacheMeta();
       return NextResponse.json({
         cacheMeta,
-        note: 'The static dashboard loads versioned JSON cache chunks client-side. Use ?full=true in a runtime Next/Vercel environment for the full API response.',
-        files: [
-          'historical-sources.json',
-          'source-filings.json',
-          'transactions.json',
-          'baseline-holdings.json',
-          'financial-disclosure-reports.json',
-          'asset-income-holdings.json',
-          'liabilities.json',
-          'yearly-exposure-summaries.json',
-          'review-queue.json',
-          'events.json',
-          'security-enrichment.json',
-          'cache-meta.json',
-        ].map((file) => `data/oge/trump/${file}`),
-      });
+        note: 'Use /api/trump-oge/bootstrap for the first-screen payload, /api/trump-oge/page?name=index for page-scoped payloads, or ?full=true for the full export/debug response.',
+      }, { headers: ogeCacheHeaders(cacheMeta) });
     }
     const dataset = await loadTrumpOgeDataset();
     const response = buildApiResponse(dataset, filtersFromSearchParams(url.searchParams));
-    return NextResponse.json(response);
+    return NextResponse.json(response, { headers: ogeCacheHeaders(response.cacheMeta) });
   } catch (error) {
     console.error('[Trump OGE API] Error:', error);
     return NextResponse.json(

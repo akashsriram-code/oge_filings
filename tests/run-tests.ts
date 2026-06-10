@@ -1,10 +1,19 @@
 import assert from 'node:assert/strict';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
 import * as XLSX from 'xlsx';
 import { handleAskRequest } from '../lib/oge/ask';
 import { parseOgeAmountRange } from '../lib/oge/amounts';
 import { buildHoldingsEstimates } from '../lib/oge/analytics';
 import { classifySecurity } from '../lib/oge/classify';
-import { buildApiResponse, loadTrumpOgeDataset } from '../lib/oge/data';
+import {
+  buildApiResponse,
+  buildDashboardBootstrap,
+  buildPageResponse,
+  clearOgeJsonMemoForTests,
+  loadTrumpOgeBootstrap,
+  loadTrumpOgeDataset,
+} from '../lib/oge/data';
 import {
   broadSectorFromSic,
   buildSecurityReferenceCache,
@@ -16,6 +25,11 @@ import {
 import { buildEventWindows, eventWindowBounds, federalRegisterDocumentToEvent } from '../lib/oge/events';
 import { filterTransactions } from '../lib/oge/filter';
 import { buildTrumpIndex } from '../lib/oge/index';
+import {
+  buildPageResponseFromPostgres,
+  isPostgresConfigured,
+  loadTrumpOgeBootstrapFromPostgres,
+} from '../lib/oge/postgres';
 import { buildEquityStockSummaries, deriveEquityStockName } from '../lib/oge/stocks';
 import type { BaselineHolding, OgeEvent, OgeTransaction, SourceFiling } from '../lib/oge/types';
 import { buildTrumpOgeWorkbook } from '../lib/oge/workbook';
@@ -28,6 +42,11 @@ async function main() {
   testEventOverlay();
   testTrumpIndex();
   await testCacheShape();
+  await testBootstrapCache();
+  await testPageResponses();
+  await testJsonMemoization();
+  await testPostgresMigrationContract();
+  await testPostgresDisabledFallback();
   await testFiltering();
   await testAskApiFallback();
   await testWorkbookExport();
@@ -334,6 +353,23 @@ async function testCacheShape() {
   assert.ok(dataset.liabilities.length >= 1, 'annual liabilities should be present');
   assert.ok(dataset.trumpIndex.length >= 1, 'Trump Index should be present');
   assert.ok(dataset.trumpIndexRollups.length >= 1, 'Trump Index rollups should be present');
+  for (const filedDate of ['2023-07-08', '2023-10-18', '2024-08-23']) {
+    assert.ok(
+      dataset.historicalSources.some((source) => source.filedDate === filedDate && source.sourceReliability === 'metadata_only'),
+      `request-only metadata source should survive for ${filedDate}`
+    );
+  }
+  for (const reportYear of [2015, 2016, 2020, 2021]) {
+    const report = dataset.financialDisclosureReports.find((item) => item.reportYear === reportYear);
+    assert.equal(report?.parserStatus, 'parsed', `${reportYear} disclosure should be parsed`);
+    assert.ok((report?.assetIncomeCount || 0) > 0, `${reportYear} disclosure should include asset/income rows`);
+    assert.ok((report?.liabilityCount || 0) > 0, `${reportYear} disclosure should include liability rows`);
+  }
+  assert.equal(
+    dataset.historicalSources.filter((source) => source.filedDate === '2024-08-23' && source.sourceReliability === 'archived_copy').length,
+    6,
+    '2024 CREW candidate report parts should be registered'
+  );
   assert.equal(dataset.cacheMeta.transactionCount, dataset.transactions.length);
   assert.equal(dataset.cacheMeta.sourceFilingCount, dataset.sourceFilings.length);
   assert.equal(dataset.cacheMeta.eventCount, dataset.events.length);
@@ -341,6 +377,100 @@ async function testCacheShape() {
   assert.equal(dataset.cacheMeta.trumpIndexCount, dataset.trumpIndex.length);
   assert.ok(dataset.cacheMeta.instrumentContextCount >= 1, 'instrument context count should be present');
   assert.ok(dataset.transactions.some((row) => row.instrumentSummary || row.issuerContextTicker), 'instrument summaries or issuer context should be present');
+}
+
+async function testBootstrapCache() {
+  const dataset = await loadTrumpOgeDataset();
+  const bootstrap = await loadTrumpOgeBootstrap();
+  const generated = buildDashboardBootstrap(dataset);
+  const bootstrapPath = path.join(process.cwd(), 'data', 'oge', 'trump', 'dashboard-bootstrap.json');
+  const stats = await fs.stat(bootstrapPath);
+
+  assert.ok(stats.size < 750 * 1024, 'dashboard bootstrap should stay below 750 KB');
+  assert.ok(bootstrap.trumpIndex.length > 0, 'bootstrap should include top index entries');
+  assert.ok(bootstrap.trumpIndex.length < dataset.trumpIndex.length, 'bootstrap should not include the full index');
+  assert.equal(bootstrap.cacheMeta.generatedAt, dataset.cacheMeta.generatedAt);
+  assert.equal(generated.trumpIndex[0]?.id, bootstrap.trumpIndex[0]?.id);
+  assert.ok(!('transactions' in bootstrap), 'bootstrap must not include raw transactions');
+  assert.ok(!('holdingsEstimates' in bootstrap), 'bootstrap must not include full holdings');
+  assert.ok(!('events' in bootstrap), 'bootstrap must not include full events');
+  assert.ok(!('securityEnrichments' in bootstrap), 'bootstrap must not include full enrichment rows');
+  assert.ok(!('sourceFilings' in bootstrap), 'bootstrap must not include full source rows');
+}
+
+async function testPageResponses() {
+  const dataset = await loadTrumpOgeDataset();
+  const index = buildPageResponse(dataset, 'index', {});
+  assert.ok(index.trumpIndex && index.trumpIndex.length > 0, 'index page should include index entries');
+  assert.ok(index.trumpIndex.length > 80, 'index page should include more than the bootstrap top entries');
+  assert.ok(!('transactions' in index), 'index page should not ship raw transactions');
+
+  const timing = buildPageResponse(dataset, 'timing', { year: '2025' });
+  assert.ok(timing.transactions && timing.transactions.length > 0, 'timing page should include transaction rows');
+  assert.ok(timing.events && timing.events.length > 0, 'timing page should include event context');
+  assert.ok(timing.transactions.some((row) => !row.date.startsWith('2025')), 'timing page should ignore global year so the timeline can widen');
+
+  const sectors = buildPageResponse(dataset, 'sectors', {});
+  assert.ok(sectors.sectorSummaries && sectors.sectorSummaries.length > 0, 'sectors page should include sector summaries');
+  assert.ok(!('transactions' in sectors), 'sectors page should use summaries instead of raw transactions');
+
+  const equities = buildPageResponse(dataset, 'equities', {});
+  assert.ok(equities.transactions && equities.transactions.length > 0, 'equity page should include scoped transaction rows');
+  assert.ok(equities.transactions.every((row) => row.assetType === 'Equity'), 'equity page should force equity scope');
+}
+
+async function testJsonMemoization() {
+  clearOgeJsonMemoForTests();
+  const first = await loadTrumpOgeDataset();
+  const second = await loadTrumpOgeDataset();
+  assert.equal(first.transactions, second.transactions, 'warm JSON reads should reuse parsed transaction arrays');
+  assert.equal(first.securityReference, second.securityReference, 'warm JSON reads should reuse parsed security reference cache');
+  clearOgeJsonMemoForTests();
+  const third = await loadTrumpOgeDataset();
+  assert.notEqual(first.transactions, third.transactions, 'clearing memoization should force a fresh parse');
+}
+
+async function testPostgresMigrationContract() {
+  const sql = await fs.readFile(path.join(process.cwd(), 'db', 'migrations', '001_trump_oge_cache.sql'), 'utf8');
+  for (const table of [
+    'trump_oge_cache_runs',
+    'trump_oge_transactions',
+    'trump_oge_baseline_holdings',
+    'trump_oge_historical_sources',
+    'trump_oge_source_filings',
+    'trump_oge_events',
+    'trump_oge_trump_index_entries',
+    'trump_oge_review_queue',
+    'trump_oge_asset_income_holdings',
+    'trump_oge_liabilities',
+  ]) {
+    assert.ok(sql.includes(`CREATE TABLE IF NOT EXISTS ${table}`), `migration should create ${table}`);
+  }
+  assert.ok(sql.includes('CREATE INDEX IF NOT EXISTS trump_oge_transactions_filter_idx'), 'migration should index transaction filters');
+  assert.ok(sql.includes('row_data jsonb NOT NULL'), 'migration should preserve original JSON rows');
+}
+
+async function testPostgresDisabledFallback() {
+  const oldOgeDatabaseUrl = process.env.TRUMP_OGE_DATABASE_URL;
+  const oldContextDatabaseUrl = process.env.DATABASE_URL;
+  delete process.env.TRUMP_OGE_DATABASE_URL;
+  process.env.DATABASE_URL = 'postgresql://context-db-is-not-oge.example/test';
+  try {
+    assert.equal(isPostgresConfigured(), false);
+    assert.equal(await loadTrumpOgeBootstrapFromPostgres(), null);
+    assert.equal(await buildPageResponseFromPostgres('index', {}), null);
+  } finally {
+    if (oldOgeDatabaseUrl) {
+      process.env.TRUMP_OGE_DATABASE_URL = oldOgeDatabaseUrl;
+    } else {
+      delete process.env.TRUMP_OGE_DATABASE_URL;
+    }
+    if (oldContextDatabaseUrl) {
+      process.env.DATABASE_URL = oldContextDatabaseUrl;
+    } else {
+      delete process.env.DATABASE_URL;
+    }
+  }
 }
 
 async function testFiltering() {

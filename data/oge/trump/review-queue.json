@@ -3352,7 +3352,7 @@
     "severity": "medium",
     "kind": "classification",
     "title": "Review Equity classification",
-    "detail": "FEDEX CORP | Needs sector review, No SEC/SIC sector",
+    "detail": "FEDEX CORP | Needs sector review, Multiple possible tickers",
     "relatedId": "63a93f1f",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3361,7 +3361,7 @@
     "severity": "medium",
     "kind": "classification",
     "title": "Review Equity classification",
-    "detail": "FEDEX CORP UNSOLICITED | Needs sector review, Low-confidence issuer match, No SEC/SIC sector",
+    "detail": "FEDEX CORP UNSOLICITED | Needs sector review, Multiple possible tickers",
     "relatedId": "f5e975f1",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },

@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-10T15:38:47.775Z",
+  "generatedAt": "2026-06-10T19:34:53.600Z",
   "minDate": "2015-01-01",
   "checkedThrough": "2026-06-10",
   "ogeApiRecordCount": 21,
-  "registrySourceCount": 21,
+  "registrySourceCount": 35,
   "officialPdfCount": 18,
-  "archivedCopyCount": 2,
-  "metadataOnlyCount": 1,
+  "archivedCopyCount": 14,
+  "metadataOnlyCount": 3,
   "officialRecordsWithoutRegistry": 0,
   "coverageByYear": [
     {
@@ -37,41 +37,41 @@
     },
     {
       "year": 2017,
-      "registryCount": 0,
+      "registryCount": 1,
       "officialCount": 0,
-      "archivedCount": 0,
+      "archivedCount": 1,
       "metadataOnlyCount": 0,
       "transactionReportCount": 0,
-      "annualOrCandidateCount": 0,
-      "status": "gap",
+      "annualOrCandidateCount": 1,
+      "status": "partial",
       "notes": [
-        "No source registry entry for this year."
+        "Coverage relies on archived copies or metadata-only records, not a currently fetchable OGE PDF."
       ]
     },
     {
       "year": 2018,
-      "registryCount": 0,
+      "registryCount": 1,
       "officialCount": 0,
-      "archivedCount": 0,
+      "archivedCount": 1,
       "metadataOnlyCount": 0,
       "transactionReportCount": 0,
-      "annualOrCandidateCount": 0,
-      "status": "gap",
+      "annualOrCandidateCount": 1,
+      "status": "partial",
       "notes": [
-        "No source registry entry for this year."
+        "Coverage relies on archived copies or metadata-only records, not a currently fetchable OGE PDF."
       ]
     },
     {
       "year": 2019,
-      "registryCount": 0,
+      "registryCount": 1,
       "officialCount": 0,
-      "archivedCount": 0,
+      "archivedCount": 1,
       "metadataOnlyCount": 0,
       "transactionReportCount": 0,
-      "annualOrCandidateCount": 0,
-      "status": "gap",
+      "annualOrCandidateCount": 1,
+      "status": "partial",
       "notes": [
-        "No source registry entry for this year."
+        "Coverage relies on archived copies or metadata-only records, not a currently fetchable OGE PDF."
       ]
     },
     {
@@ -111,12 +111,12 @@
     },
     {
       "year": 2023,
-      "registryCount": 1,
+      "registryCount": 5,
       "officialCount": 0,
-      "archivedCount": 0,
-      "metadataOnlyCount": 1,
+      "archivedCount": 3,
+      "metadataOnlyCount": 2,
       "transactionReportCount": 0,
-      "annualOrCandidateCount": 1,
+      "annualOrCandidateCount": 5,
       "status": "partial",
       "notes": [
         "Coverage relies on archived copies or metadata-only records, not a currently fetchable OGE PDF."
@@ -124,15 +124,15 @@
     },
     {
       "year": 2024,
-      "registryCount": 0,
+      "registryCount": 7,
       "officialCount": 0,
-      "archivedCount": 0,
-      "metadataOnlyCount": 0,
+      "archivedCount": 6,
+      "metadataOnlyCount": 1,
       "transactionReportCount": 0,
-      "annualOrCandidateCount": 0,
-      "status": "gap",
+      "annualOrCandidateCount": 7,
+      "status": "partial",
       "notes": [
-        "No source registry entry for this year."
+        "Coverage relies on archived copies or metadata-only records, not a currently fetchable OGE PDF."
       ]
     },
     {
@@ -160,31 +160,7 @@
   ],
   "gaps": [
     {
-      "year": 2017,
-      "severity": "high",
-      "issue": "No Trump OGE source registered for the year.",
-      "suggestedAction": "Add archived or request-only annual presidential disclosure metadata/PDF for this in-office year."
-    },
-    {
-      "year": 2018,
-      "severity": "high",
-      "issue": "No Trump OGE source registered for the year.",
-      "suggestedAction": "Add archived or request-only annual presidential disclosure metadata/PDF for this in-office year."
-    },
-    {
-      "year": 2019,
-      "severity": "high",
-      "issue": "No Trump OGE source registered for the year.",
-      "suggestedAction": "Add archived or request-only annual presidential disclosure metadata/PDF for this in-office year."
-    },
-    {
       "year": 2022,
-      "severity": "medium",
-      "issue": "No Trump OGE source registered for the year.",
-      "suggestedAction": "Verify whether Trump had a filing obligation or public candidate report for this year; add request-only metadata if relevant."
-    },
-    {
-      "year": 2024,
       "severity": "medium",
       "issue": "No Trump OGE source registered for the year.",
       "suggestedAction": "Verify whether Trump had a filing obligation or public candidate report for this year; add request-only metadata if relevant."

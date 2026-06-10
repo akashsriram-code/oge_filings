@@ -43,6 +43,7 @@ jobs:
         env:
           OGE_USER_AGENT: ${{ secrets.OGE_USER_AGENT || 'Reuters OGE Dashboard contact@example.com' }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          TRUMP_OGE_DATABASE_URL: ${{ secrets.TRUMP_OGE_DATABASE_URL }}
         run: npm run ingest:trump-oge
 
       - name: Test cache and app

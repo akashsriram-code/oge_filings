@@ -21,15 +21,20 @@ import type {
   SectorSummary,
   SourceAudit,
   SourceFiling,
+  TrumpOgeBootstrap,
   TrumpIndexEntry,
   TrumpIndexRollup,
   TrumpOgeApiResponse,
   TrumpOgeDataset,
   TrumpOgeFilters,
+  TrumpOgePageName,
+  TrumpOgePageResponse,
   YearlyExposureSummary,
 } from './types';
 
 const DATA_ROOT = path.join(process.cwd(), 'data', 'oge', 'trump');
+const BOOTSTRAP_INDEX_LIMIT = 80;
+const jsonMemo = new Map<string, { mtimeMs: number; size: number; value: unknown }>();
 
 const EMPTY_META: CacheMeta = {
   generatedAt: new Date(0).toISOString(),
@@ -138,6 +143,12 @@ export async function loadTrumpOgeDataset(): Promise<TrumpOgeDataset> {
   };
 }
 
+export async function loadTrumpOgeBootstrap(): Promise<TrumpOgeBootstrap> {
+  const cached = await readJson<TrumpOgeBootstrap | null>('dashboard-bootstrap.json', null);
+  if (cached) return cached;
+  return buildDashboardBootstrap(await loadTrumpOgeDataset());
+}
+
 export async function loadTrumpOgeCacheMeta(): Promise<CacheMeta> {
   return readJson<CacheMeta>('cache-meta.json', EMPTY_META);
 }
@@ -225,10 +236,195 @@ export function buildApiResponse(dataset: TrumpOgeDataset, filters: TrumpOgeFilt
   };
 }
 
+export function buildDashboardBootstrap(dataset: TrumpOgeDataset, filters: TrumpOgeFilters = {}): TrumpOgeBootstrap {
+  const response = buildApiResponse(dataset, filters);
+  return {
+    cacheMeta: response.cacheMeta,
+    kpis: response.kpis,
+    filters: response.filters,
+    availableSectors: response.availableSectors,
+    availableAssetTypes: response.availableAssetTypes,
+    availableYears: buildAvailableYears(dataset),
+    sourceAudit: response.sourceAudit,
+    yearlyExposureSummaries: response.yearlyExposureSummaries,
+    trumpIndex: response.trumpIndex.slice(0, BOOTSTRAP_INDEX_LIMIT),
+    trumpIndexRollups: response.trumpIndexRollups,
+  };
+}
+
+export function buildPageResponse(
+  dataset: TrumpOgeDataset,
+  page: TrumpOgePageName,
+  filters: TrumpOgeFilters = {}
+): TrumpOgePageResponse {
+  const effectiveFilters = filtersForPage(page, filters);
+  const response = buildApiResponse(dataset, effectiveFilters);
+  const base = {
+    page,
+    cacheMeta: response.cacheMeta,
+    kpis: response.kpis,
+    filters: response.filters,
+    availableSectors: response.availableSectors,
+    availableAssetTypes: response.availableAssetTypes,
+    availableYears: buildAvailableYears(dataset),
+  };
+
+  if (isAssetPage(page)) {
+    return {
+      ...base,
+      transactions: response.transactions,
+      holdingsEstimates: response.holdingsEstimates,
+      sectorSummaries: response.sectorSummaries,
+      trumpIndex: response.trumpIndex,
+      trumpIndexRollups: response.trumpIndexRollups,
+      sourceFilings: dataset.sourceFilings,
+      historicalSources: filterHistoricalSources(dataset.historicalSources, effectiveFilters),
+    };
+  }
+
+  switch (page) {
+    case 'index':
+      return {
+        ...base,
+        historicalSources: filterHistoricalSources(dataset.historicalSources, effectiveFilters),
+        sourceAudit: dataset.sourceAudit,
+        yearlyExposureSummaries: response.yearlyExposureSummaries,
+        trumpIndex: response.trumpIndex,
+        trumpIndexRollups: response.trumpIndexRollups,
+      };
+    case 'sectors':
+      return {
+        ...base,
+        sectorSummaries: response.sectorSummaries,
+        trumpIndexRollups: response.trumpIndexRollups,
+      };
+    case 'timing':
+      return {
+        ...base,
+        transactions: response.transactions,
+        historicalSources: filterHistoricalSources(dataset.historicalSources, effectiveFilters),
+        events: dataset.events,
+      };
+    case 'holdings':
+      return {
+        ...base,
+        holdingsEstimates: response.holdingsEstimates,
+      };
+    case 'transactions':
+      return {
+        ...base,
+        transactions: response.transactions,
+      };
+    case 'filings':
+      return {
+        ...base,
+        sourceAudit: dataset.sourceAudit,
+        historicalSources: filterHistoricalSources(dataset.historicalSources, effectiveFilters),
+        sourceFilings: dataset.sourceFilings,
+        financialDisclosureReports: dataset.financialDisclosureReports,
+        assetIncomeHoldings: dataset.assetIncomeHoldings,
+        liabilities: dataset.liabilities,
+      };
+    case 'review':
+      return {
+        ...base,
+        reviewQueue: dataset.reviewQueue,
+      };
+    default:
+      return {
+        ...base,
+        trumpIndex: response.trumpIndex.slice(0, BOOTSTRAP_INDEX_LIMIT),
+        trumpIndexRollups: response.trumpIndexRollups,
+      };
+  }
+}
+
+export function isTrumpOgePageName(value: string | null): value is TrumpOgePageName {
+  return Boolean(value && [
+    'index',
+    'equities',
+    'corporate-bonds',
+    'municipal-bonds',
+    'funds',
+    'preferred',
+    'other',
+    'holdings',
+    'sectors',
+    'timing',
+    'transactions',
+    'filings',
+    'review',
+  ].includes(value));
+}
+
+export function ogeCacheHeaders(cacheMeta: CacheMeta): HeadersInit {
+  return {
+    'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800',
+    'x-cache-version': cacheMeta.generatedAt,
+  };
+}
+
+export function clearOgeJsonMemoForTests() {
+  jsonMemo.clear();
+}
+
+function buildAvailableYears(dataset: Pick<TrumpOgeDataset, 'transactions' | 'historicalSources'>): string[] {
+  return Array.from(new Set([
+    ...dataset.transactions.map((tx) => tx.date.slice(0, 4)),
+    ...dataset.historicalSources.map((source) => source.reportYear ? String(source.reportYear) : source.filedDate.slice(0, 4)),
+  ].filter(Boolean))).sort((a, b) => b.localeCompare(a));
+}
+
+function filtersForPage(page: TrumpOgePageName, filters: TrumpOgeFilters): TrumpOgeFilters {
+  const assetType = assetTypeForPage(page);
+  const next = assetType ? { ...filters, assetType } : { ...filters };
+  if (page === 'timing') {
+    return {
+      ...next,
+      year: 'All',
+      startDate: '',
+      endDate: '',
+    };
+  }
+  return next;
+}
+
+function isAssetPage(page: TrumpOgePageName): boolean {
+  return Boolean(assetTypeForPage(page));
+}
+
+function assetTypeForPage(page: TrumpOgePageName) {
+  const assetTypes = {
+    equities: 'Equity',
+    'corporate-bonds': 'Corporate Bond',
+    'municipal-bonds': 'Municipal Bond',
+    funds: 'ETF / Fund',
+    preferred: 'Preferred / Hybrid',
+    other: 'Other',
+  } satisfies Partial<Record<TrumpOgePageName, TrumpOgeDataset['transactions'][number]['assetType']>>;
+  return assetTypes[page as keyof typeof assetTypes] || null;
+}
+
+function filterHistoricalSources(sources: HistoricalSource[], filters: TrumpOgeFilters): HistoricalSource[] {
+  return sources.filter((source) => {
+    if (filters.year && filters.year !== 'All' && source.reportYear !== Number(filters.year) && !source.filedDate.startsWith(String(filters.year))) return false;
+    if (filters.sourceReliability && filters.sourceReliability !== 'All' && source.sourceReliability !== filters.sourceReliability) return false;
+    return true;
+  });
+}
+
 async function readJson<T>(filename: string, fallback: T): Promise<T> {
   try {
-    const raw = await fs.readFile(path.join(DATA_ROOT, filename), 'utf8');
-    return JSON.parse(raw) as T;
+    const filePath = path.join(DATA_ROOT, filename);
+    const stats = await fs.stat(filePath);
+    const cached = jsonMemo.get(filePath);
+    if (cached && cached.mtimeMs === stats.mtimeMs && cached.size === stats.size) {
+      return cached.value as T;
+    }
+    const raw = await fs.readFile(filePath, 'utf8');
+    const value = JSON.parse(raw) as T;
+    jsonMemo.set(filePath, { mtimeMs: stats.mtimeMs, size: stats.size, value });
+    return value;
   } catch {
     return fallback;
   }

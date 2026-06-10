@@ -1,5 +1,45 @@
 [
   {
+    "id": "42b58f43",
+    "sourceId": "5f75c22d",
+    "creditorName": "Ladder Capital Finance I LLC",
+    "type": "40 Wall Street LLC - loan",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2015",
+    "rate": "3.665%",
+    "term": "Matures in 2025",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "52e343bf",
+    "sourceId": "5f75c22d",
+    "creditorName": "Ladder Capital Finance LLC Trump Tower Commercial LLC -",
+    "type": "Unspecified liability",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2012",
+    "rate": "4.200%",
+    "term": "Matures in 2022 mortgage",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
     "id": "a0278306",
     "sourceId": "aa609a38",
     "creditorName": "Axos Bank",
@@ -100,6 +140,526 @@
     ]
   },
   {
+    "id": "7108c33e",
+    "sourceId": "c7f30770",
+    "creditorName": "Chicago Unit Acquisition LLC",
+    "type": "TIHT Chicago - springing loan",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2012",
+    "rate": "Prime + 5%",
+    "term": "Springing loan",
+    "sourceReliability": "official",
+    "confidence": 0.7,
+    "reviewFlags": [
+      "Parsed from columnar 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "241d0117",
+    "sourceId": "c7f30770",
+    "creditorName": "Deutsche Bank Trust Company Americas",
+    "type": "Trump National Doral - mortgage",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2012",
+    "rate": "LIBOR + 1.75% or Prime minus .75%",
+    "term": "Matures in 2023",
+    "sourceReliability": "official",
+    "confidence": 0.7,
+    "reviewFlags": [
+      "Parsed from columnar 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "71734e8f",
+    "sourceId": "c7f30770",
+    "creditorName": "Ladder Capital Finance I LLC",
+    "type": "40 Wall Street LLC - loan",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2015",
+    "rate": "3.665%",
+    "term": "Matures in 2025",
+    "sourceReliability": "official",
+    "confidence": 0.7,
+    "reviewFlags": [
+      "Parsed from columnar 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "a11c871d",
+    "sourceId": "c7f30770",
+    "creditorName": "Ladder Capital Finance LLC",
+    "type": "Trump Tower Commercial LLC - mortgage",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2012",
+    "rate": "4.200%",
+    "term": "Matures in 2022",
+    "sourceReliability": "official",
+    "confidence": 0.7,
+    "reviewFlags": [
+      "Parsed from columnar 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "8366b82c",
+    "sourceId": "historical-trump-2015-candidate-documentcloud",
+    "creditorName": "Ladder Capital Finance LLC Trump Tower Commercial LLC -",
+    "type": "Unspecified liability",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2012",
+    "rate": "4.20%",
+    "term": "Matures in 2022 mortgage",
+    "sourceReliability": "archived_copy",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "3b0c1949",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "Chicago Unit Acquisition LLC",
+    "type": "TIHT Chicago - springing loan",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2012",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "c0408562",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "Deutsche Bank Trust Company Americas",
+    "type": "Trump National Doral - mortgage",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2012",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "79484db4",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "Deutsche Bank Trust Company Americas",
+    "type": "Trump Old Post Office - loan",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2015",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "318bdc69",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "Ladder Capital Finance I LLC (\")",
+    "type": "40 Wall Street LLC - loan",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2015",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "b3cf66b8",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "Ladder Capital Finance LLC",
+    "type": "Trump Tower Commercial LLC -mortgage",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2012",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "d09db795",
+    "sourceId": "historical-trump-2017-entrant-documentcloud",
+    "creditorName": "#",
+    "type": "Creditor Name Type Amount Year Incurred Rate I. Ladder Capital Finance LLC Trump Tower Commercial LLC -",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2012",
+    "rate": "4.200%",
+    "term": "mortgage",
+    "sourceReliability": "archived_copy",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "68342fea",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "Chicago Unit Acquisition LLC",
+    "type": "TIHT Chicago - springing loan",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "86c67083",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "Deutsche Bank Trust Company Americas",
+    "type": "Trump National Doral - mortgage",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "9c24fb52",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "Deutsche Bank Trust Company Americas",
+    "type": "Trump Old Post Office - loan",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "d9514fb8",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "Ladder Capital Finance I LLC",
+    "type": "40 Wall Street LLC - loan",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "85a01c11",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "Ladder Capital Finance LLC",
+    "type": "Trump Tower Commercial L LC -mortgage",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "12de9960",
+    "sourceId": "historical-trump-2019-annual-documentcloud",
+    "creditorName": "Ladder Capital Finance LLC",
+    "type": "Trump Tower Commercial LLC -",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2012",
+    "rate": "4.200%",
+    "term": "mortgage",
+    "sourceReliability": "archived_copy",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "556e248a",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "Deutsche Bank Trust Company Americas",
+    "type": "TIHT Chicago - term loan",
+    "amount": {
+      "label": "$25,000,001-$50,000,000",
+      "min": 25000001,
+      "max": 50000000,
+      "midpoint": 37500000.5
+    },
+    "yearIncurred": "2012",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "e483ee27",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "Deutsche Bank Trust Company Ameri ca s",
+    "type": "TIHT Chicago - term loan",
+    "amount": {
+      "label": "$25,000,001-$50,000,000",
+      "min": 25000001,
+      "max": 50000000,
+      "midpoint": 37500000.5
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "49cf4b9f",
+    "sourceId": "5f75c22d",
+    "creditorName": "Amboy Bank Trump National Golf Club Colts Neck",
+    "type": "Unspecified liability",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2008",
+    "rate": "5.250%",
+    "term": "Matures in 2028 LLC - mortgage",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "64213096",
+    "sourceId": "5f75c22d",
+    "creditorName": "Chevy Chase Trust Holdings, Inc. as successor Trump National Go lf Club in interest to Bondy Way Development Washington DC LLC - mortgage",
+    "type": "Unspecified liability",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2009",
+    "rate": "5.500%",
+    "term": "Matures in 2029 Corporation",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "ec94ea46",
+    "sourceId": "5f75c22d",
+    "creditorName": "Investors Savings Bank",
+    "type": "Trump Park Avenue LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2010",
+    "rate": "3.250%",
+    "term": "Matures in 2020",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "e96347c3",
+    "sourceId": "5f75c22d",
+    "creditorName": "Ladder Capital Finance LLC",
+    "type": "Trump Plaza LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2014",
+    "rate": "3.850%",
+    "term": "Matures in 2024",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "ba91aac2",
+    "sourceId": "5f75c22d",
+    "creditorName": "Ladder Capital Finance LLC",
+    "type": "TIHT Commercial LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2016",
+    "rate": "4.050%",
+    "term": "Matures in 2026",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "2ab47083",
+    "sourceId": "5f75c22d",
+    "creditorName": "Professional Bank",
+    "type": "1125 South Ocean LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2018",
+    "rate": "4.500%",
+    "term": "Matures in 2048 ** In 2019, the maturity date of the note was extended from 2019 to 2029 and the interest rate was adjusted from 4.0% to 4.5%. -- 35 of 78 -- OGE Form 278e (March 2014) Instructions for Part 9 Note: This is a public form. Do not include account numbers, street addresses, or family member names. See instructions for required information. Filer's Name \tIPage Number Donald J. Trump \tI \t36 of 36",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "3f9e9800",
+    "sourceId": "5f75c22d",
+    "creditorName": "THE BRYN MAWR TRUST COMPANY, a Pennsylvania banking corporation (as successor by merger to Royal America, which",
+    "type": "Seven Springs - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2000",
+    "rate": "4.500%",
+    "term": "Matures in 2029 ** was formerly known as Royal Bank of Pennsylvania)",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
     "id": "8787845b",
     "sourceId": "aa609a38",
     "creditorName": "Ladder Capital Finance LLC",
@@ -180,6 +740,686 @@
     ]
   },
   {
+    "id": "4afc73b9",
+    "sourceId": "c7f30770",
+    "creditorName": "Amboy Bank",
+    "type": "Trump National Golf Club Colts Neck LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2008",
+    "rate": "5.250%",
+    "term": "Matures in 2028",
+    "sourceReliability": "official",
+    "confidence": 0.7,
+    "reviewFlags": [
+      "Parsed from columnar 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "e6f82a3a",
+    "sourceId": "c7f30770",
+    "creditorName": "Chevy Chase Trust Holdings, Inc. as successor in interest to Bondy Way Development Corporation",
+    "type": "Trump National Golf Club Washington DC LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2009",
+    "rate": "5.500%",
+    "term": "Matures in 2029",
+    "sourceReliability": "official",
+    "confidence": 0.7,
+    "reviewFlags": [
+      "Parsed from columnar 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "dbc23e56",
+    "sourceId": "c7f30770",
+    "creditorName": "Deutsche Bank Trust Company Americas",
+    "type": "Trump National Doral - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2012",
+    "rate": "LIBOR + 1.75% or Prime minus .75%",
+    "term": "Matures in 2023",
+    "sourceReliability": "official",
+    "confidence": 0.7,
+    "reviewFlags": [
+      "Parsed from columnar 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "f68b9d7a",
+    "sourceId": "c7f30770",
+    "creditorName": "Investors Savings Bank",
+    "type": "Trump Park Avenue LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2010",
+    "rate": "3.500%",
+    "term": "Matures in 2021*",
+    "sourceReliability": "official",
+    "confidence": 0.7,
+    "reviewFlags": [
+      "Parsed from columnar 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "d81537f7",
+    "sourceId": "c7f30770",
+    "creditorName": "Ladder Capital Finance LLC",
+    "type": "Trump Plaza LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2014",
+    "rate": "3.850%",
+    "term": "Matures in 2024",
+    "sourceReliability": "official",
+    "confidence": 0.7,
+    "reviewFlags": [
+      "Parsed from columnar 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "21a860f6",
+    "sourceId": "c7f30770",
+    "creditorName": "Ladder Capital Finance LLC",
+    "type": "TIHT Commercial LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2016",
+    "rate": "4.050%",
+    "term": "Matures in 2026",
+    "sourceReliability": "official",
+    "confidence": 0.7,
+    "reviewFlags": [
+      "Parsed from columnar 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "4cc01771",
+    "sourceId": "c7f30770",
+    "creditorName": "THE BRYN MAWR TRUST COMPANY, a Pennsylvania banking corporation (as successor by merger to Royal Bank America, which was formally known as Royal Bank of Pennsylvania)",
+    "type": "Seven Springs - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2000",
+    "rate": "4.500%",
+    "term": "Matures in 2029",
+    "sourceReliability": "official",
+    "confidence": 0.7,
+    "reviewFlags": [
+      "Parsed from columnar 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "46c4f652",
+    "sourceId": "historical-trump-2015-candidate-documentcloud",
+    "creditorName": "Amboy Bank Trump National Golf Club Colts Neck",
+    "type": "Unspecified liability",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2008",
+    "rate": "6.00%",
+    "term": "Matures in 2028 LLC - mortgage",
+    "sourceReliability": "archived_copy",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "8a17f2fa",
+    "sourceId": "historical-trump-2015-candidate-documentcloud",
+    "creditorName": "Chevy Chase Trust Holdings, Inc. as successor Trump National Golf Club in interest to Bondy Way Development",
+    "type": "Unspecified liability",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2009",
+    "rate": "5.50%",
+    "term": "Matures in 2029 Corporation Washington DC LLC - mortgage",
+    "sourceReliability": "archived_copy",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "ce60d8b3",
+    "sourceId": "historical-trump-2015-candidate-documentcloud",
+    "creditorName": "Investors Savings Bank",
+    "type": "Trump Park Avenue LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2010",
+    "rate": "5.50%",
+    "term": "Matures in 2015",
+    "sourceReliability": "archived_copy",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "0841ed70",
+    "sourceId": "historical-trump-2015-candidate-documentcloud",
+    "creditorName": "Ladder Capital Finance LLC",
+    "type": "Trump Plaza LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2014",
+    "rate": "3.85%",
+    "term": "Matures in 2024",
+    "sourceReliability": "archived_copy",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "1452cc27",
+    "sourceId": "historical-trump-2015-candidate-documentcloud",
+    "creditorName": "Royal Bank America",
+    "type": "Seven Springs - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2000",
+    "rate": "4.00%",
+    "term": "Matures in 2019",
+    "sourceReliability": "archived_copy",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "4986a08a",
+    "sourceId": "historical-trump-2015-candidate-documentcloud",
+    "creditorName": "The Bank of New York Mellon Trust Company",
+    "type": "Fifty-Seventh Street Associates LLC - N.A. , as trustee issuer of secured lease bonds",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "1996",
+    "rate": "7.125%",
+    "term": "Matures in 2017",
+    "sourceReliability": "archived_copy",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "34c08533",
+    "sourceId": "historical-trump-2015-candidate-documentcloud",
+    "creditorName": "UBS Rea l Estate Investments Inc.",
+    "type": "TIHT Commercial LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2006",
+    "rate": "6.18%",
+    "term": "Matures in 2016",
+    "sourceReliability": "archived_copy",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "63c176c1",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "Amboy Bank",
+    "type": "Trump National Golf Club Colts",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2008",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "2d775b60",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "Chevy Chase Trust Holdings, Inc. as",
+    "type": "Trump National Golf Club",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2009",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "c7a61e61",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "Deutsche Bank Trust Company Americas",
+    "type": "Trump National Doral - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2012",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "70c5878f",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "Investors Savings Bank",
+    "type": "Trump Park Avenue LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2010",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "4e7ca34c",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "Ladder Capital Finance LLC",
+    "type": "Trump Plaza LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2014",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "8401e503",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "Royal Bank America",
+    "type": "Seven Springs - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2000",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "8d0334d3",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "The Bank of New York Mellon Trust Company",
+    "type": "Fifty-Seventh Street Associates LLC",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "1996",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "5b67a877",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "UBS Real Estate Investments Inc.",
+    "type": "TIHT Commercial LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2006",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "b0704153",
+    "sourceId": "historical-trump-2017-entrant-documentcloud",
+    "creditorName": "Amboy Bank Trump National Golf Club Colts Neck",
+    "type": "Unspecified liability",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2008",
+    "rate": "5.250%",
+    "term": "LLC - mortgage",
+    "sourceReliability": "archived_copy",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "c0cf7af7",
+    "sourceId": "historical-trump-2017-entrant-documentcloud",
+    "creditorName": "Chevy Chase Trust Holdings, Inc. as successor",
+    "type": "Trump National Golf Club",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2009",
+    "rate": "5.500%",
+    "term": "in interest to Bondy Way Development \tWashington DC LLC - mortgage 10 . \tRoyal Bank America \tSeven Springs - mortgage \t$5,000 ,001 - $25,000,000 \t2000 \t4.000% 11.a. \tUBS Real Estate Investments Inc.• \tTIHT Commercial LLC - mortgage \t$5,000,001 - $25,000,000 \t2006 \t6.180% 11.b. \tLadder Capital Finance LLC* \tTIHT Commercial LLC - mortgage \t$5,000,001 - $25,000,000 \t2016 \t4.050% 12 . \tMerrill Lynch Credit Corporation \t1094 S Ocean Blvd - mortgage \t$100, 001 - $250,000 \t1994 Six month LIBOR + 1.50% 13 . \tMerrill Lynch Credit Corporation \t124 Woodbridge Road - mortgage \t$50,001 - $100 ,000 \t1993 Six month LIBOR + 1.75% 14 . \tChicago Unit Acquisition LLC \tTIHT Chicago - springing loan \tOver $50,000,000 \t2012 \tPrime+ 5% 15 . \tDeutsche Bank Trust Company Americas \tTIHT Chicago - term loan \t$25 ,000,001 - $50,000,000 \t2012 LIBOR + 2.00% or Prime minus .50% 16 . \tDeutsche Bank Trust Company Americas \tTrump Old Post Office - loan \tOver $50,000,000 \t2015 LIBOR or Prime + 2.00% (*) UBS Real Estate Investments Inc. mortgage (11 .a.) was refinanced by Ladder Capital Finance LLC (1 1.b.) after the close of the reporting period in 2016. NOTE: Reporting date for liabilities is May 31 , 2017 per 5 CFR 2634.308(b)(3) . Page Number 50 of 51 Term Matures in 2022 Matures in 2025 Matures in 2023 Matures in 2023 Matures in 2017 Matures in 2020 Matures in 2024 Matures in 2028 Matures in 2029 Matures in 2019 Matures in 2016 Matures in 2026 Matures in 2019 Matures in 2019 Springing loan Matures in 2024 Matures in 2024 -- 50 of 98 -- OGE Fonn 278e (Ma rch 2014) Instructions for Part 9 N \tTh ' . \tbl' f\tote: \tIS IS a pu \t1c orm. Donald J Trump D \t. \tI d \tb\to not inc u e account num ers, street add \tf \t'I \tb\tresses, or am1 y mem er names.",
+    "sourceReliability": "archived_copy",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "c1f4712f",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "Amboy Bank",
+    "type": "Trump National Golf Club Colts Neck LLC",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "18951ea2",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "Chevy Chase Trust Holdings, Inc. as successor",
+    "type": "Trump National Golf Club Washington DC",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "70af8102",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "Deutsche Bank Trust Company Americas",
+    "type": "Trump National Doral - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "21b39fc6",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "Investo rs Savings Bank",
+    "type": "Trump Park Avenue LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "1c5b256b",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "Ladder Capital Finance LLC",
+    "type": "Trump Plaza LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "975f1354",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "Ladder Capital Finance LLC TI HT Commercial LLC -",
+    "type": "mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "63654445",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "Royal Bank America",
+    "type": "Seven Springs - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "12112c32",
+    "sourceId": "historical-trump-2019-annual-documentcloud",
+    "creditorName": "Amboy Bank Trump National Golf Club Colts Neck",
+    "type": "Unspecified liability",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2008",
+    "rate": "5.250%",
+    "term": "LLC - mortgage",
+    "sourceReliability": "archived_copy",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "3de12a16",
+    "sourceId": "historical-trump-2019-annual-documentcloud",
+    "creditorName": "Chevy Chase Trust Holdings, Inc. as successor",
+    "type": "Trump National Golf Club",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2009",
+    "rate": "5.500%",
+    "term": "in interest to Bondy Way Development \tWashington DC LLC - mortgage",
+    "sourceReliability": "archived_copy",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "88ddcad0",
+    "sourceId": "historical-trump-2019-annual-documentcloud",
+    "creditorName": "Professional Bank",
+    "type": "1125 South Ocean LLC - mortgage",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2018",
+    "rate": "4.500%",
+    "term": "Page Number 41 of 42 Term Matures in 2022 Matures in 2025 Matures in 2023 Matures in 2023 Matures in 2020 Matures in 2024 Matures in 2028 Matures in 2029 Matures in 2019 Matures in 2026 Springing loan Matures in 2024 Matures in 2024 Matures in 2048 -- 41 of 88 -- OGE Fonn 278e (March 2014) Instructions for Part 9 N t \tTh. . \tbl\" f\to e: \tIS IS a PU \t1c orm. Donald J Trump D o not me u e account num ers, street a\t. \tI d \tb \tdd resses, or am, y mem er names.\tf \t., \tb",
+    "sourceReliability": "archived_copy",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
     "id": "60ab2a37",
     "sourceId": "aa609a38",
     "creditorName": "E. Jean Carroll",
@@ -197,6 +1437,146 @@
     "confidence": 0.78,
     "reviewFlags": [
       "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "b5592e9e",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "The Bank of New York Mellon Trust Company issuer of secured lease bonds - loan was",
+    "type": "Unspecified liability",
+    "amount": {
+      "label": "$1,000,001-$5,000,000",
+      "min": 1000001,
+      "max": 5000000,
+      "midpoint": 3000000.5
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "7c8b70ca",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "(*) Prior year's report reflected a scrivener's error of",
+    "type": "Unspecified liability",
+    "amount": {
+      "label": "$500,000-$1,000,000",
+      "min": 500000,
+      "max": 1000000,
+      "midpoint": 750000
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "4b399fc7",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "Merrill Lynch Credit Corporation 1094 S Ocean Blvd -",
+    "type": "mortgage",
+    "amount": {
+      "label": "$250,001-$500,000",
+      "min": 250001,
+      "max": 500000,
+      "midpoint": 375000.5
+    },
+    "yearIncurred": "1994",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "49bc67c2",
+    "sourceId": "historical-trump-2016-candidate-documentcloud",
+    "creditorName": "Merrill Lynch Credit Corporation 124 Woodbridge Road -",
+    "type": "mortgage",
+    "amount": {
+      "label": "$100,001-$250,000",
+      "min": 100001,
+      "max": 250000,
+      "midpoint": 175000.5
+    },
+    "yearIncurred": "1993",
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.68,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "abee24cf",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "Merrill Lynch Credit Corporation fully satisfied before year-end on",
+    "type": "Unspecified liability",
+    "amount": {
+      "label": "$100,001-$250,000",
+      "min": 100001,
+      "max": 250000,
+      "midpoint": 175000.5
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "7a38badb",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "sought reimburseme nt of those expenses and Mr.",
+    "type": "Trump full y reimbursed Mr. Cohen in 2017. The category of va lue would be",
+    "amount": {
+      "label": "$100,001-$250,000",
+      "min": 100001,
+      "max": 250000,
+      "midpoint": 175000.5
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
+    ]
+  },
+  {
+    "id": "0736a99e",
+    "sourceId": "historical-trump-2018-annual-documentcloud",
+    "creditorName": "Merrill Lynch Credit Corporation was fully satisfied before year-end on",
+    "type": "Unspecified liability",
+    "amount": {
+      "label": "$50,001-$100,000",
+      "min": 50001,
+      "max": 100000,
+      "midpoint": 75000.5
+    },
+    "yearIncurred": null,
+    "rate": null,
+    "term": null,
+    "sourceReliability": "archived_copy",
+    "confidence": 0.62,
+    "reviewFlags": [
+      "Parsed from inline 278e Part 8 text; rate/term columns may require PDF review."
     ]
   },
   {

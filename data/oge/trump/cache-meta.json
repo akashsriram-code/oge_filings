@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-10T15:39:31.702Z",
+  "generatedAt": "2026-06-10T19:35:51.198Z",
   "dataThrough": "2026-05-14",
   "source": "OGE source metadata and PDFs; transaction rows bootstrapped from Open Cabinet structured export.",
   "sourceFilingCount": 18,
@@ -9,16 +9,16 @@
   "reviewQueueCount": 500,
   "lateTransactionCount": 4656,
   "estimatedTotalMidpoint": 1066629505.5,
-  "securityReferenceCount": 16075,
+  "securityReferenceCount": 16076,
   "securityEnrichmentCount": 2765,
   "instrumentContextCount": 1369,
   "enrichedTransactionCount": 2402,
   "eventCount": 1356,
   "eventWindowCount": 2712,
-  "historicalSourceCount": 21,
-  "financialDisclosureReportCount": 6,
-  "assetIncomeHoldingCount": 2990,
-  "liabilityCount": 11,
+  "historicalSourceCount": 35,
+  "financialDisclosureReportCount": 20,
+  "assetIncomeHoldingCount": 5238,
+  "liabilityCount": 80,
   "trumpIndexCount": 3493,
   "notes": [
     "OGE PDF URLs and SHA-256 fingerprints are treated as canonical source provenance.",
@@ -30,7 +30,7 @@
     "Security enrichment uses public SEC and Nasdaq Trader reference data; sector labels are SEC/SIC-derived broad sectors, not proprietary GICS classifications.",
     "Instrument context parsed 1,369 transaction rows into issuer/fixed-income summaries where OGE descriptions allowed it.",
     "Security enrichment resolved 2,402 transaction rows to public-company tickers.",
-    "Annual disclosure parser produced 2,990 asset/income rows and 11 liability rows.",
+    "Annual disclosure parser produced 5,238 asset/income rows and 80 liability rows.",
     "Event overlay uses public Federal Register and Federal Reserve sources, optional Trump context database rows, and optional manual events; event proximity does not imply motive or causation.",
     "Rules-based classifications remain as fallback and include review flags for ambiguous or unmatched rows."
   ]

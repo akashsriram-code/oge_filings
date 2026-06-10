@@ -2,13 +2,13 @@
   {
     "year": 2015,
     "sourceIds": [
-      "historical-trump-2015-candidate-wapo"
+      "historical-trump-2015-candidate-documentcloud"
     ],
     "sourceReliability": "archived_copy",
-    "assetIncomeCount": 0,
-    "liabilityCount": 0,
+    "assetIncomeCount": 482,
+    "liabilityCount": 8,
     "transactionCount": 0,
-    "currentMidpoint": 0,
+    "currentMidpoint": 1512368668.5,
     "purchaseMidpoint": 0,
     "saleMidpoint": 0,
     "netFlowMidpoint": 0
@@ -16,13 +16,55 @@
   {
     "year": 2016,
     "sourceIds": [
-      "historical-trump-2016-candidate-wapo"
+      "historical-trump-2016-candidate-documentcloud"
     ],
     "sourceReliability": "archived_copy",
-    "assetIncomeCount": 0,
-    "liabilityCount": 0,
+    "assetIncomeCount": 479,
+    "liabilityCount": 16,
     "transactionCount": 0,
-    "currentMidpoint": 0,
+    "currentMidpoint": 1662712154.5,
+    "purchaseMidpoint": 0,
+    "saleMidpoint": 0,
+    "netFlowMidpoint": 0
+  },
+  {
+    "year": 2017,
+    "sourceIds": [
+      "historical-trump-2017-entrant-documentcloud"
+    ],
+    "sourceReliability": "archived_copy",
+    "assetIncomeCount": 354,
+    "liabilityCount": 3,
+    "transactionCount": 0,
+    "currentMidpoint": 1638950100,
+    "purchaseMidpoint": 0,
+    "saleMidpoint": 0,
+    "netFlowMidpoint": 0
+  },
+  {
+    "year": 2018,
+    "sourceIds": [
+      "historical-trump-2018-annual-documentcloud"
+    ],
+    "sourceReliability": "archived_copy",
+    "assetIncomeCount": 230,
+    "liabilityCount": 18,
+    "transactionCount": 0,
+    "currentMidpoint": 1250543888.5,
+    "purchaseMidpoint": 0,
+    "saleMidpoint": 0,
+    "netFlowMidpoint": 0
+  },
+  {
+    "year": 2019,
+    "sourceIds": [
+      "historical-trump-2019-annual-documentcloud"
+    ],
+    "sourceReliability": "archived_copy",
+    "assetIncomeCount": 215,
+    "liabilityCount": 4,
+    "transactionCount": 0,
+    "currentMidpoint": 1514700179.5,
     "purchaseMidpoint": 0,
     "saleMidpoint": 0,
     "netFlowMidpoint": 0
@@ -33,10 +75,10 @@
       "5f75c22d"
     ],
     "sourceReliability": "official",
-    "assetIncomeCount": 0,
-    "liabilityCount": 0,
+    "assetIncomeCount": 196,
+    "liabilityCount": 9,
     "transactionCount": 0,
-    "currentMidpoint": 0,
+    "currentMidpoint": 1641982584.5,
     "purchaseMidpoint": 0,
     "saleMidpoint": 0,
     "netFlowMidpoint": 0
@@ -47,6 +89,24 @@
       "c7f30770"
     ],
     "sourceReliability": "official",
+    "assetIncomeCount": 210,
+    "liabilityCount": 11,
+    "transactionCount": 0,
+    "currentMidpoint": 1388671690.5,
+    "purchaseMidpoint": 0,
+    "saleMidpoint": 0,
+    "netFlowMidpoint": 0
+  },
+  {
+    "year": 2023,
+    "sourceIds": [
+      "1106db5e",
+      "historical-trump-2023-candidate-crew-part-1",
+      "historical-trump-2023-candidate-crew-part-2",
+      "historical-trump-2023-candidate-crew-part-3",
+      "ea9085b7"
+    ],
+    "sourceReliability": "archived_copy",
     "assetIncomeCount": 0,
     "liabilityCount": 0,
     "transactionCount": 0,
@@ -56,11 +116,17 @@
     "netFlowMidpoint": 0
   },
   {
-    "year": 2023,
+    "year": 2024,
     "sourceIds": [
-      "180f5894"
+      "historical-trump-2024-candidate-crew-part-1",
+      "historical-trump-2024-candidate-crew-part-2",
+      "historical-trump-2024-candidate-crew-part-3",
+      "historical-trump-2024-candidate-crew-part-4",
+      "historical-trump-2024-candidate-crew-part-5",
+      "historical-trump-2024-candidate-crew-part-6",
+      "2ba10425"
     ],
-    "sourceReliability": "metadata_only",
+    "sourceReliability": "archived_copy",
     "assetIncomeCount": 0,
     "liabilityCount": 0,
     "transactionCount": 0,
@@ -84,10 +150,10 @@
       "eb902f8a"
     ],
     "sourceReliability": "official",
-    "assetIncomeCount": 2990,
+    "assetIncomeCount": 3072,
     "liabilityCount": 11,
     "transactionCount": 1284,
-    "currentMidpoint": 336139785,
+    "currentMidpoint": 656646816.5,
     "purchaseMidpoint": 574405637,
     "saleMidpoint": 9082505,
     "netFlowMidpoint": 565323132

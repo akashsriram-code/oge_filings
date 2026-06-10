@@ -9140,14 +9140,21 @@
     "instrumentIssuerName": "VICTORIAS SECRET COMPANY REGS",
     "instrumentCoupon": 4.825,
     "instrumentMaturityDate": "2029-07-15",
-    "instrumentSummary": "Victorias Secret Company Regs corporate bond/note (4.825% coupon; due Jul 15, 2029).",
+    "instrumentSummary": "Victorias Secret & Co. Common Stock corporate bond/note (4.825% coupon; due Jul 15, 2029). Issuer context: VSXY on NYSE; not a direct bond identifier.",
     "instrumentMatchSource": "description-parser",
     "instrumentMatchConfidence": 0.84,
     "instrumentContextFlags": [
       "No CUSIP/ISIN parsed"
     ],
-    "issuerContextConfidence": 0,
-    "issuerContextFlags": [],
+    "issuerContextTicker": "VSXY",
+    "issuerContextIssuerName": "Victorias Secret & Co. Common Stock",
+    "issuerContextExchange": "NYSE",
+    "issuerContextSource": "nasdaq-issuer-context",
+    "issuerContextConfidence": 0.9,
+    "issuerContextFlags": [
+      "Issuer context only; not direct instrument ticker",
+      "No SEC CIK for issuer context"
+    ],
     "currentRange": {
       "label": "Estimated current",
       "min": 1200005,
@@ -9178,7 +9185,9 @@
     "confidence": 0.58,
     "sourceReliability": "official",
     "reviewFlags": [
-      "Missing annual-baseline match; estimate is transaction-implied"
+      "Missing annual-baseline match; estimate is transaction-implied",
+      "Low-confidence issuer match",
+      "Issuer context only; not direct instrument ticker"
     ],
     "citations": [
       {
@@ -93951,13 +93960,13 @@
   },
   {
     "id": "271f59a4",
-    "displayName": "FEDEX CORP",
+    "displayName": "FEDEX CORP UNSOLICITED",
     "assetType": "Equity",
     "sector": "Unclassified Equity",
-    "resolvedTicker": "FDX",
-    "resolvedIssuerName": "FEDEX CORP",
-    "resolvedExchange": "NYSE",
-    "resolvedCik": 1048911,
+    "resolvedTicker": null,
+    "resolvedIssuerName": null,
+    "resolvedExchange": null,
+    "resolvedCik": null,
     "instrumentMatchSource": "none",
     "instrumentMatchConfidence": 0,
     "instrumentContextFlags": [],
@@ -93995,8 +94004,7 @@
     "reviewFlags": [
       "Missing annual-baseline match; estimate is transaction-implied",
       "Needs sector review",
-      "Low-confidence issuer match",
-      "No SEC/SIC sector"
+      "Multiple possible tickers"
     ],
     "citations": [
       {
@@ -110004,13 +110012,13 @@
   },
   {
     "id": "25e2ecaf",
-    "displayName": "IAC INC",
+    "displayName": "IAC Inc.",
     "assetType": "Equity",
-    "sector": "Unclassified Equity",
-    "resolvedTicker": null,
-    "resolvedIssuerName": null,
-    "resolvedExchange": null,
-    "resolvedCik": null,
+    "sector": "Information Technology",
+    "resolvedTicker": "IAC",
+    "resolvedIssuerName": "IAC Inc.",
+    "resolvedExchange": "Nasdaq",
+    "resolvedCik": 1800227,
     "instrumentMatchSource": "none",
     "instrumentMatchConfidence": 0,
     "instrumentContextFlags": [],
@@ -110046,9 +110054,7 @@
     "confidence": 0.58,
     "sourceReliability": "official",
     "reviewFlags": [
-      "Missing annual-baseline match; estimate is transaction-implied",
-      "Needs sector review",
-      "No public match"
+      "Missing annual-baseline match; estimate is transaction-implied"
     ],
     "citations": [
       {
@@ -125825,10 +125831,10 @@
     "displayName": "FEDEX CORP",
     "assetType": "Equity",
     "sector": "Unclassified Equity",
-    "resolvedTicker": "FDX",
-    "resolvedIssuerName": "FEDEX CORP",
-    "resolvedExchange": "NYSE",
-    "resolvedCik": 1048911,
+    "resolvedTicker": null,
+    "resolvedIssuerName": null,
+    "resolvedExchange": null,
+    "resolvedCik": null,
     "instrumentMatchSource": "none",
     "instrumentMatchConfidence": 0,
     "instrumentContextFlags": [],
@@ -125865,7 +125871,7 @@
     "sourceReliability": "official",
     "reviewFlags": [
       "Needs sector review",
-      "No SEC/SIC sector"
+      "Multiple possible tickers"
     ],
     "citations": [
       {
