@@ -1,4 +1,4 @@
-import askHandler from '@/lib/oge/ask';
+import { handleAskRequest } from '@/lib/oge/ask';
 
 export const dynamic = 'force-static';
 export const runtime = 'nodejs';
@@ -22,49 +22,26 @@ async function invokeAskHandler(req: Request): Promise<Response> {
       headers[key] = value;
     });
 
-    const responseHeaders = new Headers();
-    let statusCode = 200;
-    let payload: unknown;
-    let ended = false;
+    const result = await handleAskRequest({
+      method: req.method,
+      headers,
+      body: req.method === 'OPTIONS' ? undefined : await req.text(),
+    });
 
-    const body = req.method === 'OPTIONS' ? undefined : await req.text();
-
-    await askHandler(
-      {
-        method: req.method,
-        headers,
-        body,
-      },
-      {
-        status(code: number) {
-          statusCode = code;
-          return this;
-        },
-        setHeader(name: string, value: string) {
-          responseHeaders.set(name, value);
-        },
-        json(bodyValue: unknown) {
-          payload = bodyValue;
-        },
-        end() {
-          ended = true;
-        },
-      }
-    );
-
-    if (payload === undefined && ended) {
-      return new Response(null, { status: statusCode, headers: responseHeaders });
-    }
-
-    responseHeaders.set('Content-Type', 'application/json');
-    return new Response(JSON.stringify(payload ?? {}), {
-      status: statusCode,
-      headers: responseHeaders,
+    return new Response(result.empty ? null : JSON.stringify(result.body ?? {}), {
+      status: result.status,
+      headers: result.headers,
     });
   } catch (error) {
-    return Response.json(
-      { error: error instanceof Error ? error.message : 'Ask API failed before producing a response.' },
-      { status: 500 }
+    return new Response(
+      JSON.stringify({ error: error instanceof Error ? error.message : 'Ask API failed before producing a response.' }),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': process.env.OPENARENA_CORS_ORIGIN || '*',
+        },
+      }
     );
   }
 }

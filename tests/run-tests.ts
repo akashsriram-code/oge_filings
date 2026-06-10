@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import * as XLSX from 'xlsx';
-import askHandler from '../lib/oge/ask';
+import { handleAskRequest } from '../lib/oge/ask';
 import { parseOgeAmountRange } from '../lib/oge/amounts';
 import { buildHoldingsEstimates } from '../lib/oge/analytics';
 import { classifySecurity } from '../lib/oge/classify';
@@ -378,36 +378,22 @@ async function testAskApiFallback() {
   delete process.env.OPENARENA_TRUMP_INDEX_WORKFLOW_ID;
   process.env.OPENARENA_API_SHARED_SECRET = 'stale-secret-should-not-block-dashboard';
 
-  let statusCode = 0;
-  let payload: Record<string, unknown> = {};
-  await askHandler(
-    {
-      method: 'POST',
-      headers: {},
-      body: {
-        question: 'What are the top Trump Index signals?',
-        filters: { assetType: 'Equity' },
-      },
+  const result = await handleAskRequest({
+    method: 'POST',
+    headers: {},
+    body: {
+      question: 'What are the top Trump Index signals?',
+      filters: { assetType: 'Equity' },
     },
-    {
-      status(code: number) {
-        statusCode = code;
-        return this;
-      },
-      setHeader() {},
-      json(body: unknown) {
-        payload = body as Record<string, unknown>;
-      },
-      end() {},
-    }
-  );
+  });
+  const payload = result.body as Record<string, unknown>;
 
   process.env.VERCEL = oldVercel;
   if (oldToken) process.env.OPENARENA_BEARER_TOKEN = oldToken;
   if (oldWorkflow) process.env.OPENARENA_TRUMP_INDEX_WORKFLOW_ID = oldWorkflow;
   if (oldSharedSecret) process.env.OPENARENA_API_SHARED_SECRET = oldSharedSecret;
 
-  assert.equal(statusCode, 200);
+  assert.equal(result.status, 200);
   assert.equal(payload.openArenaStatus, 'fallback');
   assert.ok(String(payload.answer || '').includes('deterministic fallback'));
   assert.ok(Array.isArray(payload.citations));

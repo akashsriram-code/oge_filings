@@ -13,17 +13,17 @@ interface AskRequest {
   includeSourceDocuments?: boolean;
 }
 
-interface VercelRequestLike {
+export interface AskRouteRequest {
   method?: string;
   headers: Record<string, string | string[] | undefined>;
   body?: unknown;
 }
 
-interface VercelResponseLike {
-  status(code: number): VercelResponseLike;
-  setHeader(name: string, value: string): void;
-  json(body: unknown): void;
-  end(): void;
+export interface AskRouteResult {
+  status: number;
+  headers: Record<string, string>;
+  body: unknown;
+  empty?: boolean;
 }
 
 interface AskFacts {
@@ -45,25 +45,20 @@ class OpenArenaError extends Error {
   }
 }
 
-export default async function handler(req: VercelRequestLike, res: VercelResponseLike) {
-  setCorsHeaders(res);
-
+export async function handleAskRequest(req: AskRouteRequest): Promise<AskRouteResult> {
   if (req.method === 'OPTIONS') {
-    res.status(204).end();
-    return;
+    return askResult(204, null, true);
   }
 
   if (req.method !== 'POST') {
-    res.status(405).json({ error: 'Use POST.' });
-    return;
+    return askResult(405, { error: 'Use POST.' });
   }
 
   try {
     const body = parseBody(req.body);
     const question = body.question?.trim();
     if (!question) {
-      res.status(400).json({ error: 'Missing question.' });
-      return;
+      return askResult(400, { error: 'Missing question.' });
     }
 
     const dataset = await loadTrumpOgeDataset();
@@ -109,13 +104,17 @@ export default async function handler(req: VercelRequestLike, res: VercelRespons
       openArenaError: openArena.error || null,
     });
 
-    res.status(200).json(payload);
+    return askResult(200, payload);
   } catch (error) {
     const status = error instanceof OpenArenaError && error.status ? error.status : 500;
-    res.status(status).json({
+    return askResult(status, {
       error: error instanceof Error ? error.message : 'Internal Server Error',
     });
   }
+}
+
+export default async function handler(req: AskRouteRequest): Promise<AskRouteResult> {
+  return handleAskRequest(req);
 }
 
 function buildAskFacts({
@@ -392,10 +391,18 @@ function uniqueCitations(citations: TrumpIndexCitation[]): TrumpIndexCitation[] 
   return result.slice(0, 12);
 }
 
-function setCorsHeaders(res: VercelResponseLike) {
-  res.setHeader('Access-Control-Allow-Origin', process.env.OPENARENA_CORS_ORIGIN || '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+function askResult(status: number, body: unknown, empty = false): AskRouteResult {
+  return {
+    status,
+    body,
+    empty,
+    headers: {
+      'Access-Control-Allow-Origin': process.env.OPENARENA_CORS_ORIGIN || '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      ...(empty ? {} : { 'Content-Type': 'application/json' }),
+    },
+  };
 }
 
 async function persistAskSession(record: Record<string, unknown>) {
