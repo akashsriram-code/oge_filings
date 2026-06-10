@@ -68,6 +68,9 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Remove live API routes for static Pages export
+        run: rm -rf app/api/ask
+
       - name: Build static Pages artifact
         env:
           GITHUB_PAGES: 'true'

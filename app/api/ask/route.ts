@@ -1,6 +1,6 @@
 import { handleAskRequest } from '@/lib/oge/ask';
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 export async function POST(req: Request) {
@@ -12,7 +12,7 @@ export async function OPTIONS(req: Request) {
 }
 
 export async function GET() {
-  return Response.json({ error: 'Use POST.' }, { status: 405 });
+  return jsonResponse(405, { error: 'Use POST.' });
 }
 
 async function invokeAskHandler(req: Request): Promise<Response> {
@@ -33,15 +33,20 @@ async function invokeAskHandler(req: Request): Promise<Response> {
       headers: result.headers,
     });
   } catch (error) {
-    return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Ask API failed before producing a response.' }),
-      {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': process.env.OPENARENA_CORS_ORIGIN || '*',
-        },
-      }
-    );
+    return jsonResponse(500, {
+      error: error instanceof Error ? error.message : 'Ask API failed before producing a response.',
+    });
   }
+}
+
+function jsonResponse(status: number, body: unknown): Response {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': process.env.OPENARENA_CORS_ORIGIN || '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    },
+  });
 }
