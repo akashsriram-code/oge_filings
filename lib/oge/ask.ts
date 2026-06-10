@@ -59,7 +59,6 @@ export default async function handler(req: VercelRequestLike, res: VercelRespons
   }
 
   try {
-    assertSharedSecret(req);
     const body = parseBody(req.body);
     const question = body.question?.trim();
     if (!question) {
@@ -393,30 +392,10 @@ function uniqueCitations(citations: TrumpIndexCitation[]): TrumpIndexCitation[] 
   return result.slice(0, 12);
 }
 
-function assertSharedSecret(req: VercelRequestLike) {
-  const expected = process.env.OPENARENA_API_SHARED_SECRET?.trim();
-  if (!expected) return;
-  const auth = header(req, 'authorization');
-  const supplied = header(req, 'x-openarena-api-key') || auth.replace(/^Bearer\s+/i, '');
-  if (supplied !== expected) {
-    throw new OpenArenaError(401, 'Unauthorized.');
-  }
-}
-
-function header(req: VercelRequestLike, name: string): string {
-  const target = name.toLowerCase();
-  for (const [key, value] of Object.entries(req.headers || {})) {
-    if (key.toLowerCase() !== target) continue;
-    if (Array.isArray(value)) return value[0] || '';
-    return value || '';
-  }
-  return '';
-}
-
 function setCorsHeaders(res: VercelResponseLike) {
   res.setHeader('Access-Control-Allow-Origin', process.env.OPENARENA_CORS_ORIGIN || '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-OpenArena-API-Key');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 }
 
 async function persistAskSession(record: Record<string, unknown>) {

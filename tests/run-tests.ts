@@ -376,7 +376,7 @@ async function testAskApiFallback() {
   process.env.VERCEL = '1';
   delete process.env.OPENARENA_BEARER_TOKEN;
   delete process.env.OPENARENA_TRUMP_INDEX_WORKFLOW_ID;
-  delete process.env.OPENARENA_API_SHARED_SECRET;
+  process.env.OPENARENA_API_SHARED_SECRET = 'stale-secret-should-not-block-dashboard';
 
   let statusCode = 0;
   let payload: Record<string, unknown> = {};

@@ -16,48 +16,55 @@ export async function GET() {
 }
 
 async function invokeAskHandler(req: Request): Promise<Response> {
-  const headers: Record<string, string> = {};
-  req.headers.forEach((value, key) => {
-    headers[key] = value;
-  });
+  try {
+    const headers: Record<string, string> = {};
+    req.headers.forEach((value, key) => {
+      headers[key] = value;
+    });
 
-  const responseHeaders = new Headers();
-  let statusCode = 200;
-  let payload: unknown;
-  let ended = false;
+    const responseHeaders = new Headers();
+    let statusCode = 200;
+    let payload: unknown;
+    let ended = false;
 
-  const body = req.method === 'OPTIONS' ? undefined : await req.text();
+    const body = req.method === 'OPTIONS' ? undefined : await req.text();
 
-  await askHandler(
-    {
-      method: req.method,
-      headers,
-      body,
-    },
-    {
-      status(code: number) {
-        statusCode = code;
-        return this;
+    await askHandler(
+      {
+        method: req.method,
+        headers,
+        body,
       },
-      setHeader(name: string, value: string) {
-        responseHeaders.set(name, value);
-      },
-      json(bodyValue: unknown) {
-        payload = bodyValue;
-      },
-      end() {
-        ended = true;
-      },
+      {
+        status(code: number) {
+          statusCode = code;
+          return this;
+        },
+        setHeader(name: string, value: string) {
+          responseHeaders.set(name, value);
+        },
+        json(bodyValue: unknown) {
+          payload = bodyValue;
+        },
+        end() {
+          ended = true;
+        },
+      }
+    );
+
+    if (payload === undefined && ended) {
+      return new Response(null, { status: statusCode, headers: responseHeaders });
     }
-  );
 
-  if (payload === undefined && ended) {
-    return new Response(null, { status: statusCode, headers: responseHeaders });
+    responseHeaders.set('Content-Type', 'application/json');
+    return new Response(JSON.stringify(payload ?? {}), {
+      status: statusCode,
+      headers: responseHeaders,
+    });
+  } catch (error) {
+    return Response.json(
+      { error: error instanceof Error ? error.message : 'Ask API failed before producing a response.' },
+      { status: 500 }
+    );
   }
-
-  responseHeaders.set('Content-Type', 'application/json');
-  return new Response(JSON.stringify(payload ?? {}), {
-    status: statusCode,
-    headers: responseHeaders,
-  });
 }
