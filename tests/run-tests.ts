@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import * as XLSX from 'xlsx';
-import askHandler from '../api/ask';
+import askHandler from '../lib/oge/ask';
 import { parseOgeAmountRange } from '../lib/oge/amounts';
 import { buildHoldingsEstimates } from '../lib/oge/analytics';
 import { classifySecurity } from '../lib/oge/classify';

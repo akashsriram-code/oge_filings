@@ -35,7 +35,7 @@ In GitHub repository settings, set Pages source to **GitHub Actions**. The Pages
 
 ## OpenArena API
 
-GitHub Pages hosts the static dashboard. The live natural-language query endpoint is a Vercel function at `api/ask.ts`.
+GitHub Pages hosts the static dashboard. The live natural-language query endpoint is the Vercel App Router route at `app/api/ask/route.ts`.
 
 Set these Vercel environment variables:
 

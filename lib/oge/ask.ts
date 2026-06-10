@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import { buildApiResponse, loadTrumpOgeDataset } from '../lib/oge/data';
-import type { TrumpIndexCitation, TrumpIndexEntry, TrumpOgeApiResponse, TrumpOgeFilters } from '../lib/oge/types';
+import { buildApiResponse, loadTrumpOgeDataset } from './data';
+import type { TrumpIndexCitation, TrumpIndexEntry, TrumpOgeApiResponse, TrumpOgeFilters } from './types';
 
 const DEFAULT_OPENARENA_BASE_URL = 'https://aiopenarena.thomsonreuters.com';
 const DEFAULT_TIMEOUT_SECONDS = 180;

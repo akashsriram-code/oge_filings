@@ -1,4 +1,4 @@
-import askHandler from '@/api/ask';
+import askHandler from '@/lib/oge/ask';
 
 export const dynamic = 'force-static';
 export const runtime = 'nodejs';
