@@ -1416,13 +1416,10 @@ function AskTrumpIndexPanel({
 
   const submit = async () => {
     setError(null);
-    if (!apiBase) {
-      setError('Set NEXT_PUBLIC_OPENARENA_API_BASE to the Vercel API host for live questions.');
-      return;
-    }
+    const askEndpoint = apiBase ? `${apiBase}/api/ask` : '/api/ask';
     setLoading(true);
     try {
-      const response = await fetch(`${apiBase}/api/ask`, {
+      const response = await fetch(askEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1434,9 +1431,14 @@ function AskTrumpIndexPanel({
           includeSourceDocuments: false,
         }),
       });
-      const json = await response.json();
-      if (!response.ok) throw new Error(json.error || `HTTP ${response.status}`);
-      setAnswer(json as AskResponse);
+      const json = await readJsonResponse(response);
+      if (!response.ok) {
+        const fallbackError = !apiBase && response.status === 404
+          ? 'Ask API route was not found on this host. For GitHub Pages, set NEXT_PUBLIC_OPENARENA_API_BASE to the Vercel API host.'
+          : `HTTP ${response.status}`;
+        throw new Error(typeof json.error === 'string' ? json.error : fallbackError);
+      }
+      setAnswer(json as unknown as AskResponse);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
@@ -1489,6 +1491,16 @@ function AskTrumpIndexPanel({
       </div>
     </Panel>
   );
+}
+
+async function readJsonResponse(response: Response): Promise<Record<string, unknown>> {
+  const text = await response.text();
+  if (!text) return {};
+  try {
+    return JSON.parse(text) as Record<string, unknown>;
+  } catch {
+    return { error: text.slice(0, 240) };
+  }
 }
 
 function IndexLeaderPanel({
