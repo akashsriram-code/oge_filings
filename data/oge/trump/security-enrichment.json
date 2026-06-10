@@ -7016,9 +7016,9 @@
     "candidateTickers": [
       "BLK",
       "BHK",
-      "BKRRF",
       "BKT",
-      "TCPC"
+      "TCPC",
+      "BLW"
     ],
     "transactionCount": 5,
     "assetTypes": [
@@ -7520,67 +7520,6 @@
     "transactionCount": 5,
     "assetTypes": [
       "Equity"
-    ]
-  },
-  {
-    "id": "8c90b9c1",
-    "securityKey": "VICTORIAS SECRET CO REGS",
-    "description": "VICTORIAS SECRET CO REGS DUE 07/15/2029 04.825% JJ 15 DISCRETIONARY ORDER IF THIS CONFIRMATION IS IN CONNECTION WITH A SALE PURSUANT TO REG. S",
-    "normalizedDescription": "VICTORIAS SECRET CO REGS DUE 07/15/2029 04 825% JJ 15 DISCRETIONARY ORDER IF THIS CONFIRMATION IS IN CONNECTION WITH A SALE PURSUANT TO REG S",
-    "sourceTicker": "",
-    "resolvedTicker": null,
-    "resolvedIssuerName": null,
-    "resolvedExchange": null,
-    "resolvedCik": null,
-    "resolvedSector": null,
-    "resolvedSic": null,
-    "resolvedSicDescription": null,
-    "enrichmentSource": "none",
-    "enrichmentConfidence": 0.9039999999999999,
-    "enrichmentFlags": [
-      "Low-confidence issuer match",
-      "Issuer context only; not direct instrument ticker"
-    ],
-    "instrumentKind": "corporate bond/note",
-    "instrumentIssuerName": "VICTORIAS SECRET COMPANY REGS",
-    "instrumentCusip": null,
-    "instrumentIsin": null,
-    "instrumentFigi": null,
-    "instrumentCoupon": 4.825,
-    "instrumentMaturityDate": "2029-07-15",
-    "instrumentCallable": null,
-    "instrumentCallDate": null,
-    "instrumentCallPrice": null,
-    "instrumentYieldToCall": null,
-    "instrumentYieldToMaturity": null,
-    "instrumentIssuerState": null,
-    "instrumentIssuerCategory": null,
-    "instrumentReferenceLabel": null,
-    "instrumentReferenceSource": null,
-    "instrumentReferenceUrl": null,
-    "instrumentSummary": "Victorias Secret & Co. Common Stock corporate bond/note (4.825% coupon; due Jul 15, 2029). Issuer context: VSXY on NYSE; not a direct bond identifier.",
-    "instrumentMatchSource": "description-parser",
-    "instrumentMatchConfidence": 0.84,
-    "instrumentContextFlags": [
-      "No CUSIP/ISIN parsed"
-    ],
-    "issuerContextTicker": "VSXY",
-    "issuerContextIssuerName": "Victorias Secret & Co. Common Stock",
-    "issuerContextExchange": "NYSE",
-    "issuerContextCik": null,
-    "issuerContextSector": null,
-    "issuerContextSource": "nasdaq-issuer-context",
-    "issuerContextConfidence": 0.9,
-    "issuerContextFlags": [
-      "Issuer context only; not direct instrument ticker",
-      "No SEC CIK for issuer context"
-    ],
-    "candidateTickers": [
-      "VSXY"
-    ],
-    "transactionCount": 5,
-    "assetTypes": [
-      "Corporate Bond"
     ]
   },
   {
@@ -9113,6 +9052,59 @@
     "transactionCount": 5,
     "assetTypes": [
       "ETF / Fund"
+    ]
+  },
+  {
+    "id": "8c90b9c1",
+    "securityKey": "VICTORIAS SECRET CO REGS",
+    "description": "VICTORIAS SECRET CO REGS DUE 07/15/2029 04.825% JJ 15 DISCRETIONARY ORDER IF THIS CONFIRMATION IS IN CONNECTION WITH A SALE PURSUANT TO REG. S",
+    "normalizedDescription": "VICTORIAS SECRET CO REGS DUE 07/15/2029 04 825% JJ 15 DISCRETIONARY ORDER IF THIS CONFIRMATION IS IN CONNECTION WITH A SALE PURSUANT TO REG S",
+    "sourceTicker": "",
+    "resolvedTicker": null,
+    "resolvedIssuerName": null,
+    "resolvedExchange": null,
+    "resolvedCik": null,
+    "resolvedSector": null,
+    "resolvedSic": null,
+    "resolvedSicDescription": null,
+    "enrichmentSource": "none",
+    "enrichmentConfidence": 0,
+    "enrichmentFlags": [],
+    "instrumentKind": "corporate bond/note",
+    "instrumentIssuerName": "VICTORIAS SECRET COMPANY REGS",
+    "instrumentCusip": null,
+    "instrumentIsin": null,
+    "instrumentFigi": null,
+    "instrumentCoupon": 4.825,
+    "instrumentMaturityDate": "2029-07-15",
+    "instrumentCallable": null,
+    "instrumentCallDate": null,
+    "instrumentCallPrice": null,
+    "instrumentYieldToCall": null,
+    "instrumentYieldToMaturity": null,
+    "instrumentIssuerState": null,
+    "instrumentIssuerCategory": null,
+    "instrumentReferenceLabel": null,
+    "instrumentReferenceSource": null,
+    "instrumentReferenceUrl": null,
+    "instrumentSummary": "Victorias Secret Company Regs corporate bond/note (4.825% coupon; due Jul 15, 2029).",
+    "instrumentMatchSource": "description-parser",
+    "instrumentMatchConfidence": 0.84,
+    "instrumentContextFlags": [
+      "No CUSIP/ISIN parsed"
+    ],
+    "issuerContextTicker": null,
+    "issuerContextIssuerName": null,
+    "issuerContextExchange": null,
+    "issuerContextCik": null,
+    "issuerContextSector": null,
+    "issuerContextSource": null,
+    "issuerContextConfidence": 0,
+    "issuerContextFlags": [],
+    "candidateTickers": [],
+    "transactionCount": 5,
+    "assetTypes": [
+      "Corporate Bond"
     ]
   },
   {
@@ -47401,17 +47393,18 @@
     "description": "FEDEX CORP UNSOLICITED",
     "normalizedDescription": "FEDEX CORP UNSOLICITED",
     "sourceTicker": "",
-    "resolvedTicker": null,
-    "resolvedIssuerName": null,
-    "resolvedExchange": null,
-    "resolvedCik": null,
+    "resolvedTicker": "FDX",
+    "resolvedIssuerName": "FEDEX CORP",
+    "resolvedExchange": "NYSE",
+    "resolvedCik": 1048911,
     "resolvedSector": null,
-    "resolvedSic": null,
-    "resolvedSicDescription": null,
-    "enrichmentSource": "none",
+    "resolvedSic": "4513",
+    "resolvedSicDescription": "Air Courier Services",
+    "enrichmentSource": "sec-fuzzy",
     "enrichmentConfidence": 0.8635294117647059,
     "enrichmentFlags": [
-      "Multiple possible tickers"
+      "Low-confidence issuer match",
+      "No SEC/SIC sector"
     ],
     "instrumentKind": null,
     "instrumentIssuerName": null,
@@ -47443,8 +47436,7 @@
     "issuerContextConfidence": 0,
     "issuerContextFlags": [],
     "candidateTickers": [
-      "FDX",
-      "FDX-WI"
+      "FDX"
     ],
     "transactionCount": 2,
     "assetTypes": [
@@ -57411,17 +57403,17 @@
     "description": "FEDEX CORP",
     "normalizedDescription": "FEDEX CORP",
     "sourceTicker": "",
-    "resolvedTicker": null,
-    "resolvedIssuerName": null,
-    "resolvedExchange": null,
-    "resolvedCik": null,
+    "resolvedTicker": "FDX",
+    "resolvedIssuerName": "FEDEX CORP",
+    "resolvedExchange": "NYSE",
+    "resolvedCik": 1048911,
     "resolvedSector": null,
-    "resolvedSic": null,
-    "resolvedSicDescription": null,
-    "enrichmentSource": "none",
+    "resolvedSic": "4513",
+    "resolvedSicDescription": "Air Courier Services",
+    "enrichmentSource": "sec-exact",
     "enrichmentConfidence": 0.96,
     "enrichmentFlags": [
-      "Multiple possible tickers"
+      "No SEC/SIC sector"
     ],
     "instrumentKind": null,
     "instrumentIssuerName": null,
@@ -57454,9 +57446,7 @@
     "issuerContextFlags": [],
     "candidateTickers": [
       "FDX",
-      "FDX-WI",
-      "FDXF",
-      "FDXF-WI"
+      "FDXF"
     ],
     "transactionCount": 1,
     "assetTypes": [
@@ -58282,59 +58272,6 @@
     "issuerContextFlags": [],
     "candidateTickers": [
       "HUBB"
-    ],
-    "transactionCount": 1,
-    "assetTypes": [
-      "Equity"
-    ]
-  },
-  {
-    "id": "562c4b3f",
-    "securityKey": "IAC INC",
-    "description": "IAC INC",
-    "normalizedDescription": "IAC INC",
-    "sourceTicker": "",
-    "resolvedTicker": "IAC",
-    "resolvedIssuerName": "IAC Inc.",
-    "resolvedExchange": "Nasdaq",
-    "resolvedCik": 1800227,
-    "resolvedSector": "Information Technology",
-    "resolvedSic": "7370",
-    "resolvedSicDescription": "Services-Computer Programming, Data Processing, Etc.",
-    "enrichmentSource": "sec-exact",
-    "enrichmentConfidence": 0.96,
-    "enrichmentFlags": [],
-    "instrumentKind": null,
-    "instrumentIssuerName": null,
-    "instrumentCusip": null,
-    "instrumentIsin": null,
-    "instrumentFigi": null,
-    "instrumentCoupon": null,
-    "instrumentMaturityDate": null,
-    "instrumentCallable": null,
-    "instrumentCallDate": null,
-    "instrumentCallPrice": null,
-    "instrumentYieldToCall": null,
-    "instrumentYieldToMaturity": null,
-    "instrumentIssuerState": null,
-    "instrumentIssuerCategory": null,
-    "instrumentReferenceLabel": null,
-    "instrumentReferenceSource": null,
-    "instrumentReferenceUrl": null,
-    "instrumentSummary": null,
-    "instrumentMatchSource": "none",
-    "instrumentMatchConfidence": 0,
-    "instrumentContextFlags": [],
-    "issuerContextTicker": null,
-    "issuerContextIssuerName": null,
-    "issuerContextExchange": null,
-    "issuerContextCik": null,
-    "issuerContextSector": null,
-    "issuerContextSource": null,
-    "issuerContextConfidence": 0,
-    "issuerContextFlags": [],
-    "candidateTickers": [
-      "IAC"
     ],
     "transactionCount": 1,
     "assetTypes": [
@@ -109506,6 +109443,59 @@
     "transactionCount": 1,
     "assetTypes": [
       "Municipal Bond"
+    ]
+  },
+  {
+    "id": "562c4b3f",
+    "securityKey": "IAC INC",
+    "description": "IAC INC",
+    "normalizedDescription": "IAC INC",
+    "sourceTicker": "",
+    "resolvedTicker": null,
+    "resolvedIssuerName": null,
+    "resolvedExchange": null,
+    "resolvedCik": null,
+    "resolvedSector": null,
+    "resolvedSic": null,
+    "resolvedSicDescription": null,
+    "enrichmentSource": "none",
+    "enrichmentConfidence": 0,
+    "enrichmentFlags": [
+      "No public match"
+    ],
+    "instrumentKind": null,
+    "instrumentIssuerName": null,
+    "instrumentCusip": null,
+    "instrumentIsin": null,
+    "instrumentFigi": null,
+    "instrumentCoupon": null,
+    "instrumentMaturityDate": null,
+    "instrumentCallable": null,
+    "instrumentCallDate": null,
+    "instrumentCallPrice": null,
+    "instrumentYieldToCall": null,
+    "instrumentYieldToMaturity": null,
+    "instrumentIssuerState": null,
+    "instrumentIssuerCategory": null,
+    "instrumentReferenceLabel": null,
+    "instrumentReferenceSource": null,
+    "instrumentReferenceUrl": null,
+    "instrumentSummary": null,
+    "instrumentMatchSource": "none",
+    "instrumentMatchConfidence": 0,
+    "instrumentContextFlags": [],
+    "issuerContextTicker": null,
+    "issuerContextIssuerName": null,
+    "issuerContextExchange": null,
+    "issuerContextCik": null,
+    "issuerContextSector": null,
+    "issuerContextSource": null,
+    "issuerContextConfidence": 0,
+    "issuerContextFlags": [],
+    "candidateTickers": [],
+    "transactionCount": 1,
+    "assetTypes": [
+      "Equity"
     ]
   },
   {
