@@ -148,7 +148,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "BRIGHTSPRING HEALTH SVCS | Needs sector review, Needs asset-type review, Multiple possible tickers",
+    "detail": "BRIGHTSPRING HEALTH SVCS | Needs sector review, Needs asset-type review, Multiple possible tickers, Issuer context only; not direct instrument ticker",
     "relatedId": "1bb54c9e",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -172,10 +172,10 @@
   },
   {
     "id": "e2182f9c",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "CITY HLDG CO | Needs asset-type review",
+    "detail": "CITY HLDG CO | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "c6e09b71",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -193,7 +193,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "COGENT COMMUNICATIONS HL | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "COGENT COMMUNICATIONS HL | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "b64b35af",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -244,10 +244,10 @@
   },
   {
     "id": "8042b272",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "DXC TECHNOLOGY CO | Needs asset-type review",
+    "detail": "DXC TECHNOLOGY CO | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "ae9b3607",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -265,7 +265,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "FIRST BANCORP PR F | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "FIRST BANCORP PR F | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "df5e79e0",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -316,10 +316,10 @@
   },
   {
     "id": "7b69222f",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "HARMONY BIOSCIENCES HLDG | Needs asset-type review",
+    "detail": "HARMONY BIOSCIENCES HLDG | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "83335d8b",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -361,10 +361,10 @@
   },
   {
     "id": "7c5a02d0",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "INDIVIOR PHARMACEUTICALS | Needs asset-type review",
+    "detail": "INDIVIOR PHARMACEUTICALS | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "a8e494a5",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -382,7 +382,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "INTEGRA LIFESCIENCES HLD | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "INTEGRA LIFESCIENCES HLD | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "0703592e",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -406,10 +406,10 @@
   },
   {
     "id": "91b2d9a9",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "JBG SMITH PPTYS | Needs asset-type review",
+    "detail": "JBG SMITH PPTYS | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "11f74771",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -433,10 +433,10 @@
   },
   {
     "id": "05037577",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "KORN FERRY | Needs asset-type review",
+    "detail": "KORN FERRY | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "e97f26d9",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -490,7 +490,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "MARRIOTT VACATIONS WORLD | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "MARRIOTT VACATIONS WORLD | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "619e51d2",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -508,7 +508,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "MERCHANTS BANCORP IND | Needs sector review, Needs asset-type review, Multiple possible tickers",
+    "detail": "MERCHANTS BANCORP IND | Needs sector review, Needs asset-type review, Multiple possible tickers, Issuer context only; not direct instrument ticker",
     "relatedId": "fffa4bac",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -532,10 +532,10 @@
   },
   {
     "id": "82935d12",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "MUELLER WATER PRODUCTS CLASS SERIES A | Needs asset-type review",
+    "detail": "MUELLER WATER PRODUCTS CLASS SERIES A | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "fe6aee4a",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -604,10 +604,10 @@
   },
   {
     "id": "32f4238f",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "PIPER SANDLER COS | Needs asset-type review",
+    "detail": "PIPER SANDLER COS | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "14fda6ca",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -616,7 +616,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "PRESTIGE CONSUMER HEALTH | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "PRESTIGE CONSUMER HEALTH | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "f3b1b481",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -634,7 +634,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "REYNOLDS CONSUMER PRODS | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "REYNOLDS CONSUMER PRODS | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "7910110b",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -658,10 +658,10 @@
   },
   {
     "id": "843691ee",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "SERVISFIRST BANCSHARES I | Needs asset-type review",
+    "detail": "SERVISFIRST BANCSHARES I | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "2ded3115",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -676,10 +676,10 @@
   },
   {
     "id": "2f1de415",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "SIMPLY GOOD FOODS CO | Needs asset-type review",
+    "detail": "SIMPLY GOOD FOODS CO | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "1a7bd1d6",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -703,19 +703,19 @@
   },
   {
     "id": "8a6d098b",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "STEPAN CO | Needs asset-type review",
+    "detail": "STEPAN CO | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "f05093a2",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
   {
     "id": "85b3560f",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "STEWART INFORMATION SVCS | Needs asset-type review",
+    "detail": "STEWART INFORMATION SVCS | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "75807ff5",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -730,10 +730,10 @@
   },
   {
     "id": "5a24050c",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "TENNANT CO | Needs asset-type review",
+    "detail": "TENNANT CO | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "3c03c36d",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -742,7 +742,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "TWO HARBORS INVESTME | Needs sector review, Needs asset-type review, Multiple possible tickers",
+    "detail": "TWO HARBORS INVESTME | Needs sector review, Needs asset-type review, Multiple possible tickers, Issuer context only; not direct instrument ticker",
     "relatedId": "309614b7",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -769,7 +769,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "UNITED PARKS AND RES | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "UNITED PARKS AND RES | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "d52b9ced",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -793,10 +793,10 @@
   },
   {
     "id": "0dc0636a",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "VISHAY INTERTECHNOLOGY I | Needs asset-type review",
+    "detail": "VISHAY INTERTECHNOLOGY I | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "68fb015e",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -814,7 +814,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "WESTAMERICA BANCORP | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "WESTAMERICA BANCORP | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "3c974ad9",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -823,7 +823,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "ZURN ELKAY WTR SOLUTIONS | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "ZURN ELKAY WTR SOLUTIONS | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "d8c2942e",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -847,10 +847,10 @@
   },
   {
     "id": "bdcbc80c",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "BROADRIDGE FINL SOLUTIONS | Needs asset-type review",
+    "detail": "BROADRIDGE FINL SOLUTIONS | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "20b630bd",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -949,7 +949,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "American Express Co Com Solicited Order Discretion Exercised | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "American Express Co Com Solicited Order Discretion Exercised | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "ec2f578d",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1057,7 +1057,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "Capital One Financial Com Corn Solicited Order Discretion Exercised | Needs sector review, Needs asset-type review, Multiple possible tickers",
+    "detail": "Capital One Financial Com Corn Solicited Order Discretion Exercised | Needs sector review, Needs asset-type review, Multiple possible tickers, Issuer context only; not direct instrument ticker",
     "relatedId": "a37cff01",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1390,7 +1390,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "Synchrony Finl Com Solicited Order Discretion Exercised | Needs sector review, Needs asset-type review, Multiple possible tickers",
+    "detail": "Synchrony Finl Com Solicited Order Discretion Exercised | Needs sector review, Needs asset-type review, Multiple possible tickers, Issuer context only; not direct instrument ticker",
     "relatedId": "504a5e49",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1450,10 +1450,10 @@
   },
   {
     "id": "1218543f",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "3M CO | Needs asset-type review",
+    "detail": "3M CO | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "bf467d5f",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1477,10 +1477,10 @@
   },
   {
     "id": "be4f22a7",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "AMERICAN EXPRESS CO | Needs asset-type review",
+    "detail": "AMERICAN EXPRESS CO | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "a17f73e6",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1516,7 +1516,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "AUTOMATIC DATA PROCESSIN | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "AUTOMATIC DATA PROCESSIN | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "1f4c3c76",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1594,10 +1594,10 @@
   },
   {
     "id": "b78682dd",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "CHIPOTLE MEXICAN GRILL I | Needs asset-type review",
+    "detail": "CHIPOTLE MEXICAN GRILL I | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "ff6bd406",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1606,7 +1606,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "CLOROX CO | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "CLOROX CO | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "61bc0cb7",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1660,7 +1660,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "EVEREST REINSURANCE GR F | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "EVEREST REINSURANCE GR F | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "306ba350",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1714,7 +1714,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "GENUINE PARTS CO | Needs sector review, Needs asset-type review, No SEC/SIC sector",
+    "detail": "GENUINE PARTS CO | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "3f7885fb",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1729,10 +1729,10 @@
   },
   {
     "id": "20c82349",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "GRAPHIC PACKAGING HLDG C | Needs asset-type review",
+    "detail": "GRAPHIC PACKAGING HLDG C | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "9cc9f312",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1768,7 +1768,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "INTERCONTINENTAL EXCHANG | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "INTERCONTINENTAL EXCHANG | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "718a0155",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1783,10 +1783,10 @@
   },
   {
     "id": "82e5f61f",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "INTUIT | Needs asset-type review",
+    "detail": "INTUIT | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "5942c3a3",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1810,10 +1810,10 @@
   },
   {
     "id": "5ebdb899",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "KRAFT HEINZ CO | Needs asset-type review",
+    "detail": "KRAFT HEINZ CO | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "a48edc54",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1873,10 +1873,10 @@
   },
   {
     "id": "73178ea0",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "PENSKE AUTOMOTIVE GROUP | Needs asset-type review",
+    "detail": "PENSKE AUTOMOTIVE GROUP | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "1708ec81",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1945,19 +1945,19 @@
   },
   {
     "id": "c51e9eba",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "THE CAMPBELL'S CO | Needs asset-type review",
+    "detail": "THE CAMPBELL'S CO | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "9fec670c",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
   {
     "id": "a1d95587",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "THE CIGNA GROUP | Needs asset-type review",
+    "detail": "THE CIGNA GROUP | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "87bc3cea",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -1972,10 +1972,10 @@
   },
   {
     "id": "8260bdfb",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "TRANSUNION | Needs asset-type review",
+    "detail": "TRANSUNION | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "9188c490",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -2020,7 +2020,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "VERTEX PHARMACEUTICALS I | Needs sector review, Needs asset-type review, Multiple possible tickers",
+    "detail": "VERTEX PHARMACEUTICALS I | Needs sector review, Needs asset-type review, Multiple possible tickers, Issuer context only; not direct instrument ticker",
     "relatedId": "ee02e9e7",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -2038,7 +2038,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "WILLIS TOWERS WATSON PF | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "WILLIS TOWERS WATSON PF | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "571cdb51",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -2128,7 +2128,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "BECTON DICKINSON & CO UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "BECTON DICKINSON & CO UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "64ad692e",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -2245,7 +2245,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "COGNIZANT TECH SOLUTIONS CRP UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "COGNIZANT TECH SOLUTIONS CRP UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "a41225f5",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -2299,7 +2299,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "ELECTRONIC ARTS UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "ELECTRONIC ARTS UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "7650bd8b",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -2722,7 +2722,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "SYNCHRONY FINL UNSOLICITED | Needs sector review, Needs asset-type review, Multiple possible tickers",
+    "detail": "SYNCHRONY FINL UNSOLICITED | Needs sector review, Needs asset-type review, Multiple possible tickers, Issuer context only; not direct instrument ticker",
     "relatedId": "10fec6f7",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -2731,7 +2731,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "TEXAS INSTRUMENTS UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "TEXAS INSTRUMENTS UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "b0924e34",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -2785,7 +2785,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "VERTIV HLDG CO UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "VERTIV HLDG CO UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "b7b38442",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -2881,10 +2881,10 @@
   },
   {
     "id": "c7fa02b5",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "ALNYLAM PHARMACEUTICALS | Needs asset-type review",
+    "detail": "ALNYLAM PHARMACEUTICALS | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "1d56b75f",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3037,7 +3037,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "BAKER HUGHES CO CL A UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "BAKER HUGHES CO CL A UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "f2dc8f43",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3232,10 +3232,10 @@
   },
   {
     "id": "55970c70",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "CREDO TECHNOLOGY GROUP F | Needs asset-type review",
+    "detail": "CREDO TECHNOLOGY GROUP F | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "9dc91fba",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3316,7 +3316,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "EVEREST REINSURANCE GR F | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "EVEREST REINSURANCE GR F | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "ee648b08",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3340,10 +3340,10 @@
   },
   {
     "id": "f22a941f",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "FABRINET F | Needs asset-type review",
+    "detail": "FABRINET F | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "e41d1751",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3352,7 +3352,7 @@
     "severity": "medium",
     "kind": "classification",
     "title": "Review Equity classification",
-    "detail": "FEDEX CORP | Needs sector review, No SEC/SIC sector",
+    "detail": "FEDEX CORP | Needs sector review, Multiple possible tickers",
     "relatedId": "63a93f1f",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3361,7 +3361,7 @@
     "severity": "medium",
     "kind": "classification",
     "title": "Review Equity classification",
-    "detail": "FEDEX CORP UNSOLICITED | Needs sector review, Low-confidence issuer match, No SEC/SIC sector",
+    "detail": "FEDEX CORP UNSOLICITED | Needs sector review, Multiple possible tickers",
     "relatedId": "f5e975f1",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3388,7 +3388,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "FORD MOTOR CO COM UNSOLICITED | Needs sector review, Needs asset-type review, Multiple possible tickers",
+    "detail": "FORD MOTOR CO COM UNSOLICITED | Needs sector review, Needs asset-type review, Multiple possible tickers, Issuer context only; not direct instrument ticker",
     "relatedId": "0d830ab2",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3442,7 +3442,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "GE HEALTHCARE TECHNOLOGI | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "GE HEALTHCARE TECHNOLOGI | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "1d86f61a",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3451,7 +3451,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "GE VERNOVA LLC COM UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "GE VERNOVA LLC COM UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "4aa82113",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3469,7 +3469,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "GENERAL MOTORS CO UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "GENERAL MOTORS CO UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "537f40b1",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3487,7 +3487,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "GENUINE PARTS CO | Needs sector review, Needs asset-type review, No SEC/SIC sector",
+    "detail": "GENUINE PARTS CO | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "88930e25",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3559,7 +3559,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "INTERCONTINENTAL EXCHANG | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "INTERCONTINENTAL EXCHANG | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "99c85253",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3631,7 +3631,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "KEYSIGHT TECHNOLOGIES IN | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "KEYSIGHT TECHNOLOGIES IN | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "a77aad88",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3658,7 +3658,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "KKR REAL ESTATE FIN TR I | Needs sector review, Needs asset-type review, Multiple possible tickers",
+    "detail": "KKR REAL ESTATE FIN TR I | Needs sector review, Needs asset-type review, Multiple possible tickers, Issuer context only; not direct instrument ticker",
     "relatedId": "af8f79c0",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3685,7 +3685,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "L3HARRIS TECHNOLOGIES IN | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "L3HARRIS TECHNOLOGIES IN | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "66a4b30f",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3973,7 +3973,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "PHILLIPS 66 UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "PHILLIPS 66 UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "102b8a83",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3982,7 +3982,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "PINNACLE FINL PARTNERS I | Needs sector review, Needs asset-type review, Multiple possible tickers",
+    "detail": "PINNACLE FINL PARTNERS I | Needs sector review, Needs asset-type review, Multiple possible tickers, Issuer context only; not direct instrument ticker",
     "relatedId": "78df21db",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -3991,7 +3991,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "PNC FINANCIAL SERVICES GROUP UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "PNC FINANCIAL SERVICES GROUP UNSOLICITED | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "e7965f7b",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -4045,7 +4045,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "REGENERON PHARMACEUTICAL | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "REGENERON PHARMACEUTICAL | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "692c428c",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -4117,7 +4117,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "ROYAL CARIBBEAN GROUP F | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "ROYAL CARIBBEAN GROUP F | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "19c675f8",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -4153,7 +4153,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "SEMPRA | Needs sector review, Needs asset-type review, Multiple possible tickers",
+    "detail": "SEMPRA | Needs sector review, Needs asset-type review, Multiple possible tickers, Issuer context only; not direct instrument ticker",
     "relatedId": "6a7165b8",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -4204,10 +4204,10 @@
   },
   {
     "id": "18efc0f1",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "STANLEY BLACK & DECKER I | Needs asset-type review",
+    "detail": "STANLEY BLACK & DECKER I | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "4cc1b638",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -4342,7 +4342,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "TELEDYNE TECHNOLOGIES IN | Needs sector review, Needs asset-type review, Low-confidence issuer match",
+    "detail": "TELEDYNE TECHNOLOGIES IN | Needs sector review, Needs asset-type review, Low-confidence issuer match, Issuer context only; not direct instrument ticker",
     "relatedId": "87e0d29c",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -4369,7 +4369,7 @@
     "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "THE COCA-COLA CO | Needs sector review, Needs asset-type review, Multiple possible tickers",
+    "detail": "THE COCA-COLA CO | Needs sector review, Needs asset-type review, Multiple possible tickers, Issuer context only; not direct instrument ticker",
     "relatedId": "78492726",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },
@@ -4456,10 +4456,10 @@
   },
   {
     "id": "39b6a7d3",
-    "severity": "medium",
+    "severity": "high",
     "kind": "classification",
     "title": "Review Other classification",
-    "detail": "VERIZON COMMUNICATIONS I | Needs asset-type review",
+    "detail": "VERIZON COMMUNICATIONS I | Needs sector review, Needs asset-type review, Issuer context only; not direct instrument ticker",
     "relatedId": "7d5d96dc",
     "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/5326D3AF5BE7C25385258DF7002DD1B7/$FILE/Trump%2C%20Donald%20J.-05.08.2026-278T.pdf"
   },

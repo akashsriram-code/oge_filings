@@ -924,34 +924,6 @@
     "importance": 2
   },
   {
-    "id": "e4748073",
-    "date": "2026-05-13",
-    "endDate": null,
-    "category": "tariff",
-    "title": "Extension of Import Restrictions Imposed on Categories of Archaeological and Ethnological Material of Türkiye",
-    "summary": "This document amends U.S. Customs and Border Protection (CBP) regulations to reflect an extension of import restrictions on certain categories of archaeological and ethnological material of the Republic of T[uuml]rkiye (T[uuml]rkiye), which were originally imposed by CBP Decision Number 21-09. The CBP regulations are being amended to reflect this extension through March 24, 2031.",
-    "sourceName": "Federal Register",
-    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/13/2026-09575/extension-of-import-restrictions-imposed-on-categories-of-archaeological-and-ethnological-material",
-    "tickers": [],
-    "sectors": [],
-    "tags": [],
-    "importance": 2
-  },
-  {
-    "id": "2b28a070",
-    "date": "2026-05-13",
-    "endDate": null,
-    "category": "tariff",
-    "title": "Strontium Chromate From Austria: Preliminary Results of Antidumping Duty Administrative Review; 2023-2024",
-    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that strontium chromate from Austria was sold by Habich GmbH (Habich) in the United States at less than normal value (NV) during the period of review (POR), November 1, 2023, through October 31, 2024. Interested parties are invited to comment on these preliminary results.",
-    "sourceName": "Federal Register",
-    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/13/2026-09468/strontium-chromate-from-austria-preliminary-results-of-antidumping-duty-administrative-review",
-    "tickers": [],
-    "sectors": [],
-    "tags": [],
-    "importance": 2
-  },
-  {
     "id": "8491c199",
     "date": "2026-05-14",
     "endDate": null,
@@ -1205,54 +1177,6 @@
     "importance": 2
   },
   {
-    "id": "2e2b05a6",
-    "date": "2026-05-26",
-    "endDate": null,
-    "category": "tariff",
-    "title": "Citric Acid and Certain Citrate Salts From Canada and India: Postponement of Preliminary Determinations in the Less-Than-Fair-Value Investigations",
-    "summary": "Agency: Commerce Department, International Trade Administration",
-    "sourceName": "Federal Register",
-    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/26/2026-10404/citric-acid-and-certain-citrate-salts-from-canada-and-india-postponement-of-preliminary",
-    "tickers": [],
-    "sectors": [],
-    "tags": [
-      "country/trade partner"
-    ],
-    "importance": 2
-  },
-  {
-    "id": "35dcab05",
-    "date": "2026-05-26",
-    "endDate": null,
-    "category": "tariff",
-    "title": "Citric Acid and Certain Citrate Salts From China; Determinations",
-    "summary": "Agency: International Trade Commission",
-    "sourceName": "Federal Register",
-    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/26/2026-10405/citric-acid-and-certain-citrate-salts-from-china-determinations",
-    "tickers": [],
-    "sectors": [],
-    "tags": [
-      "country/trade partner"
-    ],
-    "importance": 2
-  },
-  {
-    "id": "1a945d66",
-    "date": "2026-05-26",
-    "endDate": null,
-    "category": "tariff",
-    "title": "Crystalline Silicon Photovoltaic Cells, Whether or Not Assembled Into Modules, From the Lao People's Democratic Republic: Amended Preliminary Determination of the Less-Than-Fair-Value Investigation",
-    "summary": "The U.S. Department of Commerce (Commerce) is amending its preliminarily affirmative determination in the less-than-fair value (LTFV) investigation of crystalline silicon photovoltaic cells, whether or not assembled into modules (solar cells), from the Lao People's Democratic Republic (Laos) to correct significant ministerial errors. The period of investigation (POI) is January 1, 2025, through June 30, 2025.",
-    "sourceName": "Federal Register",
-    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/26/2026-10426/crystalline-silicon-photovoltaic-cells-whether-or-not-assembled-into-modules-from-the-lao-peoples",
-    "tickers": [],
-    "sectors": [
-      "Energy"
-    ],
-    "tags": [],
-    "importance": 2
-  },
-  {
     "id": "3b74a1a3",
     "date": "2026-05-26",
     "endDate": null,
@@ -1331,22 +1255,6 @@
     "importance": 2
   },
   {
-    "id": "250410a2",
-    "date": "2026-05-27",
-    "endDate": null,
-    "category": "tariff",
-    "title": "Crystalline Silicon Photovoltaic Cells, Whether or Not Assembled Into Modules, From Indonesia: Amended Preliminary Affirmative Determination of Sales at Less Than Fair Value",
-    "summary": "The U.S. Department of Commerce (Commerce) is amending its preliminary affirmative determination in the less-than-fair-value (LTFV) investigation of crystalline silicon photovoltaic cells, whether or not assembled into modules (solar cells), from Indonesia to reflect Commerce's determination that it is necessary to rely on facts otherwise available including adverse inferences (AFA) in reaching its preliminary determination. The period of investigation (POI) is July 1, 2024, through June 30, 2025.",
-    "sourceName": "Federal Register",
-    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/27/2026-10519/crystalline-silicon-photovoltaic-cells-whether-or-not-assembled-into-modules-from-indonesia-amended",
-    "tickers": [],
-    "sectors": [
-      "Energy"
-    ],
-    "tags": [],
-    "importance": 2
-  },
-  {
     "id": "e55d36e9",
     "date": "2026-05-27",
     "endDate": null,
@@ -1369,20 +1277,6 @@
     "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that high purity dissolving pulp (dissolving pulp) from Norway is being, or is likely to be, sold in the United States at less than fair value (LTFV). The period of investigation (POI) is July 1, 2024, through June 30, 2025. Interested parties are invited to comment on this preliminary determination.",
     "sourceName": "Federal Register",
     "sourceUrl": "https://www.federalregister.gov/documents/2026/05/27/2026-10527/high-purity-dissolving-pulp-from-norway-preliminary-affirmative-determination-of-sales-at-less-than",
-    "tickers": [],
-    "sectors": [],
-    "tags": [],
-    "importance": 2
-  },
-  {
-    "id": "ddab918a",
-    "date": "2026-05-27",
-    "endDate": null,
-    "category": "tariff",
-    "title": "Large Diameter Welded Pipe From the Republic of Türkiye: Preliminary Results and Rescission, In Part, of Antidumping Duty Administrative Review; 2024-2025",
-    "summary": "The U.S. Department of Commerce (Commerce) preliminarily determines that producers/exporters subject to this review made sales of subject merchandise at less than normal value (NV) during the period of review (POR), May 1, 2024, through April 30, 2025. In addition, we are rescinding the review with respect to 12 companies. Interested parties are invited to comment on these preliminary results of review.",
-    "sourceName": "Federal Register",
-    "sourceUrl": "https://www.federalregister.gov/documents/2026/05/27/2026-10522/large-diameter-welded-pipe-from-the-republic-of-trkiye-preliminary-results-and-rescission-in-part-of",
     "tickers": [],
     "sectors": [],
     "tags": [],
@@ -2472,6 +2366,112 @@
     "tickers": [],
     "sectors": [],
     "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "f3ad38c9",
+    "date": "2026-06-10",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Oil Vaporizing Devices, Components Thereof, and Products Containing the Same; Notice of Institution of Formal Enforcement Proceeding",
+    "summary": "Notice is hereby given that the U.S. International Trade Commission has determined to institute a formal enforcement proceeding relating to the limited exclusion order and cease and desist orders (collectively, \"the remedial orders\") issued on January 20, 2026, in the above-referenced investigation, against respondents STIIIZY IP LLC f/k/a STIIIZY LLC; STIIIZY, Inc. d/b/a Shryne Group Inc. (collectively, \"STIIIZY\"); ALD Group Limited; and ALD Hong Kong Holdings (collectively, \"ALD\").",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/10/2026-11550/certain-oil-vaporizing-devices-components-thereof-and-products-containing-the-same-notice-of",
+    "tickers": [],
+    "sectors": [
+      "Energy"
+    ],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "f884f566",
+    "date": "2026-06-10",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Pre-Stretched Synthetic Braiding Hair and Packaging Therefor; Notice of Commission Determination Not To Review an Initial Determination Granting Unopposed Motion To Amend the Complaint and Notice of Investigation",
+    "summary": "Notice is hereby given that the U.S. International Trade Commission (\"the Commission\") has determined not to review an initial determination (\"ID\") (Order No. 51) issued by the presiding administrative law judge (\"ALJ\") granting an unopposed motion to amend the complaint and notice of investigation to correct the name of a respondent from \"Vivace, Inc. d/b/a Dae Do Inc.\" to \"Dae Do Inc. d/b/a Vivace\" (hereinafter, \"Vivace\").",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/10/2026-11630/certain-pre-stretched-synthetic-braiding-hair-and-packaging-therefor-notice-of-commission",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "e7c835e8",
+    "date": "2026-06-10",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Certain Smart Devices; Notice of Institution of Investigation",
+    "summary": "Notice is hereby given that a complaint was filed with the U.S. International Trade Commission on May 6, 2026, under section 337 of the Tariff Act of 1930, as amended, on behalf of Cerence Operating Company of Burlington, Massachusetts. Supplements to the complaint were filed on May 12, 2026 and May 13, 2026. The complaint, as supplemented, alleges violations of section 337 based upon the importation into the United States, the sale for importation, and the sale within the United States after importation of certain smart devices by reason of the infringement of certain claims of U.S. Patent No. 8,306,815 (\"the '815 patent\"); U.S. Patent No. 9,203,972 (\"the '972 patent\"); U.S. Patent No. 8,320,575 (\"the '575 patent\"); U.S. Patent No. 11,929,073 (\"the '073 patent\"); and U.S. Patent No. 8,355,484 (\"the '484 patent\"). The complaint further alleges that an industry in the United States exists as required by the applicable Federal Statute. The complainant requests that the Commission institute an investigation and, after the investigation, issue a limited exclusion order and cease and desist orders.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/10/2026-11573/certain-smart-devices-notice-of-institution-of-investigation",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "00369ac5",
+    "date": "2026-06-10",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Foreign-Trade Zone (FTZ) 26, Notification of Proposed Production Activity; Viasat, Inc.; (Satellite Communications Technology); Lawrenceville, Duluth, and Pendergrass, Georgia",
+    "summary": "Agency: Commerce Department, Foreign-Trade Zones Board",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/10/2026-11631/foreign-trade-zone-ftz-26-notification-of-proposed-production-activity-viasat-inc-satellite",
+    "tickers": [],
+    "sectors": [
+      "Information Technology"
+    ],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "515a6dfd",
+    "date": "2026-06-10",
+    "endDate": null,
+    "category": "tariff",
+    "title": "High Purity Dissolving Pulp From Brazil and Norway; Scheduling of the Final Phase of Countervailing Duty and Antidumping Duty Investigations",
+    "summary": "The Commission hereby gives notice of the scheduling of the final phase of antidumping and countervailing duty investigation Nos. 701-TA-777 and 731-TA-1762-1763 (Final) pursuant to the Tariff Act of 1930 to determine whether an industry in the United States is materially injured or threatened with material injury, or the establishment of an industry in the United States is materially retarded, by reason of imports of high purity dissolving pulp (\"HPDP\") from Brazil and Norway, provided for in subheading 4702.00.00 of the Harmonized Tariff Schedule of the United States, preliminarily determined by the Department of Commerce (\"Commerce\") to be subsidized by the government of Brazil and sold at less-than- fair-value.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/10/2026-11617/high-purity-dissolving-pulp-from-brazil-and-norway-scheduling-of-the-final-phase-of-countervailing",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "HTS"
+    ],
+    "importance": 2
+  },
+  {
+    "id": "08a87a25",
+    "date": "2026-06-10",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Notice of Revocation of Customs Brokers' Licenses",
+    "summary": "This document provides notice of the revocation by operation of law of certain customs brokers' licenses.",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/10/2026-11565/notice-of-revocation-of-customs-brokers-licenses",
+    "tickers": [],
+    "sectors": [],
+    "tags": [],
+    "importance": 2
+  },
+  {
+    "id": "ef79db47",
+    "date": "2026-06-10",
+    "endDate": null,
+    "category": "tariff",
+    "title": "Tris (Hydroxymethyl) Aminomethane and Tris (Hydroxymethyl) Aminomethane Hydrochloride (“Tris and Tris HCl”) From China; Determinations",
+    "summary": "Agency: International Trade Commission",
+    "sourceName": "Federal Register",
+    "sourceUrl": "https://www.federalregister.gov/documents/2026/06/10/2026-11574/tris-hydroxymethyl-aminomethane-and-tris-hydroxymethyl-aminomethane-hydrochloride-tris-and-tris-hcl",
+    "tickers": [],
+    "sectors": [],
+    "tags": [
+      "country/trade partner"
+    ],
     "importance": 2
   },
   {

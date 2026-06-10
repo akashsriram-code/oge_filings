@@ -212,6 +212,7 @@ async function main() {
     reviewQueueCount: reviewQueue.length,
     securityReferenceCount: securityReference.entries.length,
     securityEnrichmentCount: securityEnrichments.length,
+    instrumentContextCount: transactions.filter((tx) => tx.instrumentSummary || tx.issuerContextTicker).length,
     enrichedTransactionCount: transactions.filter((tx) => tx.resolvedTicker).length,
     eventCount: events.length,
     eventWindowCount: eventWindows.length,
@@ -1034,6 +1035,7 @@ function buildCacheMeta(dataset: Omit<TrumpOgeDataset, 'cacheMeta'>): CacheMeta 
       .filter((filing) => filing.documentType === 'Annual 278e')
       .sort((a, b) => b.filedDate.localeCompare(a.filedDate))[0];
   const enrichedTransactionCount = dataset.transactions.filter((tx) => tx.resolvedTicker).length;
+  const instrumentContextCount = dataset.transactions.filter((tx) => tx.instrumentSummary || tx.issuerContextTicker).length;
 
   return {
     generatedAt: new Date().toISOString(),
@@ -1048,6 +1050,7 @@ function buildCacheMeta(dataset: Omit<TrumpOgeDataset, 'cacheMeta'>): CacheMeta 
     estimatedTotalMidpoint: estimatedVolume.midpoint,
     securityReferenceCount: dataset.securityReference.entries.length,
     securityEnrichmentCount: dataset.securityEnrichments.length,
+    instrumentContextCount,
     enrichedTransactionCount,
     eventCount: dataset.events.length,
     eventWindowCount: dataset.eventWindows.length,
@@ -1068,6 +1071,7 @@ function buildCacheMeta(dataset: Omit<TrumpOgeDataset, 'cacheMeta'>): CacheMeta 
         : 'No annual 278e source was found in the current OGE record set.',
       'Annual/candidate/termination disclosure rows remain parser-reviewed unless structured asset-income and liability rows are present in the cache.',
       'Security enrichment uses public SEC and Nasdaq Trader reference data; sector labels are SEC/SIC-derived broad sectors, not proprietary GICS classifications.',
+      `Instrument context parsed ${instrumentContextCount.toLocaleString('en-US')} transaction rows into issuer/fixed-income summaries where OGE descriptions allowed it.`,
       `Security enrichment resolved ${enrichedTransactionCount.toLocaleString('en-US')} transaction rows to public-company tickers.`,
       `Annual disclosure parser produced ${dataset.assetIncomeHoldings.length.toLocaleString('en-US')} asset/income rows and ${dataset.liabilities.length.toLocaleString('en-US')} liability rows.`,
       'Event overlay uses public Federal Register and Federal Reserve sources plus optional manual events; event proximity does not imply motive or causation.',

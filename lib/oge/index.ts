@@ -1,5 +1,6 @@
 import { ZERO_RANGE } from './amounts';
 import { stableId } from './analytics';
+import { pickInstrumentContextFields } from './instruments';
 import type {
   EstimatedHolding,
   HistoricalSource,
@@ -65,6 +66,7 @@ export function buildTrumpIndex(params: {
       resolvedIssuerName: holding.resolvedIssuerName,
       resolvedExchange: holding.resolvedExchange,
       resolvedCik: holding.resolvedCik,
+      ...pickInstrumentContextFields(holding),
       currentRange: holding.estimatedCurrent,
       currentMidpoint,
       previousRange,

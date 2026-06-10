@@ -148,6 +148,7 @@ function buildAskFacts({
     caveats: [
       'Numbers are calculated deterministically from disclosed OGE statutory ranges using midpoint estimates, not exact portfolio values.',
       'Trump Index confidence and source reliability are displayed beside scores but do not reduce the score.',
+      'Issuer-context tickers explain likely public-company issuer context for bonds and preferred securities; they are not direct bond identifiers unless a CUSIP/ISIN/FIGI is present.',
       'Event proximity is contextual and is not used as a scoring input or causal claim.',
       'Archived-copy and metadata-only sources require reporter review before publication language relies on original filing text.',
     ],
@@ -165,6 +166,30 @@ function compactIndexEntry(entry: TrumpIndexEntry) {
     resolvedIssuerName: entry.resolvedIssuerName,
     resolvedExchange: entry.resolvedExchange,
     resolvedCik: entry.resolvedCik,
+    issuerContextTicker: entry.issuerContextTicker,
+    issuerContextIssuerName: entry.issuerContextIssuerName,
+    issuerContextExchange: entry.issuerContextExchange,
+    issuerContextCik: entry.issuerContextCik,
+    issuerContextSector: entry.issuerContextSector,
+    issuerContextSource: entry.issuerContextSource,
+    issuerContextConfidence: entry.issuerContextConfidence,
+    issuerContextFlags: entry.issuerContextFlags,
+    instrumentKind: entry.instrumentKind,
+    instrumentIssuerName: entry.instrumentIssuerName,
+    instrumentCoupon: entry.instrumentCoupon,
+    instrumentMaturityDate: entry.instrumentMaturityDate,
+    instrumentCallable: entry.instrumentCallable,
+    instrumentCallDate: entry.instrumentCallDate,
+    instrumentCallPrice: entry.instrumentCallPrice,
+    instrumentYieldToCall: entry.instrumentYieldToCall,
+    instrumentYieldToMaturity: entry.instrumentYieldToMaturity,
+    instrumentCusip: entry.instrumentCusip,
+    instrumentIsin: entry.instrumentIsin,
+    instrumentFigi: entry.instrumentFigi,
+    instrumentSummary: entry.instrumentSummary,
+    instrumentMatchSource: entry.instrumentMatchSource,
+    instrumentMatchConfidence: entry.instrumentMatchConfidence,
+    instrumentContextFlags: entry.instrumentContextFlags,
     currentMidpoint: entry.currentMidpoint,
     changeMidpoint: entry.changeMidpoint,
     changePct: entry.changePct,
@@ -329,7 +354,7 @@ function buildFallbackAnswer(facts: AskFacts): string {
   }
 
   const bullets = rows.map((row, index) =>
-    `${index + 1}. ${row.displayName}: score ${row.score}, ${row.netDirection.toLowerCase()}, current midpoint ${formatUsd(row.currentMidpoint)}, net flow ${formatUsd(row.netFlowMidpoint)}.`
+    `${index + 1}. ${row.displayName}: score ${row.score}, ${row.netDirection.toLowerCase()}, current midpoint ${formatUsd(row.currentMidpoint)}, net flow ${formatUsd(row.netFlowMidpoint)}.${row.instrumentSummary ? ` ${row.instrumentSummary}` : ''}`
   );
   return [
     'OpenArena is not configured, so this is a deterministic fallback summary from the cached Trump Index facts.',
@@ -342,7 +367,9 @@ function suggestFilters(facts: AskFacts): TrumpOgeFilters[] {
   const top = facts.topIndexEntries[0];
   if (!top) return [];
   return [
-    top.resolvedTicker ? { ...facts.filters, ticker: top.resolvedTicker } : { ...facts.filters, issuer: top.displayName },
+    top.resolvedTicker || top.issuerContextTicker
+      ? { ...facts.filters, ticker: top.resolvedTicker || top.issuerContextTicker }
+      : { ...facts.filters, issuer: top.issuerContextIssuerName || top.instrumentIssuerName || top.displayName },
     { ...facts.filters, sector: top.sector },
     { ...facts.filters, assetType: top.assetType },
   ];

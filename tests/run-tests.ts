@@ -88,6 +88,8 @@ function testSecurityEnrichment() {
       [200, 'Advance Auto Parts, Inc.', 'AAP', 'NYSE'],
       [300, 'Acme Corp', 'ACM', 'NYSE'],
       [301, 'Acme Holdings Inc.', 'ACMH', 'Nasdaq'],
+      [400, 'First Horizon Corp', 'FHN', 'NYSE'],
+      [401, 'First Horizon Corp Depositary Shares', 'FHN-PE', 'NYSE'],
     ],
   });
   const nasdaqEntries = parseNasdaqSymbolDirectory(
@@ -102,6 +104,8 @@ function testSecurityEnrichment() {
     sicByCik: {
       '100': { sic: '7372', sicDescription: 'Services-Prepackaged Software', sector },
       '200': { sic: '5531', sicDescription: 'Retail-Auto & Home Supply Stores', sector: broadSectorFromSic('5531', 'Retail-Auto & Home Supply Stores') },
+      '400': { sic: '6021', sicDescription: 'National Commercial Banks', sector: broadSectorFromSic('6021', 'National Commercial Banks') },
+      '401': { sic: '6021', sicDescription: 'National Commercial Banks', sector: broadSectorFromSic('6021', 'National Commercial Banks') },
     },
     sources: [],
   });
@@ -143,6 +147,26 @@ function testSecurityEnrichment() {
   ], reference).transactions[0];
   assert.equal(ambiguous.resolvedTicker, null);
   assert.ok(ambiguous.enrichmentFlags.includes('Multiple possible tickers'));
+
+  const firstHorizon = enrichTransactions([
+    makeTransaction({
+      description: 'FIRST HORIZON BK MEMPHIS TENN DUE 05/01/2030 05.750% MN 01 DISCRETIONARY ORDER YIELD 4.803% TO PAR CALL YIELD 4.849% TO MATURITY CALLABLE 02/01/30 AT 100.000 TIME OF EXECUTION 11:13',
+      normalizedDescription: 'FIRST HORIZON BK MEMPHIS TENN DUE 05/01/2030 05 750% MN 01 DISCRETIONARY ORDER',
+      assetType: 'Corporate Bond',
+      sector: 'Corporate Credit',
+      classificationConfidence: 0.78,
+      reviewFlags: [],
+    }),
+  ], reference).transactions[0];
+  assert.equal(firstHorizon.resolvedTicker, null);
+  assert.equal(firstHorizon.issuerContextTicker, 'FHN');
+  assert.equal(firstHorizon.issuerContextSector, 'Financials');
+  assert.equal(firstHorizon.instrumentKind, 'corporate bond/note');
+  assert.equal(firstHorizon.instrumentCoupon, 5.75);
+  assert.equal(firstHorizon.instrumentMaturityDate, '2030-05-01');
+  assert.equal(firstHorizon.instrumentCallDate, '2030-02-01');
+  assert.ok(firstHorizon.instrumentSummary?.includes('5.75% coupon'));
+  assert.ok(firstHorizon.issuerContextFlags.includes('Issuer context only; not direct instrument ticker'));
 }
 
 function testEventOverlay() {
@@ -295,6 +319,8 @@ async function testCacheShape() {
   assert.equal(dataset.cacheMeta.eventCount, dataset.events.length);
   assert.equal(dataset.cacheMeta.eventWindowCount, dataset.eventWindows.length);
   assert.equal(dataset.cacheMeta.trumpIndexCount, dataset.trumpIndex.length);
+  assert.ok(dataset.cacheMeta.instrumentContextCount >= 1, 'instrument context count should be present');
+  assert.ok(dataset.transactions.some((row) => row.instrumentSummary || row.issuerContextTicker), 'instrument summaries or issuer context should be present');
 }
 
 async function testFiltering() {
@@ -337,6 +363,7 @@ async function testWorkbookExport() {
   }
   const transactionRows = XLSX.utils.sheet_to_json<Record<string, unknown>>(workbook.Sheets.Transactions);
   assert.ok('resolved_ticker' in transactionRows[0], 'transactions export should include resolved_ticker');
+  assert.ok('instrument_summary' in transactionRows[0], 'transactions export should include instrument_summary');
   const stockRows = XLSX.utils.sheet_to_json<Record<string, unknown>>(workbook.Sheets['Equity Stocks']);
   assert.ok('net_direction' in stockRows[0], 'equity stocks export should include net_direction');
 }

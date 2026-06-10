@@ -1,7 +1,15 @@
 import { buildSecurityKey, normalizeSecurityDescription } from './classify';
+import {
+  buildInstrumentFields,
+  emptyInstrumentFields,
+  parseInstrumentDescription,
+  type IssuerContextResolution,
+  type ParsedInstrument,
+} from './instruments';
 import type {
   AssetType,
   EnrichmentSource,
+  InstrumentContextFields,
   OgeTransaction,
   SecurityEnrichment,
   SecurityReferenceCache,
@@ -40,6 +48,7 @@ interface SecurityResolution {
   enrichmentConfidence: number;
   enrichmentFlags: string[];
   candidateTickers: string[];
+  instrument: InstrumentContextFields;
 }
 
 const EQUITY_ACCEPTANCE_THRESHOLD = 0.82;
@@ -74,7 +83,7 @@ export function emptyEnrichmentFields(): Pick<
   | 'enrichmentSource'
   | 'enrichmentConfidence'
   | 'enrichmentFlags'
-> {
+> & InstrumentContextFields {
   return {
     resolvedTicker: null,
     resolvedIssuerName: null,
@@ -86,6 +95,7 @@ export function emptyEnrichmentFields(): Pick<
     enrichmentSource: 'none',
     enrichmentConfidence: 0,
     enrichmentFlags: [],
+    ...emptyInstrumentFields(),
   };
 }
 
@@ -293,6 +303,7 @@ export function enrichTransactions(
         enrichmentSource: resolution.enrichmentSource,
         enrichmentConfidence: resolution.enrichmentConfidence,
         enrichmentFlags: resolution.enrichmentFlags,
+        ...resolution.instrument,
         candidateTickers: resolution.candidateTickers,
         transactionCount: 1,
         assetTypes: [tx.assetType],
@@ -314,7 +325,7 @@ export function enrichTransactions(
 export function collectResolvedCiks(transactions: OgeTransaction[]): number[] {
   return Array.from(new Set(
     transactions
-      .map((tx) => tx.resolvedCik)
+      .flatMap((tx) => [tx.resolvedCik, tx.issuerContextCik])
       .filter((cik): cik is number => Number.isFinite(cik))
   )).sort((a, b) => a - b);
 }
@@ -327,6 +338,7 @@ export function createSecurityResolver(reference: SecurityReferenceCache) {
       const sourceTicker = normalizeTicker(tx.ticker || '');
       const securityKey = buildSecurityKey(tx.description);
       const normalizedDescription = normalizeSecurityDescription(tx.description);
+      const parsedInstrument = parseInstrumentDescription(tx.description, tx.assetType);
       const candidates: CandidateMatch[] = [];
 
       if (sourceTicker) {
@@ -335,7 +347,7 @@ export function createSecurityResolver(reference: SecurityReferenceCache) {
         }
       }
 
-      const variants = buildNameVariants(tx.description);
+      const variants = buildNameVariants(tx.description, parsedInstrument);
       for (const variant of variants) {
         addMatches(candidates, index.byNormalizedName.get(normalizeSecurityDescription(variant)), 0.96, sourceFor('exact'));
         addMatches(candidates, index.byCleanedName.get(normalizeIssuerName(variant)), 0.93, sourceFor('clean'));
@@ -360,6 +372,7 @@ export function createSecurityResolver(reference: SecurityReferenceCache) {
         sourceTicker,
         candidates: rankCandidates(candidates, tx.assetType),
         assetType: tx.assetType,
+        parsedInstrument,
       });
     },
   };
@@ -394,6 +407,7 @@ function applyResolution(tx: OgeTransaction, resolution: SecurityResolution): Og
     enrichmentSource: resolution.enrichmentSource,
     enrichmentConfidence: resolution.enrichmentConfidence,
     enrichmentFlags: resolution.enrichmentFlags,
+    ...resolution.instrument,
     sector,
     classificationConfidence,
     reviewFlags: Array.from(reviewFlags),
@@ -414,6 +428,7 @@ function chooseResolution(params: {
   sourceTicker: string | null;
   candidates: CandidateMatch[];
   assetType: AssetType;
+  parsedInstrument: ParsedInstrument;
 }): SecurityResolution {
   const base = {
     securityKey: params.securityKey,
@@ -423,6 +438,8 @@ function chooseResolution(params: {
   };
   const top = params.candidates[0];
   const candidateTickers = params.candidates.slice(0, 5).map((candidate) => candidate.entry.ticker);
+  const issuerContext = chooseIssuerContext(params.candidates, params.assetType);
+  const instrument = buildInstrumentFields(params.parsedInstrument, issuerContext);
 
   if (!top) {
     return {
@@ -430,6 +447,7 @@ function chooseResolution(params: {
       ...emptyResolutionFields('none', 0),
       enrichmentFlags: params.assetType === 'Equity' ? ['No public match'] : [],
       candidateTickers: [],
+      instrument,
     };
   }
 
@@ -440,8 +458,12 @@ function chooseResolution(params: {
     return {
       ...base,
       ...emptyResolutionFields('none', top.score),
-      enrichmentFlags: ['Multiple possible tickers'],
+      enrichmentFlags: [
+        'Multiple possible tickers',
+        ...(issuerContext ? ['Issuer context only; not direct instrument ticker'] : []),
+      ],
       candidateTickers,
+      instrument,
     };
   }
 
@@ -449,8 +471,23 @@ function chooseResolution(params: {
     return {
       ...base,
       ...emptyResolutionFields('none', top.score),
-      enrichmentFlags: ['Low-confidence issuer match'],
+      enrichmentFlags: [
+        'Low-confidence issuer match',
+        ...(issuerContext ? ['Issuer context only; not direct instrument ticker'] : []),
+      ],
       candidateTickers,
+      instrument,
+    };
+  }
+
+  const directResolutionAllowed = params.assetType === 'Equity' || params.assetType === 'ETF / Fund' || Boolean(params.sourceTicker);
+  if (!directResolutionAllowed) {
+    return {
+      ...base,
+      ...emptyResolutionFields('none', top.score),
+      enrichmentFlags: issuerContext ? ['Issuer context only; not direct instrument ticker'] : [],
+      candidateTickers,
+      instrument,
     };
   }
 
@@ -471,6 +508,7 @@ function chooseResolution(params: {
     enrichmentConfidence: top.score,
     enrichmentFlags: flags,
     candidateTickers,
+    instrument,
   };
 }
 
@@ -552,12 +590,56 @@ function rankCandidates(candidates: CandidateMatch[], assetType: AssetType): Can
   );
 }
 
-function buildNameVariants(description: string): string[] {
+function buildNameVariants(description: string, parsedInstrument: ParsedInstrument): string[] {
   return Array.from(new Set([
     description,
     buildSecurityKey(description),
     normalizeIssuerName(description),
+    parsedInstrument.issuerName || '',
+    ...parsedInstrument.issuerSearchNames,
   ].filter(Boolean)));
+}
+
+function chooseIssuerContext(candidates: CandidateMatch[], assetType: AssetType): IssuerContextResolution | null {
+  if (assetType === 'Equity') return null;
+  const top = candidates[0];
+  if (!top || top.score < 0.78) return null;
+  const floor = Math.max(0.78, top.score - AMBIGUITY_MARGIN);
+  const family = candidates.filter((candidate) => candidate.score >= floor && !candidate.entry.isTestIssue);
+  const byCleanedName = new Map<string, CandidateMatch[]>();
+  for (const candidate of family) {
+    const rows = byCleanedName.get(candidate.entry.cleanedName) || [];
+    rows.push(candidate);
+    byCleanedName.set(candidate.entry.cleanedName, rows);
+  }
+
+  const groups = Array.from(byCleanedName.values()).sort((a, b) =>
+    b[0].score - a[0].score ||
+    b.length - a.length ||
+    a[0].entry.cleanedName.localeCompare(b[0].entry.cleanedName)
+  );
+  const group = groups[0] || family;
+  if (group.length === 0) return null;
+
+  const commonCandidate = group.find((candidate) => isCommonIssuerCandidate(candidate.entry)) || group[0];
+  const flags = ['Issuer context only; not direct instrument ticker'];
+  if (group.length > 1) flags.push('Multiple issuer securities share this issuer name');
+  if (!commonCandidate.entry.cik) flags.push('No SEC CIK for issuer context');
+
+  return {
+    entry: commonCandidate.entry,
+    source: commonCandidate.entry.cik ? 'sec-issuer-context' : 'nasdaq-issuer-context',
+    confidence: Math.min(0.9, commonCandidate.score),
+    flags,
+  };
+}
+
+function isCommonIssuerCandidate(entry: SecurityReferenceEntry): boolean {
+  const text = `${entry.ticker} ${entry.issuerName}`.toUpperCase();
+  if (entry.isEtf) return false;
+  if (/\b(PFD|PREFERRED|DEPOSITARY|WARRANT|RIGHT|UNIT|NOTE|BOND|DEBT)\b/.test(text)) return false;
+  if (/[-$]P[A-Z]?$/.test(entry.ticker.toUpperCase())) return false;
+  return true;
 }
 
 function scoreIssuerSimilarity(left: string, right: string): number {

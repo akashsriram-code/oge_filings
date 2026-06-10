@@ -1,32 +1,32 @@
 {
-  "generatedAt": "2026-06-09T19:42:10.188Z",
+  "generatedAt": "2026-06-10T13:11:52.389Z",
   "sources": [
     {
       "name": "SEC company tickers/exchanges",
       "url": "https://www.sec.gov/files/company_tickers_exchange.json",
-      "fetchedAt": "2026-06-09T19:42:10.188Z",
-      "rowCount": 10400,
+      "fetchedAt": "2026-06-10T13:11:52.389Z",
+      "rowCount": 10385,
       "status": "ok"
     },
     {
       "name": "Nasdaq Trader listed symbols",
       "url": "https://www.nasdaqtrader.com/dynamic/SymDir/nasdaqlisted.txt",
-      "fetchedAt": "2026-06-09T19:42:10.188Z",
-      "rowCount": 5501,
+      "fetchedAt": "2026-06-10T13:11:52.389Z",
+      "rowCount": 5514,
       "status": "ok"
     },
     {
       "name": "Nasdaq Trader other-listed symbols",
       "url": "https://www.nasdaqtrader.com/dynamic/SymDir/otherlisted.txt",
-      "fetchedAt": "2026-06-09T19:42:10.188Z",
-      "rowCount": 7305,
+      "fetchedAt": "2026-06-10T13:11:52.389Z",
+      "rowCount": 7290,
       "status": "ok"
     },
     {
       "name": "SEC company submissions",
       "url": "https://data.sec.gov/submissions",
-      "fetchedAt": "2026-06-09T19:42:13.054Z",
-      "rowCount": 0,
+      "fetchedAt": "2026-06-10T13:12:01.584Z",
+      "rowCount": 24,
       "status": "ok"
     }
   ],
@@ -1978,24 +1978,6 @@
       "cleanedName": "ABOVE FOOD INGREDIENTS",
       "compactName": "ABOVEFOODINGREDIENTS",
       "exchange": "Nasdaq",
-      "cik": 1979484,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
-      ]
-    },
-    {
-      "ticker": "ABVEF",
-      "tickerKey": "ABVEF",
-      "issuerName": "Above Food Ingredients Inc.",
-      "normalizedName": "ABOVE FOOD INGREDIENTS INC",
-      "cleanedName": "ABOVE FOOD INGREDIENTS",
-      "compactName": "ABOVEFOODINGREDIENTS",
-      "exchange": "OTC",
       "cik": 1979484,
       "sic": null,
       "sicDescription": null,
@@ -5616,19 +5598,18 @@
     {
       "ticker": "AESPU",
       "tickerKey": "AESPU",
-      "issuerName": "Aeon Acquisition I Corp.",
-      "normalizedName": "AEON ACQUISITION I CORP",
-      "cleanedName": "AEON ACQUISITION",
-      "compactName": "AEONACQUISITION",
+      "issuerName": "Aeon Acquisition I Corp. - Units",
+      "normalizedName": "AEON ACQUISITION I CORP - UNITS",
+      "cleanedName": "AEON ACQUISITION I -",
+      "compactName": "AEONACQUISITIONI",
       "exchange": "Nasdaq",
-      "cik": 2082526,
+      "cik": null,
       "sic": null,
       "sicDescription": null,
       "sector": null,
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader listed"
       ]
     },
@@ -6488,10 +6469,10 @@
     {
       "ticker": "AGGI",
       "tickerKey": "AGGI",
-      "issuerName": "BILI Social International, Inc.",
-      "normalizedName": "BILI SOCIAL INTERNATIONAL INC",
-      "cleanedName": "BILI SOCIAL INTERNATIONAL",
-      "compactName": "BILISOCIALINTERNATIONAL",
+      "issuerName": "Allied Energy, Inc.",
+      "normalizedName": "ALLIED ENERGY INC",
+      "cleanedName": "ALLIED ENERGY",
+      "compactName": "ALLIEDENERGY",
       "exchange": "OTC",
       "cik": 1109262,
       "sic": null,
@@ -9063,38 +9044,36 @@
     {
       "ticker": "AIQD",
       "tickerKey": "AIQD",
-      "issuerName": "BANK OF MONTREAL /CAN/",
-      "normalizedName": "BANK OF MONTREAL /CAN/",
-      "cleanedName": "BANK OF MONTREAL /CAN/",
-      "compactName": "BANKOFMONTREALCAN",
-      "exchange": "NYSE",
-      "cik": 927971,
+      "issuerName": "MicroSectors -3? Short Artificial Intelligence (AI) ETNs",
+      "normalizedName": "MICROSECTORS -3? SHORT ARTIFICIAL INTELLIGENCE AI ETNS",
+      "cleanedName": "MICROSECTORS -3? SHORT ARTIFICIAL INTELLIGENCE AI ETNS",
+      "compactName": "MICROSECTORS3SHORTARTIFICIALINTELLIGENCEAIETNS",
+      "exchange": "NYSE Arca",
+      "cik": null,
       "sic": null,
       "sicDescription": null,
-      "sector": null,
+      "sector": "ETF / Funds",
       "isEtf": true,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader other-listed"
       ]
     },
     {
       "ticker": "AIQU",
       "tickerKey": "AIQU",
-      "issuerName": "BANK OF MONTREAL /CAN/",
-      "normalizedName": "BANK OF MONTREAL /CAN/",
-      "cleanedName": "BANK OF MONTREAL /CAN/",
-      "compactName": "BANKOFMONTREALCAN",
-      "exchange": "NYSE",
-      "cik": 927971,
+      "issuerName": "MicroSectors 3? Long Artificial Intelligence (AI) ETNs",
+      "normalizedName": "MICROSECTORS 3? LONG ARTIFICIAL INTELLIGENCE AI ETNS",
+      "cleanedName": "MICROSECTORS 3? LONG ARTIFICIAL INTELLIGENCE AI ETNS",
+      "compactName": "MICROSECTORS3LONGARTIFICIALINTELLIGENCEAIETNS",
+      "exchange": "NYSE Arca",
+      "cik": null,
       "sic": null,
       "sicDescription": null,
-      "sector": null,
+      "sector": "ETF / Funds",
       "isEtf": true,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader other-listed"
       ]
     },
@@ -12761,9 +12740,9 @@
       "compactName": "JPMORGANCHASEAND",
       "exchange": "NYSE",
       "cik": 19617,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": true,
       "isTestIssue": false,
       "sources": [
@@ -14880,9 +14859,9 @@
       "compactName": "SMITH",
       "exchange": "NYSE",
       "cik": 91142,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "3630",
+      "sicDescription": "Household Appliances",
+      "sector": "Consumer Staples",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -15651,19 +15630,18 @@
     {
       "ticker": "APMCU",
       "tickerKey": "APMCU",
-      "issuerName": "AmperCap Acquisition Co",
-      "normalizedName": "AMPERCAP ACQUISITION CO",
-      "cleanedName": "AMPERCAP ACQUISITION",
+      "issuerName": "AmperCap Acquisition Company - Unit",
+      "normalizedName": "AMPERCAP ACQUISITION COMPANY - UNIT",
+      "cleanedName": "AMPERCAP ACQUISITION -",
       "compactName": "AMPERCAPACQUISITION",
       "exchange": "Nasdaq",
-      "cik": 2101393,
+      "cik": null,
       "sic": null,
       "sicDescription": null,
       "sector": null,
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader listed"
       ]
     },
@@ -16152,7 +16130,7 @@
       "normalizedName": "APERTURE AC",
       "cleanedName": "APERTURE AC",
       "compactName": "APERTUREAC",
-      "exchange": null,
+      "exchange": "Nasdaq",
       "cik": 2093524,
       "sic": null,
       "sicDescription": null,
@@ -16160,7 +16138,26 @@
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json"
+        "SEC company_tickers_exchange.json",
+        "Nasdaq Trader listed"
+      ]
+    },
+    {
+      "ticker": "APURR",
+      "tickerKey": "APURR",
+      "issuerName": "Aperture AC - Rights",
+      "normalizedName": "APERTURE AC - RIGHTS",
+      "cleanedName": "APERTURE AC -",
+      "compactName": "APERTUREAC",
+      "exchange": "Nasdaq",
+      "cik": null,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "Nasdaq Trader listed"
       ]
     },
     {
@@ -16178,8 +16175,7 @@
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
-        "Nasdaq Trader listed"
+        "SEC company_tickers_exchange.json"
       ]
     },
     {
@@ -16335,10 +16331,10 @@
     {
       "ticker": "APYP",
       "tickerKey": "APYP",
-      "issuerName": "Techlott Inc.",
-      "normalizedName": "TECHLOTT INC",
-      "cleanedName": "TECHLOTT",
-      "compactName": "TECHLOTT",
+      "issuerName": "APPYEA, INC",
+      "normalizedName": "APPYEA INC",
+      "cleanedName": "APPYEA",
+      "compactName": "APPYEA",
       "exchange": "OTC",
       "cik": 1568969,
       "sic": null,
@@ -22566,9 +22562,9 @@
       "compactName": "AVIENT",
       "exchange": "NYSE",
       "cik": 1122976,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "2821",
+      "sicDescription": "Plastic Materials, Synth Resins & Nonvulcan Elastomers",
+      "sector": "Materials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -24136,7 +24132,7 @@
       "normalizedName": "AZUL SA",
       "cleanedName": "AZUL",
       "compactName": "AZUL",
-      "exchange": "NYSE",
+      "exchange": "NYSE American",
       "cik": 1432364,
       "sic": null,
       "sicDescription": null,
@@ -24249,9 +24245,9 @@
       "compactName": "BOEING",
       "exchange": "NYSE",
       "cik": 12927,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "3721",
+      "sicDescription": "Aircraft",
+      "sector": "Industrials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -24268,9 +24264,9 @@
       "compactName": "BOEING",
       "exchange": "NYSE",
       "cik": 12927,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "3721",
+      "sicDescription": "Aircraft",
+      "sector": "Industrials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -27311,9 +27307,9 @@
     {
       "ticker": "BCAL",
       "tickerKey": "BCAL",
-      "issuerName": "California BanCorp \\ CA",
-      "normalizedName": "CALIFORNIA BANCORP \\ CA",
-      "cleanedName": "CALIFORNIA BANCORP \\ CA",
+      "issuerName": "California BanCorp CA",
+      "normalizedName": "CALIFORNIA BANCORP CA",
+      "cleanedName": "CALIFORNIA BANCORP CA",
       "compactName": "CALIFORNIABANCORPCA",
       "exchange": "Nasdaq",
       "cik": 1795815,
@@ -27823,42 +27819,6 @@
       "isTestIssue": false,
       "sources": [
         "Nasdaq Trader other-listed"
-      ]
-    },
-    {
-      "ticker": "BCHMF",
-      "tickerKey": "BCHMF",
-      "issuerName": "Bachem Holding AG/ADR",
-      "normalizedName": "BACHEM HOLDING AG/ADR",
-      "cleanedName": "BACHEM AG/",
-      "compactName": "BACHEMAG",
-      "exchange": "OTC",
-      "cik": 1968378,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
-      ]
-    },
-    {
-      "ticker": "BCHMY",
-      "tickerKey": "BCHMY",
-      "issuerName": "Bachem Holding AG/ADR",
-      "normalizedName": "BACHEM HOLDING AG/ADR",
-      "cleanedName": "BACHEM AG/",
-      "compactName": "BACHEMAG",
-      "exchange": "OTC",
-      "cik": 1968378,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
       ]
     },
     {
@@ -28761,24 +28721,6 @@
       "sources": [
         "SEC company_tickers_exchange.json",
         "Nasdaq Trader other-listed"
-      ]
-    },
-    {
-      "ticker": "BDDD",
-      "tickerKey": "BDDD",
-      "issuerName": "Bridge III Acquisition Ltd",
-      "normalizedName": "BRIDGE III ACQUISITION LTD",
-      "cleanedName": "BRIDGE III ACQUISITION",
-      "compactName": "BRIDGEIIIACQUISITION",
-      "exchange": null,
-      "cik": 2133836,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
       ]
     },
     {
@@ -30277,6 +30219,24 @@
       "isTestIssue": false,
       "sources": [
         "Nasdaq Trader other-listed"
+      ]
+    },
+    {
+      "ticker": "BFGFD",
+      "tickerKey": "BFGFD",
+      "issuerName": "GIANT MINING CORP.",
+      "normalizedName": "GIANT MINING CORP",
+      "cleanedName": "GIANT MINING",
+      "compactName": "GIANTMINING",
+      "exchange": "OTC",
+      "cik": 1836503,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
       ]
     },
     {
@@ -34130,6 +34090,24 @@
       "sources": [
         "SEC company_tickers_exchange.json",
         "Nasdaq Trader listed"
+      ]
+    },
+    {
+      "ticker": "BKRRF",
+      "tickerKey": "BKRRF",
+      "issuerName": "BLACKROCK SILVER CORP.",
+      "normalizedName": "BLACKROCK SILVER CORP",
+      "cleanedName": "BLACKROCK SILVER",
+      "compactName": "BLACKROCKSILVER",
+      "exchange": "OTC",
+      "cik": 1699906,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
       ]
     },
     {
@@ -39849,6 +39827,24 @@
       ]
     },
     {
+      "ticker": "BSCA",
+      "tickerKey": "BSCA",
+      "issuerName": "Invesco BulletShares 2036 Corporate Bond ETF",
+      "normalizedName": "INVESCO BULLETSHARES 2036 CORPORATE BOND ETF",
+      "cleanedName": "INVESCO BULLETSHARES 2036 CORPORATE",
+      "compactName": "INVESCOBULLETSHARES2036CORPORATE",
+      "exchange": "Nasdaq",
+      "cik": null,
+      "sic": null,
+      "sicDescription": null,
+      "sector": "ETF / Funds",
+      "isEtf": true,
+      "isTestIssue": false,
+      "sources": [
+        "Nasdaq Trader listed"
+      ]
+    },
+    {
       "ticker": "BSCQ",
       "tickerKey": "BSCQ",
       "issuerName": "Invesco BulletShares 2026 Corporate Bond ETF",
@@ -40031,8 +40027,8 @@
     {
       "ticker": "BSEM",
       "tickerKey": "BSEM",
-      "issuerName": "BioStem Technologies, Inc.",
-      "normalizedName": "BIOSTEM TECHNOLOGIES INC",
+      "issuerName": "BIOSTEM TECHNOLOGIES",
+      "normalizedName": "BIOSTEM TECHNOLOGIES",
       "cleanedName": "BIOSTEM TECHNOLOGIES",
       "compactName": "BIOSTEMTECHNOLOGIES",
       "exchange": "OTC",
@@ -40099,6 +40095,42 @@
       "isTestIssue": false,
       "sources": [
         "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
+      "ticker": "BSGR",
+      "tickerKey": "BSGR",
+      "issuerName": "Invesco BulletShares 2027 Treasury Bond ETF",
+      "normalizedName": "INVESCO BULLETSHARES 2027 TREASURY BOND ETF",
+      "cleanedName": "INVESCO BULLETSHARES 2027 TREASURY",
+      "compactName": "INVESCOBULLETSHARES2027TREASURY",
+      "exchange": "Nasdaq",
+      "cik": null,
+      "sic": null,
+      "sicDescription": null,
+      "sector": "ETF / Funds",
+      "isEtf": true,
+      "isTestIssue": false,
+      "sources": [
+        "Nasdaq Trader listed"
+      ]
+    },
+    {
+      "ticker": "BSGT",
+      "tickerKey": "BSGT",
+      "issuerName": "Invesco BulletShares 2029 Treasury Bond ETF",
+      "normalizedName": "INVESCO BULLETSHARES 2029 TREASURY BOND ETF",
+      "cleanedName": "INVESCO BULLETSHARES 2029 TREASURY",
+      "compactName": "INVESCOBULLETSHARES2029TREASURY",
+      "exchange": "Nasdaq",
+      "cik": null,
+      "sic": null,
+      "sicDescription": null,
+      "sector": "ETF / Funds",
+      "isEtf": true,
+      "isTestIssue": false,
+      "sources": [
+        "Nasdaq Trader listed"
       ]
     },
     {
@@ -40252,6 +40284,24 @@
       "normalizedName": "INVESCO BULLETSHARES 2033 HIGH YIELD CORPORATE BOND ETF",
       "cleanedName": "INVESCO BULLETSHARES 2033 HIGH YIELD CORPORATE",
       "compactName": "INVESCOBULLETSHARES2033HIGHYIELDCORPORATE",
+      "exchange": "Nasdaq",
+      "cik": null,
+      "sic": null,
+      "sicDescription": null,
+      "sector": "ETF / Funds",
+      "isEtf": true,
+      "isTestIssue": false,
+      "sources": [
+        "Nasdaq Trader listed"
+      ]
+    },
+    {
+      "ticker": "BSJY",
+      "tickerKey": "BSJY",
+      "issuerName": "Invesco BulletShares 2034 High Yield Corporate Bond ETF",
+      "normalizedName": "INVESCO BULLETSHARES 2034 HIGH YIELD CORPORATE BOND ETF",
+      "cleanedName": "INVESCO BULLETSHARES 2034 HIGH YIELD CORPORATE",
+      "compactName": "INVESCOBULLETSHARES2034HIGHYIELDCORPORATE",
       "exchange": "Nasdaq",
       "cik": null,
       "sic": null,
@@ -40581,9 +40631,9 @@
       "compactName": "BLOCK",
       "exchange": "OTC",
       "cik": 1512673,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "7372",
+      "sicDescription": "Services-Prepackaged Software",
+      "sector": "Information Technology",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -40701,6 +40751,24 @@
       ]
     },
     {
+      "ticker": "BSTS",
+      "tickerKey": "BSTS",
+      "issuerName": "Invesco BulletShares 2028 Treasury Bond ETF",
+      "normalizedName": "INVESCO BULLETSHARES 2028 TREASURY BOND ETF",
+      "cleanedName": "INVESCO BULLETSHARES 2028 TREASURY",
+      "compactName": "INVESCOBULLETSHARES2028TREASURY",
+      "exchange": "Nasdaq",
+      "cik": null,
+      "sic": null,
+      "sicDescription": null,
+      "sector": "ETF / Funds",
+      "isEtf": true,
+      "isTestIssue": false,
+      "sources": [
+        "Nasdaq Trader listed"
+      ]
+    },
+    {
       "ticker": "BSTT",
       "tickerKey": "BSTT",
       "issuerName": "Blackstone Real Estate Income Trust, Inc.",
@@ -40716,6 +40784,42 @@
       "isTestIssue": false,
       "sources": [
         "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
+      "ticker": "BSTU",
+      "tickerKey": "BSTU",
+      "issuerName": "Invesco BulletShares 2030 Treasury Bond ETF",
+      "normalizedName": "INVESCO BULLETSHARES 2030 TREASURY BOND ETF",
+      "cleanedName": "INVESCO BULLETSHARES 2030 TREASURY",
+      "compactName": "INVESCOBULLETSHARES2030TREASURY",
+      "exchange": "Nasdaq",
+      "cik": null,
+      "sic": null,
+      "sicDescription": null,
+      "sector": "ETF / Funds",
+      "isEtf": true,
+      "isTestIssue": false,
+      "sources": [
+        "Nasdaq Trader listed"
+      ]
+    },
+    {
+      "ticker": "BSTV",
+      "tickerKey": "BSTV",
+      "issuerName": "Invesco BulletShares 2031 Treasury Bond ETF",
+      "normalizedName": "INVESCO BULLETSHARES 2031 TREASURY BOND ETF",
+      "cleanedName": "INVESCO BULLETSHARES 2031 TREASURY",
+      "compactName": "INVESCOBULLETSHARES2031TREASURY",
+      "exchange": "Nasdaq",
+      "cik": null,
+      "sic": null,
+      "sicDescription": null,
+      "sector": "ETF / Funds",
+      "isEtf": true,
+      "isTestIssue": false,
+      "sources": [
+        "Nasdaq Trader listed"
       ]
     },
     {
@@ -41000,19 +41104,18 @@
     {
       "ticker": "BTCK",
       "tickerKey": "BTCK",
-      "issuerName": "Teucrium Commodity Trust",
-      "normalizedName": "TEUCRIUM COMMODITY TRUST",
-      "cleanedName": "TEUCRIUM COMMODITY",
-      "compactName": "TEUCRIUMCOMMODITY",
-      "exchange": "NYSE",
-      "cik": 1471824,
+      "issuerName": "7RCC Spot Bitcoin and Carbon Credit Futures ETF",
+      "normalizedName": "7RCC SPOT BITCOIN AND CARBON CREDIT FUTURES ETF",
+      "cleanedName": "7RCC SPOT BITCOIN AND CARBON CREDIT FUTURES ETF",
+      "compactName": "7RCCSPOTBITCOINANDCARBONCREDITFUTURESETF",
+      "exchange": "NYSE Arca",
+      "cik": null,
       "sic": null,
       "sicDescription": null,
-      "sector": null,
+      "sector": "ETF / Funds",
       "isEtf": true,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader other-listed"
       ]
     },
@@ -41386,6 +41489,24 @@
       ]
     },
     {
+      "ticker": "BTM",
+      "tickerKey": "BTM",
+      "issuerName": "Bitcoin Depot Inc.",
+      "normalizedName": "BITCOIN DEPOT INC",
+      "cleanedName": "BITCOIN DEPOT",
+      "compactName": "BITCOINDEPOT",
+      "exchange": "Nasdaq",
+      "cik": 1901799,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
       "ticker": "BTMCQ",
       "tickerKey": "BTMCQ",
       "issuerName": "Bitcoin Depot Inc.",
@@ -41430,6 +41551,24 @@
       "cleanedName": "BITCOIN DEPOT",
       "compactName": "BITCOINDEPOT",
       "exchange": "OTC",
+      "cik": 1901799,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
+      "ticker": "BTMWW",
+      "tickerKey": "BTMWW",
+      "issuerName": "Bitcoin Depot Inc.",
+      "normalizedName": "BITCOIN DEPOT INC",
+      "cleanedName": "BITCOIN DEPOT",
+      "compactName": "BITCOINDEPOT",
+      "exchange": "Nasdaq",
       "cik": 1901799,
       "sic": null,
       "sicDescription": null,
@@ -43639,9 +43778,9 @@
     {
       "ticker": "BYFC",
       "tickerKey": "BYFC",
-      "issuerName": "BROADWAY FINANCIAL CORP DE",
-      "normalizedName": "BROADWAY FINANCIAL CORP DE",
-      "cleanedName": "BROADWAY FINANCIAL DE",
+      "issuerName": "BROADWAY FINANCIAL CORP \\DE\\",
+      "normalizedName": "BROADWAY FINANCIAL CORP \\DE\\",
+      "cleanedName": "BROADWAY FINANCIAL \\DE\\",
       "compactName": "BROADWAYFINANCIALDE",
       "exchange": "Nasdaq",
       "cik": 1001171,
@@ -44088,9 +44227,9 @@
       "compactName": "CITIGROUP",
       "exchange": "NYSE",
       "cik": 831001,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -44107,9 +44246,9 @@
       "compactName": "CITIGROUP",
       "exchange": "NYSE",
       "cik": 831001,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -44125,9 +44264,9 @@
       "compactName": "CITIGROUP",
       "exchange": "NYSE",
       "cik": 831001,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -48003,9 +48142,9 @@
       "compactName": "COMCAST",
       "exchange": "NYSE",
       "cik": 1166691,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4841",
+      "sicDescription": "Cable & Other Pay Television Services",
+      "sector": "Communication Services",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -54795,9 +54934,9 @@
       "compactName": "COMCAST",
       "exchange": "Nasdaq",
       "cik": 1166691,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4841",
+      "sicDescription": "Cable & Other Pay Television Services",
+      "sector": "Communication Services",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -57310,9 +57449,9 @@
       "compactName": "CAPITALONEFINANCIAL",
       "exchange": "NYSE",
       "cik": 927628,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -57329,9 +57468,9 @@
       "compactName": "CAPITALONEFINANCIAL",
       "exchange": "NYSE",
       "cik": 927628,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -57347,9 +57486,9 @@
       "compactName": "CAPITALONEFINANCIAL",
       "exchange": "NYSE",
       "cik": 927628,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -57365,9 +57504,9 @@
       "compactName": "CAPITALONEFINANCIAL",
       "exchange": "NYSE",
       "cik": 927628,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -57383,9 +57522,9 @@
       "compactName": "CAPITALONEFINANCIAL",
       "exchange": "NYSE",
       "cik": 927628,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -57401,9 +57540,9 @@
       "compactName": "CAPITALONEFINANCIAL",
       "exchange": "NYSE",
       "cik": 927628,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -57683,24 +57822,6 @@
       "isTestIssue": false,
       "sources": [
         "Nasdaq Trader listed"
-      ]
-    },
-    {
-      "ticker": "COII",
-      "tickerKey": "COII",
-      "issuerName": "REX COIN Growth & Income ETF",
-      "normalizedName": "REX COIN GROWTH AND INCOME ETF",
-      "cleanedName": "REX COIN GROWTH AND INCOME ETF",
-      "compactName": "REXCOINGROWTHANDINCOMEETF",
-      "exchange": "Cboe BZX",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": "ETF / Funds",
-      "isEtf": true,
-      "isTestIssue": false,
-      "sources": [
-        "Nasdaq Trader other-listed"
       ]
     },
     {
@@ -58800,9 +58921,9 @@
       "compactName": "COTY",
       "exchange": "NYSE",
       "cik": 1024305,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "2844",
+      "sicDescription": "Perfumes, Cosmetics & Other Toilet Preparations",
+      "sector": "Materials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -64337,24 +64458,6 @@
       ]
     },
     {
-      "ticker": "CUX",
-      "tickerKey": "CUX",
-      "issuerName": "CopperTech Metals Inc.",
-      "normalizedName": "COPPERTECH METALS INC",
-      "cleanedName": "COPPERTECH METALS",
-      "compactName": "COPPERTECHMETALS",
-      "exchange": null,
-      "cik": 2093018,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
-      ]
-    },
-    {
       "ticker": "CUZ",
       "tickerKey": "CUZ",
       "issuerName": "COUSINS PROPERTIES INC",
@@ -65264,24 +65367,6 @@
       ]
     },
     {
-      "ticker": "CWII",
-      "tickerKey": "CWII",
-      "issuerName": "REX CRWV Growth & Income ETF",
-      "normalizedName": "REX CRWV GROWTH AND INCOME ETF",
-      "cleanedName": "REX CRWV GROWTH AND INCOME ETF",
-      "compactName": "REXCRWVGROWTHANDINCOMEETF",
-      "exchange": "Cboe BZX",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": "ETF / Funds",
-      "isEtf": true,
-      "isTestIssue": false,
-      "sources": [
-        "Nasdaq Trader other-listed"
-      ]
-    },
-    {
       "ticker": "CWK",
       "tickerKey": "CWK",
       "issuerName": "Cushman & Wakefield Ltd.",
@@ -65309,6 +65394,24 @@
       "compactName": "C21INVESTMENTS",
       "exchange": "OTC",
       "cik": 831609,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
+      "ticker": "CWNOF",
+      "tickerKey": "CWNOF",
+      "issuerName": "CHINESEWORLDNET COM INC",
+      "normalizedName": "CHINESEWORLDNET COM INC",
+      "cleanedName": "CHINESEWORLDNET COM",
+      "compactName": "CHINESEWORLDNETCOM",
+      "exchange": null,
+      "cik": 1145898,
       "sic": null,
       "sicDescription": null,
       "sector": null,
@@ -67343,10 +67446,10 @@
     {
       "ticker": "DCBG",
       "tickerKey": "DCBG",
-      "issuerName": "Dime Commercial Bancshares, Inc. /NY/",
-      "normalizedName": "DIME COMMERCIAL BANCSHARES INC /NY/",
-      "cleanedName": "DIME COMMERCIAL BANCSHARES /NY/",
-      "compactName": "DIMECOMMERCIALBANCSHARESNY",
+      "issuerName": "Dime Community Bancshares, Inc. /NY/",
+      "normalizedName": "DIME COMMUNITY BANCSHARES INC /NY/",
+      "cleanedName": "DIME COMMUNITY BANCSHARES /NY/",
+      "compactName": "DIMECOMMUNITYBANCSHARESNY",
       "exchange": "NYSE",
       "cik": 846617,
       "sic": null,
@@ -67493,10 +67596,10 @@
     {
       "ticker": "DCOM",
       "tickerKey": "DCOM",
-      "issuerName": "Dime Commercial Bancshares, Inc. /NY/",
-      "normalizedName": "DIME COMMERCIAL BANCSHARES INC /NY/",
-      "cleanedName": "DIME COMMERCIAL BANCSHARES /NY/",
-      "compactName": "DIMECOMMERCIALBANCSHARESNY",
+      "issuerName": "Dime Community Bancshares, Inc. /NY/",
+      "normalizedName": "DIME COMMUNITY BANCSHARES INC /NY/",
+      "cleanedName": "DIME COMMUNITY BANCSHARES /NY/",
+      "compactName": "DIMECOMMUNITYBANCSHARESNY",
       "exchange": "NYSE",
       "cik": 846617,
       "sic": null,
@@ -67512,10 +67615,10 @@
     {
       "ticker": "DCOM-P",
       "tickerKey": "DCOMP",
-      "issuerName": "Dime Commercial Bancshares, Inc. /NY/",
-      "normalizedName": "DIME COMMERCIAL BANCSHARES INC /NY/",
-      "cleanedName": "DIME COMMERCIAL BANCSHARES /NY/",
-      "compactName": "DIMECOMMERCIALBANCSHARESNY",
+      "issuerName": "Dime Community Bancshares, Inc. /NY/",
+      "normalizedName": "DIME COMMUNITY BANCSHARES INC /NY/",
+      "cleanedName": "DIME COMMUNITY BANCSHARES /NY/",
+      "compactName": "DIMECOMMUNITYBANCSHARESNY",
       "exchange": "NYSE",
       "cik": 846617,
       "sic": null,
@@ -79125,24 +79228,6 @@
       ]
     },
     {
-      "ticker": "EDRVF",
-      "tickerKey": "EDRVF",
-      "issuerName": "EDP Renewables S.A./ADR",
-      "normalizedName": "EDP RENEWABLES S A /ADR",
-      "cleanedName": "EDP RENEWABLES S A /",
-      "compactName": "EDPRENEWABLESSA",
-      "exchange": "OTC",
-      "cik": 1516534,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
-      ]
-    },
-    {
       "ticker": "EDRY",
       "tickerKey": "EDRY",
       "issuerName": "EuroDry Ltd.",
@@ -83734,7 +83819,7 @@
       "normalizedName": "EINRIDE AB",
       "cleanedName": "EINRIDE",
       "compactName": "EINRIDE",
-      "exchange": null,
+      "exchange": "Nasdaq",
       "cik": 2095096,
       "sic": null,
       "sicDescription": null,
@@ -83742,7 +83827,26 @@
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json"
+        "SEC company_tickers_exchange.json",
+        "Nasdaq Trader listed"
+      ]
+    },
+    {
+      "ticker": "ENRDW",
+      "tickerKey": "ENRDW",
+      "issuerName": "Einride AB - Warrants",
+      "normalizedName": "EINRIDE AB - WARRANTS",
+      "cleanedName": "EINRIDE -",
+      "compactName": "EINRIDE",
+      "exchange": "Nasdaq",
+      "cik": null,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "Nasdaq Trader listed"
       ]
     },
     {
@@ -85582,7 +85686,7 @@
       "normalizedName": "EROCK INC",
       "cleanedName": "EROCK",
       "compactName": "EROCK",
-      "exchange": null,
+      "exchange": "NYSE",
       "cik": 2110029,
       "sic": null,
       "sicDescription": null,
@@ -85590,7 +85694,8 @@
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json"
+        "SEC company_tickers_exchange.json",
+        "Nasdaq Trader other-listed"
       ]
     },
     {
@@ -86392,7 +86497,7 @@
       "normalizedName": "ECO SCIENCE SOLUTIONS INC",
       "cleanedName": "ECO SCIENCE SOLUTIONS",
       "compactName": "ECOSCIENCESOLUTIONS",
-      "exchange": "OTC",
+      "exchange": null,
       "cik": 1490873,
       "sic": null,
       "sicDescription": null,
@@ -87074,24 +87179,6 @@
     {
       "ticker": "ETSS-UN",
       "tickerKey": "ETSSUN",
-      "issuerName": "Energy Transition Special Opportunities",
-      "normalizedName": "ENERGY TRANSITION SPECIAL OPPORTUNITIES",
-      "cleanedName": "ENERGY TRANSITION SPECIAL OPPORTUNITIES",
-      "compactName": "ENERGYTRANSITIONSPECIALOPPORTUNITIES",
-      "exchange": "NYSE",
-      "cik": 2085932,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
-      ]
-    },
-    {
-      "ticker": "ETSS-WT",
-      "tickerKey": "ETSSWT",
       "issuerName": "Energy Transition Special Opportunities",
       "normalizedName": "ENERGY TRANSITION SPECIAL OPPORTUNITIES",
       "cleanedName": "ENERGY TRANSITION SPECIAL OPPORTUNITIES",
@@ -92080,6 +92167,24 @@
       ]
     },
     {
+      "ticker": "FCRX",
+      "tickerKey": "FCRX",
+      "issuerName": "Crescent Capital BDC, Inc.",
+      "normalizedName": "CRESCENT CAPITAL BDC INC",
+      "cleanedName": "CRESCENT CAPITAL BDC",
+      "compactName": "CRESCENTCAPITALBDC",
+      "exchange": "NYSE",
+      "cik": 1633336,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
       "ticker": "FCSH",
       "tickerKey": "FCSH",
       "issuerName": "Federated Hermes Short Duration Corporate ETF",
@@ -92972,6 +93077,24 @@
       ]
     },
     {
+      "ticker": "FDX-WI",
+      "tickerKey": "FDXWI",
+      "issuerName": "FEDEX CORP",
+      "normalizedName": "FEDEX CORP",
+      "cleanedName": "FEDEX",
+      "compactName": "FEDEX",
+      "exchange": "NYSE",
+      "cik": 1048911,
+      "sic": "4513",
+      "sicDescription": "Air Courier Services",
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
       "ticker": "FDXF",
       "tickerKey": "FDXF",
       "issuerName": "FedEx Freight Holding Company, Inc.",
@@ -92988,6 +93111,24 @@
       "sources": [
         "SEC company_tickers_exchange.json",
         "Nasdaq Trader other-listed"
+      ]
+    },
+    {
+      "ticker": "FDXF-WI",
+      "tickerKey": "FDXFWI",
+      "issuerName": "FedEx Freight Holding Company, Inc.",
+      "normalizedName": "FEDEX FREIGHT HOLDING COMPANY INC",
+      "cleanedName": "FEDEX FREIGHT",
+      "compactName": "FEDEXFREIGHT",
+      "exchange": "NYSE",
+      "cik": 2082247,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
       ]
     },
     {
@@ -95113,9 +95254,9 @@
       "compactName": "FIRSTHORIZON",
       "exchange": "NYSE",
       "cik": 36966,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -95132,9 +95273,9 @@
       "compactName": "FIRSTHORIZON",
       "exchange": "NYSE",
       "cik": 36966,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -95150,9 +95291,9 @@
       "compactName": "FIRSTHORIZON",
       "exchange": "NYSE",
       "cik": 36966,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -95168,9 +95309,9 @@
       "compactName": "FIRSTHORIZON",
       "exchange": "NYSE",
       "cik": 36966,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -95960,9 +96101,9 @@
       "compactName": "FIFTHTHIRDBANCORP",
       "exchange": "Nasdaq",
       "cik": 35527,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6022",
+      "sicDescription": "State Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -95979,9 +96120,9 @@
       "compactName": "FIFTHTHIRDBANCORP",
       "exchange": "Nasdaq",
       "cik": 35527,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6022",
+      "sicDescription": "State Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -95998,9 +96139,9 @@
       "compactName": "FIFTHTHIRDBANCORP",
       "exchange": "Nasdaq",
       "cik": 35527,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6022",
+      "sicDescription": "State Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -96017,9 +96158,9 @@
       "compactName": "FIFTHTHIRDBANCORP",
       "exchange": "Nasdaq",
       "cik": 35527,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6022",
+      "sicDescription": "State Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -96036,9 +96177,9 @@
       "compactName": "FIFTHTHIRDBANCORP",
       "exchange": "Nasdaq",
       "cik": 35527,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6022",
+      "sicDescription": "State Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -99217,9 +99358,9 @@
       "compactName": "ORANGE",
       "exchange": "OTC",
       "cik": 1038143,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4813",
+      "sicDescription": "Telephone Communications (No Radiotelephone)",
+      "sector": "Communication Services",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -100054,19 +100195,18 @@
     {
       "ticker": "FOCL",
       "tickerKey": "FOCL",
-      "issuerName": "EDAP TMS SA",
-      "normalizedName": "EDAP TMS SA",
-      "cleanedName": "EDAP TMS",
-      "compactName": "EDAPTMS",
+      "issuerName": "EDAP TMS S.A. - American Depositary Shares, each representing One Ordinary Share",
+      "normalizedName": "EDAP TMS S A - AMERICAN DEPOSITARY SHARES EACH REPRESENTING ONE ORDINARY SHARE",
+      "cleanedName": "EDAP TMS S A - AMERICAN DEPOSITARY EACH REPRESENTING ONE ORDINARY SHARE",
+      "compactName": "EDAPTMSSAAMERICANDEPOSITARYEACHREPRESENTINGONEORDINARYSHARE",
       "exchange": "Nasdaq",
-      "cik": 1041934,
+      "cik": null,
       "sic": null,
       "sicDescription": null,
       "sector": null,
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader listed"
       ]
     },
@@ -103383,24 +103523,6 @@
       ]
     },
     {
-      "ticker": "FTRA-UN",
-      "tickerKey": "FTRAUN",
-      "issuerName": "FutureCorp Space Acquisition 1",
-      "normalizedName": "FUTURECORP SPACE ACQUISITION 1",
-      "cleanedName": "FUTURECORP SPACE ACQUISITION 1",
-      "compactName": "FUTURECORPSPACEACQUISITION1",
-      "exchange": "NYSE",
-      "cik": 2131853,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
-      ]
-    },
-    {
       "ticker": "FTRA.U",
       "tickerKey": "FTRAU",
       "issuerName": "FutureCorp Space Acquisition 1 Units, each consisting of one Class A ordinary share and one-half of one redeemable warrant",
@@ -105535,9 +105657,9 @@
     {
       "ticker": "GAIN",
       "tickerKey": "GAIN",
-      "issuerName": "GLADSTONE INVESTMENT CORPORATION\\DE",
-      "normalizedName": "GLADSTONE INVESTMENT CORPORATION\\DE",
-      "cleanedName": "GLADSTONE INVESTMENT CORPORATION\\DE",
+      "issuerName": "GLADSTONE INVESTMENT CORPORATIONDE",
+      "normalizedName": "GLADSTONE INVESTMENT CORPORATIONDE",
+      "cleanedName": "GLADSTONE INVESTMENT CORPORATIONDE",
       "compactName": "GLADSTONEINVESTMENTCORPORATIONDE",
       "exchange": "Nasdaq",
       "cik": 1321741,
@@ -105554,9 +105676,9 @@
     {
       "ticker": "GAING",
       "tickerKey": "GAING",
-      "issuerName": "GLADSTONE INVESTMENT CORPORATION\\DE",
-      "normalizedName": "GLADSTONE INVESTMENT CORPORATION\\DE",
-      "cleanedName": "GLADSTONE INVESTMENT CORPORATION\\DE",
+      "issuerName": "GLADSTONE INVESTMENT CORPORATIONDE",
+      "normalizedName": "GLADSTONE INVESTMENT CORPORATIONDE",
+      "cleanedName": "GLADSTONE INVESTMENT CORPORATIONDE",
       "compactName": "GLADSTONEINVESTMENTCORPORATIONDE",
       "exchange": "Nasdaq",
       "cik": 1321741,
@@ -105573,9 +105695,9 @@
     {
       "ticker": "GAINI",
       "tickerKey": "GAINI",
-      "issuerName": "GLADSTONE INVESTMENT CORPORATION\\DE",
-      "normalizedName": "GLADSTONE INVESTMENT CORPORATION\\DE",
-      "cleanedName": "GLADSTONE INVESTMENT CORPORATION\\DE",
+      "issuerName": "GLADSTONE INVESTMENT CORPORATIONDE",
+      "normalizedName": "GLADSTONE INVESTMENT CORPORATIONDE",
+      "cleanedName": "GLADSTONE INVESTMENT CORPORATIONDE",
       "compactName": "GLADSTONEINVESTMENTCORPORATIONDE",
       "exchange": "Nasdaq",
       "cik": 1321741,
@@ -105592,9 +105714,9 @@
     {
       "ticker": "GAINZ",
       "tickerKey": "GAINZ",
-      "issuerName": "GLADSTONE INVESTMENT CORPORATION\\DE",
-      "normalizedName": "GLADSTONE INVESTMENT CORPORATION\\DE",
-      "cleanedName": "GLADSTONE INVESTMENT CORPORATION\\DE",
+      "issuerName": "GLADSTONE INVESTMENT CORPORATIONDE",
+      "normalizedName": "GLADSTONE INVESTMENT CORPORATIONDE",
+      "cleanedName": "GLADSTONE INVESTMENT CORPORATIONDE",
       "compactName": "GLADSTONEINVESTMENTCORPORATIONDE",
       "exchange": "Nasdaq",
       "cik": 1321741,
@@ -106124,42 +106246,6 @@
       "sources": [
         "SEC company_tickers_exchange.json",
         "Nasdaq Trader other-listed"
-      ]
-    },
-    {
-      "ticker": "GBCMF",
-      "tickerKey": "GBCMF",
-      "issuerName": "Global Bio-chem Technology Group Co. Ltd / ADR",
-      "normalizedName": "GLOBAL BIO-CHEM TECHNOLOGY GROUP CO LTD / ADR",
-      "cleanedName": "GLOBAL BIO-CHEM TECHNOLOGY /",
-      "compactName": "GLOBALBIOCHEMTECHNOLOGY",
-      "exchange": "OTC",
-      "cik": 1454475,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
-      ]
-    },
-    {
-      "ticker": "GBCMY",
-      "tickerKey": "GBCMY",
-      "issuerName": "Global Bio-chem Technology Group Co. Ltd / ADR",
-      "normalizedName": "GLOBAL BIO-CHEM TECHNOLOGY GROUP CO LTD / ADR",
-      "cleanedName": "GLOBAL BIO-CHEM TECHNOLOGY /",
-      "compactName": "GLOBALBIOCHEMTECHNOLOGY",
-      "exchange": "OTC",
-      "cik": 1454475,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
       ]
     },
     {
@@ -109668,24 +109754,6 @@
       ]
     },
     {
-      "ticker": "GHXI",
-      "tickerKey": "GHXI",
-      "issuerName": "Gores Holdings XI, Inc.",
-      "normalizedName": "GORES HOLDINGS XI INC",
-      "cleanedName": "GORES XI",
-      "compactName": "GORESXI",
-      "exchange": null,
-      "cik": 2086438,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
-      ]
-    },
-    {
       "ticker": "GHY",
       "tickerKey": "GHY",
       "issuerName": "PGIM Global High Yield Fund, Inc.",
@@ -109853,24 +109921,6 @@
       ]
     },
     {
-      "ticker": "GIF",
-      "tickerKey": "GIF",
-      "issuerName": "REX Growth & Income Universe ETF",
-      "normalizedName": "REX GROWTH AND INCOME UNIVERSE ETF",
-      "cleanedName": "REX GROWTH AND INCOME UNIVERSE ETF",
-      "compactName": "REXGROWTHANDINCOMEUNIVERSEETF",
-      "exchange": "Cboe BZX",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": "ETF / Funds",
-      "isEtf": true,
-      "isTestIssue": false,
-      "sources": [
-        "Nasdaq Trader other-listed"
-      ]
-    },
-    {
       "ticker": "GIFLF",
       "tickerKey": "GIFLF",
       "issuerName": "Grifols SA",
@@ -109926,6 +109976,24 @@
       ]
     },
     {
+      "ticker": "GIG",
+      "tickerKey": "GIG",
+      "issuerName": "Hadron Energy, Inc.",
+      "normalizedName": "HADRON ENERGY INC",
+      "cleanedName": "HADRON ENERGY",
+      "compactName": "HADRONENERGY",
+      "exchange": "Nasdaq",
+      "cik": 2023730,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
       "ticker": "GIGB",
       "tickerKey": "GIGB",
       "issuerName": "Goldman Sachs Access Investment Grade Corporate Bond ETF",
@@ -109952,6 +110020,42 @@
       "compactName": "GIGAMETALS",
       "exchange": "OTC",
       "cik": 1336364,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
+      "ticker": "GIGGU",
+      "tickerKey": "GIGGU",
+      "issuerName": "Hadron Energy, Inc.",
+      "normalizedName": "HADRON ENERGY INC",
+      "cleanedName": "HADRON ENERGY",
+      "compactName": "HADRONENERGY",
+      "exchange": "Nasdaq",
+      "cik": 2023730,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
+      "ticker": "GIGGW",
+      "tickerKey": "GIGGW",
+      "issuerName": "Hadron Energy, Inc.",
+      "normalizedName": "HADRON ENERGY INC",
+      "cleanedName": "HADRON ENERGY",
+      "compactName": "HADRONENERGY",
+      "exchange": "Nasdaq",
+      "cik": 2023730,
       "sic": null,
       "sicDescription": null,
       "sector": null,
@@ -111184,10 +111288,10 @@
     {
       "ticker": "GLIBA",
       "tickerKey": "GLIBA",
-      "issuerName": "Liberty Capital Corp/NV",
-      "normalizedName": "LIBERTY CAPITAL CORP/NV",
-      "cleanedName": "LIBERTY CAPITAL CORP/NV",
-      "compactName": "LIBERTYCAPITALCORPNV",
+      "issuerName": "GCI Liberty, Inc.",
+      "normalizedName": "GCI LIBERTY INC",
+      "cleanedName": "GCI LIBERTY",
+      "compactName": "GCILIBERTY",
       "exchange": "Nasdaq",
       "cik": 2057463,
       "sic": null,
@@ -111203,10 +111307,10 @@
     {
       "ticker": "GLIBB",
       "tickerKey": "GLIBB",
-      "issuerName": "Liberty Capital Corp/NV",
-      "normalizedName": "LIBERTY CAPITAL CORP/NV",
-      "cleanedName": "LIBERTY CAPITAL CORP/NV",
-      "compactName": "LIBERTYCAPITALCORPNV",
+      "issuerName": "GCI Liberty, Inc.",
+      "normalizedName": "GCI LIBERTY INC",
+      "cleanedName": "GCI LIBERTY",
+      "compactName": "GCILIBERTY",
       "exchange": "OTC",
       "cik": 2057463,
       "sic": null,
@@ -111221,10 +111325,10 @@
     {
       "ticker": "GLIBK",
       "tickerKey": "GLIBK",
-      "issuerName": "Liberty Capital Corp/NV",
-      "normalizedName": "LIBERTY CAPITAL CORP/NV",
-      "cleanedName": "LIBERTY CAPITAL CORP/NV",
-      "compactName": "LIBERTYCAPITALCORPNV",
+      "issuerName": "GCI Liberty, Inc.",
+      "normalizedName": "GCI LIBERTY INC",
+      "cleanedName": "GCI LIBERTY",
+      "compactName": "GCILIBERTY",
       "exchange": "Nasdaq",
       "cik": 2057463,
       "sic": null,
@@ -113622,9 +113726,9 @@
       "compactName": "ALPHABET",
       "exchange": "Nasdaq",
       "cik": 1652044,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "7370",
+      "sicDescription": "Services-Computer Programming, Data Processing, Etc.",
+      "sector": "Information Technology",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -113641,9 +113745,9 @@
       "compactName": "ALPHABET",
       "exchange": "Nasdaq",
       "cik": 1652044,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "7370",
+      "sicDescription": "Services-Computer Programming, Data Processing, Etc.",
+      "sector": "Information Technology",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -116130,9 +116234,9 @@
       "compactName": "GOLDMANSACHS",
       "exchange": "NYSE",
       "cik": 886982,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -116149,9 +116253,9 @@
       "compactName": "GOLDMANSACHS",
       "exchange": "NYSE",
       "cik": 886982,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -116167,9 +116271,9 @@
       "compactName": "GOLDMANSACHS",
       "exchange": "NYSE",
       "cik": 886982,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -116185,9 +116289,9 @@
       "compactName": "GOLDMANSACHS",
       "exchange": "NYSE",
       "cik": 886982,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -116350,9 +116454,9 @@
       "compactName": "GOLDMANSACHS",
       "exchange": "OTC",
       "cik": 886982,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -117585,7 +117689,7 @@
       "normalizedName": "GLOBAL TECHNOLOGIES LTD",
       "cleanedName": "GLOBAL TECHNOLOGIES",
       "compactName": "GLOBALTECHNOLOGIES",
-      "exchange": null,
+      "exchange": "OTC",
       "cik": 932021,
       "sic": null,
       "sicDescription": null,
@@ -123721,24 +123825,6 @@
       ]
     },
     {
-      "ticker": "HOII",
-      "tickerKey": "HOII",
-      "issuerName": "REX HOOD Growth & Income ETF",
-      "normalizedName": "REX HOOD GROWTH AND INCOME ETF",
-      "cleanedName": "REX HOOD GROWTH AND INCOME ETF",
-      "compactName": "REXHOODGROWTHANDINCOMEETF",
-      "exchange": "Cboe BZX",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": "ETF / Funds",
-      "isEtf": true,
-      "isTestIssue": false,
-      "sources": [
-        "Nasdaq Trader other-listed"
-      ]
-    },
-    {
       "ticker": "HOLA",
       "tickerKey": "HOLA",
       "issuerName": "JPMorgan International Hedged Equity Laddered Overlay ETF",
@@ -127661,6 +127747,24 @@
       "sic": null,
       "sicDescription": null,
       "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
+      "ticker": "IAC",
+      "tickerKey": "IAC",
+      "issuerName": "IAC Inc.",
+      "normalizedName": "IAC INC",
+      "cleanedName": "IAC",
+      "compactName": "IAC",
+      "exchange": "Nasdaq",
+      "cik": 1800227,
+      "sic": "7370",
+      "sicDescription": "Services-Computer Programming, Data Processing, Etc.",
+      "sector": "Information Technology",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -133159,6 +133263,24 @@
       ]
     },
     {
+      "ticker": "ILPLF",
+      "tickerKey": "ILPLF",
+      "issuerName": "Island Pharmaceuticals Ltd",
+      "normalizedName": "ISLAND PHARMACEUTICALS LTD",
+      "cleanedName": "ISLAND PHARMACEUTICALS",
+      "compactName": "ISLANDPHARMACEUTICALS",
+      "exchange": "OTC",
+      "cik": 2012855,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
       "ticker": "ILPT",
       "tickerKey": "ILPT",
       "issuerName": "Industrial Logistics Properties Trust",
@@ -134938,8 +135060,8 @@
     {
       "ticker": "INIO",
       "tickerKey": "INIO",
-      "issuerName": "INNIO Group Holding B.V.",
-      "normalizedName": "INNIO GROUP HOLDING B V",
+      "issuerName": "INNIO Holding GmbH",
+      "normalizedName": "INNIO HOLDING GMBH",
       "cleanedName": "INNIO",
       "compactName": "INNIO",
       "exchange": "Nasdaq",
@@ -136718,24 +136840,6 @@
       ]
     },
     {
-      "ticker": "IPGLF",
-      "tickerKey": "IPGLF",
-      "issuerName": "INTERPUMP GROUP SPA /FI",
-      "normalizedName": "INTERPUMP GROUP SPA /FI",
-      "cleanedName": "INTERPUMP SPA /FI",
-      "compactName": "INTERPUMPSPAFI",
-      "exchange": "OTC",
-      "cik": 1029974,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
-      ]
-    },
-    {
       "ticker": "IPGP",
       "tickerKey": "IPGP",
       "issuerName": "IPG PHOTONICS CORP",
@@ -137048,8 +137152,8 @@
       ]
     },
     {
-      "ticker": "IPVV",
-      "tickerKey": "IPVV",
+      "ticker": "IPV",
+      "tickerKey": "IPV",
       "issuerName": "InterPrivate Investment Partners V, Inc.",
       "normalizedName": "INTERPRIVATE INVESTMENT PARTNERS V INC",
       "cleanedName": "INTERPRIVATE INVESTMENT PARTNERS",
@@ -137068,19 +137172,18 @@
     {
       "ticker": "IPVVU",
       "tickerKey": "IPVVU",
-      "issuerName": "InterPrivate Investment Partners V, Inc.",
-      "normalizedName": "INTERPRIVATE INVESTMENT PARTNERS V INC",
-      "cleanedName": "INTERPRIVATE INVESTMENT PARTNERS",
-      "compactName": "INTERPRIVATEINVESTMENTPARTNERS",
+      "issuerName": "InterPrivate Investment Partners V, Inc. - Units",
+      "normalizedName": "INTERPRIVATE INVESTMENT PARTNERS V INC - UNITS",
+      "cleanedName": "INTERPRIVATE INVESTMENT PARTNERS V -",
+      "compactName": "INTERPRIVATEINVESTMENTPARTNERSV",
       "exchange": "Nasdaq",
-      "cik": 2105274,
+      "cik": null,
       "sic": null,
       "sicDescription": null,
       "sector": null,
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader listed"
       ]
     },
@@ -141088,6 +141191,24 @@
       ]
     },
     {
+      "ticker": "JABRU",
+      "tickerKey": "JABRU",
+      "issuerName": "JAB Acquisition Corp I - Units",
+      "normalizedName": "JAB ACQUISITION CORP I - UNITS",
+      "cleanedName": "JAB ACQUISITION I -",
+      "compactName": "JABACQUISITIONI",
+      "exchange": "Nasdaq",
+      "cik": null,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "Nasdaq Trader listed"
+      ]
+    },
+    {
       "ticker": "JABS",
       "tickerKey": "JABS",
       "issuerName": "Janus Henderson Asset-Backed Securities ETF",
@@ -144436,9 +144557,9 @@
       "compactName": "JPMORGANCHASEAND",
       "exchange": "NYSE",
       "cik": 19617,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -144455,9 +144576,9 @@
       "compactName": "JPMORGANCHASEAND",
       "exchange": "NYSE",
       "cik": 19617,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -144473,9 +144594,9 @@
       "compactName": "JPMORGANCHASEAND",
       "exchange": "NYSE",
       "cik": 19617,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -144491,9 +144612,9 @@
       "compactName": "JPMORGANCHASEAND",
       "exchange": "NYSE",
       "cik": 19617,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -144509,9 +144630,9 @@
       "compactName": "JPMORGANCHASEAND",
       "exchange": "NYSE",
       "cik": 19617,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -144527,9 +144648,9 @@
       "compactName": "JPMORGANCHASEAND",
       "exchange": "NYSE",
       "cik": 19617,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -144545,9 +144666,9 @@
       "compactName": "JPMORGANCHASEAND",
       "exchange": "NYSE",
       "cik": 19617,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -147739,19 +147860,18 @@
     {
       "ticker": "KEYYU",
       "tickerKey": "KEYYU",
-      "issuerName": "Keystone Acquisition Corp.",
-      "normalizedName": "KEYSTONE ACQUISITION CORP",
-      "cleanedName": "KEYSTONE ACQUISITION",
+      "issuerName": "Keystone Acquisition Corp. - Unit",
+      "normalizedName": "KEYSTONE ACQUISITION CORP - UNIT",
+      "cleanedName": "KEYSTONE ACQUISITION -",
       "compactName": "KEYSTONEACQUISITION",
       "exchange": "Nasdaq",
-      "cik": 2102771,
+      "cik": null,
       "sic": null,
       "sicDescription": null,
       "sector": null,
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader listed"
       ]
     },
@@ -148149,10 +148269,10 @@
     {
       "ticker": "KIDZ",
       "tickerKey": "KIDZ",
-      "issuerName": "KIDZ AI Inc.",
-      "normalizedName": "KIDZ AI INC",
-      "cleanedName": "KIDZ AI",
-      "compactName": "KIDZAI",
+      "issuerName": "Classover Holdings, Inc.",
+      "normalizedName": "CLASSOVER HOLDINGS INC",
+      "cleanedName": "CLASSOVER",
+      "compactName": "CLASSOVER",
       "exchange": "Nasdaq",
       "cik": 2022308,
       "sic": null,
@@ -148168,10 +148288,10 @@
     {
       "ticker": "KIDZW",
       "tickerKey": "KIDZW",
-      "issuerName": "KIDZ AI Inc.",
-      "normalizedName": "KIDZ AI INC",
-      "cleanedName": "KIDZ AI",
-      "compactName": "KIDZAI",
+      "issuerName": "Classover Holdings, Inc.",
+      "normalizedName": "CLASSOVER HOLDINGS INC",
+      "cleanedName": "CLASSOVER",
+      "compactName": "CLASSOVER",
       "exchange": "Nasdaq",
       "cik": 2022308,
       "sic": null,
@@ -153430,7 +153550,7 @@
       "normalizedName": "LEAFBUYER TECHNOLOGIES INC",
       "cleanedName": "LEAFBUYER TECHNOLOGIES",
       "compactName": "LEAFBUYERTECHNOLOGIES",
-      "exchange": null,
+      "exchange": "OTC",
       "cik": 1643721,
       "sic": null,
       "sicDescription": null,
@@ -154542,8 +154662,7 @@
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
-        "Nasdaq Trader other-listed"
+        "SEC company_tickers_exchange.json"
       ]
     },
     {
@@ -154580,42 +154699,6 @@
       "isTestIssue": false,
       "sources": [
         "SEC company_tickers_exchange.json"
-      ]
-    },
-    {
-      "ticker": "LEGT.U",
-      "tickerKey": "LEGTU",
-      "issuerName": "Legato Merger Corp. III Units, each consisting of one Ordinary Share and one-half of one warrant",
-      "normalizedName": "LEGATO MERGER CORP III UNITS EACH CONSISTING OF ONE ORDINARY SHARE AND ONE-HALF OF ONE WARRANT",
-      "cleanedName": "LEGATO MERGER III EACH CONSISTING OF ONE ORDINARY SHARE AND ONE-HALF OF ONE",
-      "compactName": "LEGATOMERGERIIIEACHCONSISTINGOFONEORDINARYSHAREANDONEHALFOFONE",
-      "exchange": "NYSE American",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "Nasdaq Trader other-listed"
-      ]
-    },
-    {
-      "ticker": "LEGT.W",
-      "tickerKey": "LEGTW",
-      "issuerName": "Legato Merger Corp. III Redeemable Warrants, each whole warrant exercisable for one ordinary share at an exercise price of $11.50 per share",
-      "normalizedName": "LEGATO MERGER CORP III REDEEMABLE WARRANTS EACH WHOLE WARRANT EXERCISABLE FOR ONE ORDINARY SHARE AT AN EXERCISE PRICE OF $11 50 PER SHARE",
-      "cleanedName": "LEGATO MERGER III REDEEMABLE EACH WHOLE EXERCISABLE FOR ONE ORDINARY SHARE AT AN EXERCISE PRICE OF $11 50 PER SHARE",
-      "compactName": "LEGATOMERGERIIIREDEEMABLEEACHWHOLEEXERCISABLEFORONEORDINARYSHAREATANEXERCISEPRICEOF1150PERSHARE",
-      "exchange": "NYSE American",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "Nasdaq Trader other-listed"
       ]
     },
     {
@@ -155398,6 +155481,24 @@
       ]
     },
     {
+      "ticker": "LGDTF",
+      "tickerKey": "LGDTF",
+      "issuerName": "Liberty Gold Corp. /CAN",
+      "normalizedName": "LIBERTY GOLD CORP /CAN",
+      "cleanedName": "LIBERTY GOLD /CAN",
+      "compactName": "LIBERTYGOLDCAN",
+      "exchange": "OTC",
+      "cik": 1755191,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
       "ticker": "LGDX",
       "tickerKey": "LGDX",
       "issuerName": "Intech S&P Large Cap Diversified Alpha ETF",
@@ -155525,24 +155626,6 @@
       "sources": [
         "SEC company_tickers_exchange.json",
         "Nasdaq Trader other-listed"
-      ]
-    },
-    {
-      "ticker": "LGL-RW",
-      "tickerKey": "LGLRW",
-      "issuerName": "LGL GROUP INC",
-      "normalizedName": "LGL GROUP INC",
-      "cleanedName": "LGL",
-      "compactName": "LGL",
-      "exchange": "NYSE",
-      "cik": 61004,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
       ]
     },
     {
@@ -157173,24 +157256,6 @@
       ]
     },
     {
-      "ticker": "LLII",
-      "tickerKey": "LLII",
-      "issuerName": "REX LLY Growth & Income ETF",
-      "normalizedName": "REX LLY GROWTH AND INCOME ETF",
-      "cleanedName": "REX LLY GROWTH AND INCOME ETF",
-      "compactName": "REXLLYGROWTHANDINCOMEETF",
-      "exchange": "Cboe BZX",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": "ETF / Funds",
-      "isEtf": true,
-      "isTestIssue": false,
-      "sources": [
-        "Nasdaq Trader other-listed"
-      ]
-    },
-    {
       "ticker": "LLOBF",
       "tickerKey": "LLOBF",
       "issuerName": "Lloyds Banking Group plc",
@@ -158514,24 +158579,6 @@
       "compactName": "LOTTOMATICASPA",
       "exchange": "OTC",
       "cik": 2041918,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
-      ]
-    },
-    {
-      "ticker": "LOTT",
-      "tickerKey": "LOTT",
-      "issuerName": "Techlott Inc.",
-      "normalizedName": "TECHLOTT INC",
-      "cleanedName": "TECHLOTT",
-      "compactName": "TECHLOTT",
-      "exchange": "OTC",
-      "cik": 1568969,
       "sic": null,
       "sicDescription": null,
       "sector": null,
@@ -160257,19 +160304,18 @@
     {
       "ticker": "LTGRU",
       "tickerKey": "LTGRU",
-      "issuerName": "Long Table Growth Corp.",
-      "normalizedName": "LONG TABLE GROWTH CORP",
-      "cleanedName": "LONG TABLE GROWTH",
+      "issuerName": "Long Table Growth Corp. - Units",
+      "normalizedName": "LONG TABLE GROWTH CORP - UNITS",
+      "cleanedName": "LONG TABLE GROWTH -",
       "compactName": "LONGTABLEGROWTH",
       "exchange": "Nasdaq",
-      "cik": 2104177,
+      "cik": null,
       "sic": null,
       "sicDescription": null,
       "sector": null,
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader listed"
       ]
     },
@@ -162679,24 +162725,6 @@
       "isTestIssue": false,
       "sources": [
         "Nasdaq Trader other-listed"
-      ]
-    },
-    {
-      "ticker": "MARUF",
-      "tickerKey": "MARUF",
-      "issuerName": "MARUBENI CORP /FI",
-      "normalizedName": "MARUBENI CORP /FI",
-      "cleanedName": "MARUBENI /FI",
-      "compactName": "MARUBENIFI",
-      "exchange": "OTC",
-      "cik": 801645,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
       ]
     },
     {
@@ -172870,9 +172898,9 @@
       "compactName": "MORGANSTANLEY",
       "exchange": "NYSE",
       "cik": 895421,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -172889,9 +172917,9 @@
       "compactName": "MORGANSTANLEY",
       "exchange": "NYSE",
       "cik": 895421,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -172907,9 +172935,9 @@
       "compactName": "MORGANSTANLEY",
       "exchange": "NYSE",
       "cik": 895421,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -172925,9 +172953,9 @@
       "compactName": "MORGANSTANLEY",
       "exchange": "NYSE",
       "cik": 895421,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -172943,9 +172971,9 @@
       "compactName": "MORGANSTANLEY",
       "exchange": "NYSE",
       "cik": 895421,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -172961,9 +172989,9 @@
       "compactName": "MORGANSTANLEY",
       "exchange": "NYSE",
       "cik": 895421,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -172979,9 +173007,9 @@
       "compactName": "MORGANSTANLEY",
       "exchange": "NYSE",
       "cik": 895421,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -172997,9 +173025,9 @@
       "compactName": "MORGANSTANLEY",
       "exchange": "NYSE",
       "cik": 895421,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -173015,9 +173043,9 @@
       "compactName": "MORGANSTANLEY",
       "exchange": "NYSE",
       "cik": 895421,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -173033,9 +173061,9 @@
       "compactName": "MORGANSTANLEY",
       "exchange": "NYSE",
       "cik": 895421,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -173706,24 +173734,6 @@
       "isTestIssue": false,
       "sources": [
         "SEC company_tickers_exchange.json",
-        "Nasdaq Trader other-listed"
-      ]
-    },
-    {
-      "ticker": "MSII",
-      "tickerKey": "MSII",
-      "issuerName": "REX MSTR Growth & Income ETF",
-      "normalizedName": "REX MSTR GROWTH AND INCOME ETF",
-      "cleanedName": "REX MSTR GROWTH AND INCOME ETF",
-      "compactName": "REXMSTRGROWTHANDINCOMEETF",
-      "exchange": "Cboe BZX",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": "ETF / Funds",
-      "isEtf": true,
-      "isTestIssue": false,
-      "sources": [
         "Nasdaq Trader other-listed"
       ]
     },
@@ -184383,24 +184393,6 @@
       ]
     },
     {
-      "ticker": "NORT",
-      "tickerKey": "NORT",
-      "issuerName": "Norient Acquisition",
-      "normalizedName": "NORIENT ACQUISITION",
-      "cleanedName": "NORIENT ACQUISITION",
-      "compactName": "NORIENTACQUISITION",
-      "exchange": null,
-      "cik": 2135939,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
-      ]
-    },
-    {
       "ticker": "NORW",
       "tickerKey": "NORW",
       "issuerName": "Global X MSCI Norway ETF",
@@ -184601,6 +184593,24 @@
       "sources": [
         "SEC company_tickers_exchange.json",
         "Nasdaq Trader other-listed"
+      ]
+    },
+    {
+      "ticker": "NOWG",
+      "tickerKey": "NOWG",
+      "issuerName": "Nowigence Inc.",
+      "normalizedName": "NOWIGENCE INC",
+      "cleanedName": "NOWIGENCE",
+      "compactName": "NOWIGENCE",
+      "exchange": null,
+      "cik": 1761911,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
       ]
     },
     {
@@ -185662,6 +185672,24 @@
       ]
     },
     {
+      "ticker": "NRXPW",
+      "tickerKey": "NRXPW",
+      "issuerName": "NRX Pharmaceuticals, Inc.",
+      "normalizedName": "NRX PHARMACEUTICALS INC",
+      "cleanedName": "NRX PHARMACEUTICALS",
+      "compactName": "NRXPHARMACEUTICALS",
+      "exchange": "Nasdaq",
+      "cik": 1719406,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
       "ticker": "NRXS",
       "tickerKey": "NRXS",
       "issuerName": "Neuraxis, INC",
@@ -186596,9 +186624,9 @@
       "compactName": "NORTHERN",
       "exchange": "Nasdaq",
       "cik": 73124,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6022",
+      "sicDescription": "State Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -186615,9 +186643,9 @@
       "compactName": "NORTHERN",
       "exchange": "Nasdaq",
       "cik": 73124,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6022",
+      "sicDescription": "State Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -188336,6 +188364,25 @@
     {
       "ticker": "NVRI",
       "tickerKey": "NVRI",
+      "issuerName": "ENVIRI Corp",
+      "normalizedName": "ENVIRI CORP",
+      "cleanedName": "ENVIRI",
+      "compactName": "ENVIRI",
+      "exchange": "NYSE",
+      "cik": 45876,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json",
+        "Nasdaq Trader other-listed"
+      ]
+    },
+    {
+      "ticker": "NVRI-WI",
+      "tickerKey": "NVRIWI",
       "issuerName": "Enviri II Corp",
       "normalizedName": "ENVIRI II CORP",
       "cleanedName": "ENVIRI II",
@@ -188348,8 +188395,7 @@
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
-        "Nasdaq Trader other-listed"
+        "SEC company_tickers_exchange.json"
       ]
     },
     {
@@ -191961,19 +192007,18 @@
     {
       "ticker": "OHACR",
       "tickerKey": "OHACR",
-      "issuerName": "Oceanhawk Acquisition Corp.",
-      "normalizedName": "OCEANHAWK ACQUISITION CORP",
-      "cleanedName": "OCEANHAWK ACQUISITION",
+      "issuerName": "Oceanhawk Acquisition Corp. - Rights",
+      "normalizedName": "OCEANHAWK ACQUISITION CORP - RIGHTS",
+      "cleanedName": "OCEANHAWK ACQUISITION -",
       "compactName": "OCEANHAWKACQUISITION",
       "exchange": "Nasdaq",
-      "cik": 2090787,
+      "cik": null,
       "sic": null,
       "sicDescription": null,
       "sector": null,
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader listed"
       ]
     },
@@ -194590,9 +194635,9 @@
       "compactName": "ORANGE",
       "exchange": "OTC",
       "cik": 1038143,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4813",
+      "sicDescription": "Telephone Communications (No Radiotelephone)",
+      "sector": "Communication Services",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -195442,9 +195487,9 @@
       "compactName": "OSHKOSH",
       "exchange": "NYSE",
       "cik": 775158,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "3711",
+      "sicDescription": "Motor Vehicles & Passenger Car Bodies",
+      "sector": "Industrials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -198887,19 +198932,18 @@
     {
       "ticker": "PBK",
       "tickerKey": "PBK",
-      "issuerName": "POWERBANK Corp",
-      "normalizedName": "POWERBANK CORP",
-      "cleanedName": "POWERBANK",
+      "issuerName": "PowerBank Corporation - Common Stock",
+      "normalizedName": "POWERBANK CORPORATION - COMMON STOCK",
+      "cleanedName": "POWERBANK -",
       "compactName": "POWERBANK",
       "exchange": "Nasdaq",
-      "cik": 2011053,
+      "cik": null,
       "sic": null,
       "sicDescription": null,
       "sector": null,
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader listed"
       ]
     },
@@ -198928,7 +198972,7 @@
       "normalizedName": "PARABILIS MEDICINES INC",
       "cleanedName": "PARABILIS MEDICINES",
       "compactName": "PARABILISMEDICINES",
-      "exchange": null,
+      "exchange": "Nasdaq",
       "cik": 1657677,
       "sic": null,
       "sicDescription": null,
@@ -198936,7 +198980,8 @@
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json"
+        "SEC company_tickers_exchange.json",
+        "Nasdaq Trader listed"
       ]
     },
     {
@@ -200381,24 +200426,6 @@
       ]
     },
     {
-      "ticker": "PCRB",
-      "tickerKey": "PCRB",
-      "issuerName": "Putnam ESG Core Bond ETF",
-      "normalizedName": "PUTNAM ESG CORE BOND ETF",
-      "cleanedName": "PUTNAM ESG CORE",
-      "compactName": "PUTNAMESGCORE",
-      "exchange": "NYSE Arca",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": "ETF / Funds",
-      "isEtf": true,
-      "isTestIssue": false,
-      "sources": [
-        "Nasdaq Trader other-listed"
-      ]
-    },
-    {
       "ticker": "PCRX",
       "tickerKey": "PCRX",
       "issuerName": "Pacira BioSciences, Inc.",
@@ -201403,19 +201430,18 @@
     {
       "ticker": "PECER",
       "tickerKey": "PECER",
-      "issuerName": "Peace Acquisition Corp.",
-      "normalizedName": "PEACE ACQUISITION CORP",
-      "cleanedName": "PEACE ACQUISITION",
+      "issuerName": "Peace Acquisition Corp - Right",
+      "normalizedName": "PEACE ACQUISITION CORP - RIGHT",
+      "cleanedName": "PEACE ACQUISITION -",
       "compactName": "PEACEACQUISITION",
       "exchange": "Nasdaq",
-      "cik": 2088626,
+      "cik": null,
       "sic": null,
       "sicDescription": null,
       "sector": null,
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader listed"
       ]
     },
@@ -201441,19 +201467,18 @@
     {
       "ticker": "PECEW",
       "tickerKey": "PECEW",
-      "issuerName": "Peace Acquisition Corp.",
-      "normalizedName": "PEACE ACQUISITION CORP",
-      "cleanedName": "PEACE ACQUISITION",
+      "issuerName": "Peace Acquisition Corp - Warrant",
+      "normalizedName": "PEACE ACQUISITION CORP - WARRANT",
+      "cleanedName": "PEACE ACQUISITION -",
       "compactName": "PEACEACQUISITION",
       "exchange": "Nasdaq",
-      "cik": 2088626,
+      "cik": null,
       "sic": null,
       "sicDescription": null,
       "sector": null,
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader listed"
       ]
     },
@@ -202422,19 +202447,18 @@
     {
       "ticker": "PFLA",
       "tickerKey": "PFLA",
-      "issuerName": "PennantPark Floating Rate Capital Ltd.",
-      "normalizedName": "PENNANTPARK FLOATING RATE CAPITAL LTD",
-      "cleanedName": "PENNANTPARK FLOATING RATE CAPITAL",
-      "compactName": "PENNANTPARKFLOATINGRATECAPITAL",
+      "issuerName": "PennantPark Floating Rate Capital Ltd. 7.375% Notes Due 2031",
+      "normalizedName": "PENNANTPARK FLOATING RATE CAPITAL LTD 7 375% NOTES DUE 2031",
+      "cleanedName": "PENNANTPARK FLOATING RATE CAPITAL 7 375% NOTES",
+      "compactName": "PENNANTPARKFLOATINGRATECAPITAL7375NOTES",
       "exchange": "NYSE",
-      "cik": 1504619,
+      "cik": null,
       "sic": null,
       "sicDescription": null,
       "sector": null,
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader other-listed"
       ]
     },
@@ -202676,24 +202700,6 @@
       "isTestIssue": false,
       "sources": [
         "SEC company_tickers_exchange.json"
-      ]
-    },
-    {
-      "ticker": "PFUT",
-      "tickerKey": "PFUT",
-      "issuerName": "Putnam Sustainable Future ETF",
-      "normalizedName": "PUTNAM SUSTAINABLE FUTURE ETF",
-      "cleanedName": "PUTNAM SUSTAINABLE FUTURE ETF",
-      "compactName": "PUTNAMSUSTAINABLEFUTUREETF",
-      "exchange": "NYSE Arca",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": "ETF / Funds",
-      "isEtf": true,
-      "isTestIssue": false,
-      "sources": [
-        "Nasdaq Trader other-listed"
       ]
     },
     {
@@ -203601,24 +203607,6 @@
       "sicDescription": null,
       "sector": null,
       "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "Nasdaq Trader other-listed"
-      ]
-    },
-    {
-      "ticker": "PHYD",
-      "tickerKey": "PHYD",
-      "issuerName": "Putnam ESG High Yield ETF",
-      "normalizedName": "PUTNAM ESG HIGH YIELD ETF",
-      "cleanedName": "PUTNAM ESG HIGH YIELD ETF",
-      "compactName": "PUTNAMESGHIGHYIELDETF",
-      "exchange": "NYSE Arca",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": "ETF / Funds",
-      "isEtf": true,
       "isTestIssue": false,
       "sources": [
         "Nasdaq Trader other-listed"
@@ -204803,24 +204791,6 @@
       ]
     },
     {
-      "ticker": "PLDR",
-      "tickerKey": "PLDR",
-      "issuerName": "Putnam Sustainable Leaders ETF",
-      "normalizedName": "PUTNAM SUSTAINABLE LEADERS ETF",
-      "cleanedName": "PUTNAM SUSTAINABLE LEADERS ETF",
-      "compactName": "PUTNAMSUSTAINABLELEADERSETF",
-      "exchange": "NYSE Arca",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": "ETF / Funds",
-      "isEtf": true,
-      "isTestIssue": false,
-      "sources": [
-        "Nasdaq Trader other-listed"
-      ]
-    },
-    {
       "ticker": "PLG",
       "tickerKey": "PLG",
       "issuerName": "PLATINUM GROUP METALS LTD",
@@ -205263,24 +205233,6 @@
       "isTestIssue": false,
       "sources": [
         "Nasdaq Trader listed"
-      ]
-    },
-    {
-      "ticker": "PLTI",
-      "tickerKey": "PLTI",
-      "issuerName": "REX PLTR Growth & Income ETF",
-      "normalizedName": "REX PLTR GROWTH AND INCOME ETF",
-      "cleanedName": "REX PLTR GROWTH AND INCOME ETF",
-      "compactName": "REXPLTRGROWTHANDINCOMEETF",
-      "exchange": "Cboe BZX",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": "ETF / Funds",
-      "isEtf": true,
-      "isTestIssue": false,
-      "sources": [
-        "Nasdaq Trader other-listed"
       ]
     },
     {
@@ -207796,24 +207748,6 @@
       ]
     },
     {
-      "ticker": "PPEM",
-      "tickerKey": "PPEM",
-      "issuerName": "Putnam PanAgora ESG Emerging Markets Equity ETF",
-      "normalizedName": "PUTNAM PANAGORA ESG EMERGING MARKETS EQUITY ETF",
-      "cleanedName": "PUTNAM PANAGORA ESG EMERGING MARKETS ETF",
-      "compactName": "PUTNAMPANAGORAESGEMERGINGMARKETSETF",
-      "exchange": "NYSE Arca",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": "ETF / Funds",
-      "isEtf": true,
-      "isTestIssue": false,
-      "sources": [
-        "Nasdaq Trader other-listed"
-      ]
-    },
-    {
       "ticker": "PPENF",
       "tickerKey": "PPENF",
       "issuerName": "Pampa Energy Inc.",
@@ -207906,24 +207840,6 @@
       ]
     },
     {
-      "ticker": "PPIE",
-      "tickerKey": "PPIE",
-      "issuerName": "Putnam PanAgora ESG International Equity ETF",
-      "normalizedName": "PUTNAM PANAGORA ESG INTERNATIONAL EQUITY ETF",
-      "cleanedName": "PUTNAM PANAGORA ESG INTERNATIONAL ETF",
-      "compactName": "PUTNAMPANAGORAESGINTERNATIONALETF",
-      "exchange": "NYSE Arca",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": "ETF / Funds",
-      "isEtf": true,
-      "isTestIssue": false,
-      "sources": [
-        "Nasdaq Trader other-listed"
-      ]
-    },
-    {
       "ticker": "PPIH",
       "tickerKey": "PPIH",
       "issuerName": "Perma-Pipe International Holdings, Inc.",
@@ -208001,19 +207917,18 @@
     {
       "ticker": "PPLI",
       "tickerKey": "PPLI",
-      "issuerName": "People Inc",
-      "normalizedName": "PEOPLE INC",
-      "cleanedName": "PEOPLE",
+      "issuerName": "People Incorporated - Common Stock",
+      "normalizedName": "PEOPLE INCORPORATED - COMMON STOCK",
+      "cleanedName": "PEOPLE -",
       "compactName": "PEOPLE",
       "exchange": "Nasdaq",
-      "cik": 1800227,
-      "sic": "7370",
-      "sicDescription": "Services-Computer Programming, Data Processing, Etc.",
-      "sector": "Information Technology",
+      "cik": null,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader listed"
       ]
     },
@@ -212660,24 +212575,6 @@
       ]
     },
     {
-      "ticker": "PULT",
-      "tickerKey": "PULT",
-      "issuerName": "Putnam ESG Ultra Short ETF",
-      "normalizedName": "PUTNAM ESG ULTRA SHORT ETF",
-      "cleanedName": "PUTNAM ESG ULTRA SHORT ETF",
-      "compactName": "PUTNAMESGULTRASHORTETF",
-      "exchange": "NYSE Arca",
-      "cik": null,
-      "sic": null,
-      "sicDescription": null,
-      "sector": "ETF / Funds",
-      "isEtf": true,
-      "isTestIssue": false,
-      "sources": [
-        "Nasdaq Trader other-listed"
-      ]
-    },
-    {
       "ticker": "PUMP",
       "tickerKey": "PUMP",
       "issuerName": "ProPetro Holding Corp.",
@@ -217006,6 +216903,24 @@
       ]
     },
     {
+      "ticker": "QTTOY",
+      "tickerKey": "QTTOY",
+      "issuerName": "Qutoutiao Inc.",
+      "normalizedName": "QUTOUTIAO INC",
+      "cleanedName": "QUTOUTIAO",
+      "compactName": "QUTOUTIAO",
+      "exchange": null,
+      "cik": 1733298,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
       "ticker": "QTUM",
       "tickerKey": "QTUM",
       "issuerName": "Defiance Quantum ETF",
@@ -219210,9 +219125,9 @@
       "compactName": "ROYALCARIBBEANCRUISES",
       "exchange": "NYSE",
       "cik": 884887,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4400",
+      "sicDescription": "Water Transportation",
+      "sector": "Industrials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -237161,6 +237076,24 @@
       ]
     },
     {
+      "ticker": "SHOTU",
+      "tickerKey": "SHOTU",
+      "issuerName": "RMG ML Sports Holdings - Unit",
+      "normalizedName": "RMG ML SPORTS HOLDINGS - UNIT",
+      "cleanedName": "RMG ML SPORTS -",
+      "compactName": "RMGMLSPORTS",
+      "exchange": "Nasdaq",
+      "cik": null,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "Nasdaq Trader listed"
+      ]
+    },
+    {
       "ticker": "SHPH",
       "tickerKey": "SHPH",
       "issuerName": "Shuttle Pharmaceuticals Holdings, Inc.",
@@ -238075,9 +238008,9 @@
       "compactName": "SIRIUSXM",
       "exchange": "Nasdaq",
       "cik": 908937,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4832",
+      "sicDescription": "Radio Broadcasting Stations",
+      "sector": "Communication Services",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -239858,24 +239791,6 @@
       "isTestIssue": false,
       "sources": [
         "Nasdaq Trader other-listed"
-      ]
-    },
-    {
-      "ticker": "SLOIF",
-      "tickerKey": "SLOIF",
-      "issuerName": "Soitec SA",
-      "normalizedName": "SOITEC SA",
-      "cleanedName": "SOITEC",
-      "compactName": "SOITEC",
-      "exchange": "OTC",
-      "cik": 1445214,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
       ]
     },
     {
@@ -242830,9 +242745,9 @@
       "compactName": "SOUTHERN",
       "exchange": "NYSE",
       "cik": 92122,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4911",
+      "sicDescription": "Electric Services",
+      "sector": "Utilities",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -243292,9 +243207,9 @@
       "compactName": "SOUTHERN",
       "exchange": "NYSE",
       "cik": 92122,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4911",
+      "sicDescription": "Electric Services",
+      "sector": "Utilities",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -243311,9 +243226,9 @@
       "compactName": "SOUTHERN",
       "exchange": "NYSE",
       "cik": 92122,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4911",
+      "sicDescription": "Electric Services",
+      "sector": "Utilities",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -243330,9 +243245,9 @@
       "compactName": "SOUTHERN",
       "exchange": "NYSE",
       "cik": 92122,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4911",
+      "sicDescription": "Electric Services",
+      "sector": "Utilities",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -243349,9 +243264,9 @@
       "compactName": "SOUTHERN",
       "exchange": "NYSE",
       "cik": 92122,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4911",
+      "sicDescription": "Electric Services",
+      "sector": "Utilities",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -243497,9 +243412,9 @@
       "compactName": "SOUTHERN",
       "exchange": "NYSE",
       "cik": 92122,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4911",
+      "sicDescription": "Electric Services",
+      "sector": "Utilities",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -247020,9 +246935,9 @@
       "compactName": "SEMPRA",
       "exchange": "NYSE",
       "cik": 1032208,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4932",
+      "sicDescription": "Gas & Other Services Combined",
+      "sector": "Energy",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -247039,9 +246954,9 @@
       "compactName": "SEMPRA",
       "exchange": "NYSE",
       "cik": 1032208,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4932",
+      "sicDescription": "Gas & Other Services Combined",
+      "sector": "Energy",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -252761,9 +252676,9 @@
       "compactName": "ATAND",
       "exchange": "NYSE",
       "cik": 732717,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4813",
+      "sicDescription": "Telephone Communications (No Radiotelephone)",
+      "sector": "Communication Services",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -252780,9 +252695,9 @@
       "compactName": "ATAND",
       "exchange": "NYSE",
       "cik": 732717,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4813",
+      "sicDescription": "Telephone Communications (No Radiotelephone)",
+      "sector": "Communication Services",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -252798,9 +252713,9 @@
       "compactName": "ATAND",
       "exchange": "NYSE",
       "cik": 732717,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4813",
+      "sicDescription": "Telephone Communications (No Radiotelephone)",
+      "sector": "Communication Services",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -253889,9 +253804,9 @@
       "compactName": "ATAND",
       "exchange": "NYSE",
       "cik": 732717,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4813",
+      "sicDescription": "Telephone Communications (No Radiotelephone)",
+      "sector": "Communication Services",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -256907,9 +256822,9 @@
       "compactName": "TRUISTFINANCIAL",
       "exchange": "NYSE",
       "cik": 92230,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -256926,9 +256841,9 @@
       "compactName": "TRUISTFINANCIAL",
       "exchange": "NYSE",
       "cik": 92230,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -256944,9 +256859,9 @@
       "compactName": "TRUISTFINANCIAL",
       "exchange": "NYSE",
       "cik": 92230,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -256962,9 +256877,9 @@
       "compactName": "TRUISTFINANCIAL",
       "exchange": "NYSE",
       "cik": 92230,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -260602,9 +260517,9 @@
       "compactName": "TMOBILEUS",
       "exchange": "Nasdaq",
       "cik": 1283699,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4812",
+      "sicDescription": "Radiotelephone Communications",
+      "sector": "Communication Services",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -260621,9 +260536,9 @@
       "compactName": "TMOBILEUS",
       "exchange": "Nasdaq",
       "cik": 1283699,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4812",
+      "sicDescription": "Radiotelephone Communications",
+      "sector": "Communication Services",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -260640,9 +260555,9 @@
       "compactName": "TMOBILEUS",
       "exchange": "Nasdaq",
       "cik": 1283699,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4812",
+      "sicDescription": "Radiotelephone Communications",
+      "sector": "Communication Services",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -260659,9 +260574,9 @@
       "compactName": "TMOBILEUS",
       "exchange": "Nasdaq",
       "cik": 1283699,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "4812",
+      "sicDescription": "Radiotelephone Communications",
+      "sector": "Communication Services",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -263062,6 +262977,24 @@
       "isTestIssue": false,
       "sources": [
         "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
+      "ticker": "TRLV",
+      "tickerKey": "TRLV",
+      "issuerName": "Trulieve Cannabis Corp. Subordinate Voting Shares",
+      "normalizedName": "TRULIEVE CANNABIS CORP SUBORDINATE VOTING SHARES",
+      "cleanedName": "TRULIEVE CANNABIS SUBORDINATE VOTING",
+      "compactName": "TRULIEVECANNABISSUBORDINATEVOTING",
+      "exchange": "NYSE",
+      "cik": null,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "Nasdaq Trader other-listed"
       ]
     },
     {
@@ -269476,24 +269409,6 @@
       ]
     },
     {
-      "ticker": "ULIT",
-      "tickerKey": "ULIT",
-      "issuerName": "US Elemental Inc.",
-      "normalizedName": "US ELEMENTAL INC",
-      "cleanedName": "US ELEMENTAL",
-      "compactName": "USELEMENTAL",
-      "exchange": null,
-      "cik": 2134552,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
-      ]
-    },
-    {
       "ticker": "ULS",
       "tickerKey": "ULS",
       "issuerName": "UL Solutions Inc.",
@@ -271246,9 +271161,9 @@
     {
       "ticker": "USB",
       "tickerKey": "USB",
-      "issuerName": "US BANCORP \\DE\\",
-      "normalizedName": "US BANCORP \\DE\\",
-      "cleanedName": "US BANCORP \\DE\\",
+      "issuerName": "US BANCORP DE",
+      "normalizedName": "US BANCORP DE",
+      "cleanedName": "US BANCORP DE",
       "compactName": "USBANCORPDE",
       "exchange": "NYSE",
       "cik": 36104,
@@ -271265,9 +271180,9 @@
     {
       "ticker": "USB-PA",
       "tickerKey": "USBPA",
-      "issuerName": "US BANCORP \\DE\\",
-      "normalizedName": "US BANCORP \\DE\\",
-      "cleanedName": "US BANCORP \\DE\\",
+      "issuerName": "US BANCORP DE",
+      "normalizedName": "US BANCORP DE",
+      "cleanedName": "US BANCORP DE",
       "compactName": "USBANCORPDE",
       "exchange": "NYSE",
       "cik": 36104,
@@ -271283,9 +271198,9 @@
     {
       "ticker": "USB-PH",
       "tickerKey": "USBPH",
-      "issuerName": "US BANCORP \\DE\\",
-      "normalizedName": "US BANCORP \\DE\\",
-      "cleanedName": "US BANCORP \\DE\\",
+      "issuerName": "US BANCORP DE",
+      "normalizedName": "US BANCORP DE",
+      "cleanedName": "US BANCORP DE",
       "compactName": "USBANCORPDE",
       "exchange": "NYSE",
       "cik": 36104,
@@ -271301,9 +271216,9 @@
     {
       "ticker": "USB-PP",
       "tickerKey": "USBPP",
-      "issuerName": "US BANCORP \\DE\\",
-      "normalizedName": "US BANCORP \\DE\\",
-      "cleanedName": "US BANCORP \\DE\\",
+      "issuerName": "US BANCORP DE",
+      "normalizedName": "US BANCORP DE",
+      "cleanedName": "US BANCORP DE",
       "compactName": "USBANCORPDE",
       "exchange": "NYSE",
       "cik": 36104,
@@ -271319,9 +271234,9 @@
     {
       "ticker": "USB-PQ",
       "tickerKey": "USBPQ",
-      "issuerName": "US BANCORP \\DE\\",
-      "normalizedName": "US BANCORP \\DE\\",
-      "cleanedName": "US BANCORP \\DE\\",
+      "issuerName": "US BANCORP DE",
+      "normalizedName": "US BANCORP DE",
+      "cleanedName": "US BANCORP DE",
       "compactName": "USBANCORPDE",
       "exchange": "NYSE",
       "cik": 36104,
@@ -271337,9 +271252,9 @@
     {
       "ticker": "USB-PR",
       "tickerKey": "USBPR",
-      "issuerName": "US BANCORP \\DE\\",
-      "normalizedName": "US BANCORP \\DE\\",
-      "cleanedName": "US BANCORP \\DE\\",
+      "issuerName": "US BANCORP DE",
+      "normalizedName": "US BANCORP DE",
+      "cleanedName": "US BANCORP DE",
       "compactName": "USBANCORPDE",
       "exchange": "NYSE",
       "cik": 36104,
@@ -271355,9 +271270,9 @@
     {
       "ticker": "USB-PS",
       "tickerKey": "USBPS",
-      "issuerName": "US BANCORP \\DE\\",
-      "normalizedName": "US BANCORP \\DE\\",
-      "cleanedName": "US BANCORP \\DE\\",
+      "issuerName": "US BANCORP DE",
+      "normalizedName": "US BANCORP DE",
+      "cleanedName": "US BANCORP DE",
       "compactName": "USBANCORPDE",
       "exchange": "NYSE",
       "cik": 36104,
@@ -271701,10 +271616,10 @@
     {
       "ticker": "USEG",
       "tickerKey": "USEG",
-      "issuerName": "BIG SKY INDUSTRIAL INC.",
-      "normalizedName": "BIG SKY INDUSTRIAL INC",
-      "cleanedName": "BIG SKY INDUSTRIAL",
-      "compactName": "BIGSKYINDUSTRIAL",
+      "issuerName": "US ENERGY CORP",
+      "normalizedName": "US ENERGY CORP",
+      "cleanedName": "US ENERGY",
+      "compactName": "USENERGY",
       "exchange": "Nasdaq",
       "cik": 101594,
       "sic": null,
@@ -271896,6 +271811,24 @@
       "sources": [
         "SEC company_tickers_exchange.json",
         "Nasdaq Trader listed"
+      ]
+    },
+    {
+      "ticker": "USGOW",
+      "tickerKey": "USGOW",
+      "issuerName": "U.S. GoldMining Inc.",
+      "normalizedName": "U S GOLDMINING INC",
+      "cleanedName": "U S GOLDMINING",
+      "compactName": "USGOLDMINING",
+      "exchange": "Nasdaq",
+      "cik": 1947244,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
       ]
     },
     {
@@ -279911,19 +279844,18 @@
     {
       "ticker": "VSXY",
       "tickerKey": "VSXY",
-      "issuerName": "Victoria's Secret & Co.",
-      "normalizedName": "VICTORIA'S SECRET AND CO",
-      "cleanedName": "VICTORIA'S SECRET AND",
+      "issuerName": "Victorias Secret & Co. Common Stock",
+      "normalizedName": "VICTORIAS SECRET AND CO COMMON STOCK",
+      "cleanedName": "VICTORIAS SECRET AND",
       "compactName": "VICTORIASSECRETAND",
       "exchange": "NYSE",
-      "cik": 1856437,
+      "cik": null,
       "sic": null,
       "sicDescription": null,
       "sector": null,
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
-        "SEC company_tickers_exchange.json",
         "Nasdaq Trader other-listed"
       ]
     },
@@ -280966,9 +280898,9 @@
       "compactName": "JPMORGANCHASEAND",
       "exchange": "NYSE",
       "cik": 19617,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials",
       "isEtf": true,
       "isTestIssue": false,
       "sources": [
@@ -284503,24 +284435,6 @@
       ]
     },
     {
-      "ticker": "WLCO",
-      "tickerKey": "WLCO",
-      "issuerName": "Wilco 63 Corp",
-      "normalizedName": "WILCO 63 CORP",
-      "cleanedName": "WILCO 63",
-      "compactName": "WILCO63",
-      "exchange": null,
-      "cik": 2101470,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
-      "isEtf": false,
-      "isTestIssue": false,
-      "sources": [
-        "SEC company_tickers_exchange.json"
-      ]
-    },
-    {
       "ticker": "WLDN",
       "tickerKey": "WLDN",
       "issuerName": "Willdan Group, Inc.",
@@ -285105,7 +285019,7 @@
       "normalizedName": "WORLDWIDE NFT INC",
       "cleanedName": "WORLDWIDE NFT",
       "compactName": "WORLDWIDENFT",
-      "exchange": null,
+      "exchange": "OTC",
       "cik": 1528188,
       "sic": null,
       "sicDescription": null,
@@ -292258,9 +292172,9 @@
       "compactName": "BLOCK",
       "exchange": "NYSE",
       "cik": 1512673,
-      "sic": null,
-      "sicDescription": null,
-      "sector": null,
+      "sic": "7372",
+      "sicDescription": "Services-Prepackaged Software",
+      "sector": "Information Technology",
       "isEtf": false,
       "isTestIssue": false,
       "sources": [
@@ -294588,6 +294502,24 @@
       ]
     },
     {
+      "ticker": "ZDCAF",
+      "tickerKey": "ZDCAF",
+      "issuerName": "ZEDCOR, INC.",
+      "normalizedName": "ZEDCOR INC",
+      "cleanedName": "ZEDCOR",
+      "compactName": "ZEDCOR",
+      "exchange": "OTC",
+      "cik": 2025583,
+      "sic": null,
+      "sicDescription": null,
+      "sector": null,
+      "isEtf": false,
+      "isTestIssue": false,
+      "sources": [
+        "SEC company_tickers_exchange.json"
+      ]
+    },
+    {
       "ticker": "ZDEK",
       "tickerKey": "ZDEK",
       "issuerName": "Innovator Equity Defined Protection ETF - 1 Yr December",
@@ -296658,6 +296590,11 @@
       "sicDescription": "Surgical & Medical Instruments & Apparatus",
       "sector": "Health Care"
     },
+    "12927": {
+      "sic": "3721",
+      "sicDescription": "Aircraft",
+      "sector": "Industrials"
+    },
     "15615": {
       "sic": "1623",
       "sicDescription": "Water, Sewer, Pipeline, Comm & Power Line Construction",
@@ -296697,6 +296634,11 @@
       "sic": "8082",
       "sicDescription": "Services-Home Health Care Services",
       "sector": "Health Care"
+    },
+    "19617": {
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials"
     },
     "20212": {
       "sic": "7948",
@@ -296792,6 +296734,16 @@
       "sic": "2911",
       "sicDescription": "Petroleum Refining",
       "sector": "Energy"
+    },
+    "35527": {
+      "sic": "6022",
+      "sicDescription": "State Commercial Banks",
+      "sector": "Financials"
+    },
+    "36966": {
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials"
     },
     "38725": {
       "sic": "3621",
@@ -296978,6 +296930,11 @@
       "sicDescription": "Electric Services",
       "sector": "Utilities"
     },
+    "73124": {
+      "sic": "6022",
+      "sicDescription": "State Commercial Banks",
+      "sector": "Financials"
+    },
     "73309": {
       "sic": "3312",
       "sicDescription": "Steel Works, Blast Furnaces & Rolling Mills (Coke Ovens)",
@@ -297058,7 +297015,22 @@
       "sicDescription": "Mobile Homes",
       "sector": "Materials"
     },
+    "91142": {
+      "sic": "3630",
+      "sicDescription": "Household Appliances",
+      "sector": "Consumer Staples"
+    },
     "91576": {
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials"
+    },
+    "92122": {
+      "sic": "4911",
+      "sicDescription": "Electric Services",
+      "sector": "Utilities"
+    },
+    "92230": {
       "sic": "6021",
       "sicDescription": "National Commercial Banks",
       "sector": "Financials"
@@ -297398,6 +297370,11 @@
       "sicDescription": "Telephone Communications (No Radiotelephone)",
       "sector": "Communication Services"
     },
+    "732717": {
+      "sic": "4813",
+      "sicDescription": "Telephone Communications (No Radiotelephone)",
+      "sector": "Communication Services"
+    },
     "733269": {
       "sic": "7374",
       "sicDescription": "Services-Computer Processing & Data Preparation",
@@ -297461,6 +297438,11 @@
     "773840": {
       "sic": "3724",
       "sicDescription": "Aircraft Engines & Engine Parts",
+      "sector": "Industrials"
+    },
+    "775158": {
+      "sic": "3711",
+      "sicDescription": "Motor Vehicles & Passenger Car Bodies",
       "sector": "Industrials"
     },
     "780571": {
@@ -297612,6 +297594,11 @@
       "sic": "5810",
       "sicDescription": "Retail-Eating & Drinking Places",
       "sector": "Consumer Discretionary"
+    },
+    "831001": {
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials"
     },
     "831259": {
       "sic": "1000",
@@ -297773,6 +297760,11 @@
       "sicDescription": "Surgical & Medical Instruments & Apparatus",
       "sector": "Health Care"
     },
+    "884887": {
+      "sic": "4400",
+      "sicDescription": "Water Transportation",
+      "sector": "Industrials"
+    },
     "885725": {
       "sic": "3841",
       "sicDescription": "Surgical & Medical Instruments & Apparatus",
@@ -297782,6 +297774,11 @@
       "sic": "3550",
       "sicDescription": "Special Industry Machinery (No Metalworking Machinery)",
       "sector": "Industrials"
+    },
+    "886982": {
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials"
     },
     "887359": {
       "sic": "2836",
@@ -297817,6 +297814,11 @@
       "sic": "1311",
       "sicDescription": "Crude Petroleum & Natural Gas",
       "sector": "Energy"
+    },
+    "895421": {
+      "sic": "6211",
+      "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+      "sector": "Financials"
     },
     "895447": {
       "sic": "5661",
@@ -297908,6 +297910,11 @@
       "sicDescription": "Retail-Miscellaneous Retail",
       "sector": "Consumer Discretionary"
     },
+    "908937": {
+      "sic": "4832",
+      "sicDescription": "Radio Broadcasting Stations",
+      "sector": "Communication Services"
+    },
     "909832": {
       "sic": "5331",
       "sicDescription": "Retail-Variety Stores",
@@ -297987,6 +297994,11 @@
       "sic": "8090",
       "sicDescription": "Services-Misc Health & Allied Services, NEC",
       "sector": "Health Care"
+    },
+    "927628": {
+      "sic": "6021",
+      "sicDescription": "National Commercial Banks",
+      "sector": "Financials"
     },
     "927653": {
       "sic": "5122",
@@ -298138,6 +298150,11 @@
       "sicDescription": "Steel Works, Blast Furnaces & Rolling Mills (Coke Ovens)",
       "sector": "Materials"
     },
+    "1024305": {
+      "sic": "2844",
+      "sicDescription": "Perfumes, Cosmetics & Other Toilet Preparations",
+      "sector": "Materials"
+    },
     "1024478": {
       "sic": "3829",
       "sicDescription": "Measuring & Controlling Devices, NEC",
@@ -298157,6 +298174,11 @@
       "sic": "7372",
       "sicDescription": "Services-Prepackaged Software",
       "sector": "Information Technology"
+    },
+    "1032208": {
+      "sic": "4932",
+      "sicDescription": "Gas & Other Services Combined",
+      "sector": "Energy"
     },
     "1034054": {
       "sic": "6798",
@@ -298192,6 +298214,11 @@
       "sic": "6531",
       "sicDescription": "Real Estate Agents & Managers (For Others)",
       "sector": "Real Estate"
+    },
+    "1038143": {
+      "sic": "4813",
+      "sicDescription": "Telephone Communications (No Radiotelephone)",
+      "sector": "Communication Services"
     },
     "1039065": {
       "sic": "3674",
@@ -298548,6 +298575,11 @@
       "sicDescription": "Search, Detection, Navigation, Guidance, Aeronautical Sys",
       "sector": null
     },
+    "1122976": {
+      "sic": "2821",
+      "sicDescription": "Plastic Materials, Synth Resins & Nonvulcan Elastomers",
+      "sector": "Materials"
+    },
     "1133421": {
       "sic": "3812",
       "sicDescription": "Search, Detection, Navigation, Guidance, Aeronautical Sys",
@@ -298627,6 +298659,11 @@
       "sic": "2911",
       "sicDescription": "Petroleum Refining",
       "sector": "Energy"
+    },
+    "1166691": {
+      "sic": "4841",
+      "sicDescription": "Cable & Other Pay Television Services",
+      "sector": "Communication Services"
     },
     "1169561": {
       "sic": "7372",
@@ -298717,6 +298754,11 @@
       "sic": "3674",
       "sicDescription": "Semiconductors & Related Devices",
       "sector": "Information Technology"
+    },
+    "1283699": {
+      "sic": "4812",
+      "sicDescription": "Radiotelephone Communications",
+      "sector": "Communication Services"
     },
     "1286139": {
       "sic": "7374",
@@ -299213,6 +299255,11 @@
       "sicDescription": "Petroleum Refining",
       "sector": "Energy"
     },
+    "1512673": {
+      "sic": "7372",
+      "sicDescription": "Services-Prepackaged Software",
+      "sector": "Information Technology"
+    },
     "1514705": {
       "sic": "3312",
       "sicDescription": "Steel Works, Blast Furnaces & Rolling Mills (Coke Ovens)",
@@ -299621,6 +299668,11 @@
     "1650372": {
       "sic": "7372",
       "sicDescription": "Services-Prepackaged Software",
+      "sector": "Information Technology"
+    },
+    "1652044": {
+      "sic": "7370",
+      "sicDescription": "Services-Computer Programming, Data Processing, Etc.",
       "sector": "Information Technology"
     },
     "1652535": {

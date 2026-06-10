@@ -49,8 +49,11 @@ export function describeTransaction(tx: OgeTransaction): string {
   const late = tx.lateFilingFlag ? 'reported late' : 'not flagged late';
   const enrichment = tx.resolvedTicker
     ? `public match ${tx.resolvedTicker}${tx.resolvedExchange ? ` on ${tx.resolvedExchange}` : ''}`
+    : tx.issuerContextTicker
+      ? `issuer context ${tx.issuerContextTicker}${tx.issuerContextExchange ? ` on ${tx.issuerContextExchange}` : ''}`
     : 'no public-security match';
-  return `${action} ${tx.assetType.toLowerCase()} exposure in ${tx.sector}; ${late}; ${confidence}; ${enrichment}.`;
+  const instrument = tx.instrumentSummary ? ` ${tx.instrumentSummary}` : '';
+  return `${action} ${tx.assetType.toLowerCase()} exposure in ${tx.sector}; ${late}; ${confidence}; ${enrichment}.${instrument}`;
 }
 
 export function confidenceLabel(value: number): string {

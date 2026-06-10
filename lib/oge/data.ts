@@ -43,6 +43,7 @@ const EMPTY_META: CacheMeta = {
   estimatedTotalMidpoint: 0,
   securityReferenceCount: 0,
   securityEnrichmentCount: 0,
+  instrumentContextCount: 0,
   enrichedTransactionCount: 0,
   eventCount: 0,
   eventWindowCount: 0,
@@ -134,7 +135,11 @@ export function buildApiResponse(dataset: TrumpOgeDataset, filters: TrumpOgeFilt
         const haystack = [
           holding.description,
           holding.resolvedTicker || '',
+          holding.issuerContextTicker || '',
           holding.resolvedIssuerName || '',
+          holding.issuerContextIssuerName || '',
+          holding.instrumentIssuerName || '',
+          holding.instrumentSummary || '',
           holding.sector,
           holding.assetType,
         ].join(' ').toLowerCase();
@@ -148,6 +153,22 @@ export function buildApiResponse(dataset: TrumpOgeDataset, filters: TrumpOgeFilt
   });
   const visibleIndex = filteredIndex.entries.filter((entry) => {
     if (filters.sourceReliability && filters.sourceReliability !== 'All' && entry.sourceReliability !== filters.sourceReliability) return false;
+    if (filters.ticker && filters.ticker !== 'All') {
+      const ticker = String(filters.ticker).toUpperCase();
+      const tickers = [entry.resolvedTicker, entry.issuerContextTicker].filter(Boolean).map((value) => String(value).toUpperCase());
+      if (!tickers.includes(ticker)) return false;
+    }
+    if (filters.issuer) {
+      const issuer = String(filters.issuer).trim().toLowerCase();
+      const haystack = [
+        entry.resolvedIssuerName || '',
+        entry.issuerContextIssuerName || '',
+        entry.instrumentIssuerName || '',
+        entry.displayName,
+        entry.instrumentSummary || '',
+      ].join(' ').toLowerCase();
+      if (issuer && !haystack.includes(issuer)) return false;
+    }
     return true;
   });
   const filteredDataset = {

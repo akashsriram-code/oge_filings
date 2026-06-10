@@ -18,23 +18,39 @@ export function filterTransactions(transactions: OgeTransaction[], filters: Trum
         tx.description,
         tx.ticker || '',
         tx.resolvedTicker || '',
+        tx.issuerContextTicker || '',
         tx.resolvedIssuerName || '',
+        tx.issuerContextIssuerName || '',
+        tx.instrumentIssuerName || '',
+        tx.instrumentSummary || '',
         tx.resolvedExchange || '',
+        tx.issuerContextExchange || '',
         tx.resolvedCik ? String(tx.resolvedCik) : '',
+        tx.issuerContextCik ? String(tx.issuerContextCik) : '',
         tx.resolvedSector || '',
+        tx.issuerContextSector || '',
         tx.sector,
         tx.assetType,
         ...tx.enrichmentFlags,
+        ...(tx.instrumentContextFlags || []),
+        ...(tx.issuerContextFlags || []),
       ].join(' ').toLowerCase();
       if (!haystack.includes(query)) return false;
     }
     if (filters.ticker && filters.ticker !== 'All') {
-      const ticker = (tx.resolvedTicker || tx.ticker || '').toUpperCase();
-      if (ticker !== String(filters.ticker).toUpperCase()) return false;
+      const ticker = String(filters.ticker).toUpperCase();
+      const tickers = [tx.resolvedTicker, tx.ticker, tx.issuerContextTicker].filter(Boolean).map((value) => String(value).toUpperCase());
+      if (!tickers.includes(ticker)) return false;
     }
     if (filters.issuer) {
       const issuer = String(filters.issuer).trim().toLowerCase();
-      if (issuer && !(tx.resolvedIssuerName || tx.description).toLowerCase().includes(issuer)) return false;
+      const haystack = [
+        tx.resolvedIssuerName || '',
+        tx.issuerContextIssuerName || '',
+        tx.instrumentIssuerName || '',
+        tx.description,
+      ].join(' ').toLowerCase();
+      if (issuer && !haystack.includes(issuer)) return false;
     }
     return true;
   });

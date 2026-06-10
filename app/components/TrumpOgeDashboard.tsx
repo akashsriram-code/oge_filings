@@ -171,10 +171,21 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
   const trumpIndexEntries = useMemo(
     () => trumpIndexResult.entries.filter((entry) => {
       if (filters.sourceReliability && filters.sourceReliability !== 'All' && entry.sourceReliability !== filters.sourceReliability) return false;
-      if (filters.ticker && entry.resolvedTicker?.toUpperCase() !== String(filters.ticker).toUpperCase()) return false;
+      if (filters.ticker) {
+        const ticker = String(filters.ticker).toUpperCase();
+        const tickers = [entry.resolvedTicker, entry.issuerContextTicker].filter(Boolean).map((value) => String(value).toUpperCase());
+        if (!tickers.includes(ticker)) return false;
+      }
       if (filters.issuer) {
         const issuer = String(filters.issuer).trim().toLowerCase();
-        if (issuer && !(entry.resolvedIssuerName || entry.displayName).toLowerCase().includes(issuer)) return false;
+        const haystack = [
+          entry.resolvedIssuerName || '',
+          entry.issuerContextIssuerName || '',
+          entry.instrumentIssuerName || '',
+          entry.displayName,
+          entry.instrumentSummary || '',
+        ].join(' ').toLowerCase();
+        if (issuer && !haystack.includes(issuer)) return false;
       }
       return true;
     }),
@@ -237,6 +248,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
     .slice(0, 4);
   const assetSummary = buildAssetSummary(filteredTransactions);
   const enrichedTransactionCount = filteredTransactions.filter((tx) => tx.resolvedTicker).length;
+  const issuerContextCount = filteredTransactions.filter((tx) => tx.issuerContextTicker && !tx.resolvedTicker).length;
   const publicCompanyCount = new Set(filteredTransactions.map((tx) => tx.resolvedTicker).filter(Boolean)).size;
   const availableYears = useMemo(
     () => Array.from(new Set([
@@ -341,7 +353,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
             <input
               value={filters.query || ''}
               onChange={(event) => updateFilter('query', event.target.value)}
-              placeholder="Search security, ticker, issuer, CIK, sector"
+              placeholder="Search security, ticker, issuer context, CIK, sector"
               className="h-10 w-full rounded-md border border-slate-200 bg-slate-50 pl-9 pr-3 text-sm outline-none focus:border-sky-500 focus:bg-white"
             />
           </label>
@@ -435,7 +447,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
         </nav>
 
         <section className="mb-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-          <KpiCard label="Index entries" value={formatInteger(trumpIndexEntries.length)} sub={`${formatInteger(kpis.uniqueSecurities)} securities; ${formatInteger(enrichedTransactionCount)} public matches`} icon={<Layers className="h-4 w-4" />} />
+          <KpiCard label="Index entries" value={formatInteger(trumpIndexEntries.length)} sub={`${formatInteger(kpis.uniqueSecurities)} securities; ${formatInteger(enrichedTransactionCount)} direct, ${formatInteger(issuerContextCount)} issuer context`} icon={<Layers className="h-4 w-4" />} />
           <KpiCard label="Visible exposure" value={formatMoney(trumpIndexEntries.reduce((total, entry) => total + entry.currentMidpoint, 0))} sub={`Top score ${trumpIndexEntries[0]?.score.toFixed(1) || '0.0'} of 100`} icon={<RefreshCw className="h-4 w-4" />} />
           <KpiCard label="Purchases" value={formatInteger(kpis.purchaseCount)} sub={`${formatPct(kpis.purchaseCount, kpis.transactionCount)} of visible transactions`} icon={<ArrowUpRight className="h-4 w-4" />} tone="buy" />
           <KpiCard label="Sales" value={formatInteger(kpis.saleCount)} sub={`${formatPct(kpis.saleCount, kpis.transactionCount)} of visible transactions`} icon={<ArrowDownRight className="h-4 w-4" />} tone="sell" />
@@ -447,6 +459,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
           <span>
             Visible transactions are the rows left after the active filters. Percentages on the KPI cards use that visible set as the denominator.
             Public matches use SEC and Nasdaq Trader reference data; sector labels from matches are broad SEC/SIC-derived sectors, not GICS.
+            Issuer-context tickers explain bond/security issuers and are not direct bond identifiers.
           </span>
         </div>
 
@@ -626,12 +639,20 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
                     <tr key={holding.id}>
                       <Td>
                         <div className="max-w-[420px] truncate font-semibold">{holding.description}</div>
+                        {holding.instrumentSummary && (
+                          <div className="max-w-[460px] text-[11px] leading-4 text-slate-600">{holding.instrumentSummary}</div>
+                        )}
                         <div className="text-[11px] leading-4 text-slate-500">
                           {holding.transactionCount} transactions; last seen {holding.lastTransactionDate || 'no transaction date'}.
                         </div>
                         {holding.resolvedTicker && (
                           <div className="text-[11px] font-semibold text-sky-800">
                             Public match: {holding.resolvedTicker}{holding.resolvedExchange ? ` | ${holding.resolvedExchange}` : ''}
+                          </div>
+                        )}
+                        {!holding.resolvedTicker && holding.issuerContextTicker && (
+                          <div className="text-[11px] font-semibold text-sky-800">
+                            Issuer context: {holding.issuerContextTicker}{holding.issuerContextExchange ? ` | ${holding.issuerContextExchange}` : ''}{holding.issuerContextIssuerName ? ` | ${holding.issuerContextIssuerName}` : ''}
                           </div>
                         )}
                       </Td>
@@ -650,7 +671,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
                         <div className="space-y-1">
                           <StatusPill tone={holding.missingBaseline ? 'warn' : 'ok'} label={holding.missingBaseline ? 'No annual baseline' : 'Baseline match'} />
                           <div className="text-[11px] text-slate-500">{confidenceLabel(holding.confidence)} confidence</div>
-                          <EnrichmentBadges flags={holding.enrichmentFlags} />
+                          <EnrichmentBadges flags={[...holding.enrichmentFlags, ...(holding.instrumentContextFlags || []), ...(holding.issuerContextFlags || [])]} />
                         </div>
                       </Td>
                     </tr>
@@ -1300,17 +1321,28 @@ function TrumpIndexTable({
             </Td>
             <Td>
               <div className="max-w-[320px] truncate font-semibold">{entry.displayName}</div>
+              {entry.instrumentSummary && (
+                <div className="max-w-[360px] text-[11px] leading-4 text-slate-600">{entry.instrumentSummary}</div>
+              )}
               <div className="text-[11px] leading-4 text-slate-500">{entry.assetType} | {entry.sector}</div>
               <div className="text-[11px] leading-4 text-slate-500">
                 {entry.transactionCount} transactions; {entry.filingCount} filing source{entry.filingCount === 1 ? '' : 's'}
               </div>
             </Td>
             <Td>
-              <div className="font-semibold text-sky-800">{entry.resolvedTicker || 'No ticker'}</div>
-              <div className="max-w-[260px] text-[11px] leading-4 text-slate-500">
-                {entry.resolvedExchange ? `${entry.resolvedExchange}; ` : ''}
-                {entry.resolvedCik ? `CIK ${entry.resolvedCik}` : entry.resolvedIssuerName || 'No public issuer match'}
+              <div className="font-semibold text-sky-800">
+                {entry.resolvedTicker || entry.issuerContextTicker || 'No ticker'}
               </div>
+              <div className="max-w-[260px] text-[11px] leading-4 text-slate-500">
+                {entry.resolvedTicker ? 'Direct public match: ' : entry.issuerContextTicker ? 'Issuer context: ' : ''}
+                {entry.resolvedExchange || entry.issuerContextExchange ? `${entry.resolvedExchange || entry.issuerContextExchange}; ` : ''}
+                {entry.resolvedCik || entry.issuerContextCik
+                  ? `CIK ${entry.resolvedCik || entry.issuerContextCik}`
+                  : entry.resolvedIssuerName || entry.issuerContextIssuerName || entry.instrumentIssuerName || 'No public issuer match'}
+              </div>
+              {entry.issuerContextSector && entry.issuerContextSector !== entry.sector && (
+                <div className="max-w-[260px] text-[11px] leading-4 text-slate-500">{entry.issuerContextSector}</div>
+              )}
             </Td>
             <Td align="right">
               <div className="font-mono text-xs">{formatRange(entry.currentRange)}</div>
@@ -1346,7 +1378,9 @@ function TrumpIndexTable({
                     <div key={citation.label} className="max-w-[220px] truncate text-xs text-slate-500">{citation.label}</div>
                   )
                 ))}
-                {entry.reviewFlags.length > 0 && <EnrichmentBadges flags={entry.reviewFlags} />}
+                {(entry.reviewFlags.length > 0 || (entry.instrumentContextFlags || []).length > 0 || (entry.issuerContextFlags || []).length > 0) && (
+                  <EnrichmentBadges flags={[...entry.reviewFlags, ...(entry.instrumentContextFlags || []), ...(entry.issuerContextFlags || [])]} />
+                )}
               </div>
             </Td>
           </tr>
@@ -1485,7 +1519,7 @@ function IndexLeaderPanel({
               </span>
             </div>
             <div className="mt-1 flex items-center justify-between gap-3 text-[11px] text-slate-500">
-              <span>{entry.resolvedTicker || entry.assetType} | score {entry.score.toFixed(1)}</span>
+              <span>{entry.resolvedTicker || entry.issuerContextTicker || entry.assetType} | score {entry.score.toFixed(1)}</span>
               <span>{sourceReliabilityLabel(entry.sourceReliability)}</span>
             </div>
           </div>
@@ -1626,6 +1660,14 @@ function TransactionTable({ transactions }: { transactions: OgeTransaction[] }) 
                   Public match: {tx.resolvedTicker}{tx.resolvedExchange ? ` | ${tx.resolvedExchange}` : ''}{tx.resolvedIssuerName ? ` | ${tx.resolvedIssuerName}` : ''}
                 </div>
               )}
+              {!tx.resolvedTicker && tx.issuerContextTicker && (
+                <div className="text-[11px] font-semibold text-sky-800">
+                  Issuer context: {tx.issuerContextTicker}{tx.issuerContextExchange ? ` | ${tx.issuerContextExchange}` : ''}{tx.issuerContextIssuerName ? ` | ${tx.issuerContextIssuerName}` : ''}
+                </div>
+              )}
+              {tx.instrumentSummary && (
+                <div className="max-w-[560px] text-[11px] leading-4 text-slate-600">{tx.instrumentSummary}</div>
+              )}
               <div className="text-[11px] leading-4 text-slate-500">{describeTransaction(tx)}</div>
             </Td>
             <Td>
@@ -1646,7 +1688,10 @@ function TransactionTable({ transactions }: { transactions: OgeTransaction[] }) 
                 {tx.lateFilingFlag ? <StatusPill tone="warn" label="Reported late" /> : <StatusPill tone="ok" label="On-time flag" />}
                 <div className="text-[11px] text-slate-500">{confidenceLabel(tx.classificationConfidence)} classifier confidence</div>
                 <div className="text-[11px] text-slate-500">{confidenceLabel(tx.enrichmentConfidence)} enrichment confidence</div>
-                <EnrichmentBadges flags={tx.enrichmentFlags} />
+                {tx.instrumentMatchConfidence > 0 && (
+                  <div className="text-[11px] text-slate-500">{confidenceLabel(tx.instrumentMatchConfidence)} instrument read</div>
+                )}
+                <EnrichmentBadges flags={[...tx.enrichmentFlags, ...(tx.instrumentContextFlags || []), ...(tx.issuerContextFlags || [])]} />
               </div>
             </Td>
             <Td align="right">
@@ -1773,14 +1818,22 @@ function StatusPill({ label, tone }: { label: string; tone: 'ok' | 'warn' | 'neu
 }
 
 function EnrichmentBadges({ flags }: { flags: string[] }) {
-  if (flags.length === 0) return null;
+  const visibleFlags = Array.from(new Set(flags.filter(Boolean)));
+  if (visibleFlags.length === 0) return null;
   return (
     <div className="flex flex-wrap gap-1">
-      {flags.slice(0, 3).map((flag) => (
-        <StatusPill key={flag} tone={flag === 'No public match' ? 'neutral' : 'warn'} label={flag} />
+      {visibleFlags.slice(0, 3).map((flag) => (
+        <StatusPill key={flag} tone={reviewFlagTone(flag)} label={flag} />
       ))}
     </div>
   );
+}
+
+function reviewFlagTone(flag: string): 'warn' | 'neutral' {
+  if (flag === 'No public match') return 'neutral';
+  if (flag.includes('Issuer context only')) return 'neutral';
+  if (flag === 'No CUSIP/ISIN parsed') return 'neutral';
+  return 'warn';
 }
 
 function netDirectionTone(direction: EquityStockSummary['netDirection']): 'buy' | 'sell' | 'neutral' {

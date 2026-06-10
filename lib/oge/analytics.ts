@@ -1,5 +1,6 @@
 import { addRanges, subtractRanges, ZERO_RANGE } from './amounts';
 import { buildSecurityKey } from './classify';
+import { pickInstrumentContextFields } from './instruments';
 import type {
   BaselineHolding,
   EstimatedHolding,
@@ -78,6 +79,7 @@ export function buildHoldingsEstimates(
             ...rows.flatMap((tx) => tx.enrichmentFlags),
           ]),
         ],
+        ...pickInstrumentContextFields(baseline, sample),
         assetType: baseline?.assetType || sample.assetType,
         sector: baseline?.sector || sample.sector,
         baseline: baselineRange,
@@ -118,6 +120,7 @@ export function buildHoldingsEstimates(
       enrichmentSource: holding.enrichmentSource,
       enrichmentConfidence: holding.enrichmentConfidence,
       enrichmentFlags: holding.enrichmentFlags,
+      ...pickInstrumentContextFields(holding),
       assetType: holding.assetType,
       sector: holding.sector,
       baseline: holding.value,
@@ -276,7 +279,7 @@ export function buildKpis(dataset: Pick<TrumpOgeDataset, 'sourceFilings' | 'tran
     lateCount: dataset.transactions.filter((tx) => tx.lateFilingFlag).length,
     estimatedVolume: addRanges('Estimated transaction volume', dataset.transactions.map((tx) => tx.amount)),
     parserReviewCount: dataset.reviewQueue.length,
-    uniqueSecurities: new Set(dataset.transactions.map((tx) => tx.resolvedTicker || buildSecurityKey(tx.description))).size,
+    uniqueSecurities: new Set(dataset.transactions.map((tx) => tx.resolvedTicker || tx.issuerContextTicker || buildSecurityKey(tx.description))).size,
   };
 }
 

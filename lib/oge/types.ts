@@ -29,6 +29,40 @@ export type EnrichmentSource =
   | 'nasdaq-fuzzy'
   | 'none';
 
+export type InstrumentMatchSource =
+  | 'description-parser'
+  | 'openfigi'
+  | 'finra-trace'
+  | 'msrb-emma'
+  | 'none';
+
+export interface InstrumentContextFields {
+  instrumentKind: string | null;
+  instrumentIssuerName: string | null;
+  instrumentCusip: string | null;
+  instrumentIsin: string | null;
+  instrumentFigi: string | null;
+  instrumentCoupon: number | null;
+  instrumentMaturityDate: string | null;
+  instrumentCallable: boolean | null;
+  instrumentCallDate: string | null;
+  instrumentCallPrice: number | null;
+  instrumentYieldToCall: number | null;
+  instrumentYieldToMaturity: number | null;
+  instrumentSummary: string | null;
+  instrumentMatchSource: InstrumentMatchSource;
+  instrumentMatchConfidence: number;
+  instrumentContextFlags: string[];
+  issuerContextTicker: string | null;
+  issuerContextIssuerName: string | null;
+  issuerContextExchange: string | null;
+  issuerContextCik: number | null;
+  issuerContextSector: string | null;
+  issuerContextSource: string | null;
+  issuerContextConfidence: number;
+  issuerContextFlags: string[];
+}
+
 export interface MoneyRange {
   label: string;
   min: number;
@@ -79,7 +113,7 @@ export interface HistoricalSource {
   provenanceNote: string;
 }
 
-export interface OgeTransaction {
+export interface OgeTransaction extends InstrumentContextFields {
   id: string;
   description: string;
   normalizedDescription: string;
@@ -107,7 +141,7 @@ export interface OgeTransaction {
   reviewFlags: string[];
 }
 
-export interface BaselineHolding {
+export interface BaselineHolding extends InstrumentContextFields {
   id: string;
   description: string;
   normalizedDescription: string;
@@ -129,7 +163,7 @@ export interface BaselineHolding {
   reviewFlags: string[];
 }
 
-export interface EstimatedHolding {
+export interface EstimatedHolding extends InstrumentContextFields {
   id: string;
   description: string;
   normalizedDescription: string;
@@ -288,7 +322,7 @@ export interface TrumpIndexCitation {
   sourceReliability: SourceReliability;
 }
 
-export interface TrumpIndexEntry {
+export interface TrumpIndexEntry extends InstrumentContextFields {
   id: string;
   displayName: string;
   assetType: AssetType;
@@ -346,6 +380,7 @@ export interface CacheMeta {
   estimatedTotalMidpoint: number;
   securityReferenceCount: number;
   securityEnrichmentCount: number;
+  instrumentContextCount: number;
   enrichedTransactionCount: number;
   eventCount: number;
   eventWindowCount: number;
@@ -394,7 +429,7 @@ export interface SecurityReferenceCache {
   }>;
 }
 
-export interface SecurityEnrichment {
+export interface SecurityEnrichment extends InstrumentContextFields {
   id: string;
   securityKey: string;
   description: string;
