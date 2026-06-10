@@ -117,6 +117,10 @@ export async function loadTrumpOgeDataset(): Promise<TrumpOgeDataset> {
   };
 }
 
+export async function loadTrumpOgeCacheMeta(): Promise<CacheMeta> {
+  return readJson<CacheMeta>('cache-meta.json', EMPTY_META);
+}
+
 export function buildApiResponse(dataset: TrumpOgeDataset, filters: TrumpOgeFilters = {}): TrumpOgeApiResponse {
   const filteredTransactions = filterTransactions(dataset.transactions, filters);
   const filteredHoldings = buildHoldingsEstimates(filteredTransactions, dataset.baselineHoldings);

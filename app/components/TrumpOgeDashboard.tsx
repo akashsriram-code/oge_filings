@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from 'react';
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import * as XLSX from 'xlsx';
 import {
   AlertTriangle,
@@ -41,14 +41,38 @@ import {
 } from '@/lib/oge/events';
 import { filterTransactions } from '@/lib/oge/filter';
 import { buildTrumpIndex, buildTrumpIndexRollups } from '@/lib/oge/index';
+import { EMPTY_SECURITY_REFERENCE } from '@/lib/oge/enrichment';
 import { formatMoney, formatRange } from '@/lib/oge/amounts';
 import { confidenceLabel, describeAssetType, describeSector, describeTransaction, summarizeSector } from '@/lib/oge/descriptions';
 import { buildEquityStockSummaries, deriveEquityStockName, type EquityStockSummary } from '@/lib/oge/stocks';
 import { buildTrumpOgeWorkbook, trumpOgeWorkbookFilename } from '@/lib/oge/workbook';
-import type { AssetType, EventCategory, EventWindowSummary, HistoricalSource, OgeEvent, OgeTransaction, SectorSummary, SourceReliability, TrumpIndexCitation, TrumpIndexEntry, TrumpOgeApiResponse, TrumpOgeFilters } from '@/lib/oge/types';
+import type {
+  AssetIncomeHolding,
+  AssetType,
+  BaselineHolding,
+  CacheMeta,
+  EventCategory,
+  EventWindowSummary,
+  FinancialDisclosureReport,
+  HistoricalSource,
+  Liability,
+  OgeEvent,
+  OgeTransaction,
+  ReviewQueueItem,
+  SecurityEnrichment,
+  SectorSummary,
+  SourceFiling,
+  SourceReliability,
+  TrumpIndexCitation,
+  TrumpIndexEntry,
+  TrumpOgeApiResponse,
+  TrumpOgeDataset,
+  TrumpOgeFilters,
+  YearlyExposureSummary,
+} from '@/lib/oge/types';
 
 interface TrumpOgeDashboardProps {
-  initialData: TrumpOgeApiResponse;
+  initialData?: TrumpOgeApiResponse | null;
 }
 
 type Tab = 'index' | 'holdings' | 'transactions' | 'filings' | 'review';
@@ -80,6 +104,33 @@ const FILTER_DEFAULTS: TrumpOgeFilters = {
 const EVENT_CATEGORIES: EventCategory[] = ['tariff', 'fed', 'white-house', 'market', 'company-news', 'truth-social', 'manual'];
 
 export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
+  const [loadedData, setLoadedData] = useState<TrumpOgeApiResponse | null>(initialData || null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (initialData || loadedData) return;
+    let cancelled = false;
+    loadDashboardData()
+      .then((data) => {
+        if (!cancelled) setLoadedData(data);
+      })
+      .catch((error) => {
+        if (!cancelled) setLoadError(error instanceof Error ? error.message : String(error));
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [initialData, loadedData]);
+
+  const data = initialData || loadedData;
+  if (!data) {
+    return <DashboardLoading error={loadError} />;
+  }
+
+  return <TrumpOgeDashboardLoaded initialData={data} />;
+}
+
+function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResponse }) {
   const mounted = useClientReady();
   const [filters, setFilters] = useState<TrumpOgeFilters>(FILTER_DEFAULTS);
   const [activeTab, setActiveTab] = useState<Tab>('index');
@@ -725,6 +776,105 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
       </div>
     </main>
   );
+}
+
+function DashboardLoading({ error }: { error: string | null }) {
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-[#f6f6f4] px-5 text-slate-900">
+      <section className="w-full max-w-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="mb-4 flex items-center gap-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded-md bg-slate-900 text-white">
+            <Database className="h-4 w-4" />
+          </div>
+          <div>
+            <h1 className="text-base font-bold">Trump Index</h1>
+            <div className="text-xs text-slate-500">Loading versioned OGE cache files</div>
+          </div>
+        </div>
+        {error ? (
+          <div className="border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-900">
+            Could not load dashboard data: {error}
+          </div>
+        ) : (
+          <div className="space-y-3">
+            <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+              <div className="h-full w-1/2 animate-pulse rounded-full bg-slate-900" />
+            </div>
+            <div className="text-sm text-slate-600">Preparing the reporter dashboard...</div>
+          </div>
+        )}
+      </section>
+    </main>
+  );
+}
+
+async function loadDashboardData(): Promise<TrumpOgeApiResponse> {
+  const [
+    historicalSources,
+    sourceFilings,
+    transactions,
+    baselineHoldings,
+    financialDisclosureReports,
+    assetIncomeHoldings,
+    liabilities,
+    yearlyExposureSummaries,
+    reviewQueue,
+    events,
+    securityEnrichments,
+    cacheMeta,
+  ] = await Promise.all([
+    importJson<HistoricalSource[]>(() => import('@/data/oge/trump/historical-sources.json')),
+    importJson<SourceFiling[]>(() => import('@/data/oge/trump/source-filings.json')),
+    importJson<OgeTransaction[]>(() => import('@/data/oge/trump/transactions.json')),
+    importJson<BaselineHolding[]>(() => import('@/data/oge/trump/baseline-holdings.json')),
+    importJson<FinancialDisclosureReport[]>(() => import('@/data/oge/trump/financial-disclosure-reports.json')),
+    importJson<AssetIncomeHolding[]>(() => import('@/data/oge/trump/asset-income-holdings.json')),
+    importJson<Liability[]>(() => import('@/data/oge/trump/liabilities.json')),
+    importJson<YearlyExposureSummary[]>(() => import('@/data/oge/trump/yearly-exposure-summaries.json')),
+    importJson<ReviewQueueItem[]>(() => import('@/data/oge/trump/review-queue.json')),
+    importJson<OgeEvent[]>(() => import('@/data/oge/trump/events.json')),
+    importJson<SecurityEnrichment[]>(() => import('@/data/oge/trump/security-enrichment.json')),
+    importJson<CacheMeta>(() => import('@/data/oge/trump/cache-meta.json')),
+  ]);
+
+  const dataset: TrumpOgeDataset = {
+    historicalSources,
+    sourceFilings,
+    transactions,
+    baselineHoldings,
+    financialDisclosureReports,
+    assetIncomeHoldings,
+    liabilities,
+    yearlyExposureSummaries,
+    holdingsEstimates: [],
+    sectorSummaries: [],
+    trumpIndex: [],
+    trumpIndexRollups: [],
+    reviewQueue,
+    events,
+    eventWindows: [],
+    securityReference: EMPTY_SECURITY_REFERENCE,
+    securityEnrichments,
+    cacheMeta,
+  };
+
+  return {
+    ...dataset,
+    kpis: buildKpis({
+      sourceFilings,
+      transactions,
+      reviewQueue,
+    }),
+    filters: {
+      lateOnly: false,
+    },
+    availableSectors: Array.from(new Set(transactions.map((tx) => tx.sector))).sort(),
+    availableAssetTypes: Array.from(new Set(transactions.map((tx) => tx.assetType))).sort(),
+  };
+}
+
+async function importJson<T>(loader: () => Promise<{ default: unknown }>): Promise<T> {
+  return (await loader()).default as T;
 }
 
 function useClientReady() {
