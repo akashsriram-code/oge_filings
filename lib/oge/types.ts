@@ -49,6 +49,11 @@ export interface InstrumentContextFields {
   instrumentCallPrice: number | null;
   instrumentYieldToCall: number | null;
   instrumentYieldToMaturity: number | null;
+  instrumentIssuerState: string | null;
+  instrumentIssuerCategory: string | null;
+  instrumentReferenceLabel: string | null;
+  instrumentReferenceSource: string | null;
+  instrumentReferenceUrl: string | null;
   instrumentSummary: string | null;
   instrumentMatchSource: InstrumentMatchSource;
   instrumentMatchConfidence: number;

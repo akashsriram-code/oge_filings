@@ -15,6 +15,8 @@ export interface ParsedInstrument {
   callPrice: number | null;
   yieldToCall: number | null;
   yieldToMaturity: number | null;
+  issuerState: string | null;
+  issuerCategory: string | null;
   confidence: number;
   flags: string[];
 }
@@ -40,6 +42,11 @@ export function emptyInstrumentFields(): InstrumentContextFields {
     instrumentCallPrice: null,
     instrumentYieldToCall: null,
     instrumentYieldToMaturity: null,
+    instrumentIssuerState: null,
+    instrumentIssuerCategory: null,
+    instrumentReferenceLabel: null,
+    instrumentReferenceSource: null,
+    instrumentReferenceUrl: null,
     instrumentSummary: null,
     instrumentMatchSource: 'none',
     instrumentMatchConfidence: 0,
@@ -60,7 +67,7 @@ export function parseInstrumentDescription(description: string, assetType: Asset
   const normalized = normalizeSecurityDescription(description);
   const dueDate = parseDateMatch(raw.match(/\bDUE\s+(\d{1,2}\/\d{1,2}\/\d{2,4})\b/)?.[1]);
   const maturityDate = dueDate || parseDateMatch(raw.match(/\bMATURITY\s+(\d{1,2}\/\d{1,2}\/\d{2,4})\b/)?.[1]);
-  const coupon = parseNumberMatch(raw.match(/\b(\d{1,2}\.\d{2,4})\s*%/)?.[1]);
+  const coupon = parseNumberMatch(raw.match(/\b(\d{1,2}(?:\.\d{1,4})?)\s*%/)?.[1]);
   const callDate = parseDateMatch(raw.match(/\bCALLABLE\s+(\d{1,2}\/\d{1,2}\/\d{2,4})\b/)?.[1]);
   const callPrice = parseNumberMatch(raw.match(/\bCALLABLE\s+\d{1,2}\/\d{1,2}\/\d{2,4}\s+AT\s+(\d{1,3}(?:\.\d+)?)\b/)?.[1]);
   const yieldToCall = parseNumberMatch(raw.match(/\bYIELD\s+(\d{1,2}\.\d{2,4})\s*%\s+TO\s+PAR\s+CALL\b/)?.[1]);
@@ -69,6 +76,8 @@ export function parseInstrumentDescription(description: string, assetType: Asset
   const isin = raw.match(/\b([A-Z]{2}[A-Z0-9]{9}\d)\b/)?.[1] || null;
   const figi = raw.match(/\b(BBG[A-Z0-9]{9})\b/)?.[1] || null;
   const issuerName = cleanInstrumentIssuerName(extractIssuerStem(normalized));
+  const issuerState = assetType === 'Municipal Bond' ? inferMunicipalState(issuerName) : null;
+  const issuerCategory = assetType === 'Municipal Bond' ? inferMunicipalIssuerCategory(issuerName) : null;
   const hasInstrumentSignal = Boolean(
     maturityDate ||
     coupon !== null ||
@@ -96,6 +105,8 @@ export function parseInstrumentDescription(description: string, assetType: Asset
       callPrice,
       yieldToCall,
       yieldToMaturity,
+      issuerState,
+      issuerCategory,
       confidence: 0,
       flags: [],
     };
@@ -121,6 +132,8 @@ export function parseInstrumentDescription(description: string, assetType: Asset
     callPrice,
     yieldToCall,
     yieldToMaturity,
+    issuerState,
+    issuerCategory,
     confidence: instrumentConfidence({ issuerName, maturityDate, coupon, callDate, cusip, isin, figi }),
     flags,
   };
@@ -136,6 +149,7 @@ export function buildInstrumentFields(
 
   const instrumentContextFlags = [...parsed.flags];
   const issuerContextFlags = issuerContext?.flags || [];
+  const instrumentReference = buildInstrumentReference(parsed);
 
   return {
     instrumentKind: parsed.instrumentKind,
@@ -150,6 +164,11 @@ export function buildInstrumentFields(
     instrumentCallPrice: parsed.callPrice,
     instrumentYieldToCall: parsed.yieldToCall,
     instrumentYieldToMaturity: parsed.yieldToMaturity,
+    instrumentIssuerState: parsed.issuerState,
+    instrumentIssuerCategory: parsed.issuerCategory,
+    instrumentReferenceLabel: instrumentReference.label,
+    instrumentReferenceSource: instrumentReference.source,
+    instrumentReferenceUrl: instrumentReference.url,
     instrumentSummary: buildInstrumentSummary(parsed, issuerContext),
     instrumentMatchSource: 'description-parser',
     instrumentMatchConfidence: parsed.confidence,
@@ -183,6 +202,11 @@ export function pickInstrumentContextFields(
     instrumentCallPrice: first(primary?.instrumentCallPrice, fallback?.instrumentCallPrice, empty.instrumentCallPrice),
     instrumentYieldToCall: first(primary?.instrumentYieldToCall, fallback?.instrumentYieldToCall, empty.instrumentYieldToCall),
     instrumentYieldToMaturity: first(primary?.instrumentYieldToMaturity, fallback?.instrumentYieldToMaturity, empty.instrumentYieldToMaturity),
+    instrumentIssuerState: first(primary?.instrumentIssuerState, fallback?.instrumentIssuerState, empty.instrumentIssuerState),
+    instrumentIssuerCategory: first(primary?.instrumentIssuerCategory, fallback?.instrumentIssuerCategory, empty.instrumentIssuerCategory),
+    instrumentReferenceLabel: first(primary?.instrumentReferenceLabel, fallback?.instrumentReferenceLabel, empty.instrumentReferenceLabel),
+    instrumentReferenceSource: first(primary?.instrumentReferenceSource, fallback?.instrumentReferenceSource, empty.instrumentReferenceSource),
+    instrumentReferenceUrl: first(primary?.instrumentReferenceUrl, fallback?.instrumentReferenceUrl, empty.instrumentReferenceUrl),
     instrumentSummary: first(primary?.instrumentSummary, fallback?.instrumentSummary, empty.instrumentSummary),
     instrumentMatchSource: first(primary?.instrumentMatchSource, fallback?.instrumentMatchSource, empty.instrumentMatchSource),
     instrumentMatchConfidence: Math.max(primary?.instrumentMatchConfidence || 0, fallback?.instrumentMatchConfidence || 0),
@@ -217,6 +241,8 @@ function buildInstrumentSummary(parsed: ParsedInstrument, issuerContext: IssuerC
   const subject = [issuer, parsed.instrumentKind].filter(Boolean).join(' ') || parsed.instrumentKind || 'Instrument';
   const context = issuerContext
     ? ` Issuer context: ${issuerContext.entry.ticker}${issuerContext.entry.exchange ? ` on ${issuerContext.entry.exchange}` : ''}${issuerContext.entry.sector ? `, ${issuerContext.entry.sector}` : ''}; not a direct bond identifier.`
+    : parsed.instrumentKind === 'municipal bond'
+      ? ` Public reference: MSRB EMMA municipal security search${parsed.issuerState ? `, ${parsed.issuerState}` : ''}${parsed.issuerCategory ? `, ${parsed.issuerCategory}` : ''}; not a ticker.`
     : '';
   return `${subject}${facts.length > 0 ? ` (${facts.join('; ')})` : ''}.${context}`.replace(/\s+/g, ' ').trim();
 }
@@ -225,7 +251,7 @@ function extractIssuerStem(normalized: string): string {
   return normalized
     .replace(/\b(CUSIP|FIGI|ISIN)\b.*$/g, ' ')
     .replace(/\b(DUE|DTD|MATURITY)\b.*$/g, ' ')
-    .replace(/\b\d{1,2}\.\d{2,4}\s*%.*$/g, ' ')
+    .replace(/\b\d{1,2}(?:\.\d{1,4})?\s*%.*$/g, ' ')
     .replace(/\b(DISCRETIONARY ORDER|CONFIRMATION|PURSUANT TO REG S)\b.*$/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
@@ -238,10 +264,69 @@ function cleanInstrumentIssuerName(value: string): string | null {
     .map((token) => ISSUER_ALIASES[token] || token)
     .filter(Boolean);
 
+  tokens = normalizeMunicipalStateToken(tokens);
+
   while (tokens.length > 1 && TRAILING_LOCATION_TOKENS.has(tokens[tokens.length - 1])) tokens = tokens.slice(0, -1);
   while (tokens.length > 1 && TRAILING_LOCATION_TOKENS.has(tokens[tokens.length - 1])) tokens = tokens.slice(0, -1);
 
   return tokens.join(' ').replace(/\s+/g, ' ').trim() || null;
+}
+
+function buildInstrumentReference(parsed: ParsedInstrument): { label: string | null; source: string | null; url: string | null } {
+  if (parsed.instrumentKind === 'municipal bond') {
+    const query = [
+      parsed.cusip || '',
+      parsed.issuerName || '',
+      parsed.coupon !== null ? `${formatNumber(parsed.coupon, 3)}%` : '',
+      parsed.maturityDate || '',
+    ].filter(Boolean).join(' ');
+    return {
+      label: parsed.cusip ? `EMMA ${parsed.cusip}` : 'MSRB EMMA',
+      source: 'MSRB EMMA municipal securities search',
+      url: `https://emma.msrb.org/Search/Search.aspx${query ? `?searchText=${encodeURIComponent(query)}` : ''}`,
+    };
+  }
+
+  if (parsed.cusip || parsed.isin || parsed.figi) {
+    return {
+      label: parsed.cusip || parsed.isin || parsed.figi,
+      source: 'Public fixed-income identifier parsed from OGE description',
+      url: null,
+    };
+  }
+
+  return { label: null, source: null, url: null };
+}
+
+function inferMunicipalState(issuerName: string | null): string | null {
+  if (!issuerName) return null;
+  const tokens = issuerName.split(/\s+/);
+  for (const token of tokens) {
+    const state = STATE_TOKEN_NAMES[token];
+    if (state) return state;
+  }
+  return null;
+}
+
+function inferMunicipalIssuerCategory(issuerName: string | null): string | null {
+  const normalized = normalizeSecurityDescription(issuerName || '');
+  if (/\b(HEALTH|HOSPITAL|MEDICAL|CARE|FACILITIES)\b/.test(normalized)) return 'Health care / hospital';
+  if (/\b(TRANSPORTATION|TRANSIT|TOLL|TURNPIKE|RAIL|RAILROAD|METROPOLITAN TRANSPORTATION)\b/.test(normalized)) return 'Transportation';
+  if (/\b(UNIVERSITY|COLLEGE|SCHOOL|EDUCATION|EDUCATIONAL)\b/.test(normalized)) return 'Education';
+  if (/\b(WATER|SEWER|SANITARY)\b/.test(normalized)) return 'Water / sewer';
+  if (/\b(AIRPORT|PORT)\b/.test(normalized)) return 'Airport / port';
+  if (/\b(HOUSING|MORTGAGE)\b/.test(normalized)) return 'Housing';
+  if (/\b(POWER|ELECTRIC|UTILITY)\b/.test(normalized)) return 'Public power / utility';
+  if (/\b(COUNTY|CITY|TOWN|VILLAGE)\b/.test(normalized)) return 'Local government';
+  if (/\b(STATE|AUTHORITY|FINANCE|DEVELOPMENT|REVENUE)\b/.test(normalized)) return 'State / authority revenue';
+  return null;
+}
+
+function normalizeMunicipalStateToken(tokens: string[]): string[] {
+  return tokens.map((token, index) => {
+    if (token === 'ST' && index > 0 && STATE_TOKEN_NAMES[tokens[index - 1]]) return 'STATE';
+    return token;
+  });
 }
 
 function issuerSearchNames(issuerName: string | null): string[] {
@@ -344,12 +429,114 @@ const ISSUER_ALIASES: Record<string, string> = {
   BK: 'BANK',
   CO: 'COMPANY',
   CORP: 'CORPORATION',
+  CNTY: 'COUNTY',
+  DEV: 'DEVELOPMENT',
+  DIST: 'DISTRICT',
+  EDL: 'EDUCATIONAL',
+  FACS: 'FACILITIES',
+  FIN: 'FINANCE',
+  GOVT: 'GOVERNMENT',
+  HEAL: 'HEALTH',
+  HEALT: 'HEALTH',
+  HLTH: 'HEALTH',
   HLDG: 'HOLDINGS',
   HLDGS: 'HOLDINGS',
+  HOSP: 'HOSPITAL',
+  IMPT: 'IMPROVEMENT',
   NATL: 'NATIONAL',
   NA: 'NATIONAL ASSOCIATION',
   N: 'NATIONAL',
+  PUB: 'PUBLIC',
+  REV: 'REVENUE',
+  SCH: 'SCHOOL',
+  TRANS: 'TRANSPORTATION',
+  TRANSN: 'TRANSPORTATION',
+  TRANSPRTN: 'TRANSPORTATION',
   TR: 'TRUST',
+  UNIV: 'UNIVERSITY',
+  WTR: 'WATER',
+};
+
+const STATE_TOKEN_NAMES: Record<string, string> = {
+  ALA: 'Alabama',
+  ALABAMA: 'Alabama',
+  ALASKA: 'Alaska',
+  ARIZ: 'Arizona',
+  ARIZONA: 'Arizona',
+  ARK: 'Arkansas',
+  ARKANSAS: 'Arkansas',
+  CALIF: 'California',
+  CALIFORNIA: 'California',
+  COLO: 'Colorado',
+  COLORADO: 'Colorado',
+  CONN: 'Connecticut',
+  CONNECTICUT: 'Connecticut',
+  DEL: 'Delaware',
+  DELAWARE: 'Delaware',
+  FLA: 'Florida',
+  FLORIDA: 'Florida',
+  GA: 'Georgia',
+  GEORGIA: 'Georgia',
+  HAWAII: 'Hawaii',
+  IDAHO: 'Idaho',
+  ILL: 'Illinois',
+  ILLINOIS: 'Illinois',
+  IND: 'Indiana',
+  INDIANA: 'Indiana',
+  IOWA: 'Iowa',
+  KAN: 'Kansas',
+  KANSAS: 'Kansas',
+  KY: 'Kentucky',
+  KENTUCKY: 'Kentucky',
+  LA: 'Louisiana',
+  LOUISIANA: 'Louisiana',
+  MAINE: 'Maine',
+  MD: 'Maryland',
+  MARYLAND: 'Maryland',
+  MASS: 'Massachusetts',
+  MASSACHUSETTS: 'Massachusetts',
+  MICH: 'Michigan',
+  MICHIGAN: 'Michigan',
+  MINN: 'Minnesota',
+  MINNESOTA: 'Minnesota',
+  MISS: 'Mississippi',
+  MISSISSIPPI: 'Mississippi',
+  MO: 'Missouri',
+  MISSOURI: 'Missouri',
+  MONT: 'Montana',
+  MONTANA: 'Montana',
+  NEB: 'Nebraska',
+  NEBRASKA: 'Nebraska',
+  NEV: 'Nevada',
+  NEVADA: 'Nevada',
+  NH: 'New Hampshire',
+  NJ: 'New Jersey',
+  NM: 'New Mexico',
+  NY: 'New York',
+  OHIO: 'Ohio',
+  OKLA: 'Oklahoma',
+  OREGON: 'Oregon',
+  ORE: 'Oregon',
+  PA: 'Pennsylvania',
+  PENN: 'Pennsylvania',
+  PENNSYLVANIA: 'Pennsylvania',
+  RI: 'Rhode Island',
+  SC: 'South Carolina',
+  SD: 'South Dakota',
+  TENN: 'Tennessee',
+  TENNESSEE: 'Tennessee',
+  TEX: 'Texas',
+  TEXAS: 'Texas',
+  UTAH: 'Utah',
+  VT: 'Vermont',
+  VA: 'Virginia',
+  VIRGINIA: 'Virginia',
+  WASH: 'Washington',
+  WASHINGTON: 'Washington',
+  WIS: 'Wisconsin',
+  WISCONSIN: 'Wisconsin',
+  WYO: 'Wyoming',
+  WYOMING: 'Wyoming',
 };
 
 const TRAILING_LOCATION_TOKENS = new Set([

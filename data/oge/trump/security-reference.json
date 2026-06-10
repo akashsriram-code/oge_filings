@@ -1,32 +1,32 @@
 {
-  "generatedAt": "2026-06-10T13:11:52.389Z",
+  "generatedAt": "2026-06-10T13:55:38.714Z",
   "sources": [
     {
       "name": "SEC company tickers/exchanges",
       "url": "https://www.sec.gov/files/company_tickers_exchange.json",
-      "fetchedAt": "2026-06-10T13:11:52.389Z",
+      "fetchedAt": "2026-06-10T13:55:38.714Z",
       "rowCount": 10385,
       "status": "ok"
     },
     {
       "name": "Nasdaq Trader listed symbols",
       "url": "https://www.nasdaqtrader.com/dynamic/SymDir/nasdaqlisted.txt",
-      "fetchedAt": "2026-06-10T13:11:52.389Z",
+      "fetchedAt": "2026-06-10T13:55:38.714Z",
       "rowCount": 5514,
       "status": "ok"
     },
     {
       "name": "Nasdaq Trader other-listed symbols",
       "url": "https://www.nasdaqtrader.com/dynamic/SymDir/otherlisted.txt",
-      "fetchedAt": "2026-06-10T13:11:52.389Z",
+      "fetchedAt": "2026-06-10T13:55:38.714Z",
       "rowCount": 7290,
       "status": "ok"
     },
     {
       "name": "SEC company submissions",
       "url": "https://data.sec.gov/submissions",
-      "fetchedAt": "2026-06-10T13:12:01.584Z",
-      "rowCount": 24,
+      "fetchedAt": "2026-06-10T13:55:40.720Z",
+      "rowCount": 0,
       "status": "ok"
     }
   ],

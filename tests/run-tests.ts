@@ -167,6 +167,26 @@ function testSecurityEnrichment() {
   assert.equal(firstHorizon.instrumentCallDate, '2030-02-01');
   assert.ok(firstHorizon.instrumentSummary?.includes('5.75% coupon'));
   assert.ok(firstHorizon.issuerContextFlags.includes('Issuer context only; not direct instrument ticker'));
+
+  const washingtonMuni = enrichTransactions([
+    makeTransaction({
+      description: 'WASHINGTON ST HEALT 5% DUE 09/01/35',
+      normalizedDescription: 'WASHINGTON ST HEALT 5% DUE 09/01/35',
+      assetType: 'Municipal Bond',
+      sector: 'Municipal Bonds',
+      classificationConfidence: 0.9,
+      reviewFlags: [],
+    }),
+  ], reference).transactions[0];
+  assert.equal(washingtonMuni.resolvedTicker, null);
+  assert.equal(washingtonMuni.instrumentReferenceLabel, 'MSRB EMMA');
+  assert.equal(washingtonMuni.instrumentIssuerName, 'WASHINGTON STATE HEALTH');
+  assert.equal(washingtonMuni.instrumentIssuerState, 'Washington');
+  assert.equal(washingtonMuni.instrumentIssuerCategory, 'Health care / hospital');
+  assert.equal(washingtonMuni.instrumentCoupon, 5);
+  assert.equal(washingtonMuni.instrumentMaturityDate, '2035-09-01');
+  assert.ok(washingtonMuni.instrumentSummary?.includes('Public reference: MSRB EMMA'));
+  assert.ok(washingtonMuni.instrumentReferenceUrl?.includes('emma.msrb.org'));
 }
 
 function testEventOverlay() {
@@ -364,6 +384,7 @@ async function testWorkbookExport() {
   const transactionRows = XLSX.utils.sheet_to_json<Record<string, unknown>>(workbook.Sheets.Transactions);
   assert.ok('resolved_ticker' in transactionRows[0], 'transactions export should include resolved_ticker');
   assert.ok('instrument_summary' in transactionRows[0], 'transactions export should include instrument_summary');
+  assert.ok('instrument_reference_label' in transactionRows[0], 'transactions export should include instrument_reference_label');
   const stockRows = XLSX.utils.sheet_to_json<Record<string, unknown>>(workbook.Sheets['Equity Stocks']);
   assert.ok('net_direction' in stockRows[0], 'equity stocks export should include net_direction');
 }

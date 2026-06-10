@@ -182,6 +182,10 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
           entry.resolvedIssuerName || '',
           entry.issuerContextIssuerName || '',
           entry.instrumentIssuerName || '',
+          entry.instrumentIssuerState || '',
+          entry.instrumentIssuerCategory || '',
+          entry.instrumentReferenceLabel || '',
+          entry.instrumentReferenceSource || '',
           entry.displayName,
           entry.instrumentSummary || '',
         ].join(' ').toLowerCase();
@@ -248,7 +252,9 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
     .slice(0, 4);
   const assetSummary = buildAssetSummary(filteredTransactions);
   const enrichedTransactionCount = filteredTransactions.filter((tx) => tx.resolvedTicker).length;
-  const issuerContextCount = filteredTransactions.filter((tx) => tx.issuerContextTicker && !tx.resolvedTicker).length;
+  const issuerContextCount = filteredTransactions.filter((tx) =>
+    !tx.resolvedTicker && (tx.issuerContextTicker || tx.instrumentReferenceLabel)
+  ).length;
   const publicCompanyCount = new Set(filteredTransactions.map((tx) => tx.resolvedTicker).filter(Boolean)).size;
   const availableYears = useMemo(
     () => Array.from(new Set([
@@ -447,7 +453,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
         </nav>
 
         <section className="mb-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-          <KpiCard label="Index entries" value={formatInteger(trumpIndexEntries.length)} sub={`${formatInteger(kpis.uniqueSecurities)} securities; ${formatInteger(enrichedTransactionCount)} direct, ${formatInteger(issuerContextCount)} issuer context`} icon={<Layers className="h-4 w-4" />} />
+          <KpiCard label="Index entries" value={formatInteger(trumpIndexEntries.length)} sub={`${formatInteger(kpis.uniqueSecurities)} securities; ${formatInteger(enrichedTransactionCount)} direct, ${formatInteger(issuerContextCount)} issuer/instrument refs`} icon={<Layers className="h-4 w-4" />} />
           <KpiCard label="Visible exposure" value={formatMoney(trumpIndexEntries.reduce((total, entry) => total + entry.currentMidpoint, 0))} sub={`Top score ${trumpIndexEntries[0]?.score.toFixed(1) || '0.0'} of 100`} icon={<RefreshCw className="h-4 w-4" />} />
           <KpiCard label="Purchases" value={formatInteger(kpis.purchaseCount)} sub={`${formatPct(kpis.purchaseCount, kpis.transactionCount)} of visible transactions`} icon={<ArrowUpRight className="h-4 w-4" />} tone="buy" />
           <KpiCard label="Sales" value={formatInteger(kpis.saleCount)} sub={`${formatPct(kpis.saleCount, kpis.transactionCount)} of visible transactions`} icon={<ArrowDownRight className="h-4 w-4" />} tone="sell" />
@@ -654,6 +660,11 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
                           <div className="text-[11px] font-semibold text-sky-800">
                             Issuer context: {holding.issuerContextTicker}{holding.issuerContextExchange ? ` | ${holding.issuerContextExchange}` : ''}{holding.issuerContextIssuerName ? ` | ${holding.issuerContextIssuerName}` : ''}
                           </div>
+                        )}
+                        {!holding.resolvedTicker && !holding.issuerContextTicker && holding.instrumentReferenceLabel && (
+                          <a href={holding.instrumentReferenceUrl || 'https://emma.msrb.org/'} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[11px] font-semibold text-sky-800">
+                            {holding.instrumentReferenceLabel}{holding.instrumentReferenceSource ? ` | ${holding.instrumentReferenceSource}` : ''} <ExternalLink className="h-3 w-3" />
+                          </a>
                         )}
                       </Td>
                       <Td>
@@ -1330,18 +1341,17 @@ function TrumpIndexTable({
               </div>
             </Td>
             <Td>
-              <div className="font-semibold text-sky-800">
-                {entry.resolvedTicker || entry.issuerContextTicker || 'No ticker'}
-              </div>
+              <ReferenceLabel row={entry} />
               <div className="max-w-[260px] text-[11px] leading-4 text-slate-500">
-                {entry.resolvedTicker ? 'Direct public match: ' : entry.issuerContextTicker ? 'Issuer context: ' : ''}
-                {entry.resolvedExchange || entry.issuerContextExchange ? `${entry.resolvedExchange || entry.issuerContextExchange}; ` : ''}
-                {entry.resolvedCik || entry.issuerContextCik
-                  ? `CIK ${entry.resolvedCik || entry.issuerContextCik}`
-                  : entry.resolvedIssuerName || entry.issuerContextIssuerName || entry.instrumentIssuerName || 'No public issuer match'}
+                {referenceDetail(entry)}
               </div>
               {entry.issuerContextSector && entry.issuerContextSector !== entry.sector && (
                 <div className="max-w-[260px] text-[11px] leading-4 text-slate-500">{entry.issuerContextSector}</div>
+              )}
+              {(entry.instrumentIssuerState || entry.instrumentIssuerCategory) && (
+                <div className="max-w-[260px] text-[11px] leading-4 text-slate-500">
+                  {[entry.instrumentIssuerState, entry.instrumentIssuerCategory].filter(Boolean).join(' | ')}
+                </div>
               )}
             </Td>
             <Td align="right">
@@ -1388,6 +1398,42 @@ function TrumpIndexTable({
       </tbody>
     </DataTable>
   );
+}
+
+function ReferenceLabel({ row }: { row: TrumpIndexEntry }) {
+  const label = row.resolvedTicker || row.issuerContextTicker || row.instrumentReferenceLabel || 'No ticker';
+  if (row.instrumentReferenceUrl && !row.resolvedTicker && !row.issuerContextTicker) {
+    return (
+      <a href={row.instrumentReferenceUrl} target="_blank" rel="noreferrer" className="inline-flex max-w-[220px] items-center gap-1 truncate font-semibold text-sky-800">
+        {label} <ExternalLink className="h-3 w-3 shrink-0" />
+      </a>
+    );
+  }
+  return <div className="font-semibold text-sky-800">{label}</div>;
+}
+
+function referenceDetail(row: TrumpIndexEntry): string {
+  if (row.resolvedTicker) {
+    return [
+      'Direct public match:',
+      row.resolvedExchange ? `${row.resolvedExchange};` : '',
+      row.resolvedCik ? `CIK ${row.resolvedCik}` : row.resolvedIssuerName || '',
+    ].filter(Boolean).join(' ');
+  }
+  if (row.issuerContextTicker) {
+    return [
+      'Issuer context:',
+      row.issuerContextExchange ? `${row.issuerContextExchange};` : '',
+      row.issuerContextCik ? `CIK ${row.issuerContextCik}` : row.issuerContextIssuerName || '',
+    ].filter(Boolean).join(' ');
+  }
+  if (row.instrumentReferenceLabel) {
+    return [
+      row.instrumentReferenceSource || 'Instrument reference',
+      row.instrumentIssuerName ? `for ${row.instrumentIssuerName}` : '',
+    ].filter(Boolean).join(' ');
+  }
+  return row.instrumentIssuerName || 'No public issuer match';
 }
 
 interface AskResponse {
@@ -1531,7 +1577,7 @@ function IndexLeaderPanel({
               </span>
             </div>
             <div className="mt-1 flex items-center justify-between gap-3 text-[11px] text-slate-500">
-              <span>{entry.resolvedTicker || entry.issuerContextTicker || entry.assetType} | score {entry.score.toFixed(1)}</span>
+              <span>{entry.resolvedTicker || entry.issuerContextTicker || entry.instrumentReferenceLabel || entry.assetType} | score {entry.score.toFixed(1)}</span>
               <span>{sourceReliabilityLabel(entry.sourceReliability)}</span>
             </div>
           </div>
@@ -1676,6 +1722,11 @@ function TransactionTable({ transactions }: { transactions: OgeTransaction[] }) 
                 <div className="text-[11px] font-semibold text-sky-800">
                   Issuer context: {tx.issuerContextTicker}{tx.issuerContextExchange ? ` | ${tx.issuerContextExchange}` : ''}{tx.issuerContextIssuerName ? ` | ${tx.issuerContextIssuerName}` : ''}
                 </div>
+              )}
+              {!tx.resolvedTicker && !tx.issuerContextTicker && tx.instrumentReferenceLabel && (
+                <a href={tx.instrumentReferenceUrl || 'https://emma.msrb.org/'} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[11px] font-semibold text-sky-800">
+                  {tx.instrumentReferenceLabel}{tx.instrumentReferenceSource ? ` | ${tx.instrumentReferenceSource}` : ''} <ExternalLink className="h-3 w-3" />
+                </a>
               )}
               {tx.instrumentSummary && (
                 <div className="max-w-[560px] text-[11px] leading-4 text-slate-600">{tx.instrumentSummary}</div>
