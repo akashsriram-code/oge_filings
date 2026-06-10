@@ -15,7 +15,9 @@ export const EVENT_CATEGORY_LABELS: Record<EventCategory, string> = {
   'white-house': 'White House',
   market: 'Market',
   'company-news': 'Company news',
-  'truth-social': 'Truth Social',
+  'truth-social': 'Trump social posts',
+  interview: 'Interviews / transcripts',
+  reuters: 'Reuters stories',
   manual: 'Manual',
 };
 
@@ -26,6 +28,8 @@ export const EVENT_CATEGORY_COLORS: Record<EventCategory, string> = {
   market: '#7c2d12',
   'company-news': '#7c3aed',
   'truth-social': '#334155',
+  interview: '#0e7490',
+  reuters: '#1d4ed8',
   manual: '#b45309',
 };
 
@@ -160,7 +164,7 @@ function transactionMatchesEventWindow(tx: OgeTransaction, event: OgeEvent, wind
   return event.sectors.includes(tx.sector);
 }
 
-function tagsFromText(text: string): string[] {
+export function tagsFromText(text: string): string[] {
   const normalized = text.toLowerCase();
   const tags: string[] = [];
   const patterns: Array<[RegExp, string]> = [
@@ -181,7 +185,7 @@ function tagsFromText(text: string): string[] {
   return uniqueClean(tags);
 }
 
-function sectorsFromText(text: string): string[] {
+export function sectorsFromText(text: string): string[] {
   const normalized = text.toLowerCase();
   const sectors: string[] = [];
   const patterns: Array<[RegExp, string]> = [

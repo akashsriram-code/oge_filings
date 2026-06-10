@@ -1,0 +1,199 @@
+{
+  "generatedAt": "2026-06-10T15:38:47.775Z",
+  "minDate": "2015-01-01",
+  "checkedThrough": "2026-06-10",
+  "ogeApiRecordCount": 21,
+  "registrySourceCount": 21,
+  "officialPdfCount": 18,
+  "archivedCopyCount": 2,
+  "metadataOnlyCount": 1,
+  "officialRecordsWithoutRegistry": 0,
+  "coverageByYear": [
+    {
+      "year": 2015,
+      "registryCount": 1,
+      "officialCount": 0,
+      "archivedCount": 1,
+      "metadataOnlyCount": 0,
+      "transactionReportCount": 0,
+      "annualOrCandidateCount": 1,
+      "status": "partial",
+      "notes": [
+        "Coverage relies on archived copies or metadata-only records, not a currently fetchable OGE PDF."
+      ]
+    },
+    {
+      "year": 2016,
+      "registryCount": 1,
+      "officialCount": 0,
+      "archivedCount": 1,
+      "metadataOnlyCount": 0,
+      "transactionReportCount": 0,
+      "annualOrCandidateCount": 1,
+      "status": "partial",
+      "notes": [
+        "Coverage relies on archived copies or metadata-only records, not a currently fetchable OGE PDF."
+      ]
+    },
+    {
+      "year": 2017,
+      "registryCount": 0,
+      "officialCount": 0,
+      "archivedCount": 0,
+      "metadataOnlyCount": 0,
+      "transactionReportCount": 0,
+      "annualOrCandidateCount": 0,
+      "status": "gap",
+      "notes": [
+        "No source registry entry for this year."
+      ]
+    },
+    {
+      "year": 2018,
+      "registryCount": 0,
+      "officialCount": 0,
+      "archivedCount": 0,
+      "metadataOnlyCount": 0,
+      "transactionReportCount": 0,
+      "annualOrCandidateCount": 0,
+      "status": "gap",
+      "notes": [
+        "No source registry entry for this year."
+      ]
+    },
+    {
+      "year": 2019,
+      "registryCount": 0,
+      "officialCount": 0,
+      "archivedCount": 0,
+      "metadataOnlyCount": 0,
+      "transactionReportCount": 0,
+      "annualOrCandidateCount": 0,
+      "status": "gap",
+      "notes": [
+        "No source registry entry for this year."
+      ]
+    },
+    {
+      "year": 2020,
+      "registryCount": 1,
+      "officialCount": 1,
+      "archivedCount": 0,
+      "metadataOnlyCount": 0,
+      "transactionReportCount": 0,
+      "annualOrCandidateCount": 1,
+      "status": "covered",
+      "notes": []
+    },
+    {
+      "year": 2021,
+      "registryCount": 1,
+      "officialCount": 1,
+      "archivedCount": 0,
+      "metadataOnlyCount": 0,
+      "transactionReportCount": 0,
+      "annualOrCandidateCount": 1,
+      "status": "covered",
+      "notes": []
+    },
+    {
+      "year": 2022,
+      "registryCount": 0,
+      "officialCount": 0,
+      "archivedCount": 0,
+      "metadataOnlyCount": 0,
+      "transactionReportCount": 0,
+      "annualOrCandidateCount": 0,
+      "status": "gap",
+      "notes": [
+        "No source registry entry for this year."
+      ]
+    },
+    {
+      "year": 2023,
+      "registryCount": 1,
+      "officialCount": 0,
+      "archivedCount": 0,
+      "metadataOnlyCount": 1,
+      "transactionReportCount": 0,
+      "annualOrCandidateCount": 1,
+      "status": "partial",
+      "notes": [
+        "Coverage relies on archived copies or metadata-only records, not a currently fetchable OGE PDF."
+      ]
+    },
+    {
+      "year": 2024,
+      "registryCount": 0,
+      "officialCount": 0,
+      "archivedCount": 0,
+      "metadataOnlyCount": 0,
+      "transactionReportCount": 0,
+      "annualOrCandidateCount": 0,
+      "status": "gap",
+      "notes": [
+        "No source registry entry for this year."
+      ]
+    },
+    {
+      "year": 2025,
+      "registryCount": 10,
+      "officialCount": 10,
+      "archivedCount": 0,
+      "metadataOnlyCount": 0,
+      "transactionReportCount": 9,
+      "annualOrCandidateCount": 1,
+      "status": "covered",
+      "notes": []
+    },
+    {
+      "year": 2026,
+      "registryCount": 6,
+      "officialCount": 6,
+      "archivedCount": 0,
+      "metadataOnlyCount": 0,
+      "transactionReportCount": 6,
+      "annualOrCandidateCount": 0,
+      "status": "covered",
+      "notes": []
+    }
+  ],
+  "gaps": [
+    {
+      "year": 2017,
+      "severity": "high",
+      "issue": "No Trump OGE source registered for the year.",
+      "suggestedAction": "Add archived or request-only annual presidential disclosure metadata/PDF for this in-office year."
+    },
+    {
+      "year": 2018,
+      "severity": "high",
+      "issue": "No Trump OGE source registered for the year.",
+      "suggestedAction": "Add archived or request-only annual presidential disclosure metadata/PDF for this in-office year."
+    },
+    {
+      "year": 2019,
+      "severity": "high",
+      "issue": "No Trump OGE source registered for the year.",
+      "suggestedAction": "Add archived or request-only annual presidential disclosure metadata/PDF for this in-office year."
+    },
+    {
+      "year": 2022,
+      "severity": "medium",
+      "issue": "No Trump OGE source registered for the year.",
+      "suggestedAction": "Verify whether Trump had a filing obligation or public candidate report for this year; add request-only metadata if relevant."
+    },
+    {
+      "year": 2024,
+      "severity": "medium",
+      "issue": "No Trump OGE source registered for the year.",
+      "suggestedAction": "Verify whether Trump had a filing obligation or public candidate report for this year; add request-only metadata if relevant."
+    }
+  ],
+  "completenessStatus": "needs_historical_review",
+  "notes": [
+    "Completeness is measured against currently exposed OGE API records plus curated archived/request-only historical seeds.",
+    "OGE warns that most public financial disclosure reports and associated documents are destroyed after 6 to 7 years unless retained for a specific reason; old annual PDFs may require archived copies or request metadata.",
+    "High-priority gaps cover likely in-office annual disclosure years; medium gaps should be checked before publication-facing claims."
+  ]
+}

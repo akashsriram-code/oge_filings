@@ -42,6 +42,7 @@ jobs:
         if: github.event_name != 'push'
         env:
           OGE_USER_AGENT: ${{ secrets.OGE_USER_AGENT || 'Reuters OGE Dashboard contact@example.com' }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: npm run ingest:trump-oge
 
       - name: Test cache and app
@@ -69,7 +70,9 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Remove live API routes for static Pages export
-        run: rm -rf app/api/ask
+        run: |
+          rm -rf app/api/ask
+          rm -rf .next
 
       - name: Build static Pages artifact
         env:

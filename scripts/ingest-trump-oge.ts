@@ -5,6 +5,7 @@ import { PDFParse } from 'pdf-parse';
 import { addRanges, parseOgeAmountRange } from '../lib/oge/amounts';
 import { buildHoldingsEstimates, buildReviewQueue, buildSectorSummaries, stableId } from '../lib/oge/analytics';
 import { classifySecurity } from '../lib/oge/classify';
+import { fetchTrumpContextDbEvents } from '../lib/oge/context-db';
 import {
   buildEventWindows,
   buildFomcEvents,
@@ -35,6 +36,7 @@ import type {
   SecurityReferenceCache,
   SecurityReferenceEntry,
   SecurityReferenceSource,
+  SourceAudit,
   SourceFiling,
   TransactionType,
   TrumpIndexEntry,
@@ -149,6 +151,7 @@ async function main() {
     liabilities,
     trumpIndex,
   });
+  const sourceAudit = buildSourceAudit(sourceRecords, historicalSources);
   const events = await buildEvents();
   const eventWindows = buildEventWindows(events, transactions);
   const reviewQueue = buildReviewQueue({
@@ -166,6 +169,7 @@ async function main() {
     assetIncomeHoldings,
     liabilities,
     yearlyExposureSummaries,
+    sourceAudit,
     holdingsEstimates,
     sectorSummaries,
     trumpIndex,
@@ -186,6 +190,7 @@ async function main() {
     assetIncomeHoldings,
     liabilities,
     yearlyExposureSummaries,
+    sourceAudit,
     holdingsEstimates,
     sectorSummaries,
     trumpIndex,
@@ -209,6 +214,8 @@ async function main() {
     liabilityCount: liabilities.length,
     estimatedHoldingCount: holdingsEstimates.length,
     trumpIndexCount: trumpIndex.length,
+    sourceAuditStatus: sourceAudit.completenessStatus,
+    sourceAuditGapCount: sourceAudit.gaps.length,
     reviewQueueCount: reviewQueue.length,
     securityReferenceCount: securityReference.entries.length,
     securityEnrichmentCount: securityEnrichments.length,
@@ -227,7 +234,16 @@ async function fetchTrumpOgeSourceRecords(): Promise<OgeApiRecord[]> {
 
   while (start < total) {
     const url = `${OGE_API_BASE}?start=${start}&length=${OGE_PAGE_SIZE}`;
-    const page = await fetchJson<OgeApiPage>(url);
+    let page: OgeApiPage;
+    try {
+      page = await fetchJson<OgeApiPage>(url);
+    } catch (error) {
+      if (records.length > 0) {
+        console.warn(`[Trump OGE] Stopping OGE pagination at start=${start}: ${error instanceof Error ? error.message : String(error)}`);
+        break;
+      }
+      throw error;
+    }
     const rows = page.data || [];
     records.push(...rows);
     total = page.recordsTotal || rows.length;
@@ -277,6 +293,13 @@ async function buildSourceFilings(records: OgeApiRecord[]): Promise<SourceFiling
         ? 'OGE source PDF fingerprinted for provenance. Current transactions are bootstrapped from structured rows until per-PDF parsing is run.'
         : `Could not fingerprint PDF: ${fileInfo.error || 'unknown error'}`,
     });
+  }
+
+  const existingFilings = await readJson<SourceFiling[]>('source-filings.json', []);
+  for (const existing of existingFilings) {
+    if (!existing.ogeUrl || seen.has(existing.ogeUrl)) continue;
+    seen.add(existing.ogeUrl);
+    filings.push(existing);
   }
 
   return filings.sort((a, b) => a.filedDate.localeCompare(b.filedDate) || a.localFilename.localeCompare(b.localFilename));
@@ -337,6 +360,13 @@ async function buildHistoricalSources(records: OgeApiRecord[], sourceFilings: So
   for (const source of seededSources) {
     if (source.sourceUrl && sources.has(source.sourceUrl)) continue;
     sources.set(source.sourceUrl || source.id, source);
+  }
+
+  const existingSources = await readJson<HistoricalSource[]>('historical-sources.json', []);
+  for (const source of existingSources) {
+    const key = source.sourceUrl || source.id;
+    if (!key || sources.has(key)) continue;
+    sources.set(key, source);
   }
 
   return Array.from(sources.values()).sort((a, b) =>
@@ -705,6 +735,106 @@ function buildYearlyExposureSummaries(params: {
     });
 }
 
+function buildSourceAudit(records: OgeApiRecord[], historicalSources: HistoricalSource[]): SourceAudit {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const sourceUrls = new Set(historicalSources.map((source) => source.sourceUrl).filter(Boolean));
+  const officialRecordUrls = records.map((record) => extractPdfUrl(record.type) || extractHref(record.type)).filter(Boolean);
+  const officialRecordsWithoutRegistry = officialRecordUrls.filter((url) => !sourceUrls.has(url)).length;
+  const coverageByYear: SourceAudit['coverageByYear'] = [];
+  const gaps: SourceAudit['gaps'] = [];
+
+  for (let year = 2015; year <= currentYear; year += 1) {
+    const sources = historicalSources.filter((source) => {
+      const filedYear = Number(source.filedDate.slice(0, 4));
+      return source.reportYear === year || filedYear === year;
+    });
+    const annualOrCandidateCount = sources.filter((source) =>
+      source.filingType === 'Annual 278e' ||
+      source.filingType === 'Candidate 278e' ||
+      source.filingType === 'Termination 278e'
+    ).length;
+    const transactionReportCount = sources.filter((source) => source.filingType === '278-T').length;
+    const officialCount = sources.filter((source) => source.sourceReliability === 'official').length;
+    const archivedCount = sources.filter((source) => source.sourceReliability === 'archived_copy').length;
+    const metadataOnlyCount = sources.filter((source) => source.sourceReliability === 'metadata_only').length;
+    const notes: string[] = [];
+    let status: SourceAudit['coverageByYear'][number]['status'] = 'covered';
+
+    if (sources.length === 0) {
+      status = 'gap';
+      notes.push('No source registry entry for this year.');
+      gaps.push({
+        year,
+        severity: year >= 2017 && year <= 2020 ? 'high' : 'medium',
+        issue: 'No Trump OGE source registered for the year.',
+        suggestedAction: year >= 2017 && year <= 2020
+          ? 'Add archived or request-only annual presidential disclosure metadata/PDF for this in-office year.'
+          : 'Verify whether Trump had a filing obligation or public candidate report for this year; add request-only metadata if relevant.',
+      });
+    } else if (annualOrCandidateCount === 0 && transactionReportCount === 0) {
+      status = 'gap';
+      notes.push('Registry has sources, but no supported filing type was identified.');
+      gaps.push({
+        year,
+        severity: 'medium',
+        issue: 'Registered sources lack a supported 278e/278-T filing type.',
+        suggestedAction: 'Review the source title/type parser and add a curated historical-source seed if needed.',
+      });
+    } else if (annualOrCandidateCount === 0 && year >= 2017 && year <= 2020) {
+      status = 'partial';
+      notes.push('In-office year has no annual/termination disclosure row in the registry.');
+      gaps.push({
+        year,
+        severity: 'high',
+        issue: 'No annual or termination disclosure row for a presidential in-office year.',
+        suggestedAction: 'Locate an archived annual 278e PDF or retain OGE request-only metadata for this year.',
+      });
+    } else if (officialCount === 0) {
+      status = 'partial';
+      notes.push('Coverage relies on archived copies or metadata-only records, not a currently fetchable OGE PDF.');
+    }
+
+    coverageByYear.push({
+      year,
+      registryCount: sources.length,
+      officialCount,
+      archivedCount,
+      metadataOnlyCount,
+      transactionReportCount,
+      annualOrCandidateCount,
+      status,
+      notes,
+    });
+  }
+
+  const completenessStatus: SourceAudit['completenessStatus'] = officialRecordsWithoutRegistry > 0
+    ? 'incomplete'
+    : gaps.length > 0
+      ? 'needs_historical_review'
+      : 'complete_for_current_oge_api';
+
+  return {
+    generatedAt: now.toISOString(),
+    minDate: MIN_DOC_DATE,
+    checkedThrough: now.toISOString().slice(0, 10),
+    ogeApiRecordCount: records.length,
+    registrySourceCount: historicalSources.length,
+    officialPdfCount: historicalSources.filter((source) => source.sourceReliability === 'official').length,
+    archivedCopyCount: historicalSources.filter((source) => source.sourceReliability === 'archived_copy').length,
+    metadataOnlyCount: historicalSources.filter((source) => source.sourceReliability === 'metadata_only').length,
+    officialRecordsWithoutRegistry,
+    coverageByYear,
+    gaps,
+    completenessStatus,
+    notes: [
+      'Completeness is measured against currently exposed OGE API records plus curated archived/request-only historical seeds.',
+      'OGE warns that most public financial disclosure reports and associated documents are destroyed after 6 to 7 years unless retained for a specific reason; old annual PDFs may require archived copies or request metadata.',
+      'High-priority gaps cover likely in-office annual disclosure years; medium gaps should be checked before publication-facing claims.',
+    ],
+  };
+}
+
 async function buildBootstrapTransactions(sourceFilings: SourceFiling[]): Promise<OgeTransaction[]> {
   const existing = await readExistingTransactions();
 
@@ -739,15 +869,60 @@ async function buildBaselineHoldings(sourceFilings: SourceFiling[]): Promise<Bas
 
 async function buildEvents(): Promise<OgeEvent[]> {
   const manualEvents = normalizeManualEvents(await readJson<OgeEvent[]>('manual-events.json', []));
+  const contextDbEvents = await buildContextDbEvents();
   const federalRegisterEvents = await fetchFederalRegisterEvents();
   const fomcEvents = buildFomcEvents();
-  return mergeEvents(manualEvents, federalRegisterEvents, fomcEvents)
+  return mergeEvents(manualEvents, contextDbEvents, federalRegisterEvents, fomcEvents)
     .filter((event) => event.date >= MIN_DOC_DATE)
     .sort((a, b) =>
       a.date.localeCompare(b.date) ||
       b.importance - a.importance ||
       a.title.localeCompare(b.title)
     );
+}
+
+async function buildContextDbEvents(): Promise<OgeEvent[]> {
+  const cached = await readJson<OgeEvent[]>('events.json', []);
+  const cachedContextEvents = cached.filter((event) => isContextDbEvent(event));
+  if (!process.env.DATABASE_URL) {
+    if (cachedContextEvents.length > 0) {
+      console.warn(`[Trump context DB] DATABASE_URL not set; preserving ${cachedContextEvents.length} cached context events.`);
+      return cachedContextEvents;
+    }
+    return [];
+  }
+
+  try {
+    const events = await fetchTrumpContextDbEvents({
+      minDate: MIN_DOC_DATE,
+      socialLimit: intFromEnv('TRUMP_CONTEXT_DB_SOCIAL_LIMIT', 500),
+      documentLimit: intFromEnv('TRUMP_CONTEXT_DB_DOCUMENT_LIMIT', 450),
+      reutersLimit: intFromEnv('TRUMP_CONTEXT_DB_REUTERS_LIMIT', 350),
+      totalLimit: intFromEnv('TRUMP_CONTEXT_DB_EVENT_LIMIT', 1200),
+    });
+    console.log(`[Trump context DB] Imported ${events.length} timing context events.`);
+    return events;
+  } catch (error) {
+    if (cachedContextEvents.length > 0) {
+      console.warn(`[Trump context DB] Import failed; preserving ${cachedContextEvents.length} cached context events: ${error instanceof Error ? error.message : String(error)}`);
+      return cachedContextEvents;
+    }
+    console.warn(`[Trump context DB] Import failed: ${error instanceof Error ? error.message : String(error)}`);
+    return [];
+  }
+}
+
+function isContextDbEvent(event: OgeEvent): boolean {
+  return [
+    'Truth Social',
+    'Twitter/X',
+    'Factbase transcript',
+    'Reuters',
+    'Trump Archive',
+    'White House executive order',
+    'White House proclamation',
+    'White House memorandum',
+  ].includes(event.sourceName);
 }
 
 async function fetchFederalRegisterEvents(): Promise<OgeEvent[]> {
@@ -1074,7 +1249,7 @@ function buildCacheMeta(dataset: Omit<TrumpOgeDataset, 'cacheMeta'>): CacheMeta 
       `Instrument context parsed ${instrumentContextCount.toLocaleString('en-US')} transaction rows into issuer/fixed-income summaries where OGE descriptions allowed it.`,
       `Security enrichment resolved ${enrichedTransactionCount.toLocaleString('en-US')} transaction rows to public-company tickers.`,
       `Annual disclosure parser produced ${dataset.assetIncomeHoldings.length.toLocaleString('en-US')} asset/income rows and ${dataset.liabilities.length.toLocaleString('en-US')} liability rows.`,
-      'Event overlay uses public Federal Register and Federal Reserve sources plus optional manual events; event proximity does not imply motive or causation.',
+      'Event overlay uses public Federal Register and Federal Reserve sources, optional Trump context database rows, and optional manual events; event proximity does not imply motive or causation.',
       'Rules-based classifications remain as fallback and include review flags for ambiguous or unmatched rows.',
     ],
   };
@@ -1091,6 +1266,7 @@ async function writeDataset(dataset: TrumpOgeDataset) {
     writeJson('asset-income-holdings.json', dataset.assetIncomeHoldings),
     writeJson('liabilities.json', dataset.liabilities),
     writeJson('yearly-exposure-summaries.json', dataset.yearlyExposureSummaries),
+    writeJson('source-audit.json', dataset.sourceAudit),
     writeJson('holdings-estimates.json', dataset.holdingsEstimates),
     writeJson('sector-summaries.json', dataset.sectorSummaries),
     writeJson('trump-index.json', dataset.trumpIndex),
@@ -1242,6 +1418,11 @@ function isoDate(value: string): string {
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function intFromEnv(key: string, fallback: number): number {
+  const value = Number(process.env[key]);
+  return Number.isFinite(value) && value > 0 ? Math.floor(value) : fallback;
 }
 
 main().catch((error) => {

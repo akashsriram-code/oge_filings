@@ -24,7 +24,7 @@ The daily GitHub Action in `.github/workflows/trump-oge-refresh.yml` refreshes t
 - parses the latest annual 278e Part 6 and Part 8 text into asset/income rows, baseline holdings, and liabilities with review flags,
 - enriches public-company securities from SEC and Nasdaq Trader reference data,
 - builds Trump Index entries and sector/asset rollups,
-- builds an event overlay from Federal Register tariff/trade records, FOMC calendar entries, and optional curated manual events,
+- builds an event overlay from Federal Register tariff/trade records, FOMC calendar entries, the optional Trump context database, and optional curated manual events,
 - writes versioned cache files under `data/oge/trump/`,
 - runs tests, build, and Playwright smoke checks,
 - commits cache changes when the data changes,
@@ -32,6 +32,8 @@ The daily GitHub Action in `.github/workflows/trump-oge-refresh.yml` refreshes t
 - uploads and deploys that artifact with GitHub Pages.
 
 In GitHub repository settings, set Pages source to **GitHub Actions**. The Pages build uses `NEXT_PUBLIC_BASE_PATH=/<repo-name>`, so project pages work at the repository path. The dashboard exports XLSX workbooks in the browser, which keeps export working on static hosting.
+
+To add the Trump context database to the timing overlay, store the Postgres URL as a GitHub Actions secret named `DATABASE_URL`. Optional caps are `TRUMP_CONTEXT_DB_EVENT_LIMIT`, `TRUMP_CONTEXT_DB_SOCIAL_LIMIT`, `TRUMP_CONTEXT_DB_DOCUMENT_LIMIT`, and `TRUMP_CONTEXT_DB_REUTERS_LIMIT`. If `DATABASE_URL` is missing, the refresh preserves any already-cached context events and continues.
 
 ## OpenArena API
 
@@ -55,7 +57,7 @@ The Trump Index score is 50% log-scaled current midpoint exposure rank, 30% abso
 
 The latest annual 278e text parser populates baseline holdings and liabilities conservatively. Rows with parser review flags, missing baseline matches, ambiguous asset types, archived-copy sources, metadata-only sources, or low-confidence sector labels are surfaced in the review queue and audit sheets.
 
-The event overlay is proximity analysis only. Automated events come from public Federal Register and Federal Reserve sources; Reuters-curated context can be added to `data/oge/trump/manual-events.json` with source links. Event proximity does not imply motive, coordination, or causation.
+The event overlay is proximity analysis only. Automated events come from public Federal Register and Federal Reserve sources, optional Trump context database rows, and optional entries in `data/oge/trump/manual-events.json` with source links. Event proximity does not imply motive, coordination, or causation.
 
 ## Verify
 

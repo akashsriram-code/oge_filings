@@ -234,6 +234,8 @@ export type EventCategory =
   | 'market'
   | 'company-news'
   | 'truth-social'
+  | 'interview'
+  | 'reuters'
   | 'manual';
 
 export interface OgeEvent {
@@ -317,6 +319,41 @@ export interface YearlyExposureSummary {
   purchaseMidpoint: number;
   saleMidpoint: number;
   netFlowMidpoint: number;
+}
+
+export interface SourceAuditYear {
+  year: number;
+  registryCount: number;
+  officialCount: number;
+  archivedCount: number;
+  metadataOnlyCount: number;
+  transactionReportCount: number;
+  annualOrCandidateCount: number;
+  status: 'covered' | 'partial' | 'gap';
+  notes: string[];
+}
+
+export interface SourceAuditGap {
+  year: number;
+  severity: 'medium' | 'high';
+  issue: string;
+  suggestedAction: string;
+}
+
+export interface SourceAudit {
+  generatedAt: string;
+  minDate: string;
+  checkedThrough: string;
+  ogeApiRecordCount: number;
+  registrySourceCount: number;
+  officialPdfCount: number;
+  archivedCopyCount: number;
+  metadataOnlyCount: number;
+  officialRecordsWithoutRegistry: number;
+  coverageByYear: SourceAuditYear[];
+  gaps: SourceAuditGap[];
+  completenessStatus: 'complete_for_current_oge_api' | 'needs_historical_review' | 'incomplete';
+  notes: string[];
 }
 
 export interface TrumpIndexCitation {
@@ -464,6 +501,7 @@ export interface TrumpOgeDataset {
   assetIncomeHoldings: AssetIncomeHolding[];
   liabilities: Liability[];
   yearlyExposureSummaries: YearlyExposureSummary[];
+  sourceAudit: SourceAudit;
   holdingsEstimates: EstimatedHolding[];
   sectorSummaries: SectorSummary[];
   trumpIndex: TrumpIndexEntry[];

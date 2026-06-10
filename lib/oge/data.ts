@@ -19,6 +19,7 @@ import type {
   SecurityEnrichment,
   SecurityReferenceCache,
   SectorSummary,
+  SourceAudit,
   SourceFiling,
   TrumpIndexEntry,
   TrumpIndexRollup,
@@ -55,6 +56,22 @@ const EMPTY_META: CacheMeta = {
   notes: ['Run npm run ingest:trump-oge to generate the cache.'],
 };
 
+const EMPTY_SOURCE_AUDIT: SourceAudit = {
+  generatedAt: new Date(0).toISOString(),
+  minDate: '2015-01-01',
+  checkedThrough: new Date(0).toISOString().slice(0, 10),
+  ogeApiRecordCount: 0,
+  registrySourceCount: 0,
+  officialPdfCount: 0,
+  archivedCopyCount: 0,
+  metadataOnlyCount: 0,
+  officialRecordsWithoutRegistry: 0,
+  coverageByYear: [],
+  gaps: [],
+  completenessStatus: 'incomplete',
+  notes: ['Run npm run ingest:trump-oge to generate the source audit cache.'],
+};
+
 export async function loadTrumpOgeDataset(): Promise<TrumpOgeDataset> {
   const [
     historicalSources,
@@ -65,6 +82,7 @@ export async function loadTrumpOgeDataset(): Promise<TrumpOgeDataset> {
     assetIncomeHoldings,
     liabilities,
     yearlyExposureSummaries,
+    sourceAudit,
     holdingsEstimates,
     sectorSummaries,
     trumpIndex,
@@ -84,6 +102,7 @@ export async function loadTrumpOgeDataset(): Promise<TrumpOgeDataset> {
     readJson<AssetIncomeHolding[]>('asset-income-holdings.json', []),
     readJson<Liability[]>('liabilities.json', []),
     readJson<YearlyExposureSummary[]>('yearly-exposure-summaries.json', []),
+    readJson<SourceAudit>('source-audit.json', EMPTY_SOURCE_AUDIT),
     readJson<EstimatedHolding[]>('holdings-estimates.json', []),
     readJson<SectorSummary[]>('sector-summaries.json', []),
     readJson<TrumpIndexEntry[]>('trump-index.json', []),
@@ -105,6 +124,7 @@ export async function loadTrumpOgeDataset(): Promise<TrumpOgeDataset> {
     assetIncomeHoldings,
     liabilities,
     yearlyExposureSummaries,
+    sourceAudit,
     holdingsEstimates,
     sectorSummaries,
     trumpIndex,

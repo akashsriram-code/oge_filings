@@ -7,17 +7,26 @@ import {
   ArrowDownRight,
   ArrowUpRight,
   BadgeInfo,
+  Bot,
+  BriefcaseBusiness,
+  Building2,
   CalendarDays,
   Database,
   Download,
   ExternalLink,
   FileText,
   Filter,
+  Landmark,
   Layers,
+  LineChart as LineChartIcon,
   MessageSquare,
+  PanelTop,
   RefreshCw,
   Search,
+  Send,
   ShieldCheck,
+  Sparkles,
+  Table2,
 } from 'lucide-react';
 import { hierarchy, treemap } from 'd3-hierarchy';
 import { scaleLinear } from 'd3-scale';
@@ -51,6 +60,7 @@ import type {
   AssetType,
   BaselineHolding,
   CacheMeta,
+  EstimatedHolding,
   EventCategory,
   EventWindowSummary,
   FinancialDisclosureReport,
@@ -61,6 +71,7 @@ import type {
   ReviewQueueItem,
   SecurityEnrichment,
   SectorSummary,
+  SourceAudit,
   SourceFiling,
   SourceReliability,
   TrumpIndexCitation,
@@ -75,7 +86,47 @@ interface TrumpOgeDashboardProps {
   initialData?: TrumpOgeApiResponse | null;
 }
 
-type Tab = 'index' | 'holdings' | 'transactions' | 'filings' | 'review';
+type PageKey =
+  | 'ask'
+  | 'index'
+  | 'equities'
+  | 'corporate-bonds'
+  | 'municipal-bonds'
+  | 'funds'
+  | 'preferred'
+  | 'other'
+  | 'holdings'
+  | 'sectors'
+  | 'timing'
+  | 'transactions'
+  | 'filings'
+  | 'review';
+
+interface PageDefinition {
+  key: PageKey;
+  label: string;
+  eyebrow: string;
+  description: string;
+  assetType?: AssetType;
+  icon: React.ReactNode;
+}
+
+const PAGE_DEFINITIONS: PageDefinition[] = [
+  { key: 'ask', label: 'Ask', eyebrow: 'Interview', description: 'Question the index with cited OpenArena-style markdown answers.', icon: <Bot className="h-4 w-4" /> },
+  { key: 'index', label: 'Trump Index', eyebrow: 'Ranked signal', description: 'Ranked exposure, change, activity, citations, and source badges.', icon: <Layers className="h-4 w-4" /> },
+  { key: 'equities', label: 'Equity', eyebrow: 'Stocks', description: 'Public-company stock exposure, net buys/sells, tickers, sectors.', assetType: 'Equity', icon: <BriefcaseBusiness className="h-4 w-4" /> },
+  { key: 'corporate-bonds', label: 'Corporate Bonds', eyebrow: 'Credit', description: 'Corporate issuer context, coupons, maturities, and flows.', assetType: 'Corporate Bond', icon: <Building2 className="h-4 w-4" /> },
+  { key: 'municipal-bonds', label: 'Municipal Bonds', eyebrow: 'Munis', description: 'State/issuer categories and MSRB EMMA reference links.', assetType: 'Municipal Bond', icon: <Landmark className="h-4 w-4" /> },
+  { key: 'funds', label: 'ETF/Fund', eyebrow: 'Funds', description: 'Fund and ETF exposure grouped by strategy and direction.', assetType: 'ETF / Fund', icon: <PanelTop className="h-4 w-4" /> },
+  { key: 'preferred', label: 'Preferred', eyebrow: 'Hybrid', description: 'Preferred and hybrid securities with fixed-income context.', assetType: 'Preferred / Hybrid', icon: <Sparkles className="h-4 w-4" /> },
+  { key: 'other', label: 'Other', eyebrow: 'Unsorted', description: 'Rows that need classification review or do not fit a core class.', assetType: 'Other', icon: <Table2 className="h-4 w-4" /> },
+  { key: 'holdings', label: 'Holdings', eyebrow: 'Estimated', description: 'Baseline plus flow-derived holdings bands and confidence flags.', icon: <RefreshCw className="h-4 w-4" /> },
+  { key: 'sectors', label: 'Sectors', eyebrow: 'Rollups', description: 'Sector exposure maps, net flow bars, and asset-type mix.', icon: <PanelTop className="h-4 w-4" /> },
+  { key: 'timing', label: 'Timing', eyebrow: 'Dates', description: 'Transaction-date flow, late density, and public event overlays.', icon: <LineChartIcon className="h-4 w-4" /> },
+  { key: 'transactions', label: 'Transactions', eyebrow: 'Rows', description: 'Searchable transaction table with source PDF links.', icon: <FileText className="h-4 w-4" /> },
+  { key: 'filings', label: 'Filings', eyebrow: 'Audit', description: 'Source registry, completeness audit, OGE PDFs, hashes.', icon: <ShieldCheck className="h-4 w-4" /> },
+  { key: 'review', label: 'Review', eyebrow: 'Flags', description: 'Parser, baseline, source, and classification issues.', icon: <AlertTriangle className="h-4 w-4" /> },
+];
 
 const ASSET_COLORS: Record<string, string> = {
   Equity: '#2563eb',
@@ -101,7 +152,7 @@ const FILTER_DEFAULTS: TrumpOgeFilters = {
   confidence: null,
 };
 
-const EVENT_CATEGORIES: EventCategory[] = ['tariff', 'fed', 'white-house', 'market', 'company-news', 'truth-social', 'manual'];
+const EVENT_CATEGORIES: EventCategory[] = ['tariff', 'fed', 'white-house', 'market', 'company-news', 'truth-social', 'interview', 'reuters', 'manual'];
 
 export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
   const [loadedData, setLoadedData] = useState<TrumpOgeApiResponse | null>(initialData || null);
@@ -133,15 +184,26 @@ export function TrumpOgeDashboard({ initialData }: TrumpOgeDashboardProps) {
 function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResponse }) {
   const mounted = useClientReady();
   const [filters, setFilters] = useState<TrumpOgeFilters>(FILTER_DEFAULTS);
-  const [activeTab, setActiveTab] = useState<Tab>('index');
+  const [activePage, setActivePage] = useState<PageKey>('ask');
   const [activeEventCategories, setActiveEventCategories] = useState<EventCategory[]>(EVENT_CATEGORIES);
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [methodologyOpen, setMethodologyOpen] = useState(false);
   const [selectedIndexIds, setSelectedIndexIds] = useState<string[]>([]);
+  const activePageDefinition = PAGE_DEFINITIONS.find((page) => page.key === activePage) || PAGE_DEFINITIONS[0];
+  const pageFilters = useMemo(
+    () => activePageDefinition.assetType ? { ...filters, assetType: 'All' } : filters,
+    [activePageDefinition.assetType, filters]
+  );
 
+  const baseFilteredTransactions = useMemo(
+    () => filterTransactions(initialData.transactions, pageFilters),
+    [pageFilters, initialData.transactions]
+  );
   const filteredTransactions = useMemo(
-    () => filterTransactions(initialData.transactions, filters),
-    [filters, initialData.transactions]
+    () => activePageDefinition.assetType
+      ? baseFilteredTransactions.filter((tx) => tx.assetType === activePageDefinition.assetType)
+      : baseFilteredTransactions,
+    [activePageDefinition.assetType, baseFilteredTransactions]
   );
   const kpis = useMemo(
     () => buildKpis({
@@ -255,7 +317,6 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
   const issuerContextCount = filteredTransactions.filter((tx) =>
     !tx.resolvedTicker && (tx.issuerContextTicker || tx.instrumentReferenceLabel)
   ).length;
-  const publicCompanyCount = new Set(filteredTransactions.map((tx) => tx.resolvedTicker).filter(Boolean)).size;
   const availableYears = useMemo(
     () => Array.from(new Set([
       ...initialData.transactions.map((tx) => tx.date.slice(0, 4)),
@@ -320,22 +381,22 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
   };
 
   return (
-    <main className="min-h-screen bg-[#f6f6f4] text-slate-900">
-      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <main className="liquid-app min-h-screen text-slate-950">
+      <header className="liquid-header sticky top-0 z-30">
         <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-5 py-3">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-slate-900 text-white">
+            <div className="liquid-icon flex h-10 w-10 items-center justify-center text-slate-950">
               <Database className="h-4 w-4" />
             </div>
             <div className="min-w-0">
               <h1 className="truncate text-base font-bold tracking-tight">Trump Index</h1>
-              <div className="text-xs text-slate-500">OGE financial disclosure signal | data through {initialData.cacheMeta.dataThrough || 'pending'} | refreshed {formatDateTime(initialData.cacheMeta.generatedAt)}</div>
+              <div className="text-xs text-slate-600">OGE financial disclosure signal | data through {initialData.cacheMeta.dataThrough || 'pending'} | refreshed {formatDateTime(initialData.cacheMeta.generatedAt)}</div>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <a
               href="./api/trump-oge"
-              className="hidden h-9 items-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-xs font-semibold text-slate-700 hover:bg-slate-50 sm:flex"
+              className="liquid-button hidden h-9 items-center gap-2 px-3 text-xs font-semibold sm:flex"
             >
               <FileText className="h-3.5 w-3.5" />
               JSON
@@ -343,7 +404,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
             <button
               type="button"
               onClick={exportWorkbook}
-              className="flex h-9 items-center gap-2 rounded-md bg-slate-900 px-3 text-xs font-semibold text-white hover:bg-slate-800"
+              className="liquid-button-primary flex h-9 items-center gap-2 px-3 text-xs font-semibold"
             >
               <Download className="h-3.5 w-3.5" />
               Export
@@ -353,20 +414,20 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
       </header>
 
       <div className="mx-auto max-w-[1500px] px-5 py-5">
-        <section className="mb-5 grid gap-3 border border-slate-200 bg-white p-3 shadow-sm md:grid-cols-2 xl:grid-cols-[1.35fr_0.55fr_0.75fr_0.75fr_0.75fr_0.75fr_auto]">
+        <section className="liquid-panel mb-5 grid gap-3 p-3 md:grid-cols-2 xl:grid-cols-[1.35fr_0.55fr_0.75fr_0.75fr_0.75fr_0.75fr_auto]">
           <label className="relative block">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input
               value={filters.query || ''}
               onChange={(event) => updateFilter('query', event.target.value)}
               placeholder="Search security, ticker, issuer context, CIK, sector"
-              className="h-10 w-full rounded-md border border-slate-200 bg-slate-50 pl-9 pr-3 text-sm outline-none focus:border-sky-500 focus:bg-white"
+              className="liquid-input h-10 w-full pl-9 pr-3 text-sm outline-none"
             />
           </label>
           <select
             value={filters.year || 'All'}
             onChange={(event) => updateFilter('year', event.target.value)}
-            className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm outline-none focus:border-sky-500"
+            className="liquid-input h-10 px-3 text-sm outline-none"
           >
             <option value="All">All years</option>
             {availableYears.map((year) => (
@@ -377,18 +438,18 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
             value={filters.ticker || ''}
             onChange={(event) => updateFilter('ticker', event.target.value)}
             placeholder="Ticker"
-            className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm uppercase outline-none focus:border-sky-500"
+            className="liquid-input h-10 px-3 text-sm uppercase outline-none"
           />
           <input
             value={filters.issuer || ''}
             onChange={(event) => updateFilter('issuer', event.target.value)}
             placeholder="Issuer"
-            className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm outline-none focus:border-sky-500"
+            className="liquid-input h-10 px-3 text-sm outline-none"
           />
           <select
             value={filters.assetType || 'All'}
             onChange={(event) => updateFilter('assetType', event.target.value)}
-            className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm outline-none focus:border-sky-500"
+            className="liquid-input h-10 px-3 text-sm outline-none"
           >
             <option value="All">All asset types</option>
             {initialData.availableAssetTypes.map((assetType) => (
@@ -398,7 +459,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
           <select
             value={filters.sector || 'All'}
             onChange={(event) => updateFilter('sector', event.target.value)}
-            className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm outline-none focus:border-sky-500"
+            className="liquid-input h-10 px-3 text-sm outline-none"
           >
             <option value="All">All sectors</option>
             {initialData.availableSectors.map((sector) => (
@@ -407,7 +468,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
           </select>
           <button
             onClick={() => updateFilter('lateOnly', !filters.lateOnly)}
-            className={`flex h-10 items-center justify-center gap-2 rounded-md border px-3 text-xs font-semibold ${filters.lateOnly ? 'border-amber-300 bg-amber-50 text-amber-800' : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'}`}
+            className={`liquid-button flex h-10 items-center justify-center gap-2 px-3 text-xs font-semibold ${filters.lateOnly ? 'is-active-warn' : ''}`}
           >
             <Filter className="h-3.5 w-3.5" />
             Late only
@@ -415,7 +476,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
           <select
             value={filters.transactionType || 'All'}
             onChange={(event) => updateFilter('transactionType', event.target.value)}
-            className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm outline-none focus:border-sky-500 xl:col-start-4"
+            className="liquid-input h-10 px-3 text-sm outline-none xl:col-start-4"
           >
             <option value="All">All actions</option>
             <option value="Purchase">Purchases</option>
@@ -425,7 +486,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
           <select
             value={filters.sourceReliability || 'All'}
             onChange={(event) => updateFilter('sourceReliability', event.target.value)}
-            className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm outline-none focus:border-sky-500"
+            className="liquid-input h-10 px-3 text-sm outline-none"
           >
             <option value="All">All sources</option>
             <option value="official">Official</option>
@@ -434,60 +495,79 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
           </select>
         </section>
 
-        <nav className="mb-5 flex flex-wrap gap-2">
-          {[
-            ['index', 'Trump Index'],
-            ['holdings', 'Holdings'],
-            ['transactions', 'Transactions'],
-            ['filings', 'Filings'],
-            ['review', 'Review'],
-          ].map(([key, label]) => (
+        <nav className="mb-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
+          {PAGE_DEFINITIONS.map((page) => (
             <button
-              key={key}
-              onClick={() => setActiveTab(key as Tab)}
-              className={`rounded-md border px-3 py-2 text-xs font-semibold ${activeTab === key ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'}`}
+              key={page.key}
+              onClick={() => setActivePage(page.key)}
+              className={`liquid-nav-tile ${activePage === page.key ? 'is-active' : ''}`}
             >
-              {label}
+              <span className="flex items-center gap-2">
+                {page.icon}
+                <span>{page.label}</span>
+              </span>
+              <span className="mt-1 block text-[10px] font-semibold uppercase tracking-wide opacity-70">{page.eyebrow}</span>
             </button>
           ))}
         </nav>
 
-        <section className="mb-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-          <KpiCard label="Index entries" value={formatInteger(trumpIndexEntries.length)} sub={`${formatInteger(kpis.uniqueSecurities)} securities; ${formatInteger(enrichedTransactionCount)} direct, ${formatInteger(issuerContextCount)} issuer/instrument refs`} icon={<Layers className="h-4 w-4" />} />
-          <KpiCard label="Visible exposure" value={formatMoney(trumpIndexEntries.reduce((total, entry) => total + entry.currentMidpoint, 0))} sub={`Top score ${trumpIndexEntries[0]?.score.toFixed(1) || '0.0'} of 100`} icon={<RefreshCw className="h-4 w-4" />} />
-          <KpiCard label="Purchases" value={formatInteger(kpis.purchaseCount)} sub={`${formatPct(kpis.purchaseCount, kpis.transactionCount)} of visible transactions`} icon={<ArrowUpRight className="h-4 w-4" />} tone="buy" />
-          <KpiCard label="Sales" value={formatInteger(kpis.saleCount)} sub={`${formatPct(kpis.saleCount, kpis.transactionCount)} of visible transactions`} icon={<ArrowDownRight className="h-4 w-4" />} tone="sell" />
-          <KpiCard label="Late filings" value={formatInteger(kpis.lateCount)} sub={`${formatPct(kpis.lateCount, kpis.transactionCount)} of visible transactions`} icon={<AlertTriangle className="h-4 w-4" />} tone="warn" />
-        </section>
+        <PageIntro page={activePageDefinition} transactionCount={filteredTransactions.length} indexCount={trumpIndexEntries.length} />
 
-        <div className="mb-5 flex items-start gap-2 border border-sky-100 bg-sky-50 px-3 py-2 text-xs leading-5 text-sky-900">
-          <BadgeInfo className="mt-0.5 h-4 w-4 shrink-0" />
-          <span>
-            Visible transactions are the rows left after the active filters. Percentages on the KPI cards use that visible set as the denominator.
-            Public matches use SEC and Nasdaq Trader reference data; sector labels from matches are broad SEC/SIC-derived sectors, not GICS.
-            Issuer-context tickers explain bond/security issuers and are not direct bond identifiers.
-          </span>
-        </div>
+        {activePage !== 'ask' && (
+          <>
+            <section className="mb-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+              <KpiCard label="Index entries" value={formatInteger(trumpIndexEntries.length)} sub={`${formatInteger(kpis.uniqueSecurities)} securities; ${formatInteger(enrichedTransactionCount)} direct, ${formatInteger(issuerContextCount)} issuer/instrument refs`} icon={<Layers className="h-4 w-4" />} />
+              <KpiCard label="Visible exposure" value={formatMoney(trumpIndexEntries.reduce((total, entry) => total + entry.currentMidpoint, 0))} sub={`Top score ${trumpIndexEntries[0]?.score.toFixed(1) || '0.0'} of 100`} icon={<RefreshCw className="h-4 w-4" />} />
+              <KpiCard label="Purchases" value={formatInteger(kpis.purchaseCount)} sub={`${formatPct(kpis.purchaseCount, kpis.transactionCount)} of visible transactions`} icon={<ArrowUpRight className="h-4 w-4" />} tone="buy" />
+              <KpiCard label="Sales" value={formatInteger(kpis.saleCount)} sub={`${formatPct(kpis.saleCount, kpis.transactionCount)} of visible transactions`} icon={<ArrowDownRight className="h-4 w-4" />} tone="sell" />
+              <KpiCard label="Late filings" value={formatInteger(kpis.lateCount)} sub={`${formatPct(kpis.lateCount, kpis.transactionCount)} of visible transactions`} icon={<AlertTriangle className="h-4 w-4" />} tone="warn" />
+            </section>
 
-        {activeTab === 'index' && (
-          <div className="space-y-5">
-            <div className="grid gap-5 xl:grid-cols-[minmax(0,2fr)_minmax(420px,1fr)]">
-              <Panel
-                title="Trump Index"
-                subtitle={`${formatInteger(trumpIndexEntries.length)} ranked issuer/security exposures; score is calculated from exposure, change, and activity`}
-              >
-                <TrumpIndexTable
-                  entries={trumpIndexEntries.slice(0, 80)}
-                  selectedIds={selectedIndexIds}
-                  onToggleSelected={toggleIndexSelection}
-                />
-              </Panel>
-              <AskTrumpIndexPanel
-                filters={filters}
-                selectedIndexIds={selectedIndexIds}
-                topEntries={trumpIndexEntries.slice(0, 6)}
-              />
+            <div className="mb-5 flex items-start gap-2 border border-sky-100 bg-sky-50 px-3 py-2 text-xs leading-5 text-sky-900">
+              <BadgeInfo className="mt-0.5 h-4 w-4 shrink-0" />
+              <span>
+                Visible transactions are the rows left after the active filters. Percentages on the KPI cards use that visible set as the denominator.
+                Public matches use SEC and Nasdaq Trader reference data; sector labels from matches are broad SEC/SIC-derived sectors, not GICS.
+                Issuer-context tickers explain bond/security issuers and are not direct bond identifiers.
+              </span>
             </div>
+          </>
+        )}
+
+        {activePage === 'ask' && (
+          <AskInterviewPage
+            filters={filters}
+            selectedIndexIds={selectedIndexIds}
+            topEntries={trumpIndexEntries.slice(0, 8)}
+            sourceAudit={initialData.sourceAudit}
+          />
+        )}
+
+        {activePageDefinition.assetType && (
+          <AssetClassPage
+            assetType={activePageDefinition.assetType}
+            transactions={filteredTransactions}
+            entries={trumpIndexEntries}
+            holdings={holdings}
+            sectorSummaries={allSectorSummaries}
+            equityStocks={equityStocks}
+            selectedIds={selectedIndexIds}
+            onToggleSelected={toggleIndexSelection}
+          />
+        )}
+
+        {activePage === 'index' && (
+          <div className="space-y-5">
+            <Panel
+              title="Trump Index"
+              subtitle={`${formatInteger(trumpIndexEntries.length)} ranked issuer/security exposures; score is calculated from exposure, change, and activity`}
+            >
+              <TrumpIndexTable
+                entries={trumpIndexEntries.slice(0, 120)}
+                selectedIds={selectedIndexIds}
+                onToggleSelected={toggleIndexSelection}
+              />
+            </Panel>
 
             <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
               <IndexLeaderPanel title="Top exposures" entries={indexLeaders.exposures} metric="current" />
@@ -505,7 +585,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
               </Panel>
             </div>
 
-            <div className="border border-slate-200 bg-white shadow-sm">
+            <div className="liquid-panel">
               <button
                 type="button"
                 onClick={() => setMethodologyOpen((value) => !value)}
@@ -515,14 +595,18 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
                 <span className="text-xs font-semibold text-slate-500">{methodologyOpen ? 'Hide' : 'Show'}</span>
               </button>
               {methodologyOpen && (
-                <div className="border-t border-slate-100 px-4 py-3 text-xs leading-5 text-slate-600">
+                <div className="border-t border-white/35 px-4 py-3 text-xs leading-5 text-slate-600">
                   Score = 50% log-scaled current midpoint exposure rank + 30% absolute midpoint change rank + 20% gross transaction activity rank.
                   Confidence, source reliability, archived-copy badges, and metadata-only badges stay visible beside the score but do not reduce it.
                   Event dots are contextual only and are not scoring inputs.
                 </div>
               )}
             </div>
+          </div>
+        )}
 
+        {activePage === 'sectors' && (
+          <div className="space-y-5">
             <div className="grid gap-5 xl:grid-cols-[1.25fr_0.75fr]">
               <Panel title="Sector Exposure Map" subtitle="Tile size is estimated midpoint volume; color is net buying vs selling">
                 {mounted ? <SectorTreemap tiles={sectorTiles} /> : <ChartPlaceholder />}
@@ -538,169 +622,54 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
 
             <div className="grid gap-5 xl:grid-cols-[0.8fr_1.2fr]">
               <Panel title="Asset-Type Mix" subtitle="Visible rows by security class">
-                <div className="space-y-4">
-                  {assetSummary.map((row) => (
-                    <div key={row.assetType}>
-                      <div className="mb-1 flex items-center justify-between gap-3 text-xs">
-                        <span className="font-semibold">{row.assetType}</span>
-                        <span className="font-mono text-slate-500">{formatInteger(row.count)} rows</span>
-                      </div>
-                      <div className="h-2 rounded-full bg-slate-100">
-                        <div
-                          className="h-2 rounded-full"
-                          style={{
-                            width: `${Math.max(3, (row.count / Math.max(1, filteredTransactions.length)) * 100)}%`,
-                            backgroundColor: ASSET_COLORS[row.assetType] || '#64748b',
-                          }}
-                        />
-                      </div>
-                      <div className="mt-1 text-[11px] leading-4 text-slate-500">{describeAssetType(row.assetType)}</div>
-                    </div>
-                  ))}
-                </div>
+                <AssetTypeMix rows={assetSummary} total={filteredTransactions.length} />
               </Panel>
 
-              <Panel title="Transaction Timing" subtitle="Monthly midpoint flow, late-filing density, and public event proximity">
-                <div className="grid gap-4 lg:grid-cols-[1fr_0.9fr]">
-                  <div className="h-[300px] w-full min-w-0">
-                    {mounted ? (
-                      <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-                        <LineChart data={monthlyFlow}>
-                          <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                          <XAxis dataKey="month" tick={{ fontSize: 11 }} />
-                          <YAxis domain={[0, chartMaxY]} tickFormatter={(value) => formatMoney(Number(value))} width={70} />
-                          <Tooltip formatter={(value) => formatMoney(Number(value))} />
-                          {eventMarkers.map((marker) => (
-                            <ReferenceDot
-                              key={`${marker.month}-${marker.leadEventId}`}
-                              x={marker.month}
-                              y={marker.y}
-                              r={selectedEvent?.id === marker.leadEventId ? 7 : Math.min(7, 4 + marker.count)}
-                              fill={EVENT_CATEGORY_COLORS[marker.category]}
-                              stroke={selectedEvent?.id === marker.leadEventId ? '#0f172a' : '#ffffff'}
-                              strokeWidth={2}
-                              ifOverflow="visible"
-                              cursor="pointer"
-                              onClick={() => setSelectedEventId(marker.leadEventId)}
-                              label={{
-                                value: marker.count > 1 ? `${marker.count}` : '',
-                                position: 'top',
-                                fill: EVENT_CATEGORY_COLORS[marker.category],
-                                fontSize: 10,
-                                fontWeight: 700,
-                              }}
-                            />
-                          ))}
-                          <Line type="monotone" dataKey="purchaseMidpoint" name="Purchases" stroke="#059669" strokeWidth={2} dot={false} />
-                          <Line type="monotone" dataKey="saleMidpoint" name="Sales" stroke="#dc2626" strokeWidth={2} dot={false} />
-                        </LineChart>
-                      </ResponsiveContainer>
-                    ) : <ChartPlaceholder />}
-                  </div>
-                  <div className="space-y-4">
-                    <MonthActivityHeatmap rows={monthlyActivity} />
-                    <EventOverlayPanel
-                      categories={availableEventCategories}
-                      activeCategories={activeEventCategories}
-                      onToggleCategory={toggleEventCategory}
-                    />
-                  </div>
-                </div>
-                <EventWindowDetail
-                  event={selectedEvent}
-                  windows={selectedEventWindows}
-                  onApplyWindow={applyEventWindowFilter}
-                  onClearWindow={() => setFilters((current) => ({ ...current, startDate: '', endDate: '' }))}
-                />
+              <Panel title="Sector Flow Bars" subtitle="Diverging net flow by sector, with buy and sell context">
+                <FlowDivergingBars summaries={allSectorSummaries.slice(0, 14)} />
               </Panel>
             </div>
-
-            <Panel title="Equity Stocks Bought" subtitle={`${formatInteger(publicCompanyCount)} resolved public companies in the visible set`}>
-              <EquityStockTable stocks={equityStocks.slice(0, 40)} />
-            </Panel>
           </div>
         )}
 
-        {activeTab === 'holdings' && (
+        {activePage === 'timing' && (
+          <TimingPage
+            mounted={mounted}
+            monthlyFlow={monthlyFlow}
+            monthlyActivity={monthlyActivity}
+            eventMarkers={eventMarkers}
+            selectedEvent={selectedEvent}
+            selectedEventWindows={selectedEventWindows}
+            chartMaxY={chartMaxY}
+            availableEventCategories={availableEventCategories}
+            activeEventCategories={activeEventCategories}
+            onSelectEvent={setSelectedEventId}
+            onToggleCategory={toggleEventCategory}
+            onApplyWindow={applyEventWindowFilter}
+            onClearWindow={() => setFilters((current) => ({ ...current, startDate: '', endDate: '' }))}
+          />
+        )}
+
+        {activePage === 'holdings' && (
           <div className="space-y-5">
-            <Panel title="Equity Stocks Bought" subtitle="Stocks grouped by resolved ticker when public-reference matching is available">
-              <EquityStockTable stocks={equityStocks.slice(0, 120)} />
-            </Panel>
-
             <Panel title="Estimated Holdings" subtitle="Transaction-implied ranges with baseline flags">
-              <DataTable>
-                <thead>
-                  <tr>
-                    <Th>Security & Read</Th>
-                    <Th>Classification</Th>
-                    <Th align="right">Estimated</Th>
-                    <Th align="right">Net Flow</Th>
-                    <Th align="right">Purchases</Th>
-                    <Th align="right">Sales</Th>
-                    <Th>Status</Th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {holdings.slice(0, 80).map((holding) => (
-                    <tr key={holding.id}>
-                      <Td>
-                        <div className="max-w-[420px] truncate font-semibold">{holding.description}</div>
-                        {holding.instrumentSummary && (
-                          <div className="max-w-[460px] text-[11px] leading-4 text-slate-600">{holding.instrumentSummary}</div>
-                        )}
-                        <div className="text-[11px] leading-4 text-slate-500">
-                          {holding.transactionCount} transactions; last seen {holding.lastTransactionDate || 'no transaction date'}.
-                        </div>
-                        {holding.resolvedTicker && (
-                          <div className="text-[11px] font-semibold text-sky-800">
-                            Public match: {holding.resolvedTicker}{holding.resolvedExchange ? ` | ${holding.resolvedExchange}` : ''}
-                          </div>
-                        )}
-                        {!holding.resolvedTicker && holding.issuerContextTicker && (
-                          <div className="text-[11px] font-semibold text-sky-800">
-                            Issuer context: {holding.issuerContextTicker}{holding.issuerContextExchange ? ` | ${holding.issuerContextExchange}` : ''}{holding.issuerContextIssuerName ? ` | ${holding.issuerContextIssuerName}` : ''}
-                          </div>
-                        )}
-                        {!holding.resolvedTicker && !holding.issuerContextTicker && holding.instrumentReferenceLabel && (
-                          <a href={holding.instrumentReferenceUrl || 'https://emma.msrb.org/'} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[11px] font-semibold text-sky-800">
-                            {holding.instrumentReferenceLabel}{holding.instrumentReferenceSource ? ` | ${holding.instrumentReferenceSource}` : ''} <ExternalLink className="h-3 w-3" />
-                          </a>
-                        )}
-                      </Td>
-                      <Td>
-                        <div className="font-semibold">{holding.assetType}</div>
-                        <div className="text-[11px] leading-4 text-slate-500">{holding.sector}</div>
-                        {holding.resolvedSicDescription && (
-                          <div className="text-[11px] leading-4 text-slate-500">{holding.resolvedSicDescription}</div>
-                        )}
-                      </Td>
-                      <Td align="right" mono>{formatRange(holding.estimatedCurrent)}</Td>
-                      <Td align="right" mono>{formatSignedMoney(holding.purchases.midpoint - holding.sales.midpoint)}</Td>
-                      <Td align="right" mono>{formatMoney(holding.purchases.midpoint)}</Td>
-                      <Td align="right" mono>{formatMoney(holding.sales.midpoint)}</Td>
-                      <Td>
-                        <div className="space-y-1">
-                          <StatusPill tone={holding.missingBaseline ? 'warn' : 'ok'} label={holding.missingBaseline ? 'No annual baseline' : 'Baseline match'} />
-                          <div className="text-[11px] text-slate-500">{confidenceLabel(holding.confidence)} confidence</div>
-                          <EnrichmentBadges flags={[...holding.enrichmentFlags, ...(holding.instrumentContextFlags || []), ...(holding.issuerContextFlags || [])]} />
-                        </div>
-                      </Td>
-                    </tr>
-                  ))}
-                </tbody>
-              </DataTable>
+              <HoldingsTable holdings={holdings.slice(0, 120)} />
             </Panel>
           </div>
         )}
 
-        {activeTab === 'transactions' && (
+        {activePage === 'transactions' && (
           <Panel title="Transactions" subtitle={`${formatInteger(filteredTransactions.length)} filtered rows`}>
             <TransactionTable transactions={filteredTransactions.slice(0, 250)} />
           </Panel>
         )}
 
-        {activeTab === 'filings' && (
+        {activePage === 'filings' && (
           <div className="space-y-5">
+            <Panel title="Source Completeness Audit" subtitle={`${sourceAuditStatusLabel(initialData.sourceAudit.completenessStatus)} | ${formatInteger(initialData.sourceAudit.gaps.length)} historical gaps flagged`}>
+              <SourceAuditPanel audit={initialData.sourceAudit} />
+            </Panel>
+
             <Panel title="Historical Source Registry" subtitle={`${filteredHistoricalSources.length} records after source filters; official PDFs, archived copies, and request-only metadata`}>
               <DataTable>
                 <thead>
@@ -784,11 +753,11 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
           </div>
         )}
 
-        {activeTab === 'review' && (
+        {activePage === 'review' && (
           <Panel title="Review Queue" subtitle={`${initialData.reviewQueue.length} parser, baseline, and classification flags`}>
             <div className="grid gap-3 lg:grid-cols-2">
               {initialData.reviewQueue.slice(0, 120).map((item) => (
-                <div key={item.id} className="border border-slate-200 bg-white p-3">
+                <div key={item.id} className="liquid-surface p-3">
                   <div className="mb-2 flex items-center justify-between gap-3">
                     <StatusPill tone={item.severity === 'high' ? 'warn' : item.severity === 'medium' ? 'neutral' : 'ok'} label={item.severity} />
                     <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{item.kind}</span>
@@ -812,10 +781,10 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
 
 function DashboardLoading({ error }: { error: string | null }) {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#f6f6f4] px-5 text-slate-900">
-      <section className="w-full max-w-lg border border-slate-200 bg-white p-5 shadow-sm">
+    <main className="liquid-app flex min-h-screen items-center justify-center px-5 text-slate-900">
+      <section className="liquid-panel w-full max-w-lg p-5">
         <div className="mb-4 flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-md bg-slate-900 text-white">
+          <div className="liquid-icon flex h-9 w-9 items-center justify-center">
             <Database className="h-4 w-4" />
           </div>
           <div>
@@ -829,8 +798,8 @@ function DashboardLoading({ error }: { error: string | null }) {
           </div>
         ) : (
           <div className="space-y-3">
-            <div className="h-2 overflow-hidden rounded-full bg-slate-100">
-              <div className="h-full w-1/2 animate-pulse rounded-full bg-slate-900" />
+            <div className="h-2 overflow-hidden rounded-full bg-white/45">
+              <div className="h-full w-1/2 animate-pulse rounded-full bg-slate-900/85" />
             </div>
             <div className="text-sm text-slate-600">Preparing the reporter dashboard...</div>
           </div>
@@ -850,6 +819,7 @@ async function loadDashboardData(): Promise<TrumpOgeApiResponse> {
     assetIncomeHoldings,
     liabilities,
     yearlyExposureSummaries,
+    sourceAudit,
     reviewQueue,
     events,
     securityEnrichments,
@@ -863,6 +833,7 @@ async function loadDashboardData(): Promise<TrumpOgeApiResponse> {
     importJson<AssetIncomeHolding[]>(() => import('@/data/oge/trump/asset-income-holdings.json')),
     importJson<Liability[]>(() => import('@/data/oge/trump/liabilities.json')),
     importJson<YearlyExposureSummary[]>(() => import('@/data/oge/trump/yearly-exposure-summaries.json')),
+    importJson<SourceAudit>(() => import('@/data/oge/trump/source-audit.json')),
     importJson<ReviewQueueItem[]>(() => import('@/data/oge/trump/review-queue.json')),
     importJson<OgeEvent[]>(() => import('@/data/oge/trump/events.json')),
     importJson<SecurityEnrichment[]>(() => import('@/data/oge/trump/security-enrichment.json')),
@@ -878,6 +849,7 @@ async function loadDashboardData(): Promise<TrumpOgeApiResponse> {
     assetIncomeHoldings,
     liabilities,
     yearlyExposureSummaries,
+    sourceAudit,
     holdingsEstimates: [],
     sectorSummaries: [],
     trumpIndex: [],
@@ -918,7 +890,473 @@ function useClientReady() {
 }
 
 function ChartPlaceholder() {
-  return <div className="h-full w-full bg-slate-50" />;
+  return <div className="liquid-empty h-full w-full" />;
+}
+
+function PageIntro({
+  page,
+  transactionCount,
+  indexCount,
+}: {
+  page: PageDefinition;
+  transactionCount: number;
+  indexCount: number;
+}) {
+  return (
+    <section className="liquid-hero mb-5 px-5 py-4">
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <div className="max-w-3xl">
+          <div className="liquid-surface mb-2 inline-flex items-center gap-2 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-slate-600">
+            {page.icon}
+            {page.eyebrow}
+          </div>
+          <h2 className="text-2xl font-bold tracking-tight text-slate-950">{page.label}</h2>
+          <p className="mt-1 text-sm leading-6 text-slate-600">{page.description}</p>
+        </div>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <MiniStat label="Rows" value={formatInteger(transactionCount)} />
+          <MiniStat label="Index" value={formatInteger(indexCount)} />
+          <MiniStat label="Scope" value={page.assetType || 'All'} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MiniStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="liquid-surface px-4 py-3">
+      <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">{label}</div>
+      <div className="mt-1 max-w-[160px] truncate font-mono text-sm font-bold text-slate-900">{value}</div>
+    </div>
+  );
+}
+
+function AskInterviewPage({
+  filters,
+  selectedIndexIds,
+  topEntries,
+  sourceAudit,
+}: {
+  filters: TrumpOgeFilters;
+  selectedIndexIds: string[];
+  topEntries: TrumpIndexEntry[];
+  sourceAudit: SourceAudit;
+}) {
+  return (
+    <div className="grid gap-5 xl:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.65fr)]">
+      <AskTrumpIndexPanel
+        filters={filters}
+        selectedIndexIds={selectedIndexIds}
+        topEntries={topEntries}
+        interview
+      />
+      <div className="space-y-5">
+        <Panel title="Briefing Context" subtitle="What the assistant receives as deterministic facts">
+          <div className="space-y-3 text-sm leading-6 text-slate-600">
+            <div className="liquid-surface p-3">
+              <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Current facts packet</div>
+              <div className="mt-2 text-sm">
+                {formatInteger(selectedIndexIds.length || topEntries.length)} selected or top-ranked index entries, active filters, cache version, citations, and caveats.
+              </div>
+            </div>
+            <div className="liquid-surface p-3">
+              <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Completeness</div>
+              <div className="mt-2">
+                {sourceAuditStatusLabel(sourceAudit.completenessStatus)}; {formatInteger(sourceAudit.gaps.length)} historical gap{sourceAudit.gaps.length === 1 ? '' : 's'} flagged.
+              </div>
+            </div>
+          </div>
+        </Panel>
+        <Panel title="Starter Questions" subtitle="Fast prompts for story framing">
+          <div className="space-y-2 text-sm leading-5 text-slate-700">
+            {[
+              'Which index entries have the strongest net-buy signal and usable citations?',
+              'Which corporate bond issuers need the most review before publication?',
+              'What changed most after applying the current filters?',
+              'Where does the source audit limit the story claim?',
+            ].map((prompt) => (
+              <div key={prompt} className="liquid-surface px-3 py-2">{prompt}</div>
+            ))}
+          </div>
+        </Panel>
+      </div>
+    </div>
+  );
+}
+
+function AssetClassPage({
+  assetType,
+  transactions,
+  entries,
+  holdings,
+  sectorSummaries,
+  equityStocks,
+  selectedIds,
+  onToggleSelected,
+}: {
+  assetType: AssetType;
+  transactions: OgeTransaction[];
+  entries: TrumpIndexEntry[];
+  holdings: EstimatedHolding[];
+  sectorSummaries: SectorSummary[];
+  equityStocks: EquityStockSummary[];
+  selectedIds: string[];
+  onToggleSelected: (id: string) => void;
+}) {
+  const purchaseMidpoint = transactions.filter((tx) => tx.type === 'Purchase').reduce((total, tx) => total + tx.amount.midpoint, 0);
+  const saleMidpoint = transactions.filter((tx) => tx.type === 'Sale').reduce((total, tx) => total + tx.amount.midpoint, 0);
+  const assetHoldings = holdings.filter((holding) => holding.assetType === assetType);
+  const assetSectors = sectorSummaries.filter((summary) => summary.assetType === 'All' || summary.assetType === assetType);
+  const title = `${assetType} Index`;
+
+  return (
+    <div className="space-y-5">
+      <div className="grid gap-5 xl:grid-cols-[0.95fr_1.05fr]">
+        <Panel title={`${assetType} Signal Cloud`} subtitle="Score versus current exposure; bubble size reflects transaction activity">
+          <IndexSignalCloud entries={entries.slice(0, 80)} />
+        </Panel>
+        <Panel title={`${assetType} Flow`} subtitle="Purchase and sale midpoints in the current filters">
+          <div className="grid gap-4 md:grid-cols-3">
+            <MetricCard label="Purchases" value={formatMoney(purchaseMidpoint)} tone="buy" />
+            <MetricCard label="Sales" value={formatMoney(saleMidpoint)} tone="sell" />
+            <MetricCard label="Net" value={formatSignedMoney(purchaseMidpoint - saleMidpoint)} tone={purchaseMidpoint >= saleMidpoint ? 'buy' : 'sell'} />
+          </div>
+          <div className="mt-5">
+            <FlowDivergingBars summaries={assetSectors.slice(0, 10)} />
+          </div>
+        </Panel>
+      </div>
+
+      {assetType === 'Equity' && (
+        <Panel title="Equity Stocks Bought" subtitle="Resolved public-company stocks with net buy, net sale, or hold status">
+          <EquityStockTable stocks={equityStocks.slice(0, 160)} />
+        </Panel>
+      )}
+
+      <Panel title={title} subtitle={`${formatInteger(entries.length)} ranked ${assetType.toLowerCase()} entries`}>
+        <TrumpIndexTable entries={entries.slice(0, 120)} selectedIds={selectedIds} onToggleSelected={onToggleSelected} />
+      </Panel>
+
+      <Panel title={`${assetType} Holdings`} subtitle={`${formatInteger(assetHoldings.length)} estimated holding bands`}>
+        <HoldingsTable holdings={assetHoldings.slice(0, 100)} />
+      </Panel>
+    </div>
+  );
+}
+
+function MetricCard({ label, value, tone }: { label: string; value: string; tone: 'buy' | 'sell' | 'neutral' }) {
+  const color = tone === 'buy' ? 'text-emerald-700' : tone === 'sell' ? 'text-rose-700' : 'text-slate-800';
+  return (
+    <div className="liquid-surface p-4">
+      <div className="text-[11px] font-bold uppercase tracking-wide text-slate-500">{label}</div>
+      <div className={`mt-2 font-mono text-xl font-bold ${color}`}>{value}</div>
+    </div>
+  );
+}
+
+function AssetTypeMix({ rows, total }: { rows: Array<{ assetType: AssetType; count: number }>; total: number }) {
+  return (
+    <div className="space-y-4">
+      {rows.map((row) => (
+        <div key={row.assetType}>
+          <div className="mb-1 flex items-center justify-between gap-3 text-xs">
+            <span className="font-semibold">{row.assetType}</span>
+            <span className="font-mono text-slate-500">{formatInteger(row.count)} rows</span>
+          </div>
+          <div className="h-2.5 rounded-full bg-white/45">
+            <div
+              className="h-2.5 rounded-full"
+              style={{
+                width: `${Math.max(3, (row.count / Math.max(1, total)) * 100)}%`,
+                backgroundColor: ASSET_COLORS[row.assetType] || '#64748b',
+              }}
+            />
+          </div>
+          <div className="mt-1 text-[11px] leading-4 text-slate-500">{describeAssetType(row.assetType)}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function FlowDivergingBars({ summaries }: { summaries: SectorSummary[] }) {
+  const maxNet = Math.max(1, ...summaries.map((summary) => Math.abs(summary.net.midpoint)));
+  return (
+    <div className="space-y-3">
+      {summaries.length === 0 && <div className="liquid-empty p-4 text-sm text-slate-500">No sector flow for this page.</div>}
+      {summaries.map((summary) => {
+        const isBuy = summary.net.midpoint >= 0;
+        const width = Math.max(4, (Math.abs(summary.net.midpoint) / maxNet) * 50);
+        return (
+          <div key={`${summary.key}-${summary.assetType}`} className="grid grid-cols-[minmax(110px,0.7fr)_minmax(180px,1.3fr)_92px] items-center gap-3 text-xs">
+            <div className="truncate font-semibold">{summary.sector}</div>
+            <div className="relative h-7 rounded-full bg-white/45">
+              <div className="absolute left-1/2 top-1 h-5 w-px bg-slate-300" />
+              <div
+                className={`absolute top-1 h-5 rounded-full ${isBuy ? 'left-1/2 bg-emerald-500' : 'right-1/2 bg-rose-500'}`}
+                style={{ width: `${width}%` }}
+              />
+            </div>
+            <div className={`text-right font-mono font-semibold ${isBuy ? 'text-emerald-700' : 'text-rose-700'}`}>{formatSignedMoney(summary.net.midpoint)}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function IndexSignalCloud({ entries }: { entries: TrumpIndexEntry[] }) {
+  const width = 760;
+  const height = 340;
+  if (entries.length === 0) {
+    return <div className="liquid-empty flex h-[340px] items-center justify-center text-sm text-slate-500">No index entries for this asset class.</div>;
+  }
+
+  const maxExposure = Math.max(1, ...entries.map((entry) => entry.currentMidpoint));
+  const maxActivity = Math.max(1, ...entries.map((entry) => entry.purchaseMidpoint + entry.saleMidpoint));
+  const xScale = scaleLinear().domain([0, Math.log10(maxExposure + 1)]).range([58, width - 28]);
+  const yScale = scaleLinear().domain([0, 100]).range([height - 42, 22]);
+  const rScale = scaleLinear().domain([0, Math.sqrt(maxActivity)]).range([4, 18]);
+
+  return (
+    <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Trump Index signal cloud" className="h-[340px] w-full">
+      <rect x={0} y={0} width={width} height={height} rx={24} fill="rgba(255,255,255,0.28)" />
+      {[25, 50, 75].map((score) => (
+        <g key={score}>
+          <line x1={52} x2={width - 22} y1={yScale(score)} y2={yScale(score)} stroke="rgba(100,116,139,0.22)" />
+          <text x={16} y={yScale(score) + 4} fontSize={11} fill="#64748b">{score}</text>
+        </g>
+      ))}
+      {entries.map((entry) => {
+        const x = xScale(Math.log10(entry.currentMidpoint + 1));
+        const y = yScale(entry.score);
+        const activity = Math.sqrt(entry.purchaseMidpoint + entry.saleMidpoint);
+        const fill = entry.netFlowMidpoint >= 0 ? '#10b981' : '#f43f5e';
+        return (
+          <g key={entry.id}>
+            <circle cx={x} cy={y} r={rScale(activity)} fill={fill} opacity={0.68} stroke="rgba(255,255,255,0.9)" strokeWidth={1.5}>
+              <title>{`${entry.displayName}: score ${entry.score.toFixed(1)}, current ${formatMoney(entry.currentMidpoint)}, net ${formatSignedMoney(entry.netFlowMidpoint)}`}</title>
+            </circle>
+          </g>
+        );
+      })}
+      <text x={58} y={height - 12} fontSize={11} fill="#64748b">lower exposure</text>
+      <text x={width - 118} y={height - 12} fontSize={11} fill="#64748b">higher exposure</text>
+      <text x={14} y={18} fontSize={11} fill="#64748b">score</text>
+    </svg>
+  );
+}
+
+function TimingPage({
+  mounted,
+  monthlyFlow,
+  monthlyActivity,
+  eventMarkers,
+  selectedEvent,
+  selectedEventWindows,
+  chartMaxY,
+  availableEventCategories,
+  activeEventCategories,
+  onSelectEvent,
+  onToggleCategory,
+  onApplyWindow,
+  onClearWindow,
+}: {
+  mounted: boolean;
+  monthlyFlow: Array<{ month: string; purchaseMidpoint: number; saleMidpoint: number; count: number }>;
+  monthlyActivity: MonthActivityRow[];
+  eventMarkers: EventMarker[];
+  selectedEvent: OgeEvent | null;
+  selectedEventWindows: EventWindowSummary[];
+  chartMaxY: number;
+  availableEventCategories: EventCategory[];
+  activeEventCategories: EventCategory[];
+  onSelectEvent: (id: string) => void;
+  onToggleCategory: (category: EventCategory) => void;
+  onApplyWindow: (event: OgeEvent, windowDays: 7 | 30) => void;
+  onClearWindow: () => void;
+}) {
+  return (
+    <div className="space-y-5">
+      <Panel title="Transaction Timing" subtitle="Transaction dates from the filings, with public events shown as contextual dots">
+        <div className="h-[430px] w-full min-w-0">
+          {mounted ? (
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
+              <LineChart data={monthlyFlow}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="month" tick={{ fontSize: 11 }} />
+                <YAxis domain={[0, chartMaxY]} tickFormatter={(value) => formatMoney(Number(value))} width={78} />
+                <Tooltip formatter={(value) => formatMoney(Number(value))} />
+                {eventMarkers.map((marker) => (
+                  <ReferenceDot
+                    key={`${marker.month}-${marker.leadEventId}`}
+                    x={marker.month}
+                    y={marker.y}
+                    r={selectedEvent?.id === marker.leadEventId ? 8 : Math.min(8, 4 + marker.count)}
+                    fill={EVENT_CATEGORY_COLORS[marker.category]}
+                    stroke={selectedEvent?.id === marker.leadEventId ? '#0f172a' : '#ffffff'}
+                    strokeWidth={2}
+                    ifOverflow="visible"
+                    cursor="pointer"
+                    onClick={() => onSelectEvent(marker.leadEventId)}
+                    label={{
+                      value: marker.count > 1 ? `${marker.count}` : '',
+                      position: 'top',
+                      fill: EVENT_CATEGORY_COLORS[marker.category],
+                      fontSize: 10,
+                      fontWeight: 700,
+                    }}
+                  />
+                ))}
+                <Line type="monotone" dataKey="purchaseMidpoint" name="Purchases" stroke="#059669" strokeWidth={2.5} dot={false} />
+                <Line type="monotone" dataKey="saleMidpoint" name="Sales" stroke="#dc2626" strokeWidth={2.5} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          ) : <ChartPlaceholder />}
+        </div>
+      </Panel>
+
+      <div className="grid gap-5 xl:grid-cols-[0.8fr_1.2fr]">
+        <Panel title="Late-Filing Density" subtitle="Monthly late share using transaction dates as the time axis">
+          <MonthActivityHeatmap rows={monthlyActivity} />
+        </Panel>
+        <Panel title="Event Context" subtitle="Filter the dot categories and inspect nearby transaction windows">
+          <EventOverlayPanel
+            categories={availableEventCategories}
+            activeCategories={activeEventCategories}
+            onToggleCategory={onToggleCategory}
+          />
+          <EventWindowDetail
+            event={selectedEvent}
+            windows={selectedEventWindows}
+            onApplyWindow={onApplyWindow}
+            onClearWindow={onClearWindow}
+          />
+        </Panel>
+      </div>
+    </div>
+  );
+}
+
+function HoldingsTable({ holdings }: { holdings: EstimatedHolding[] }) {
+  return (
+    <DataTable>
+      <thead>
+        <tr>
+          <Th>Security & Read</Th>
+          <Th>Classification</Th>
+          <Th align="right">Estimated</Th>
+          <Th align="right">Net Flow</Th>
+          <Th align="right">Purchases</Th>
+          <Th align="right">Sales</Th>
+          <Th>Status</Th>
+        </tr>
+      </thead>
+      <tbody>
+        {holdings.map((holding) => (
+          <tr key={holding.id}>
+            <Td>
+              <div className="max-w-[420px] truncate font-semibold">{holding.description}</div>
+              {holding.instrumentSummary && (
+                <div className="max-w-[460px] text-[11px] leading-4 text-slate-600">{holding.instrumentSummary}</div>
+              )}
+              <div className="text-[11px] leading-4 text-slate-500">
+                {holding.transactionCount} transactions; last seen {holding.lastTransactionDate || 'no transaction date'}.
+              </div>
+              {holding.resolvedTicker && (
+                <div className="text-[11px] font-semibold text-sky-800">
+                  Public match: {holding.resolvedTicker}{holding.resolvedExchange ? ` | ${holding.resolvedExchange}` : ''}
+                </div>
+              )}
+              {!holding.resolvedTicker && holding.issuerContextTicker && (
+                <div className="text-[11px] font-semibold text-sky-800">
+                  Issuer context: {holding.issuerContextTicker}{holding.issuerContextExchange ? ` | ${holding.issuerContextExchange}` : ''}{holding.issuerContextIssuerName ? ` | ${holding.issuerContextIssuerName}` : ''}
+                </div>
+              )}
+              {!holding.resolvedTicker && !holding.issuerContextTicker && holding.instrumentReferenceLabel && (
+                <a href={holding.instrumentReferenceUrl || 'https://emma.msrb.org/'} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[11px] font-semibold text-sky-800">
+                  {holding.instrumentReferenceLabel}{holding.instrumentReferenceSource ? ` | ${holding.instrumentReferenceSource}` : ''} <ExternalLink className="h-3 w-3" />
+                </a>
+              )}
+            </Td>
+            <Td>
+              <div className="font-semibold">{holding.assetType}</div>
+              <div className="text-[11px] leading-4 text-slate-500">{holding.sector}</div>
+              {holding.resolvedSicDescription && (
+                <div className="text-[11px] leading-4 text-slate-500">{holding.resolvedSicDescription}</div>
+              )}
+            </Td>
+            <Td align="right" mono>{formatRange(holding.estimatedCurrent)}</Td>
+            <Td align="right" mono>{formatSignedMoney(holding.purchases.midpoint - holding.sales.midpoint)}</Td>
+            <Td align="right" mono>{formatMoney(holding.purchases.midpoint)}</Td>
+            <Td align="right" mono>{formatMoney(holding.sales.midpoint)}</Td>
+            <Td>
+              <div className="space-y-1">
+                <StatusPill tone={holding.missingBaseline ? 'warn' : 'ok'} label={holding.missingBaseline ? 'No annual baseline' : 'Baseline match'} />
+                <div className="text-[11px] text-slate-500">{confidenceLabel(holding.confidence)} confidence</div>
+                <EnrichmentBadges flags={[...holding.enrichmentFlags, ...(holding.instrumentContextFlags || []), ...(holding.issuerContextFlags || [])]} />
+              </div>
+            </Td>
+          </tr>
+        ))}
+      </tbody>
+    </DataTable>
+  );
+}
+
+function SourceAuditPanel({ audit }: { audit: SourceAudit }) {
+  return (
+    <div className="space-y-4">
+      <div className="grid gap-3 md:grid-cols-5">
+        <MiniStat label="Status" value={sourceAuditStatusLabel(audit.completenessStatus)} />
+        <MiniStat label="OGE API" value={formatInteger(audit.ogeApiRecordCount)} />
+        <MiniStat label="Registry" value={formatInteger(audit.registrySourceCount)} />
+        <MiniStat label="Official PDFs" value={formatInteger(audit.officialPdfCount)} />
+        <MiniStat label="Gaps" value={formatInteger(audit.gaps.length)} />
+      </div>
+      <div className="grid gap-4 xl:grid-cols-[1fr_1fr]">
+        <SourceAuditTimeline audit={audit} />
+        <div className="space-y-2">
+          <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Priority gaps</div>
+          {audit.gaps.slice(0, 8).map((gap) => (
+            <div key={`${gap.year}-${gap.issue}`} className="liquid-surface p-3 text-sm">
+              <div className="flex items-center justify-between gap-3">
+                <div className="font-bold">{gap.year}</div>
+                <StatusPill tone={gap.severity === 'high' ? 'warn' : 'neutral'} label={gap.severity} />
+              </div>
+              <div className="mt-1 text-slate-700">{gap.issue}</div>
+              <div className="mt-1 text-xs leading-5 text-slate-500">{gap.suggestedAction}</div>
+            </div>
+          ))}
+          {audit.gaps.length === 0 && <div className="liquid-empty p-4 text-sm text-slate-600">No source gaps flagged by the latest audit.</div>}
+        </div>
+      </div>
+      <div className="liquid-surface p-3 text-xs leading-5 text-slate-600">
+        {audit.notes.join(' ')}
+      </div>
+    </div>
+  );
+}
+
+function SourceAuditTimeline({ audit }: { audit: SourceAudit }) {
+  return (
+    <div className="space-y-2">
+      <div className="text-xs font-bold uppercase tracking-wide text-slate-500">2015-present coverage</div>
+      {audit.coverageByYear.map((row) => (
+        <div key={row.year} className="grid grid-cols-[54px_1fr_68px] items-center gap-3 text-xs">
+          <div className="font-mono text-slate-600">{row.year}</div>
+          <div className="flex h-5 overflow-hidden rounded-full bg-white/45">
+            <div className="bg-emerald-500" style={{ width: `${Math.max(0, row.officialCount) * 18}%` }} title={`${row.officialCount} official`} />
+            <div className="bg-amber-400" style={{ width: `${Math.max(0, row.archivedCount) * 18}%` }} title={`${row.archivedCount} archived`} />
+            <div className="bg-slate-400" style={{ width: `${Math.max(0, row.metadataOnlyCount) * 18}%` }} title={`${row.metadataOnlyCount} metadata-only`} />
+            {row.registryCount === 0 && <div className="w-full bg-rose-200" />}
+          </div>
+          <StatusPill tone={row.status === 'covered' ? 'ok' : row.status === 'partial' ? 'neutral' : 'warn'} label={row.status} />
+        </div>
+      ))}
+    </div>
+  );
 }
 
 interface SectorTile {
@@ -958,7 +1396,7 @@ function SectorTreemap({ tiles }: { tiles: SectorTile[] }) {
   const leaves = root.leaves().filter((leaf) => isSectorTile(leaf.data));
 
   if (tiles.length === 0) {
-    return <div className="flex h-[430px] items-center justify-center bg-slate-50 text-sm text-slate-500">No sector data for the current filters.</div>;
+    return <div className="liquid-empty flex h-[430px] items-center justify-center text-sm text-slate-500">No sector data for the current filters.</div>;
   }
 
   return (
@@ -1011,7 +1449,7 @@ function SectorTreemap({ tiles }: { tiles: SectorTile[] }) {
 function SectorSignal({ title, tone, summaries }: { title: string; tone: 'buy' | 'sell'; summaries: SectorSummary[] }) {
   const toneClass = tone === 'buy' ? 'text-emerald-700' : 'text-red-700';
   return (
-    <div className="border border-slate-100 bg-slate-50 p-3">
+    <div className="liquid-surface p-3">
       <div className={`mb-2 text-xs font-bold uppercase tracking-wide ${toneClass}`}>{title}</div>
       <div className="space-y-3">
         {summaries.length === 0 && <div className="text-xs text-slate-500">No visible sector with this direction.</div>}
@@ -1061,7 +1499,7 @@ function MonthActivityHeatmap({ rows }: { rows: MonthActivityRow[] }) {
                 <span className={`text-right font-mono text-[11px] font-semibold ${tone.textClass}`}>
                   {formatPct(row.lateCount, row.count)}
                 </span>
-                <div className="h-2.5 overflow-hidden rounded-full bg-slate-100">
+                <div className="h-2.5 overflow-hidden rounded-full bg-white/45">
                   <div
                     className="h-full rounded-full"
                     style={{
@@ -1097,7 +1535,7 @@ function EventOverlayPanel({
   onToggleCategory: (category: EventCategory) => void;
 }) {
   return (
-    <div className="space-y-3 border-t border-slate-100 pt-3">
+    <div className="space-y-3 border-t border-white/35 pt-3">
       <div className="flex items-center justify-between gap-3">
         <div>
           <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Event overlay</div>
@@ -1113,8 +1551,8 @@ function EventOverlayPanel({
               key={category}
               type="button"
               onClick={() => onToggleCategory(category)}
-              className={`inline-flex items-center gap-1 rounded-md border px-2 py-1 text-[11px] font-semibold ${
-                active ? 'border-slate-300 bg-white text-slate-800' : 'border-slate-100 bg-slate-50 text-slate-400'
+              className={`inline-flex items-center gap-1 rounded-full border px-2 py-1 text-[11px] font-semibold backdrop-blur-xl ${
+                active ? 'border-white/70 bg-white/55 text-slate-800 shadow-sm' : 'border-white/35 bg-white/20 text-slate-400'
               }`}
             >
               <span
@@ -1126,7 +1564,7 @@ function EventOverlayPanel({
           );
         })}
       </div>
-      <div className="border border-slate-100 bg-slate-50 p-3 text-xs leading-5 text-slate-600">
+      <div className="liquid-surface p-3 text-xs leading-5 text-slate-600">
         Event dots are placed near that month&apos;s larger buy/sell flow, with numbered dots marking months that have multiple public events.
       </div>
     </div>
@@ -1146,7 +1584,7 @@ function EventWindowDetail({
 }) {
   if (!event) {
     return (
-      <div className="mt-4 border border-slate-100 bg-slate-50 p-4 text-sm text-slate-500">
+      <div className="liquid-empty mt-4 p-4 text-sm text-slate-500">
         Select an event to inspect nearby transaction activity.
       </div>
     );
@@ -1155,7 +1593,7 @@ function EventWindowDetail({
   const sortedWindows = [...windows].sort((a, b) => a.windowDays - b.windowDays);
 
   return (
-    <div className="mt-4 border-t border-slate-100 pt-4">
+    <div className="mt-4 border-t border-white/35 pt-4">
       <div className="grid gap-4 xl:grid-cols-[1fr_1.1fr]">
         <div className="space-y-3">
           <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Selected chart event</div>
@@ -1167,7 +1605,7 @@ function EventWindowDetail({
               {eventCategoryLabel(event.category)}
             </span>
             <span className="font-mono text-xs text-slate-500">{eventDateLabel(event)}</span>
-            <span className="rounded-md bg-slate-100 px-2 py-1 text-[11px] font-semibold text-slate-600">
+            <span className="rounded-full bg-white/45 px-2 py-1 text-[11px] font-semibold text-slate-600 ring-1 ring-white/55">
               importance {event.importance}/3
             </span>
           </div>
@@ -1179,21 +1617,21 @@ function EventWindowDetail({
             <button
               type="button"
               onClick={() => onApplyWindow(event, 7)}
-              className="rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+              className="liquid-button px-3 py-2 text-xs font-semibold text-slate-700"
             >
               Filter +/-7d
             </button>
             <button
               type="button"
               onClick={() => onApplyWindow(event, 30)}
-              className="rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+              className="liquid-button px-3 py-2 text-xs font-semibold text-slate-700"
             >
               Filter +/-30d
             </button>
             <button
               type="button"
               onClick={onClearWindow}
-              className="rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+              className="liquid-button px-3 py-2 text-xs font-semibold text-slate-700"
             >
               Clear dates
             </button>
@@ -1201,7 +1639,7 @@ function EventWindowDetail({
               href={event.sourceUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-sky-700 hover:bg-slate-50"
+              className="liquid-button inline-flex items-center gap-1 px-3 py-2 text-xs font-semibold text-sky-700"
             >
               {event.sourceName} <ExternalLink className="h-3 w-3" />
             </a>
@@ -1212,7 +1650,7 @@ function EventWindowDetail({
         </div>
         <div className="grid gap-3 md:grid-cols-2">
           {sortedWindows.map((window) => (
-            <div key={`${window.eventId}-${window.windowDays}`} className="border border-slate-100 bg-slate-50 p-3">
+            <div key={`${window.eventId}-${window.windowDays}`} className="liquid-surface p-3">
               <div className="mb-2 flex items-center justify-between gap-3">
                 <div className="text-xs font-bold">+/-{window.windowDays} days</div>
                 <div className="font-mono text-xs text-slate-500">{formatInteger(window.transactionCount)} rows</div>
@@ -1256,12 +1694,18 @@ function Metric({ label, value, tone }: { label: string; value: string; tone: 'b
 }
 
 function KpiCard({ label, value, sub, icon, tone = 'neutral' }: { label: string; value: string; sub: string; icon: React.ReactNode; tone?: 'neutral' | 'buy' | 'sell' | 'warn' }) {
-  const toneClass = tone === 'buy' ? 'text-emerald-700 bg-emerald-50' : tone === 'sell' ? 'text-red-700 bg-red-50' : tone === 'warn' ? 'text-amber-800 bg-amber-50' : 'text-slate-700 bg-slate-100';
+  const toneClass = tone === 'buy'
+    ? 'text-emerald-700 bg-emerald-50/70 ring-emerald-200/60'
+    : tone === 'sell'
+      ? 'text-rose-700 bg-rose-50/70 ring-rose-200/60'
+      : tone === 'warn'
+        ? 'text-amber-800 bg-amber-50/75 ring-amber-200/60'
+        : 'text-slate-700 bg-white/55 ring-white/70';
   return (
-    <div className="border border-slate-200 bg-white p-4 shadow-sm">
+    <div className="liquid-panel p-4">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</div>
-        <div className={`rounded-md p-2 ${toneClass}`}>{icon}</div>
+        <div className={`rounded-full p-2 ring-1 backdrop-blur-xl ${toneClass}`}>{icon}</div>
       </div>
       <div className="font-mono text-2xl font-bold tracking-tight">{value}</div>
       <div className="mt-1 text-xs text-slate-500">{sub}</div>
@@ -1271,8 +1715,8 @@ function KpiCard({ label, value, sub, icon, tone = 'neutral' }: { label: string;
 
 function Panel({ title, subtitle, children }: { title: string; subtitle: string; children: React.ReactNode }) {
   return (
-    <section className="min-w-0 border border-slate-200 bg-white shadow-sm">
-      <div className="flex items-start justify-between gap-3 border-b border-slate-100 px-4 py-3">
+    <section className="liquid-panel min-w-0">
+      <div className="flex items-start justify-between gap-3 border-b border-white/35 px-4 py-3">
         <div>
           <h2 className="text-sm font-bold">{title}</h2>
           <div className="mt-0.5 text-xs text-slate-500">{subtitle}</div>
@@ -1294,7 +1738,7 @@ function TrumpIndexTable({
   onToggleSelected: (id: string) => void;
 }) {
   if (entries.length === 0) {
-    return <div className="border border-slate-100 bg-slate-50 p-6 text-sm text-slate-500">No index entries match the current filters.</div>;
+    return <div className="liquid-empty p-6 text-sm text-slate-500">No index entries match the current filters.</div>;
   }
 
   return (
@@ -1445,23 +1889,36 @@ interface AskResponse {
   cacheVersion: string;
 }
 
+interface AskExchange {
+  question: string;
+  response: AskResponse;
+}
+
 function AskTrumpIndexPanel({
   filters,
   selectedIndexIds,
   topEntries,
+  interview = false,
 }: {
   filters: TrumpOgeFilters;
   selectedIndexIds: string[];
   topEntries: TrumpIndexEntry[];
+  interview?: boolean;
 }) {
   const [question, setQuestion] = useState('What are the strongest Trump Index signals in the current filters?');
   const [answer, setAnswer] = useState<AskResponse | null>(null);
+  const [history, setHistory] = useState<AskExchange[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const apiBase = (process.env.NEXT_PUBLIC_OPENARENA_API_BASE || '').replace(/\/$/, '');
 
   const submit = async () => {
     setError(null);
+    const trimmedQuestion = question.trim();
+    if (!trimmedQuestion) {
+      setError('Ask a question first.');
+      return;
+    }
     const askEndpoint = apiBase ? `${apiBase}/api/ask` : '/api/ask';
     setLoading(true);
     try {
@@ -1471,7 +1928,7 @@ function AskTrumpIndexPanel({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          question,
+          question: trimmedQuestion,
           filters,
           selectedIndexIds,
           includeSourceDocuments: false,
@@ -1484,7 +1941,9 @@ function AskTrumpIndexPanel({
           : `HTTP ${response.status}`;
         throw new Error(typeof json.error === 'string' ? json.error : fallbackError);
       }
-      setAnswer(json as unknown as AskResponse);
+      const nextAnswer = json as unknown as AskResponse;
+      setAnswer(nextAnswer);
+      setHistory((current) => [{ question: trimmedQuestion, response: nextAnswer }, ...current].slice(0, 6));
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
@@ -1493,32 +1952,51 @@ function AskTrumpIndexPanel({
   };
 
   return (
-    <Panel title="Ask The Index" subtitle={`${selectedIndexIds.length || topEntries.length} focused entries sent as deterministic facts`}>
-      <div className="space-y-3">
+    <Panel title={interview ? 'Ask The Trump Index' : 'Ask The Index'} subtitle={`${selectedIndexIds.length || topEntries.length} focused entries sent as deterministic facts`}>
+      <div className={`space-y-4 ${interview ? 'min-h-[620px]' : ''}`}>
+        {interview && (
+          <div className="grid gap-2 md:grid-cols-2">
+            {[
+              'What is the strongest cited story signal right now?',
+              'Which entries are high score but low confidence?',
+              'Summarize municipal bond exposure with source caveats.',
+              'What filing gaps limit a 2015-present claim?',
+            ].map((prompt) => (
+              <button
+                key={prompt}
+                type="button"
+                onClick={() => setQuestion(prompt)}
+                className="liquid-surface px-3 py-2 text-left text-xs font-semibold text-slate-700 transition hover:-translate-y-0.5"
+              >
+                {prompt}
+              </button>
+            ))}
+          </div>
+        )}
         <textarea
           value={question}
           onChange={(event) => setQuestion(event.target.value)}
-          rows={4}
-          className="w-full resize-none rounded-md border border-slate-200 bg-slate-50 p-3 text-sm outline-none focus:border-sky-500 focus:bg-white"
+          rows={interview ? 6 : 4}
+          className="liquid-input w-full resize-none p-4 text-sm leading-6 outline-none"
         />
         <button
           type="button"
           onClick={submit}
           disabled={loading}
-          className="flex h-10 w-full items-center justify-center gap-2 rounded-md bg-slate-900 px-3 text-xs font-semibold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+          className="liquid-button-primary flex h-11 w-full items-center justify-center gap-2 px-3 text-xs font-semibold disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <MessageSquare className="h-4 w-4" />
+          {interview ? <Send className="h-4 w-4" /> : <MessageSquare className="h-4 w-4" />}
           {loading ? 'Asking...' : 'Ask'}
         </button>
         {error && <div className="border border-amber-200 bg-amber-50 p-3 text-xs leading-5 text-amber-900">{error}</div>}
         {answer && (
-          <div className="space-y-3 border border-slate-100 bg-slate-50 p-3">
+          <div className="liquid-surface space-y-3 p-4">
             <div className="flex flex-wrap items-center gap-2">
               <StatusPill tone={answer.openArenaStatus === 'openarena' ? 'ok' : 'neutral'} label={answer.openArenaStatus || 'fallback'} />
               <span className="text-[11px] font-mono text-slate-500">{formatDateTime(answer.cacheVersion)}</span>
             </div>
             {answer.openArenaError && <div className="text-[11px] leading-4 text-amber-800">{answer.openArenaError}</div>}
-            <div className="whitespace-pre-wrap text-sm leading-6 text-slate-800">{answer.answer}</div>
+            <MarkdownAnswer text={answer.answer} />
             {answer.citations.length > 0 && (
               <div className="space-y-1 border-t border-slate-200 pt-2">
                 {answer.citations.slice(0, 5).map((citation) => (
@@ -1534,9 +2012,114 @@ function AskTrumpIndexPanel({
             )}
           </div>
         )}
+        {interview && history.length > 1 && (
+          <div className="space-y-2">
+            <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Recent exchanges</div>
+            {history.slice(1).map((exchange, index) => (
+              <details key={`${exchange.question}-${index}`} className="liquid-surface p-3">
+                <summary className="cursor-pointer text-sm font-semibold text-slate-800">{exchange.question}</summary>
+                <div className="mt-3">
+                  <MarkdownAnswer text={exchange.response.answer} compact />
+                </div>
+              </details>
+            ))}
+          </div>
+        )}
       </div>
     </Panel>
   );
+}
+
+function MarkdownAnswer({ text, compact = false }: { text: string; compact?: boolean }) {
+  const blocks = parseMarkdownBlocks(text);
+  return (
+    <div className={`${compact ? 'space-y-2' : 'space-y-3'} text-sm leading-6 text-slate-800`}>
+      {blocks.map((block, index) => {
+        if (block.type === 'heading') {
+          return <h3 key={index} className="text-sm font-bold text-slate-950">{renderInlineMarkdown(block.text)}</h3>;
+        }
+        if (block.type === 'list') {
+          return (
+            <ul key={index} className="space-y-1 pl-4">
+              {block.items.map((item) => (
+                <li key={item} className="list-disc">{renderInlineMarkdown(item)}</li>
+              ))}
+            </ul>
+          );
+        }
+        return <p key={index}>{renderInlineMarkdown(block.text)}</p>;
+      })}
+    </div>
+  );
+}
+
+type MarkdownBlock =
+  | { type: 'heading'; text: string }
+  | { type: 'paragraph'; text: string }
+  | { type: 'list'; items: string[] };
+
+function parseMarkdownBlocks(text: string): MarkdownBlock[] {
+  const blocks: MarkdownBlock[] = [];
+  let paragraph: string[] = [];
+  let list: string[] = [];
+
+  const flushParagraph = () => {
+    if (paragraph.length > 0) {
+      blocks.push({ type: 'paragraph', text: paragraph.join(' ') });
+      paragraph = [];
+    }
+  };
+  const flushList = () => {
+    if (list.length > 0) {
+      blocks.push({ type: 'list', items: list });
+      list = [];
+    }
+  };
+
+  for (const rawLine of text.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line) {
+      flushParagraph();
+      flushList();
+      continue;
+    }
+    const heading = line.match(/^#{1,4}\s+(.+)$/);
+    if (heading) {
+      flushParagraph();
+      flushList();
+      blocks.push({ type: 'heading', text: heading[1] });
+      continue;
+    }
+    const bullet = line.match(/^[-*]\s+(.+)$/);
+    if (bullet) {
+      flushParagraph();
+      list.push(bullet[1]);
+      continue;
+    }
+    flushList();
+    paragraph.push(line);
+  }
+
+  flushParagraph();
+  flushList();
+  return blocks.length > 0 ? blocks : [{ type: 'paragraph', text }];
+}
+
+function renderInlineMarkdown(text: string): React.ReactNode[] {
+  const parts = text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g).filter(Boolean);
+  return parts.map((part, index) => {
+    const bold = part.match(/^\*\*([^*]+)\*\*$/);
+    if (bold) return <strong key={index}>{bold[1]}</strong>;
+    const link = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (link) {
+      return (
+        <a key={index} href={link[2]} target="_blank" rel="noreferrer" className="font-semibold text-sky-700">
+          {link[1]}
+        </a>
+      );
+    }
+    return <span key={index}>{part}</span>;
+  });
 }
 
 async function readJsonResponse(response: Response): Promise<Record<string, unknown>> {
@@ -1561,7 +2144,7 @@ function IndexLeaderPanel({
   tone?: 'buy' | 'sell' | 'neutral';
 }) {
   return (
-    <div className="border border-slate-200 bg-white p-4 shadow-sm">
+    <div className="liquid-surface p-4">
       <div className="mb-3 flex items-center justify-between gap-3">
         <h3 className="text-sm font-bold">{title}</h3>
         <StatusPill tone={tone} label={metric} />
@@ -1618,9 +2201,9 @@ function RollupGroup({
             <span className="max-w-[260px] truncate font-semibold">{row.key}</span>
             <span className="font-mono text-slate-600">{formatMoney(row.currentMidpoint)}</span>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+          <div className="h-2 overflow-hidden rounded-full bg-white/45">
             <div
-              className="h-full rounded-full bg-slate-800"
+              className="h-full rounded-full bg-slate-800/85"
               style={{ width: `${Math.max(3, (row.currentMidpoint / maxValue) * 100)}%` }}
             />
           </div>
@@ -1636,7 +2219,7 @@ function RollupGroup({
 function SourceCoverageTimeline({ sources }: { sources: HistoricalSource[] }) {
   const rows = buildSourceCoverageRows(sources);
   if (rows.length === 0) {
-    return <div className="border border-slate-100 bg-slate-50 p-6 text-sm text-slate-500">No historical sources match the current filters.</div>;
+    return <div className="liquid-empty p-6 text-sm text-slate-500">No historical sources match the current filters.</div>;
   }
 
   const maxCount = Math.max(1, ...rows.map((row) => row.total));
@@ -1645,7 +2228,7 @@ function SourceCoverageTimeline({ sources }: { sources: HistoricalSource[] }) {
       {rows.map((row) => (
         <div key={row.year} className="grid grid-cols-[58px_1fr_54px] items-center gap-3">
           <div className="font-mono text-xs text-slate-600">{row.year}</div>
-          <div className="flex h-4 overflow-hidden rounded-full bg-slate-100">
+          <div className="flex h-4 overflow-hidden rounded-full bg-white/45">
             <div className="bg-emerald-600" style={{ width: `${(row.official / maxCount) * 100}%` }} title={`${row.official} official`} />
             <div className="bg-amber-500" style={{ width: `${(row.archived / maxCount) * 100}%` }} title={`${row.archived} archived`} />
             <div className="bg-slate-500" style={{ width: `${(row.metadata / maxCount) * 100}%` }} title={`${row.metadata} metadata-only`} />
@@ -1687,6 +2270,12 @@ function sourceReliabilityLabel(reliability: SourceReliability): string {
   if (reliability === 'official') return 'Official';
   if (reliability === 'archived_copy') return 'Archived copy';
   return 'Metadata only';
+}
+
+function sourceAuditStatusLabel(status: SourceAudit['completenessStatus']): string {
+  if (status === 'complete_for_current_oge_api') return 'Complete for current OGE API';
+  if (status === 'needs_historical_review') return 'Needs historical review';
+  return 'Incomplete';
 }
 
 function TransactionTable({ transactions }: { transactions: OgeTransaction[] }) {
@@ -1773,7 +2362,7 @@ function TransactionTable({ transactions }: { transactions: OgeTransaction[] }) 
 
 function EquityStockTable({ stocks }: { stocks: EquityStockSummary[] }) {
   if (stocks.length === 0) {
-    return <div className="border border-slate-100 bg-slate-50 p-6 text-sm text-slate-500">No equity purchases in the visible transaction set.</div>;
+    return <div className="liquid-empty p-6 text-sm text-slate-500">No equity purchases in the visible transaction set.</div>;
   }
 
   return (
@@ -1845,7 +2434,7 @@ function EquityStockTable({ stocks }: { stocks: EquityStockSummary[] }) {
 
 function DataTable({ children }: { children: React.ReactNode }) {
   return (
-    <div className="max-h-[620px] overflow-auto border border-slate-100">
+    <div className="liquid-table max-h-[620px] overflow-auto rounded-[20px] border">
       <table className="w-full min-w-[1080px] border-collapse text-left text-sm">
         {children}
       </table>
@@ -1855,7 +2444,7 @@ function DataTable({ children }: { children: React.ReactNode }) {
 
 function Th({ children, align = 'left' }: { children: React.ReactNode; align?: 'left' | 'right' }) {
   return (
-    <th className={`sticky top-0 bg-slate-50 px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-500 ${align === 'right' ? 'text-right' : 'text-left'}`}>
+    <th className={`sticky top-0 bg-white/80 px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-500 backdrop-blur-xl ${align === 'right' ? 'text-right' : 'text-left'}`}>
       {children}
     </th>
   );
@@ -1863,7 +2452,7 @@ function Th({ children, align = 'left' }: { children: React.ReactNode; align?: '
 
 function Td({ children, align = 'left', mono = false }: { children: React.ReactNode; align?: 'left' | 'right'; mono?: boolean }) {
   return (
-    <td className={`border-t border-slate-100 px-3 py-2 align-top ${align === 'right' ? 'text-right' : 'text-left'} ${mono ? 'font-mono text-xs' : ''}`}>
+    <td className={`border-t border-white/35 px-3 py-2 align-top ${align === 'right' ? 'text-right' : 'text-left'} ${mono ? 'font-mono text-xs' : ''}`}>
       {children}
     </td>
   );
@@ -1871,13 +2460,13 @@ function Td({ children, align = 'left', mono = false }: { children: React.ReactN
 
 function StatusPill({ label, tone }: { label: string; tone: 'ok' | 'warn' | 'neutral' | 'buy' | 'sell' }) {
   const classes = {
-    ok: 'bg-emerald-50 text-emerald-700',
-    warn: 'bg-amber-50 text-amber-800',
-    neutral: 'bg-slate-100 text-slate-600',
-    buy: 'bg-emerald-50 text-emerald-700',
-    sell: 'bg-red-50 text-red-700',
+    ok: 'bg-emerald-50/80 text-emerald-700 ring-emerald-200/70',
+    warn: 'bg-amber-50/85 text-amber-800 ring-amber-200/80',
+    neutral: 'bg-white/55 text-slate-600 ring-white/70',
+    buy: 'bg-emerald-50/80 text-emerald-700 ring-emerald-200/70',
+    sell: 'bg-rose-50/80 text-rose-700 ring-rose-200/70',
   }[tone];
-  return <span className={`inline-flex rounded-md px-2 py-1 text-[11px] font-semibold ${classes}`}>{label}</span>;
+  return <span className={`inline-flex rounded-full px-2 py-1 text-[11px] font-semibold ring-1 ${classes}`}>{label}</span>;
 }
 
 function EnrichmentBadges({ flags }: { flags: string[] }) {
