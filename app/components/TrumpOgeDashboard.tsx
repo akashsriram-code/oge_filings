@@ -452,7 +452,7 @@ function TrumpOgeDashboardLoaded({ initialData }: { initialData: TrumpOgeApiResp
 
         {activeTab === 'index' && (
           <div className="space-y-5">
-            <div className="grid gap-5 xl:grid-cols-[1.35fr_0.65fr]">
+            <div className="grid gap-5 xl:grid-cols-[minmax(0,2fr)_minmax(420px,1fr)]">
               <Panel
                 title="Trump Index"
                 subtitle={`${formatInteger(trumpIndexEntries.length)} ranked issuer/security exposures; score is calculated from exposure, change, and activity`}
@@ -1239,7 +1239,7 @@ function KpiCard({ label, value, sub, icon, tone = 'neutral' }: { label: string;
 
 function Panel({ title, subtitle, children }: { title: string; subtitle: string; children: React.ReactNode }) {
   return (
-    <section className="border border-slate-200 bg-white shadow-sm">
+    <section className="min-w-0 border border-slate-200 bg-white shadow-sm">
       <div className="flex items-start justify-between gap-3 border-b border-slate-100 px-4 py-3">
         <div>
           <h2 className="text-sm font-bold">{title}</h2>
@@ -1375,7 +1375,6 @@ function AskTrumpIndexPanel({
   topEntries: TrumpIndexEntry[];
 }) {
   const [question, setQuestion] = useState('What are the strongest Trump Index signals in the current filters?');
-  const [apiKey, setApiKey] = useState('');
   const [answer, setAnswer] = useState<AskResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -1393,7 +1392,6 @@ function AskTrumpIndexPanel({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(apiKey ? { 'X-OpenArena-API-Key': apiKey } : {}),
         },
         body: JSON.stringify({
           question,
@@ -1420,12 +1418,6 @@ function AskTrumpIndexPanel({
           onChange={(event) => setQuestion(event.target.value)}
           rows={4}
           className="w-full resize-none rounded-md border border-slate-200 bg-slate-50 p-3 text-sm outline-none focus:border-sky-500 focus:bg-white"
-        />
-        <input
-          value={apiKey}
-          onChange={(event) => setApiKey(event.target.value)}
-          placeholder="Optional shared API key"
-          className="h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm outline-none focus:border-sky-500"
         />
         <button
           type="button"
