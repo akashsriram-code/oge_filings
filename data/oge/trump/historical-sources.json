@@ -128,6 +128,22 @@
     "provenanceNote": "OGE API metadata record does not expose a direct PDF in the public response; retain for coverage and request tracking."
   },
   {
+    "id": "crew-2023-disclosure-part4",
+    "title": "CREW Disclosure Report Part 4 (August 2023)",
+    "filingType": "CREW Analysis",
+    "filedDate": "2023-08-14",
+    "reportYear": 2023,
+    "sourceType": "third_party_pdf",
+    "sourceReliability": "third_party",
+    "sourceUrl": "https://www.citizensforethics.org/wp-content/uploads/2023/08/Disclosure-Report-Part-4-8-14-23.pdf",
+    "localFilename": "CREW-Disclosure-Report-Part-4-8-14-23.pdf",
+    "bytes": null,
+    "sha256": null,
+    "fetchStatus": "pending",
+    "sourceReviewStatus": "needs_review",
+    "provenanceNote": "Third-party CREW (Citizens for Responsibility and Ethics in Washington) disclosure analysis report Part 4, published August 14, 2023."
+  },
+  {
     "id": "historical-trump-2023-candidate-crew-part-1",
     "title": "Donald J. Trump 2023 candidate financial disclosure, Part 1",
     "filingType": "Candidate 278e",
@@ -606,21 +622,5 @@
     "fetchStatus": "ok",
     "sourceReviewStatus": "verified",
     "provenanceNote": "Official OGE API source record with direct PDF URL and SHA-256 provenance when fetchable."
-  },
-  {
-    "id": "crew-2023-disclosure-part4",
-    "title": "CREW Disclosure Report Part 4 (August 2023)",
-    "filingType": "CREW Analysis",
-    "filedDate": "2023-08-14",
-    "reportYear": 2023,
-    "sourceType": "third_party_pdf",
-    "sourceReliability": "third_party",
-    "sourceUrl": "https://www.citizensforethics.org/wp-content/uploads/2023/08/Disclosure-Report-Part-4-8-14-23.pdf",
-    "localFilename": "CREW-Disclosure-Report-Part-4-8-14-23.pdf",
-    "bytes": null,
-    "sha256": null,
-    "fetchStatus": "pending",
-    "sourceReviewStatus": "needs_review",
-    "provenanceNote": "Third-party CREW (Citizens for Responsibility and Ethics in Washington) disclosure analysis report Part 4, published August 14, 2023."
   }
 ]

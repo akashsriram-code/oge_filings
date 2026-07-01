@@ -1,6 +1,6 @@
 {
   "cacheMeta": {
-    "generatedAt": "2026-07-01T11:00:54.640Z",
+    "generatedAt": "2026-07-01T11:57:10.390Z",
     "dataThrough": "2026-07-01",
     "source": "OGE source metadata and PDFs; transaction rows bootstrapped from Open Cabinet structured export.",
     "sourceFilingCount": 21,
@@ -24,8 +24,8 @@
     "enrichedTransactionCount": 2477,
     "eventCount": 1356,
     "eventWindowCount": 2712,
-    "historicalSourceCount": 38,
-    "financialDisclosureReportCount": 21,
+    "historicalSourceCount": 39,
+    "financialDisclosureReportCount": 22,
     "assetIncomeHoldingCount": 11417,
     "liabilityCount": 83,
     "trumpIndexCount": 3632,
@@ -108,11 +108,11 @@
     "2015"
   ],
   "sourceAudit": {
-    "generatedAt": "2026-07-01T11:00:09.148Z",
+    "generatedAt": "2026-07-01T11:56:19.010Z",
     "minDate": "2015-01-01",
     "checkedThrough": "2026-07-01",
     "ogeApiRecordCount": 24,
-    "registrySourceCount": 38,
+    "registrySourceCount": 39,
     "officialPdfCount": 21,
     "archivedCopyCount": 14,
     "metadataOnlyCount": 3,
@@ -220,7 +220,7 @@
       },
       {
         "year": 2023,
-        "registryCount": 5,
+        "registryCount": 6,
         "officialCount": 0,
         "archivedCount": 3,
         "metadataOnlyCount": 2,
@@ -385,6 +385,7 @@
       "year": 2023,
       "sourceIds": [
         "1106db5e",
+        "crew-2023-disclosure-part4",
         "historical-trump-2023-candidate-crew-part-1",
         "historical-trump-2023-candidate-crew-part-2",
         "historical-trump-2023-candidate-crew-part-3",

@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-07-01T10:55:51.318Z",
+  "generatedAt": "2026-07-01T11:54:41.294Z",
   "source": {
     "name": "OpenFIGI search",
     "url": "https://api.openfigi.com/v3/search",
-    "fetchedAt": "2026-07-01T10:55:51.318Z",
+    "fetchedAt": "2026-07-01T11:54:41.294Z",
     "rowCount": 163,
-    "status": "ok"
+    "status": "cached"
   },
   "entries": [
     {

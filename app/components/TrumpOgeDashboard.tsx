@@ -3802,7 +3802,7 @@ function EquityStockTable({ stocks }: { stocks: EquityStockSummary[] }) {
 
 function DataTable({ children }: { children: React.ReactNode }) {
   return (
-    <div className="liquid-table max-h-[620px] overflow-auto rounded-[20px] border">
+    <div className="liquid-table max-h-[70vh] overflow-y-auto rounded-[20px] border">
       <table className="w-full min-w-[1080px] border-collapse text-left text-sm">
         {children}
       </table>

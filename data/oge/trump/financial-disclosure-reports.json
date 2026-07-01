@@ -96,6 +96,18 @@
     "notes": "Source registered for coverage; holdings, income assets, and liabilities need PDF-table extraction review."
   },
   {
+    "id": "8456f5e7",
+    "sourceId": "crew-2023-disclosure-part4",
+    "filingType": "CREW Analysis",
+    "filedDate": "2023-08-14",
+    "reportYear": 2023,
+    "sourceReliability": "third_party",
+    "parserStatus": "needs-review",
+    "assetIncomeCount": 0,
+    "liabilityCount": 0,
+    "notes": "Source registered for coverage; holdings, income assets, and liabilities need PDF-table extraction review."
+  },
+  {
     "id": "1c2140dd",
     "sourceId": "historical-trump-2023-candidate-crew-part-1",
     "filingType": "Candidate 278e",

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-01T11:00:09.148Z",
+  "generatedAt": "2026-07-01T11:56:19.010Z",
   "minDate": "2015-01-01",
   "checkedThrough": "2026-07-01",
   "ogeApiRecordCount": 24,
-  "registrySourceCount": 38,
+  "registrySourceCount": 39,
   "officialPdfCount": 21,
   "archivedCopyCount": 14,
   "metadataOnlyCount": 3,
@@ -111,7 +111,7 @@
     },
     {
       "year": 2023,
-      "registryCount": 5,
+      "registryCount": 6,
       "officialCount": 0,
       "archivedCount": 3,
       "metadataOnlyCount": 2,
