@@ -457,7 +457,7 @@ function TrumpOgeDashboardLoaded({
             </div>
             <div className="min-w-0">
               <h1 className="truncate text-base font-bold tracking-tight">Trump Index</h1>
-              <div className="text-xs text-slate-600">OGE financial disclosure signal | data through {initialData.cacheMeta.dataThrough || 'pending'} | refreshed {formatDateTime(initialData.cacheMeta.generatedAt)}</div>
+              <div className="text-xs text-slate-300">OGE financial disclosure signal | data through {initialData.cacheMeta.dataThrough || 'pending'} | refreshed {formatDateTime(initialData.cacheMeta.generatedAt)}</div>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -484,7 +484,7 @@ function TrumpOgeDashboardLoaded({
       <div className="mx-auto max-w-[1500px] px-5 py-5">
         <section className="liquid-panel mb-5 grid gap-3 p-3 md:grid-cols-2 xl:grid-cols-[1.35fr_0.55fr_0.75fr_0.75fr_0.75fr_0.75fr_auto]">
           <label className="relative block">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-200" />
             <input
               value={filters.query || ''}
               onChange={(event) => updateFilter('query', event.target.value)}
@@ -593,7 +593,7 @@ function TrumpOgeDashboardLoaded({
               <div className="h-2 overflow-hidden rounded-full bg-[var(--bg-highlight)]">
                 <div className="h-full w-1/2 animate-pulse rounded-full bg-[var(--accent-cyan)]" />
               </div>
-              <div className="text-sm leading-6 text-slate-600">
+              <div className="text-sm leading-6 text-slate-300">
                 {activePageError
                   ? `Could not load this page: ${activePageError}`
                   : 'The first screen stays light; this tab loads its heavier cache only when opened.'}
@@ -681,10 +681,10 @@ function TrumpOgeDashboardLoaded({
                 className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm font-bold"
               >
                 <span>Index Methodology</span>
-                <span className="text-xs font-semibold text-slate-500">{methodologyOpen ? 'Hide' : 'Show'}</span>
+                <span className="text-xs font-semibold text-slate-300">{methodologyOpen ? 'Hide' : 'Show'}</span>
               </button>
               {methodologyOpen && (
-                <div className="border-t border-white/35 px-4 py-3 text-xs leading-5 text-slate-600">
+                <div className="border-t border-white/35 px-4 py-3 text-xs leading-5 text-slate-300">
                   Score = 50% log-scaled current midpoint exposure rank + 30% absolute midpoint change rank + 20% gross transaction activity rank.
                   Confidence, source reliability, archived-copy badges, and metadata-only badges stay visible beside the score but do not reduce it.
                   Event dots are contextual only and are not scoring inputs.
@@ -796,12 +796,12 @@ function TrumpOgeDashboardLoaded({
                       <Td mono>{source.filedDate}</Td>
                       <Td>
                         <div className="font-semibold">{source.filingType}</div>
-                        <div className="text-[11px] text-slate-500">{source.reportYear || 'No report year'}</div>
+                        <div className="text-[11px] text-slate-300">{source.reportYear || 'No report year'}</div>
                       </Td>
                       <Td><StatusPill tone={sourceReliabilityTone(source.sourceReliability)} label={sourceReliabilityLabel(source.sourceReliability)} /></Td>
                       <Td>
                         <div className="max-w-[360px] truncate font-semibold">{source.title}</div>
-                        <div className="text-[11px] text-slate-500">{source.provenanceNote}</div>
+                        <div className="text-[11px] text-slate-300">{source.provenanceNote}</div>
                       </Td>
                       <Td align="right" mono>{source.bytes ? formatInteger(source.bytes) : 'N/A'}</Td>
                       <Td mono><span className="block max-w-[220px] truncate">{source.sha256 || 'N/A'}</span></Td>
@@ -839,7 +839,7 @@ function TrumpOgeDashboardLoaded({
                       <Td>{filing.documentType}{filing.isAmendment ? ' amended' : ''}</Td>
                       <Td>
                         <div className="max-w-[320px] truncate font-semibold">{filing.localFilename}</div>
-                        <div className="text-[11px] text-slate-500">{filing.notes}</div>
+                        <div className="text-[11px] text-slate-300">{filing.notes}</div>
                       </Td>
                       <Td align="right" mono>{filing.bytes ? formatInteger(filing.bytes) : 'N/A'}</Td>
                       <Td mono>
@@ -882,10 +882,10 @@ function TrumpOgeDashboardLoaded({
                 <div key={item.id} className="liquid-surface p-3">
                   <div className="mb-2 flex items-center justify-between gap-3">
                     <StatusPill tone={item.severity === 'high' ? 'warn' : item.severity === 'medium' ? 'neutral' : 'ok'} label={item.severity} />
-                    <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{item.kind}</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-300">{item.kind}</span>
                   </div>
                   <div className="text-sm font-semibold">{item.title}</div>
-                  <div className="mt-1 text-xs leading-5 text-slate-600">{item.detail}</div>
+                  <div className="mt-1 text-xs leading-5 text-slate-300">{item.detail}</div>
                   {item.sourceUrl && (
                     <a href={item.sourceUrl} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-sky-700">
                       Source <ExternalLink className="h-3 w-3" />
@@ -911,7 +911,7 @@ function DashboardLoading({ error }: { error: string | null }) {
           </div>
           <div>
             <h1 className="text-base font-bold">Trump Index</h1>
-            <div className="text-xs text-slate-500">Loading the dashboard bootstrap cache</div>
+            <div className="text-xs text-slate-300">Loading the dashboard bootstrap cache</div>
           </div>
         </div>
         {error ? (
@@ -923,7 +923,7 @@ function DashboardLoading({ error }: { error: string | null }) {
             <div className="h-2 overflow-hidden rounded-full bg-[var(--bg-highlight)]">
               <div className="h-full w-1/2 animate-pulse rounded-full bg-[var(--accent-cyan)]" />
             </div>
-            <div className="text-sm text-slate-600">Preparing the reporter dashboard...</div>
+            <div className="text-sm text-slate-300">Preparing the reporter dashboard...</div>
           </div>
         )}
       </section>
@@ -1089,7 +1089,7 @@ function PageIntro({
     <section className="liquid-hero mb-5 px-5 py-4">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
         <div className="max-w-3xl">
-          <div className="liquid-surface mb-2 inline-flex items-center gap-2 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-slate-600">
+          <div className="liquid-surface mb-2 inline-flex items-center gap-2 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-slate-300">
             {page.icon}
             {page.eyebrow}
           </div>
@@ -1136,15 +1136,15 @@ function AskInterviewPage({
       />
       <div className="space-y-5">
         <Panel title="Briefing Context" subtitle="What the assistant receives as deterministic facts">
-          <div className="space-y-3 text-sm leading-6 text-slate-600">
+          <div className="space-y-3 text-sm leading-6 text-slate-300">
             <div className="liquid-surface p-3">
-              <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Current facts packet</div>
+              <div className="text-xs font-bold uppercase tracking-wide text-slate-300">Current facts packet</div>
               <div className="mt-2 text-sm">
                 {formatInteger(selectedIndexIds.length || topEntries.length)} selected or top-ranked index entries, active filters, cache version, citations, and caveats.
               </div>
             </div>
             <div className="liquid-surface p-3">
-              <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Completeness</div>
+              <div className="text-xs font-bold uppercase tracking-wide text-slate-300">Completeness</div>
               <div className="mt-2">
                 {sourceAuditStatusLabel(sourceAudit.completenessStatus)}; {formatInteger(sourceAudit.gaps.length)} historical gap{sourceAudit.gaps.length === 1 ? '' : 's'} flagged.
               </div>
@@ -1372,7 +1372,7 @@ function ConflictsPage({
           <div className="h-2 overflow-hidden rounded-full bg-[var(--bg-highlight)]">
             <div className="h-full w-1/3 animate-pulse rounded-full bg-[var(--accent-cyan)]" />
           </div>
-          <div className="text-sm text-slate-600">Cross-referencing holdings with policy decisions and events...</div>
+          <div className="text-sm text-slate-300">Cross-referencing holdings with policy decisions and events...</div>
         </div>
       </Panel>
     );
@@ -1391,7 +1391,7 @@ function ConflictsPage({
   if (!analysis || analysis.indicators.length === 0) {
     return (
       <Panel title="Conflict Analysis" subtitle="No conflict indicators found">
-        <div className="liquid-empty p-6 text-center text-sm text-slate-500">
+        <div className="liquid-empty p-6 text-center text-sm text-slate-300">
           No potential conflicts of interest detected in the current filter scope.
           <div className="mt-2 text-xs">This may change as more events and policy decisions are catalogued.</div>
         </div>
@@ -1461,7 +1461,7 @@ function ConflictsPage({
             <option key={category} value={category}>{conflictCategoryLabel(category)}</option>
           ))}
         </select>
-        <span className="ml-auto text-xs text-slate-500">
+        <span className="ml-auto text-xs text-slate-300">
           Showing {formatInteger(filteredIndicators.length)} of {formatInteger(analysis.indicators.length)} indicators
         </span>
       </div>
@@ -1480,7 +1480,7 @@ function ConflictsPage({
       <div className="liquid-panel p-4">
         <div className="flex items-start gap-3">
           <BadgeInfo className="mt-0.5 h-5 w-5 shrink-0 text-sky-700" />
-          <div className="text-xs leading-5 text-slate-600">
+          <div className="text-xs leading-5 text-slate-300">
             <strong className="font-bold text-slate-800">Methodology note:</strong> Conflict indicators are generated algorithmically by cross-referencing disclosed holdings with public policy events, statements, and market-moving announcements.
             The presence of a conflict indicator does not imply wrongdoing, insider trading, or ethical violations.
             These flags are intended for journalistic review and further investigation.
@@ -1509,7 +1509,7 @@ function ConflictIndicatorCard({ indicator }: { indicator: ConflictIndicator }) 
             {indicator.timelinePosition === 'before' ? 'Traded before event' : indicator.timelinePosition === 'after' ? 'Traded after event' : 'Traded during event'}
           </span>
         )}
-        <span className="ml-auto font-mono text-xs text-slate-500">
+        <span className="ml-auto font-mono text-xs text-slate-300">
           Evidence: {(indicator.evidenceStrength * 100).toFixed(0)}%
         </span>
       </div>
@@ -1519,30 +1519,30 @@ function ConflictIndicatorCard({ indicator }: { indicator: ConflictIndicator }) 
 
       <div className="mt-3 grid gap-3 md:grid-cols-2">
         <div className="liquid-surface p-3">
-          <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Holding</div>
+          <div className="text-[10px] font-bold uppercase tracking-wide text-slate-300">Holding</div>
           <div className="mt-1 font-semibold">{indicator.holdingName}</div>
           {indicator.holdingTicker && (
             <div className="text-xs font-semibold text-sky-800">{indicator.holdingTicker}</div>
           )}
-          <div className="mt-1 font-mono text-xs text-slate-600">{formatMoney(indicator.holdingValue)} exposure</div>
+          <div className="mt-1 font-mono text-xs text-slate-300">{formatMoney(indicator.holdingValue)} exposure</div>
         </div>
 
         {indicator.eventTitle && (
           <div className="liquid-surface p-3">
-            <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Related Event</div>
+            <div className="text-[10px] font-bold uppercase tracking-wide text-slate-300">Related Event</div>
             <div className="mt-1 font-semibold">{indicator.eventTitle}</div>
             {indicator.eventDate && (
-              <div className="font-mono text-xs text-slate-600">{indicator.eventDate}</div>
+              <div className="font-mono text-xs text-slate-300">{indicator.eventDate}</div>
             )}
             {indicator.windowDays && (
-              <div className="text-xs text-slate-500">Within {indicator.windowDays} day window</div>
+              <div className="text-xs text-slate-300">Within {indicator.windowDays} day window</div>
             )}
           </div>
         )}
       </div>
 
       {indicator.transactionDates.length > 0 && (
-        <div className="mt-3 text-xs text-slate-600">
+        <div className="mt-3 text-xs text-slate-300">
           <span className="font-semibold">Related transactions:</span> {indicator.transactionDates.slice(0, 5).join(', ')}
           {indicator.transactionDates.length > 5 && ` and ${indicator.transactionDates.length - 5} more`}
         </div>
@@ -1593,7 +1593,7 @@ function conflictCategoryLabel(category: string): string {
 
 function IdentifierReviewTable({ rows, showResolved = false }: { rows: InstrumentIdentity[]; showResolved?: boolean }) {
   if (rows.length === 0) {
-    return <div className="liquid-empty p-6 text-sm text-slate-500">No instrument identity rows match the current filters.</div>;
+    return <div className="liquid-empty p-6 text-sm text-slate-300">No instrument identity rows match the current filters.</div>;
   }
 
   return (
@@ -1615,14 +1615,14 @@ function IdentifierReviewTable({ rows, showResolved = false }: { rows: Instrumen
             <Td align="right" mono>{identity.reviewPriority.toFixed(1)}</Td>
             <Td>
               <div className="max-w-[360px] truncate font-semibold">{identity.displayName}</div>
-              <div className="text-[11px] leading-4 text-slate-500">{identity.assetType} | {identity.sector}</div>
+              <div className="text-[11px] leading-4 text-slate-300">{identity.assetType} | {identity.sector}</div>
               {(identity.parsedIssuerName || identity.coupon || identity.maturityDate) && (
-                <div className="max-w-[420px] text-[11px] leading-4 text-slate-600">
+                <div className="max-w-[420px] text-[11px] leading-4 text-slate-300">
                   {[identity.parsedIssuerName, identity.coupon !== null ? `${identity.coupon}%` : '', identity.maturityDate].filter(Boolean).join(' | ')}
                 </div>
               )}
               {(identity.issuerState || identity.issuerCategory) && (
-                <div className="text-[11px] leading-4 text-slate-500">{[identity.issuerState, identity.issuerCategory].filter(Boolean).join(' | ')}</div>
+                <div className="text-[11px] leading-4 text-slate-300">{[identity.issuerState, identity.issuerCategory].filter(Boolean).join(' | ')}</div>
               )}
             </Td>
             <Td>
@@ -1636,7 +1636,7 @@ function IdentifierReviewTable({ rows, showResolved = false }: { rows: Instrumen
               <div className="space-y-1">
                 <StatusPill tone={identity.referenceStatus === 'exact' ? 'ok' : identity.referenceStatus === 'needs_identifier' ? 'warn' : 'neutral'} label={referenceStatusLabel(identity.referenceStatus)} />
                 <StatusPill tone={identity.reviewStatus === 'verified' ? 'ok' : identity.reviewStatus === 'rejected' ? 'warn' : 'neutral'} label={identity.reviewStatus.replace(/_/g, ' ')} />
-                {showResolved && <div className="text-[11px] leading-4 text-slate-500">{identity.reviewReason}</div>}
+                {showResolved && <div className="text-[11px] leading-4 text-slate-300">{identity.reviewReason}</div>}
               </div>
             </Td>
             <Td>
@@ -1654,12 +1654,12 @@ function IdentifierReviewTable({ rows, showResolved = false }: { rows: Instrumen
                   Evidence source <ExternalLink className="inline h-3 w-3" />
                 </a>
               )}
-              <div className="max-w-[320px] text-[11px] leading-4 text-slate-500">{identity.evidenceNote || identity.reviewReason}</div>
+              <div className="max-w-[320px] text-[11px] leading-4 text-slate-300">{identity.evidenceNote || identity.reviewReason}</div>
             </Td>
             <Td align="right" mono>{formatMoney(identity.currentMidpoint)}</Td>
             <Td align="right">
               <div className="font-mono text-xs">{formatInteger(identity.transactionCount)}</div>
-              <div className="text-[11px] text-slate-500">{formatInteger(identity.filingCount)} filings</div>
+              <div className="text-[11px] text-slate-300">{formatInteger(identity.filingCount)} filings</div>
             </Td>
           </tr>
         ))}
@@ -1672,7 +1672,7 @@ function MetricCard({ label, value, tone }: { label: string; value: string; tone
   const color = tone === 'buy' ? 'text-emerald-700' : tone === 'sell' ? 'text-rose-700' : 'text-slate-800';
   return (
     <div className="liquid-surface p-4">
-      <div className="text-[11px] font-bold uppercase tracking-wide text-slate-500">{label}</div>
+      <div className="text-[11px] font-bold uppercase tracking-wide text-slate-300">{label}</div>
       <div className={`mt-2 font-mono text-xl font-bold ${color}`}>{value}</div>
     </div>
   );
@@ -1685,7 +1685,7 @@ function AssetTypeMix({ rows, total }: { rows: Array<{ assetType: AssetType; cou
         <div key={`${row.assetType}-${index}`}>
           <div className="mb-1 flex items-center justify-between gap-3 text-xs">
             <span className="font-semibold">{row.assetType}</span>
-            <span className="font-mono text-slate-500">{formatInteger(row.count)} rows</span>
+            <span className="font-mono text-slate-300">{formatInteger(row.count)} rows</span>
           </div>
           <div className="h-2.5 rounded-full bg-[var(--bg-highlight)]">
             <div
@@ -1696,7 +1696,7 @@ function AssetTypeMix({ rows, total }: { rows: Array<{ assetType: AssetType; cou
               }}
             />
           </div>
-          <div className="mt-1 text-[11px] leading-4 text-slate-500">{describeAssetType(row.assetType)}</div>
+          <div className="mt-1 text-[11px] leading-4 text-slate-300">{describeAssetType(row.assetType)}</div>
         </div>
       ))}
     </div>
@@ -1707,7 +1707,7 @@ function FlowDivergingBars({ summaries }: { summaries: SectorSummary[] }) {
   const maxNet = Math.max(1, ...summaries.map((summary) => Math.abs(summary.net.midpoint)));
   return (
     <div className="space-y-3">
-      {summaries.length === 0 && <div className="liquid-empty p-4 text-sm text-slate-500">No sector flow for this page.</div>}
+      {summaries.length === 0 && <div className="liquid-empty p-4 text-sm text-slate-300">No sector flow for this page.</div>}
       {summaries.map((summary) => {
         const isBuy = summary.net.midpoint >= 0;
         const width = Math.max(4, (Math.abs(summary.net.midpoint) / maxNet) * 50);
@@ -1733,7 +1733,7 @@ function IndexSignalCloud({ entries }: { entries: TrumpIndexEntry[] }) {
   const width = 760;
   const height = 340;
   if (entries.length === 0) {
-    return <div className="liquid-empty flex h-[340px] items-center justify-center text-sm text-slate-500">No index entries for this asset class.</div>;
+    return <div className="liquid-empty flex h-[340px] items-center justify-center text-sm text-slate-300">No index entries for this asset class.</div>;
   }
 
   const maxExposure = Math.max(1, ...entries.map((entry) => entry.currentMidpoint));
@@ -1940,7 +1940,7 @@ function TimingPage({
                 style={{ backgroundColor: active ? EVENT_CATEGORY_COLORS[category] : '#cbd5e1' }}
               />
               {eventCategoryLabel(category)}
-              <span className="font-mono text-[10px] text-slate-500">{formatInteger(count)}</span>
+              <span className="font-mono text-[10px] text-slate-300">{formatInteger(count)}</span>
             </button>
           ))}
         </div>
@@ -2019,7 +2019,7 @@ function TimingPage({
             </ResponsiveContainer>
           ) : <ChartPlaceholder />}
         </div>
-        <div className="mt-2 text-[11px] leading-4 text-slate-500">
+        <div className="mt-2 text-[11px] leading-4 text-slate-300">
           Pins show the highest-signal event for each month/category, plus the selected event. The grid below accounts for every visible event without turning the flow chart into static.
         </div>
         <EventDensityMatrix
@@ -2162,7 +2162,7 @@ function TimingChartTooltip({
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <span className="h-2.5 w-2.5 rounded-full ring-2 ring-white" style={{ backgroundColor: color }} />
           <span className="font-bold text-slate-900">{transactionPayload.type}</span>
-          <span className="font-mono text-[11px] text-slate-500">{transactionPayload.date}</span>
+          <span className="font-mono text-[11px] text-slate-300">{transactionPayload.date}</span>
           {transactionPayload.lateFilingFlag && (
             <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-800 ring-1 ring-amber-200">
               reported late
@@ -2172,15 +2172,15 @@ function TimingChartTooltip({
         <div className="font-semibold leading-4 text-slate-900">{transactionPayload.displayName}</div>
         <div className="mt-2 grid gap-1.5">
           <div className="flex items-center justify-between gap-5">
-            <span className="text-slate-500">Range</span>
+            <span className="text-slate-300">Range</span>
             <span className="font-mono font-semibold text-slate-800">{transactionPayload.amountLabel}</span>
           </div>
           <div className="flex items-center justify-between gap-5">
-            <span className="text-slate-500">Midpoint</span>
+            <span className="text-slate-300">Midpoint</span>
             <span className="font-mono font-semibold text-slate-800">{formatMoney(transactionPayload.amountMidpoint)}</span>
           </div>
         </div>
-        <div className="mt-2 text-[11px] leading-4 text-slate-500">
+        <div className="mt-2 text-[11px] leading-4 text-slate-300">
           {transactionPayload.assetType} | {transactionPayload.sector}
           {transactionPayload.ticker ? ` | ${transactionPayload.ticker}` : ''}
         </div>
@@ -2198,16 +2198,16 @@ function TimingChartTooltip({
             style={{ backgroundColor: EVENT_CATEGORY_COLORS[eventPayload.category] }}
           />
           <span className="font-bold text-slate-900">{eventCategoryLabel(eventPayload.category)}</span>
-          <span className="font-mono text-[11px] text-slate-500">{eventPayload.date}</span>
+          <span className="font-mono text-[11px] text-slate-300">{eventPayload.date}</span>
         </div>
         <div className="font-semibold leading-4 text-slate-900">{eventPayload.title}</div>
-        <div className="mt-1 text-[11px] leading-4 text-slate-500">
+        <div className="mt-1 text-[11px] leading-4 text-slate-300">
           {eventPayload.sourceName} | importance {eventPayload.importance}/3
         </div>
         {eventPayload.summary && (
-          <div className="mt-2 line-clamp-3 text-[11px] leading-4 text-slate-600">{eventPayload.summary}</div>
+          <div className="mt-2 line-clamp-3 text-[11px] leading-4 text-slate-300">{eventPayload.summary}</div>
         )}
-        <div className="mt-2 text-[10px] font-semibold uppercase tracking-wide text-slate-400">Click for nearby transaction windows</div>
+        <div className="mt-2 text-[10px] font-semibold uppercase tracking-wide text-slate-200">Click for nearby transaction windows</div>
       </div>
     );
   }
@@ -2217,24 +2217,24 @@ function TimingChartTooltip({
 
   return (
     <div className="rounded-2xl border border-white/60 bg-white/85 p-3 text-xs shadow-xl shadow-slate-900/10 backdrop-blur-2xl">
-      <div className="mb-2 font-mono text-[11px] font-semibold text-slate-500">{rowPayload.month}</div>
+      <div className="mb-2 font-mono text-[11px] font-semibold text-slate-300">{rowPayload.month}</div>
       {rowPayload.hasTransactionFlow ? (
         <div className="grid gap-1.5">
           <div className="flex items-center justify-between gap-5">
-            <span className="text-slate-500">Purchases</span>
+            <span className="text-slate-300">Purchases</span>
             <span className="font-mono font-semibold text-emerald-700">{formatMoney(rowPayload.purchaseMidpoint || 0)}</span>
           </div>
           <div className="flex items-center justify-between gap-5">
-            <span className="text-slate-500">Sales</span>
+            <span className="text-slate-300">Sales</span>
             <span className="font-mono font-semibold text-rose-700">{formatMoney(rowPayload.saleMidpoint || 0)}</span>
           </div>
           <div className="flex items-center justify-between gap-5">
-            <span className="text-slate-500">Rows</span>
+            <span className="text-slate-300">Rows</span>
             <span className="font-mono font-semibold text-slate-700">{formatInteger(rowPayload.count)}</span>
           </div>
         </div>
       ) : (
-        <div className="text-[11px] leading-4 text-slate-500">No disclosed transaction rows in this month; shown because context events exist.</div>
+        <div className="text-[11px] leading-4 text-slate-300">No disclosed transaction rows in this month; shown because context events exist.</div>
       )}
     </div>
   );
@@ -2263,13 +2263,13 @@ function TimelineRangeControl({
     <div className="mb-3 rounded-2xl border border-white/55 bg-white/35 p-3 shadow-inner shadow-white/30 backdrop-blur-2xl">
       <div className="grid gap-3 lg:grid-cols-[1fr_auto] lg:items-end">
         <div>
-          <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500">Timeline range</div>
-          <div className="text-xs leading-5 text-slate-500">
+          <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-300">Timeline range</div>
+          <div className="text-xs leading-5 text-slate-300">
             Showing {range.label}. The date range affects this timing visualization only; the dashboard filters still control tables and cards.
           </div>
         </div>
         <div className="grid gap-2 sm:grid-cols-[180px_145px_145px]">
-          <label className="grid gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+          <label className="grid gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-200">
             Preset
             <select
               value={preset}
@@ -2284,7 +2284,7 @@ function TimelineRangeControl({
               <option value="custom">Custom dates</option>
             </select>
           </label>
-          <label className="grid gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+          <label className="grid gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-200">
             Start
             <input
               type="date"
@@ -2296,7 +2296,7 @@ function TimelineRangeControl({
               className="liquid-input h-9 min-w-0 text-xs font-semibold normal-case tracking-normal text-slate-800 disabled:opacity-60"
             />
           </label>
-          <label className="grid gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+          <label className="grid gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-200">
             End
             <input
               type="date"
@@ -2346,8 +2346,8 @@ function TransactionDotFilterPanel({
     <div className="mb-3 rounded-2xl border border-white/45 bg-white/28 p-3 shadow-inner shadow-white/35 backdrop-blur-2xl">
       <div className="mb-3 flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Transaction dot filters</div>
-          <div className="text-xs leading-5 text-slate-500">
+          <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-300">Transaction dot filters</div>
+          <div className="text-xs leading-5 text-slate-300">
             {needsType || needsSector
               ? 'Select at least one action and one sector to draw transaction row dots.'
               : `${formatInteger(visibleCount)} of ${formatInteger(totalCount)} transaction row dots plotted.`}
@@ -2368,7 +2368,7 @@ function TransactionDotFilterPanel({
 
       <div className="grid gap-3 xl:grid-cols-[0.7fr_1.3fr]">
         <div>
-          <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400">Action</div>
+          <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-200">Action</div>
           <div className="flex flex-wrap gap-1.5">
             {typeOptions.map((option) => {
               const active = activeTypes.includes(option.type);
@@ -2378,7 +2378,7 @@ function TransactionDotFilterPanel({
                   type="button"
                   onClick={() => onToggleType(option.type)}
                   className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold shadow-sm backdrop-blur-xl ${
-                    active ? 'border-white/65 bg-white/60 text-slate-800' : 'border-white/35 bg-white/15 text-slate-400'
+                    active ? 'border-white/65 bg-white/60 text-slate-800' : 'border-white/35 bg-white/15 text-slate-200'
                   }`}
                   title={`${transactionTypeLabel(option.type)}: ${formatInteger(option.count)} rows`}
                 >
@@ -2387,7 +2387,7 @@ function TransactionDotFilterPanel({
                     style={{ backgroundColor: active ? transactionColor(option.type) : '#cbd5e1' }}
                   />
                   {transactionTypeLabel(option.type)}
-                  <span className="font-mono text-[10px] text-slate-500">{formatInteger(option.count)}</span>
+                  <span className="font-mono text-[10px] text-slate-300">{formatInteger(option.count)}</span>
                 </button>
               );
             })}
@@ -2395,8 +2395,8 @@ function TransactionDotFilterPanel({
         </div>
         <div>
           <div className="mb-1.5 flex items-center justify-between gap-3">
-            <div className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Sector</div>
-            <div className="text-[10px] font-semibold text-slate-400">{formatInteger(activeSectors.length)} selected</div>
+            <div className="text-[10px] font-bold uppercase tracking-wide text-slate-200">Sector</div>
+            <div className="text-[10px] font-semibold text-slate-200">{formatInteger(activeSectors.length)} selected</div>
           </div>
           <div className="flex max-h-[118px] flex-wrap gap-1.5 overflow-y-auto pr-1">
             {sectorOptions.map((option) => {
@@ -2407,13 +2407,13 @@ function TransactionDotFilterPanel({
                   type="button"
                   onClick={() => onToggleSector(option.sector)}
                   className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold shadow-sm backdrop-blur-xl ${
-                    active ? 'border-white/65 bg-white/60 text-slate-800' : 'border-white/35 bg-white/15 text-slate-400'
+                    active ? 'border-white/65 bg-white/60 text-slate-800' : 'border-white/35 bg-white/15 text-slate-200'
                   }`}
                   title={`${option.sector}: ${formatInteger(option.count)} rows (${formatInteger(option.purchaseCount)} buys, ${formatInteger(option.saleCount)} sales)`}
                 >
                   <span className={`h-2 w-2 rounded-full ${active ? 'bg-slate-700' : 'bg-slate-300'}`} />
                   <span>{option.sector}</span>
-                  <span className="font-mono text-[10px] text-slate-500">{formatInteger(option.count)}</span>
+                  <span className="font-mono text-[10px] text-slate-300">{formatInteger(option.count)}</span>
                 </button>
               );
             })}
@@ -2469,18 +2469,18 @@ function EventDensityMatrix({
   const gridTemplateColumns = `minmax(190px, 1.55fr) repeat(${Math.max(1, months.length)}, minmax(32px, 1fr))`;
 
   if (categoryRows.length === 0 || months.length === 0) {
-    return <div className="liquid-empty mt-4 p-4 text-sm text-slate-500">No context events in the visible timing range.</div>;
+    return <div className="liquid-empty mt-4 p-4 text-sm text-slate-300">No context events in the visible timing range.</div>;
   }
 
   return (
     <div className="mt-4 rounded-2xl border border-white/45 bg-white/28 p-3 shadow-inner shadow-white/35 backdrop-blur-2xl">
       <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">All-event density</div>
-          <div className="text-xs leading-5 text-slate-500">Every visible event is counted here; darker cells mean more context in that month/category.</div>
+          <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-300">All-event density</div>
+          <div className="text-xs leading-5 text-slate-300">Every visible event is counted here; darker cells mean more context in that month/category.</div>
         </div>
         {busiest && (
-          <div className="rounded-full border border-white/55 bg-white/45 px-2.5 py-1 text-[11px] font-semibold text-slate-600 shadow-sm">
+          <div className="rounded-full border border-white/55 bg-white/45 px-2.5 py-1 text-[11px] font-semibold text-slate-300 shadow-sm">
             Busiest: {shortMonthLabel(busiest.month)} / {eventCategoryLabel(busiest.category)} ({formatInteger(busiest.group.length)})
           </div>
         )}
@@ -2490,7 +2490,7 @@ function EventDensityMatrix({
           <div className="grid items-center gap-1.5" style={{ gridTemplateColumns }}>
             <div />
             {months.map((month, index) => (
-              <div key={month} className="text-center font-mono text-[10px] font-semibold text-slate-400">
+              <div key={month} className="text-center font-mono text-[10px] font-semibold text-slate-200">
                 {monthAxisLabel(month, index, months.length)}
               </div>
             ))}
@@ -2502,7 +2502,7 @@ function EventDensityMatrix({
                     type="button"
                     onClick={() => onToggleCategory(category)}
                     className={`flex min-h-8 items-center justify-between gap-2 rounded-xl border px-2 text-left text-[11px] font-semibold shadow-sm backdrop-blur-xl ${
-                      active ? 'border-white/65 bg-white/55 text-slate-800' : 'border-white/35 bg-white/15 text-slate-400'
+                      active ? 'border-white/65 bg-white/55 text-slate-800' : 'border-white/35 bg-white/15 text-slate-200'
                     }`}
                     title={`Toggle ${eventCategoryLabel(category)}`}
                   >
@@ -2510,7 +2510,7 @@ function EventDensityMatrix({
                       <span className="h-2.5 w-2.5 shrink-0 rounded-full ring-2 ring-white/70" style={{ backgroundColor: active ? color : '#cbd5e1' }} />
                       <span className="truncate">{eventCategoryLabel(category)}</span>
                     </span>
-                    <span className="font-mono text-[10px] text-slate-500">{formatInteger(count)}</span>
+                    <span className="font-mono text-[10px] text-slate-300">{formatInteger(count)}</span>
                   </button>
                   {months.map((month) => {
                     const cellMarkers = grouped.get(eventDensityKey(category, month)) || [];
@@ -2586,9 +2586,9 @@ function HoldingsTable({ holdings }: { holdings: EstimatedHolding[] }) {
             <Td>
               <div className="max-w-[420px] truncate font-semibold">{holding.description}</div>
               {holding.instrumentSummary && (
-                <div className="max-w-[460px] text-[11px] leading-4 text-slate-600">{holding.instrumentSummary}</div>
+                <div className="max-w-[460px] text-[11px] leading-4 text-slate-300">{holding.instrumentSummary}</div>
               )}
-              <div className="text-[11px] leading-4 text-slate-500">
+              <div className="text-[11px] leading-4 text-slate-300">
                 {holding.transactionCount} transactions; last seen {holding.lastTransactionDate || 'no transaction date'}.
               </div>
               {holding.resolvedTicker && (
@@ -2605,9 +2605,9 @@ function HoldingsTable({ holdings }: { holdings: EstimatedHolding[] }) {
             </Td>
             <Td>
               <div className="font-semibold">{holding.assetType}</div>
-              <div className="text-[11px] leading-4 text-slate-500">{holding.sector}</div>
+              <div className="text-[11px] leading-4 text-slate-300">{holding.sector}</div>
               {holding.resolvedSicDescription && (
-                <div className="text-[11px] leading-4 text-slate-500">{holding.resolvedSicDescription}</div>
+                <div className="text-[11px] leading-4 text-slate-300">{holding.resolvedSicDescription}</div>
               )}
             </Td>
             <Td align="right" mono>{formatRange(holding.estimatedCurrent)}</Td>
@@ -2617,7 +2617,7 @@ function HoldingsTable({ holdings }: { holdings: EstimatedHolding[] }) {
             <Td>
               <div className="space-y-1">
                 <StatusPill tone={holding.missingBaseline ? 'warn' : 'ok'} label={holding.missingBaseline ? 'No annual baseline' : 'Baseline match'} />
-                <div className="text-[11px] text-slate-500">{confidenceLabel(holding.confidence)} confidence</div>
+                <div className="text-[11px] text-slate-300">{confidenceLabel(holding.confidence)} confidence</div>
                 <EnrichmentBadges flags={[...holding.enrichmentFlags, ...(holding.instrumentContextFlags || []), ...(holding.issuerContextFlags || [])]} />
               </div>
             </Td>
@@ -2641,7 +2641,7 @@ function SourceAuditPanel({ audit }: { audit: SourceAudit }) {
       <div className="grid gap-4 xl:grid-cols-[1fr_1fr]">
         <SourceAuditTimeline audit={audit} />
         <div className="space-y-2">
-          <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Priority gaps</div>
+          <div className="text-xs font-bold uppercase tracking-wide text-slate-300">Priority gaps</div>
           {audit.gaps.slice(0, 8).map((gap) => (
             <div key={`${gap.year}-${gap.issue}`} className="liquid-surface p-3 text-sm">
               <div className="flex items-center justify-between gap-3">
@@ -2649,13 +2649,13 @@ function SourceAuditPanel({ audit }: { audit: SourceAudit }) {
                 <StatusPill tone={gap.severity === 'high' ? 'warn' : 'neutral'} label={gap.severity} />
               </div>
               <div className="mt-1 text-slate-700">{gap.issue}</div>
-              <div className="mt-1 text-xs leading-5 text-slate-500">{gap.suggestedAction}</div>
+              <div className="mt-1 text-xs leading-5 text-slate-300">{gap.suggestedAction}</div>
             </div>
           ))}
-          {audit.gaps.length === 0 && <div className="liquid-empty p-4 text-sm text-slate-600">No source gaps flagged by the latest audit.</div>}
+          {audit.gaps.length === 0 && <div className="liquid-empty p-4 text-sm text-slate-300">No source gaps flagged by the latest audit.</div>}
         </div>
       </div>
-      <div className="liquid-surface p-3 text-xs leading-5 text-slate-600">
+      <div className="liquid-surface p-3 text-xs leading-5 text-slate-300">
         {audit.notes.join(' ')}
       </div>
     </div>
@@ -2665,10 +2665,10 @@ function SourceAuditPanel({ audit }: { audit: SourceAudit }) {
 function SourceAuditTimeline({ audit }: { audit: SourceAudit }) {
   return (
     <div className="space-y-2">
-      <div className="text-xs font-bold uppercase tracking-wide text-slate-500">2015-present coverage</div>
+      <div className="text-xs font-bold uppercase tracking-wide text-slate-300">2015-present coverage</div>
       {audit.coverageByYear.map((row) => (
         <div key={row.year} className="grid grid-cols-[54px_1fr_68px] items-center gap-3 text-xs">
-          <div className="font-mono text-slate-600">{row.year}</div>
+          <div className="font-mono text-slate-300">{row.year}</div>
           <div className="flex h-5 overflow-hidden rounded-full bg-white/45">
             <div className="bg-emerald-500" style={{ width: `${Math.max(0, row.officialCount) * 18}%` }} title={`${row.officialCount} official`} />
             <div className="bg-amber-400" style={{ width: `${Math.max(0, row.archivedCount) * 18}%` }} title={`${row.archivedCount} archived`} />
@@ -2719,7 +2719,7 @@ function SectorTreemap({ tiles }: { tiles: SectorTile[] }) {
   const leaves = root.leaves().filter((leaf) => isSectorTile(leaf.data));
 
   if (tiles.length === 0) {
-    return <div className="liquid-empty flex h-[430px] items-center justify-center text-sm text-slate-500">No sector data for the current filters.</div>;
+    return <div className="liquid-empty flex h-[430px] items-center justify-center text-sm text-slate-300">No sector data for the current filters.</div>;
   }
 
   return (
@@ -2775,7 +2775,7 @@ function SectorSignal({ title, tone, summaries }: { title: string; tone: 'buy' |
     <div className="liquid-surface p-3">
       <div className={`mb-2 text-xs font-bold uppercase tracking-wide ${toneClass}`}>{title}</div>
       <div className="space-y-3">
-        {summaries.length === 0 && <div className="text-xs text-slate-500">No visible sector with this direction.</div>}
+        {summaries.length === 0 && <div className="text-xs text-slate-300">No visible sector with this direction.</div>}
         {summaries.map((summary) => (
           <div key={`${title}-${summary.sector}`}>
             <div className="flex items-center justify-between gap-3">
@@ -2784,7 +2784,7 @@ function SectorSignal({ title, tone, summaries }: { title: string; tone: 'buy' |
                 {formatSignedMoney(summary.net.midpoint)}
               </span>
             </div>
-            <div className="mt-1 text-[11px] leading-4 text-slate-500">{summarizeSector(summary)}</div>
+            <div className="mt-1 text-[11px] leading-4 text-slate-300">{summarizeSector(summary)}</div>
           </div>
         ))}
       </div>
@@ -2804,7 +2804,7 @@ interface MonthActivityRow {
 function MonthActivityHeatmap({ rows }: { rows: MonthActivityRow[] }) {
   return (
     <div className="space-y-2">
-      <div className="grid grid-cols-[76px_1fr_64px] items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+      <div className="grid grid-cols-[76px_1fr_64px] items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-slate-300">
         <span>Month</span>
         <span>Late density</span>
         <span className="text-right">Rows</span>
@@ -2814,7 +2814,7 @@ function MonthActivityHeatmap({ rows }: { rows: MonthActivityRow[] }) {
           const tone = lateDensityTone(row.lateShare);
           return (
             <div key={row.month} className="grid grid-cols-[76px_1fr_64px] items-center gap-2 text-xs">
-              <span className="font-mono text-slate-600">{row.month}</span>
+              <span className="font-mono text-slate-300">{row.month}</span>
               <div
                 className="grid grid-cols-[48px_1fr] items-center gap-2"
                 title={`${formatPct(row.lateCount, row.count)} late; ${formatInteger(row.purchaseCount)} purchases; ${formatInteger(row.saleCount)} sales`}
@@ -2832,7 +2832,7 @@ function MonthActivityHeatmap({ rows }: { rows: MonthActivityRow[] }) {
                   />
                 </div>
               </div>
-              <span className="text-right font-mono text-slate-600">{formatInteger(row.count)}</span>
+              <span className="text-right font-mono text-slate-300">{formatInteger(row.count)}</span>
             </div>
           );
         })}
@@ -2845,7 +2845,7 @@ function lateDensityTone(share: number): { fill: string; textClass: string } {
   if (share >= 0.9) return { fill: '#e11d48', textClass: 'text-rose-700' };
   if (share >= 0.7) return { fill: '#f59e0b', textClass: 'text-amber-700' };
   if (share >= 0.35) return { fill: '#0ea5e9', textClass: 'text-sky-700' };
-  return { fill: '#64748b', textClass: 'text-slate-600' };
+  return { fill: '#64748b', textClass: 'text-slate-300' };
 }
 
 function EventOverlayPanel({
@@ -2865,8 +2865,8 @@ function EventOverlayPanel({
     <div className="space-y-3 border-t border-white/35 pt-3">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Database event categories</div>
-          <div className="text-xs text-slate-500">Toggle context categories in the chart pins and density grid.</div>
+          <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-300">Database event categories</div>
+          <div className="text-xs text-slate-300">Toggle context categories in the chart pins and density grid.</div>
         </div>
         <div className="flex items-center gap-1.5">
           <button type="button" onClick={onSelectAllCategories} className="liquid-button px-2.5 py-1 text-[11px] font-semibold text-slate-700">
@@ -2875,7 +2875,7 @@ function EventOverlayPanel({
           <button type="button" onClick={onClearCategories} className="liquid-button px-2.5 py-1 text-[11px] font-semibold text-slate-700">
             Clear
           </button>
-          <CalendarDays className="h-4 w-4 text-slate-400" />
+          <CalendarDays className="h-4 w-4 text-slate-200" />
         </div>
       </div>
       <div className="flex flex-wrap gap-1.5">
@@ -2887,7 +2887,7 @@ function EventOverlayPanel({
               type="button"
               onClick={() => onToggleCategory(category)}
               className={`inline-flex items-center gap-1 rounded-full border px-2 py-1 text-[11px] font-semibold backdrop-blur-xl ${
-                active ? 'border-white/70 bg-white/55 text-slate-800 shadow-sm' : 'border-white/35 bg-white/20 text-slate-400'
+                active ? 'border-white/70 bg-white/55 text-slate-800 shadow-sm' : 'border-white/35 bg-white/20 text-slate-200'
               }`}
             >
               <span
@@ -2899,7 +2899,7 @@ function EventOverlayPanel({
           );
         })}
       </div>
-      <div className="liquid-surface p-3 text-xs leading-5 text-slate-600">
+      <div className="liquid-surface p-3 text-xs leading-5 text-slate-300">
         The main chart shows representative pins; the density grid counts every visible public event by month and category. Click a pin or dense cell to inspect the lead event below.
       </div>
     </div>
@@ -2919,7 +2919,7 @@ function EventWindowDetail({
 }) {
   if (!event) {
     return (
-      <div className="liquid-empty mt-4 p-4 text-sm text-slate-500">
+      <div className="liquid-empty mt-4 p-4 text-sm text-slate-300">
         Select an event to inspect nearby transaction activity.
       </div>
     );
@@ -2931,7 +2931,7 @@ function EventWindowDetail({
     <div className="mt-4 border-t border-white/35 pt-4">
       <div className="grid gap-4 xl:grid-cols-[1fr_1.1fr]">
         <div className="space-y-3">
-          <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Selected chart event</div>
+          <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-300">Selected chart event</div>
           <div className="flex flex-wrap items-center gap-2">
             <span
               className="rounded-md px-2 py-1 text-[11px] font-bold uppercase tracking-wide text-white"
@@ -2939,14 +2939,14 @@ function EventWindowDetail({
             >
               {eventCategoryLabel(event.category)}
             </span>
-            <span className="font-mono text-xs text-slate-500">{eventDateLabel(event)}</span>
-            <span className="rounded-full bg-white/45 px-2 py-1 text-[11px] font-semibold text-slate-600 ring-1 ring-white/55">
+            <span className="font-mono text-xs text-slate-300">{eventDateLabel(event)}</span>
+            <span className="rounded-full bg-white/45 px-2 py-1 text-[11px] font-semibold text-slate-300 ring-1 ring-white/55">
               importance {event.importance}/3
             </span>
           </div>
           <div>
             <h3 className="text-sm font-bold leading-5">{event.title}</h3>
-            <p className="mt-1 text-xs leading-5 text-slate-600">{event.summary}</p>
+            <p className="mt-1 text-xs leading-5 text-slate-300">{event.summary}</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <button
@@ -2979,7 +2979,7 @@ function EventWindowDetail({
               {event.sourceName} <ExternalLink className="h-3 w-3" />
             </a>
           </div>
-          <div className="text-[11px] leading-4 text-slate-500">
+          <div className="text-[11px] leading-4 text-slate-300">
             Proximity analysis is a reporting prompt only; it does not imply motive, coordination, or causation.
           </div>
         </div>
@@ -2988,14 +2988,14 @@ function EventWindowDetail({
             <div key={`${window.eventId}-${window.windowDays}`} className="liquid-surface p-3">
               <div className="mb-2 flex items-center justify-between gap-3">
                 <div className="text-xs font-bold">+/-{window.windowDays} days</div>
-                <div className="font-mono text-xs text-slate-500">{formatInteger(window.transactionCount)} rows</div>
+                <div className="font-mono text-xs text-slate-300">{formatInteger(window.transactionCount)} rows</div>
               </div>
               <div className="grid grid-cols-3 gap-2 text-xs">
                 <Metric label="Buys" value={formatMoney(window.purchaseMidpoint)} tone="buy" />
                 <Metric label="Sales" value={formatMoney(window.saleMidpoint)} tone="sell" />
                 <Metric label="Net" value={formatSignedMoney(window.netMidpoint)} tone={window.netMidpoint >= 0 ? 'buy' : 'sell'} />
               </div>
-              <div className="mt-3 text-[11px] leading-4 text-slate-500">
+              <div className="mt-3 text-[11px] leading-4 text-slate-300">
                 {window.firstTransactionDate && window.lastTransactionDate
                   ? `${window.firstTransactionDate} to ${window.lastTransactionDate}`
                   : 'No matching transaction dates.'}
@@ -3006,7 +3006,7 @@ function EventWindowDetail({
                 </div>
               )}
               {window.matchedSectors.length > 0 && (
-                <div className="mt-1 line-clamp-2 text-[11px] text-slate-500">
+                <div className="mt-1 line-clamp-2 text-[11px] text-slate-300">
                   Sectors: {window.matchedSectors.slice(0, 6).join(', ')}
                 </div>
               )}
@@ -3022,7 +3022,7 @@ function Metric({ label, value, tone }: { label: string; value: string; tone: 'b
   const toneClass = tone === 'buy' ? 'text-emerald-700' : tone === 'sell' ? 'text-red-700' : 'text-slate-700';
   return (
     <div>
-      <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">{label}</div>
+      <div className="text-[10px] font-bold uppercase tracking-wide text-slate-300">{label}</div>
       <div className={`font-mono text-xs font-semibold ${toneClass}`}>{value}</div>
     </div>
   );
@@ -3039,11 +3039,11 @@ function KpiCard({ label, value, sub, icon, tone = 'neutral' }: { label: string;
   return (
     <div className="liquid-panel p-4">
       <div className="mb-4 flex items-center justify-between gap-3">
-        <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</div>
+        <div className="text-xs font-semibold uppercase tracking-wide text-slate-300">{label}</div>
         <div className={`rounded-full p-2 ring-1 backdrop-blur-xl ${toneClass}`}>{icon}</div>
       </div>
       <div className="font-mono text-2xl font-bold tracking-tight">{value}</div>
-      <div className="mt-1 text-xs text-slate-500">{sub}</div>
+      <div className="mt-1 text-xs text-slate-300">{sub}</div>
     </div>
   );
 }
@@ -3054,9 +3054,9 @@ function Panel({ title, subtitle, children }: { title: string; subtitle: string;
       <div className="flex items-start justify-between gap-3 border-b border-white/35 px-4 py-3">
         <div>
           <h2 className="text-sm font-bold">{title}</h2>
-          <div className="mt-0.5 text-xs text-slate-500">{subtitle}</div>
+          <div className="mt-0.5 text-xs text-slate-300">{subtitle}</div>
         </div>
-        <ShieldCheck className="h-4 w-4 text-slate-400" />
+        <ShieldCheck className="h-4 w-4 text-slate-200" />
       </div>
       <div className="p-4">{children}</div>
     </section>
@@ -3073,7 +3073,7 @@ function TrumpIndexTable({
   onToggleSelected: (id: string) => void;
 }) {
   if (entries.length === 0) {
-    return <div className="liquid-empty p-6 text-sm text-slate-500">No index entries match the current filters.</div>;
+    return <div className="liquid-empty p-6 text-sm text-slate-300">No index entries match the current filters.</div>;
   }
 
   return (
@@ -3105,49 +3105,49 @@ function TrumpIndexTable({
             </Td>
             <Td align="right">
               <div className="font-mono text-lg font-bold">{entry.score.toFixed(1)}</div>
-              <div className="font-mono text-[11px] text-slate-500">
+              <div className="font-mono text-[11px] text-slate-300">
                 E {entry.exposureComponent.toFixed(0)} / C {entry.changeComponent.toFixed(0)} / A {entry.activityComponent.toFixed(0)}
               </div>
             </Td>
             <Td>
               <div className="max-w-[320px] truncate font-semibold">{entry.displayName}</div>
               {entry.instrumentSummary && (
-                <div className="max-w-[360px] text-[11px] leading-4 text-slate-600">{entry.instrumentSummary}</div>
+                <div className="max-w-[360px] text-[11px] leading-4 text-slate-300">{entry.instrumentSummary}</div>
               )}
-              <div className="text-[11px] leading-4 text-slate-500">{entry.assetType} | {entry.sector}</div>
-              <div className="text-[11px] leading-4 text-slate-500">
+              <div className="text-[11px] leading-4 text-slate-300">{entry.assetType} | {entry.sector}</div>
+              <div className="text-[11px] leading-4 text-slate-300">
                 {entry.transactionCount} transactions; {entry.filingCount} filing source{entry.filingCount === 1 ? '' : 's'}
               </div>
             </Td>
             <Td>
               <ReferenceLabel row={entry} />
-              <div className="max-w-[260px] text-[11px] leading-4 text-slate-500">
+              <div className="max-w-[260px] text-[11px] leading-4 text-slate-300">
                 {referenceDetail(entry)}
               </div>
               {entry.issuerContextSector && entry.issuerContextSector !== entry.sector && (
-                <div className="max-w-[260px] text-[11px] leading-4 text-slate-500">{entry.issuerContextSector}</div>
+                <div className="max-w-[260px] text-[11px] leading-4 text-slate-300">{entry.issuerContextSector}</div>
               )}
               {(entry.instrumentIssuerState || entry.instrumentIssuerCategory) && (
-                <div className="max-w-[260px] text-[11px] leading-4 text-slate-500">
+                <div className="max-w-[260px] text-[11px] leading-4 text-slate-300">
                   {[entry.instrumentIssuerState, entry.instrumentIssuerCategory].filter(Boolean).join(' | ')}
                 </div>
               )}
             </Td>
             <Td align="right">
               <div className="font-mono text-xs">{formatRange(entry.currentRange)}</div>
-              <div className="font-mono text-[11px] text-slate-500">{formatMoney(entry.currentMidpoint)} midpoint</div>
+              <div className="font-mono text-[11px] text-slate-300">{formatMoney(entry.currentMidpoint)} midpoint</div>
             </Td>
             <Td align="right">
               <div className={`font-mono text-xs font-semibold ${entry.changeMidpoint >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>
                 {formatSignedMoney(entry.changeMidpoint)}
               </div>
-              <div className="font-mono text-[11px] text-slate-500">{entry.changePct === null ? 'N/A' : `${entry.changePct.toFixed(1)}%`}</div>
+              <div className="font-mono text-[11px] text-slate-300">{entry.changePct === null ? 'N/A' : `${entry.changePct.toFixed(1)}%`}</div>
             </Td>
             <Td align="right">
               <div className={`font-mono text-xs font-semibold ${entry.netFlowMidpoint >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>
                 {formatSignedMoney(entry.netFlowMidpoint)}
               </div>
-              <div className="font-mono text-[11px] text-slate-500">Buy {formatMoney(entry.purchaseMidpoint)} | Sell {formatMoney(entry.saleMidpoint)}</div>
+              <div className="font-mono text-[11px] text-slate-300">Buy {formatMoney(entry.purchaseMidpoint)} | Sell {formatMoney(entry.saleMidpoint)}</div>
             </Td>
             <Td>
               <div className="space-y-1">
@@ -3164,7 +3164,7 @@ function TrumpIndexTable({
                       {citation.label} <ExternalLink className="inline h-3 w-3" />
                     </a>
                   ) : (
-                    <div key={citation.label} className="max-w-[220px] truncate text-xs text-slate-500">{citation.label}</div>
+                    <div key={citation.label} className="max-w-[220px] truncate text-xs text-slate-300">{citation.label}</div>
                   )
                 ))}
                 {(entry.reviewFlags.length > 0 || (entry.instrumentContextFlags || []).length > 0 || (entry.issuerContextFlags || []).length > 0) && (
@@ -3365,7 +3365,7 @@ function AskTrumpIndexPanel({
           <div className="liquid-surface space-y-3 p-4">
             <div className="flex flex-wrap items-center gap-2">
               <StatusPill tone={answer.openArenaStatus === 'openarena' ? 'ok' : 'neutral'} label={answer.openArenaStatus || 'fallback'} />
-              <span className="text-[11px] font-mono text-slate-500">{formatDateTime(answer.cacheVersion)}</span>
+              <span className="text-[11px] font-mono text-slate-300">{formatDateTime(answer.cacheVersion)}</span>
             </div>
             {answer.openArenaError && <div className="text-[11px] leading-4 text-amber-800">{answer.openArenaError}</div>}
             <MarkdownAnswer text={answer.answer} />
@@ -3377,7 +3377,7 @@ function AskTrumpIndexPanel({
                       {citation.label} <ExternalLink className="inline h-3 w-3" />
                     </a>
                   ) : (
-                    <div key={citation.label} className="truncate text-xs text-slate-500">{citation.label}</div>
+                    <div key={citation.label} className="truncate text-xs text-slate-300">{citation.label}</div>
                   )
                 ))}
               </div>
@@ -3386,7 +3386,7 @@ function AskTrumpIndexPanel({
         )}
         {interview && history.length > 1 && (
           <div className="space-y-2">
-            <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Recent exchanges</div>
+            <div className="text-xs font-bold uppercase tracking-wide text-slate-300">Recent exchanges</div>
             {history.slice(1).map((exchange, index) => (
               <details key={`${exchange.question}-${index}`} className="liquid-surface p-3">
                 <summary className="cursor-pointer text-sm font-semibold text-slate-800">{exchange.question}</summary>
@@ -3522,16 +3522,16 @@ function IndexLeaderPanel({
         <StatusPill tone={tone} label={metric} />
       </div>
       <div className="space-y-3">
-        {entries.length === 0 && <div className="text-xs text-slate-500">No visible entry.</div>}
+        {entries.length === 0 && <div className="text-xs text-slate-300">No visible entry.</div>}
         {entries.map((entry) => (
           <div key={`${title}-${entry.id}`}>
             <div className="flex items-center justify-between gap-3">
               <span className="max-w-[190px] truncate text-sm font-semibold">{entry.displayName}</span>
-              <span className="font-mono text-xs text-slate-600">
+              <span className="font-mono text-xs text-slate-300">
                 {metric === 'current' ? formatMoney(entry.currentMidpoint) : metric === 'change' ? formatSignedMoney(entry.changeMidpoint) : formatSignedMoney(entry.netFlowMidpoint)}
               </span>
             </div>
-            <div className="mt-1 flex items-center justify-between gap-3 text-[11px] text-slate-500">
+            <div className="mt-1 flex items-center justify-between gap-3 text-[11px] text-slate-300">
               <span>{entry.resolvedTicker || entry.issuerContextTicker || entry.instrumentReferenceLabel || entry.assetType} | score {entry.score.toFixed(1)}</span>
               <span>{sourceReliabilityLabel(entry.sourceReliability)}</span>
             </div>
@@ -3566,12 +3566,12 @@ function RollupGroup({
 }) {
   return (
     <div className="space-y-3">
-      <div className="text-xs font-bold uppercase tracking-wide text-slate-500">{title}</div>
+      <div className="text-xs font-bold uppercase tracking-wide text-slate-300">{title}</div>
       {rows.map((row) => (
         <div key={row.id}>
           <div className="mb-1 flex items-center justify-between gap-3 text-xs">
             <span className="max-w-[260px] truncate font-semibold">{row.key}</span>
-            <span className="font-mono text-slate-600">{formatMoney(row.currentMidpoint)}</span>
+            <span className="font-mono text-slate-300">{formatMoney(row.currentMidpoint)}</span>
           </div>
           <div className="h-2 overflow-hidden rounded-full bg-white/45">
             <div
@@ -3579,7 +3579,7 @@ function RollupGroup({
               style={{ width: `${Math.max(3, (row.currentMidpoint / maxValue) * 100)}%` }}
             />
           </div>
-          <div className="mt-1 text-[11px] text-slate-500">
+          <div className="mt-1 text-[11px] text-slate-300">
             {formatInteger(row.entryCount)} entries | avg score {row.averageScore.toFixed(1)} | net {formatSignedMoney(row.netFlowMidpoint)}
           </div>
         </div>
@@ -3591,7 +3591,7 @@ function RollupGroup({
 function SourceCoverageTimeline({ sources }: { sources: HistoricalSource[] }) {
   const rows = buildSourceCoverageRows(sources);
   if (rows.length === 0) {
-    return <div className="liquid-empty p-6 text-sm text-slate-500">No historical sources match the current filters.</div>;
+    return <div className="liquid-empty p-6 text-sm text-slate-300">No historical sources match the current filters.</div>;
   }
 
   const maxCount = Math.max(1, ...rows.map((row) => row.total));
@@ -3599,16 +3599,16 @@ function SourceCoverageTimeline({ sources }: { sources: HistoricalSource[] }) {
     <div className="space-y-3">
       {rows.map((row) => (
         <div key={row.year} className="grid grid-cols-[58px_1fr_54px] items-center gap-3">
-          <div className="font-mono text-xs text-slate-600">{row.year}</div>
+          <div className="font-mono text-xs text-slate-300">{row.year}</div>
           <div className="flex h-4 overflow-hidden rounded-full bg-white/45">
             <div className="bg-emerald-600" style={{ width: `${(row.official / maxCount) * 100}%` }} title={`${row.official} official`} />
             <div className="bg-amber-500" style={{ width: `${(row.archived / maxCount) * 100}%` }} title={`${row.archived} archived`} />
             <div className="bg-slate-500" style={{ width: `${(row.metadata / maxCount) * 100}%` }} title={`${row.metadata} metadata-only`} />
           </div>
-          <div className="text-right font-mono text-xs text-slate-600">{row.total}</div>
+          <div className="text-right font-mono text-xs text-slate-300">{row.total}</div>
         </div>
       ))}
-      <div className="flex flex-wrap gap-3 border-t border-slate-100 pt-3 text-[11px] font-semibold text-slate-500">
+      <div className="flex flex-wrap gap-3 border-t border-slate-100 pt-3 text-[11px] font-semibold text-slate-300">
         <span><span className="mr-1 inline-block h-2 w-2 rounded-full bg-emerald-600" /> Official PDF</span>
         <span><span className="mr-1 inline-block h-2 w-2 rounded-full bg-amber-500" /> Archived copy</span>
         <span><span className="mr-1 inline-block h-2 w-2 rounded-full bg-slate-500" /> Metadata only</span>
@@ -3686,30 +3686,30 @@ function TransactionTable({ transactions }: { transactions: OgeTransaction[] }) 
               )}
               <InstrumentLookupLink row={tx} />
               {tx.instrumentSummary && (
-                <div className="max-w-[560px] text-[11px] leading-4 text-slate-600">{tx.instrumentSummary}</div>
+                <div className="max-w-[560px] text-[11px] leading-4 text-slate-300">{tx.instrumentSummary}</div>
               )}
-              <div className="text-[11px] leading-4 text-slate-500">{describeTransaction(tx)}</div>
+              <div className="text-[11px] leading-4 text-slate-300">{describeTransaction(tx)}</div>
             </Td>
             <Td>
               <div className="font-semibold">{tx.assetType}</div>
-              <div className="max-w-[260px] text-[11px] leading-4 text-slate-500">{tx.sector}</div>
+              <div className="max-w-[260px] text-[11px] leading-4 text-slate-300">{tx.sector}</div>
               {tx.resolvedSector && (
-                <div className="max-w-[260px] text-[11px] leading-4 text-slate-500">
+                <div className="max-w-[260px] text-[11px] leading-4 text-slate-300">
                   SEC/SIC: {tx.resolvedSector}{tx.resolvedSic ? ` (${tx.resolvedSic})` : ''}
                 </div>
               )}
             </Td>
             <Td align="right">
               <div className="font-mono text-xs">{tx.amount.label}</div>
-              <div className="font-mono text-[11px] text-slate-500">{formatMoney(tx.amount.midpoint)} midpoint</div>
+              <div className="font-mono text-[11px] text-slate-300">{formatMoney(tx.amount.midpoint)} midpoint</div>
             </Td>
             <Td>
               <div className="space-y-1">
                 {tx.lateFilingFlag ? <StatusPill tone="warn" label="Reported late" /> : <StatusPill tone="ok" label="On-time flag" />}
-                <div className="text-[11px] text-slate-500">{confidenceLabel(tx.classificationConfidence)} classifier confidence</div>
-                <div className="text-[11px] text-slate-500">{confidenceLabel(tx.enrichmentConfidence)} enrichment confidence</div>
+                <div className="text-[11px] text-slate-300">{confidenceLabel(tx.classificationConfidence)} classifier confidence</div>
+                <div className="text-[11px] text-slate-300">{confidenceLabel(tx.enrichmentConfidence)} enrichment confidence</div>
                 {tx.instrumentMatchConfidence > 0 && (
-                  <div className="text-[11px] text-slate-500">{confidenceLabel(tx.instrumentMatchConfidence)} instrument read</div>
+                  <div className="text-[11px] text-slate-300">{confidenceLabel(tx.instrumentMatchConfidence)} instrument read</div>
                 )}
                 <EnrichmentBadges flags={[...tx.enrichmentFlags, ...(tx.instrumentContextFlags || []), ...(tx.issuerContextFlags || [])]} />
               </div>
@@ -3730,7 +3730,7 @@ function TransactionTable({ transactions }: { transactions: OgeTransaction[] }) 
 
 function EquityStockTable({ stocks }: { stocks: EquityStockSummary[] }) {
   if (stocks.length === 0) {
-    return <div className="liquid-empty p-6 text-sm text-slate-500">No equity purchases in the visible transaction set.</div>;
+    return <div className="liquid-empty p-6 text-sm text-slate-300">No equity purchases in the visible transaction set.</div>;
   }
 
   return (
@@ -3755,25 +3755,25 @@ function EquityStockTable({ stocks }: { stocks: EquityStockSummary[] }) {
           <tr key={stock.id}>
             <Td>
               <div className="max-w-[360px] truncate font-semibold">{stock.stockName}</div>
-              <div className="text-[11px] leading-4 text-slate-500">
+              <div className="text-[11px] leading-4 text-slate-300">
                 {stock.ticker ? `Source ticker ${stock.ticker}; ` : 'Source ticker not parsed; '}
                 {formatInteger(stock.transactionCount)} equity rows, {formatInteger(stock.lateCount)} late.
               </div>
             </Td>
             <Td>
               <div className="font-semibold text-sky-800">{stock.resolvedTicker || 'No public match'}</div>
-              <div className="max-w-[280px] text-[11px] leading-4 text-slate-500">
+              <div className="max-w-[280px] text-[11px] leading-4 text-slate-300">
                 {stock.resolvedExchange ? `${stock.resolvedExchange}; ` : ''}
                 {stock.resolvedCik ? `CIK ${stock.resolvedCik}` : 'No SEC CIK'}
               </div>
               {stock.resolvedSicDescription && (
-                <div className="max-w-[280px] text-[11px] leading-4 text-slate-500">{stock.resolvedSicDescription}</div>
+                <div className="max-w-[280px] text-[11px] leading-4 text-slate-300">{stock.resolvedSicDescription}</div>
               )}
               <EnrichmentBadges flags={stock.enrichmentFlags} />
             </Td>
             <Td>
               <div className="font-semibold">{stock.sector}</div>
-              <div className="max-w-[260px] text-[11px] leading-4 text-slate-500">{describeSector(stock.sector)}</div>
+              <div className="max-w-[260px] text-[11px] leading-4 text-slate-300">{describeSector(stock.sector)}</div>
             </Td>
             <Td align="right" mono>{formatRange(stock.purchases)}</Td>
             <Td align="right" mono>{formatMoney(stock.purchases.midpoint)}</Td>
@@ -3782,7 +3782,7 @@ function EquityStockTable({ stocks }: { stocks: EquityStockSummary[] }) {
             <Td>
               <div className="space-y-1">
                 <StatusPill tone={netDirectionTone(stock.netDirection)} label={stock.netDirection} />
-                <div className="max-w-[180px] text-[11px] leading-4 text-slate-500">{stock.netDirectionNote}</div>
+                <div className="max-w-[180px] text-[11px] leading-4 text-slate-300">{stock.netDirectionNote}</div>
               </div>
             </Td>
             <Td align="right" mono>{formatInteger(stock.purchaseCount)}</Td>
@@ -3812,7 +3812,7 @@ function DataTable({ children }: { children: React.ReactNode }) {
 
 function Th({ children, align = 'left' }: { children: React.ReactNode; align?: 'left' | 'right' }) {
   return (
-    <th className={`sticky top-0 bg-white/80 px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-500 backdrop-blur-xl ${align === 'right' ? 'text-right' : 'text-left'}`}>
+    <th className={`sticky top-0 bg-white/80 px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-300 backdrop-blur-xl ${align === 'right' ? 'text-right' : 'text-left'}`}>
       {children}
     </th>
   );
@@ -3830,7 +3830,7 @@ function StatusPill({ label, tone }: { label: string; tone: 'ok' | 'warn' | 'neu
   const classes = {
     ok: 'bg-emerald-50/80 text-emerald-700 ring-emerald-200/70',
     warn: 'bg-amber-50/85 text-amber-800 ring-amber-200/80',
-    neutral: 'bg-white/55 text-slate-600 ring-white/70',
+    neutral: 'bg-white/55 text-slate-300 ring-white/70',
     buy: 'bg-emerald-50/80 text-emerald-700 ring-emerald-200/70',
     sell: 'bg-rose-50/80 text-rose-700 ring-rose-200/70',
   }[tone];

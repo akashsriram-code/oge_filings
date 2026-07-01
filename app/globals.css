@@ -8,11 +8,11 @@
   --bg-interactive: #232d42;
   --bg-highlight: #2d3a52;
   
-  /* Text hierarchy - improved contrast */
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-tertiary: #94a3b8;
-  --text-muted: #64748b;
+  /* Text hierarchy - high contrast for readability */
+  --text-primary: #ffffff;
+  --text-secondary: #e2e8f0;
+  --text-tertiary: #b8c5d6;
+  --text-muted: #8896ab;
   
   /* Borders */
   --border-subtle: rgba(148, 163, 184, 0.12);
@@ -374,7 +374,7 @@ select.liquid-input option {
 .liquid-table td {
   padding: 12px 16px;
   font-size: 13px;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   border-bottom: 1px solid var(--border-subtle);
 }
 

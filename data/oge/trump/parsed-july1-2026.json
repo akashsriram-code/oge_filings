@@ -1,0 +1,3262 @@
+[
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "ADOBE INC",
+    "amount": "",
+    "ticker": "ADBE"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "AGILENT TECHNOLOGIES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "ALEXANDRIA REAL ESTATE EQUITIES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "ALPHABET INC CAP STK Cl A",
+    "amount": "",
+    "ticker": "GOOGL"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "AMCOR PLC COM NEW",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "BERKSHIRE HATHAWAY INCCL B",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "BOSTON SCIENTIFIC CORP COM",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "BROADRIDGE FINL SOLUTIONS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "CLOROX COMPANY",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "OATADOGINCCLACOM",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "ECOLAB INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "GE HEALTHCARE TECHNOLOGIES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "HOME DEPOT INC COM",
+    "amount": "",
+    "ticker": "HD"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "LAUDER ESTEE COS INC Cl A",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "LENNOX INTL INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "MARTIN MARIETTA MATLS INC",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "OTIS WORLDWIDE CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "PAYCHEX INC COM",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "REPUBLIC SVCS INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "STRYKER CORP COM",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "SUPER MICRO COMPUTER INC COM NEW",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "SYNOPSYS INC COM",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "T-MOBILE US INC USD0.001",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "TRACTOR SUPPLY CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "TRANSDIGM GROUP INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "UBER TECHNOLOGIES INC COM",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "UNITED AIRLINES HOLDINGS INC.",
+    "amount": "$100,001-$250000"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "UNITED DOMINION REALTY TRUST INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "ABBVIEINC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "AGILYSYS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "ALBANY INTL CORP NEW CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "ALEXANDRIA REAL ESTATE E REIT",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "ALLEGION PUBLIC LIMITED COMPANY",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "ALPHABET INC",
+    "amount": "",
+    "ticker": "GOOGL"
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "ALTRIA GROUP INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "AMCORPLCF",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "AMERICAN ELECTRIC POWER COMPANY INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "AMERICAN TOWER CORP NEW REIT",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Purchase",
+    "description": "AMERISAFE INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "ANALOG DEVICES INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "ANGLOGOLO ASHANTI PLC F",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "AON PLC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "APTARGROUP INC",
+    "amount": "$1001-$15000"
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "ARMSTRONG WORLD INDS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "AVALONBAY CMNTYS INC COM",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "BANK OF AMERICA CORP",
+    "amount": "",
+    "ticker": "BAC"
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "BERKSHIRE HATHAWAY CLASS B",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "BEST BUY COMPANY INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "BEST BUY INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "BlACKSTONEINC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "BLACKSTONE INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-07",
+    "type": "Sale",
+    "description": "BOOKING HOLDINGS IN C",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "BOSTON SCIENTIFIC CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-07",
+    "type": "Sale",
+    "description": "BP CAPITAL MARK4.234% DUE 11/06/28",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "BRISTOL MYERS SQUIBB CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "CF JNDUSTRJES HOLDINGS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "CHARLES RIVER LABORATORIES",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "CHARTER COMMUNICATIONS I ClASS ClASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "CHESAPEAKE UTILS CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "CHEVRON CORPORATION",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "CINTAS CORP",
+    "amount": "$1001-$15000"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": ". 369 \tCINTAS CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "CISCO SYSTEMS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "CLOROX CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "CME GROUP INC CLASS Cl.ASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "CMS ENERGY CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "CMS ENERGY CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "COGNIZANT TECHNOLOGY SOL CLASS Cl.ASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "COGNIZANT TECHNOLOGY SOLUTIONS CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "COHERENT CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "COINBASE GLOBAL INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "COLGATE PALMOLIVE COMPANY",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "COOPER COMPANIES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "COSTAR GROUP INC",
+    "amount": "",
+    "ticker": "COST"
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "COSTCO WHOLESALE CORP",
+    "amount": "",
+    "ticker": "COST"
+  },
+  {
+    "date": "2026-04-07",
+    "type": "Sale",
+    "description": "CROWDSTRJKE HOLDINGS INC CL A",
+    "amount": "$1001-$15000"
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "CSG SYS INTL INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "DANAHER CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "DANAHER CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "DARDEN RESTAURANTS INC",
+    "amount": "$15,001 - $50,000"
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "DATADOGINC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "DEXCOMINC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "DEXCOMINC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "4TT \tDIEBOLD NIXDORF INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "DIGITAL REALTY lRUST INC REIT",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "DISNEY WALT CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "DOMINION ENERGY INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "DORMAN PROOS INC",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "DREAM FINDERS HOMES INC CLASS CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "DUKE ENERGY CORPORATION HOLDING COMPANY",
+    "amount": "$1,001-$15"
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "ECHOSTAR CORPORATION",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "ELECTRONIC ARTS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "ELI LILLY & CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "ELI LILLY AND CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "EMERSON ELECTRIC COM",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "ENERGIZER HLDGS INC NEW",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "EOG RES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "ETHAN ALLEN INTERIORS IN",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "EVERFORTH INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "EVERGYINC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "EXPAND ENERGY CORPORATION",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "EXXON MOBIL CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "F5INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "FAIR ISAAC CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "FIDEUTY NAT\\. INFORMATIO",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-04-07",
+    "type": "Purchase",
+    "description": "FIDELITY NAT\\. INFORMATION",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "FORTINET INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "GARMIN LTD",
+    "amount": "$1,001 -$15"
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "GARTNER INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "GE AEROSPACE",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "GEAeros=",
+    "amount": "$250,001 - $500"
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "GE AEROSPACE",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "GE HEALTHCARE TECHNOLOGI",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "GENERAC HLDGS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "GENERAC HOLDINGS INC",
+    "amount": "$1001-$15000"
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "GENERAL MILLS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "GENERAL MILLS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "GIBRALTAR INDS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Purchase",
+    "description": "GILEAD SCIENCES INC \t!",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "GILEAD SCIENCES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "GLOBE LIFE INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "GREENBRIER COS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "GRID DYNAMICS HLDGS INC CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "GROCERY OUTLET HLDG CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "GUIDEWIRE SOF1WARE INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "HALLIBURTON COMPANY",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "HEALTHPEAK PROPERTIES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "HEALTHSTREAM INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "HEICO CORP NEW",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "HEICO CORP NEW CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "HENRY JACK & ASSOC INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "HENRY JACK & ASSOCIATES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "HERSHEY COMPANY ITHEl",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "HOME OEPOT INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "HORMEL FOOOS CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "HUNTINGTON BANCSHARES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "ICU MED INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "INGERSOLL RAND INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "INSMEDINC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "INSULET CORPORATION",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "INTERNTNL PAPER CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "lsharos Tr Russell 1000 Elf",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "ITRON INC EQUITY CLASS EQUITY",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "JBT MAREL CORP",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "JOHNSON & JOHNSON",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "JOHNSON & JOHNSON",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "JPMORGAN CHASE & CO",
+    "amount": "",
+    "ticker": "JPM"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "KATY TEX INDPT SCH DIST UNLT 5.0000% 02/15128",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-07",
+    "type": "Sale",
+    "description": "KENTUCKY ST PPTY & BLDGS SR A RN BE/R/ 5 DUE 100127 DTO 102424 2.667%",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "7~ \tKENVUEINC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-07",
+    "type": "Sale",
+    "description": "KEURIG DR PEPPER INC",
+    "amount": "",
+    "ticker": "PEP"
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "KIMBERLY CLARK CORPORATION",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "KIMBERLY-ct.ARK CORP COM",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "KIMCO REALTY CORPORATION",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "KORN FERRY",
+    "amount": "",
+    "ticker": "KO"
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "7n \tLAZBOYINC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-09",
+    "type": "Sale",
+    "description": "LAM RESEARCH CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "LAUREATE ED INC",
+    "amount": "$50,001 -$100"
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "LCIINDS",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "LENNAR CORP CLASS 8",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "LGI HOMES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "LINDE PLC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "LUMENTUM HLDGS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "MARCUS & MIUICHAP INC",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "MARSH & MCLENNAN COS INC",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "MASTERCARD INC CLASS CLASS A",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "MCDONALDS CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "MCDONALDS CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "Medtronic Pie",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "MEDTRONIC PLC F",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "MERCK & CO INC",
+    "amount": "$50001-$100000",
+    "ticker": "MRK"
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "META PLATFORMS INC",
+    "amount": "",
+    "ticker": "META"
+  },
+  {
+    "date": "2026-04-07",
+    "type": "Sale",
+    "description": "META PLATFORMS INC CL A",
+    "amount": "",
+    "ticker": "META"
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "MICROSOFT CORP",
+    "amount": "$250,001 - $500",
+    "ticker": "MSFT"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "MOTOROLA SOLUTIONS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "OLLIES BARGAIN OUTLET HL",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "ONEOK INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-07",
+    "type": "Sale",
+    "description": "PA ST TPK COMM OIL FRAN SR B ~ /R/ 5 DUE 120126 OTO 090221 2.907%",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Purchase",
+    "description": "Palantir Tochnolooles Inc Cl A",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "PALO ALTO NETWORKS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "PALO ALTO NETWORKS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "PARAMOUNT SKYOANCE CORP COM CL CL B",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-08",
+    "type": "Sale",
+    "description": "PARKER-HANNIFIN CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "PATHWARO FINL INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "PEPSICO INC",
+    "amount": "",
+    "ticker": "PEP"
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "PERDOCEO ED CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "PFIZER INC",
+    "amount": "",
+    "ticker": "PFE"
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "PG&E CORP",
+    "amount": "$15001-$50000",
+    "ticker": "PG"
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "PHILIP MORRIS INTL INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "PINNACLE WEST CAPITAL CORPORATION",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "PNC FINANCIAL SVCS GROUP INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "PRICE GROUP INC",
+    "amount": "$100,001 -$250"
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "PRICE T ROWE GROUP INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "PROCTER & GAMBLE COMPANY COM",
+    "amount": "",
+    "ticker": "PG"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "PROGRESSIVE CORP OH",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "PUBLIC SVC ENTERPRISE GROUP INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "REPUBLIC SVCS INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "RESMEOINC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "ROYAL CARIBBEAN GROUP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-07",
+    "type": "Sale",
+    "description": "ROYALTY PHARMA PLC CL A",
+    "amount": "$1,001 -$15,000",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "RlXCORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "RTX CORPORATION",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "SANOISK CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "SANOISK CORPORATION",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "111 \tSEAGATE TECHNOLOGY HLDGS",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "SEALED AIR CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "SERVICENOW INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "SERVICENOW INC COM",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "SIMPLY GOOD FOODS CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "SKYWEST INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "SMURFIT WESTROCK PLC F",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "SNOWFlAKE INC CLASS CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "SNOWFLAKE INC CLASS CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "SOUTHERN CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "SOUTHERN CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "SOUTHERN CO COM",
+    "amount": "$250,001 - $500"
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "STANDARDAERO INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "STARBUCKS CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Purchase",
+    "description": "STATE STREET CORP \tI",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "STRYKER CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "SUN CTRY AIRLS HLDGS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-07",
+    "type": "Sale",
+    "description": "SUPER MICRO COMPUTER INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "SYLVAMO CORP",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-07",
+    "type": "Sale",
+    "description": "11n \tSYNOPSYS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-09",
+    "type": "Sale",
+    "description": "SYNOPSYS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "SYSCO CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "SYSCO CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "T-MOBILE US INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-07",
+    "type": "Sale",
+    "description": "T-MOBILE USA I 3.375% DUE 04/15129",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-07",
+    "type": "Sale",
+    "description": "TAKE-TWO INTERACTIVE SOFTWARE INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Purchase",
+    "description": "TARGA RES CORP \tI",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "TYLER TECHNOLOGIES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "U S PHYS ICAL THERAPY",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "UNIFIRST CORP MASS",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "UN ITED AIRLINES HOLDINGS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "UNITED PARCEL SVC INC CL B",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-06",
+    "type": "Sale",
+    "description": "UNITED STATES TREAS BILL DUE 04/30/26 AGENCY SALE YTM = 3.668 AS AGENT. STEPOUT",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-01",
+    "type": "Sale",
+    "description": "UNITED STATES TREAS BILL DUE 04/30/26 AGENCY SALE YTM = 3.683",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "UNIVERSAL CORP VA",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "UNIVERSAL HEALTH SERVICES INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Purchase",
+    "description": "US BANCORP DEL",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "VANGUARD S&P 500 ETF",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "VEEVA SYS INC CLASS CLASS A",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "VENTAS INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "VERALTO CORPORATION",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-17",
+    "type": "Sale",
+    "description": "VERISK ANALYTICS INC CLASS A",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "VERISK ANALYTICS INC Cl.ASS A",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "VERIZON COMMUNICATIONS I",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "VERIZON COMMUNICATIONS I",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "VERSIGENTLTD",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "VERTEX PHARMACEUTICALS I",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "VERTN HLOG CO",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-10",
+    "type": "Sale",
+    "description": "VISAINC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "VISTRACORP",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "• VITAL FARMS INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "WARNER BROS DISCOVERY INC",
+    "amount": "$50,001 - $100",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-20",
+    "type": "Sale",
+    "description": "WASTE MGMT INC DEL",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "WD40CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "WELLS FARGO & CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-28",
+    "type": "Sale",
+    "description": "WEXINC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "WEYERHAEUSER CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "WILLIAMS SONOMA INC",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-04-30",
+    "type": "Sale",
+    "description": "WOLVERINE WORLD WIDE INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-27",
+    "type": "Sale",
+    "description": "YUM BRANDS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-04-13",
+    "type": "Purchase",
+    "description": "ZIFF DAVIS INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-04-07",
+    "type": "Sale",
+    "description": "ZOOM COMMUNICATIONS INC CL A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-05",
+    "type": "Sale",
+    "description": "Gonoral MIiis Inc",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-05",
+    "type": "Sale",
+    "description": "Howmet Aerosoace Inc",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-05",
+    "type": "Sale",
+    "description": "lnvosco Exchanao-tradad Fd Tr S&o 500 Enual Weioht",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-05",
+    "type": "Purchase",
+    "description": "ISHARES CORE MSCI EMERGING MARKETS ETF \tI",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-05",
+    "type": "Sale",
+    "description": "ISHARES CURRENCY HEDGED",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-06",
+    "type": "Sale",
+    "description": "CARNIVAL CORP LTD",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "AMERICAN ELECTRIC POWER COMPANY INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "AON PLC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "ARCH CAPITAL GROUP LTO",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "BRISTOL MYERS SQUIBB CO",
+    "amount": "$15,001 - $50"
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "BROADRIDGE FINANCIAL SOLUTIONS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "BROWN & BROWN INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "CH ROBINSON WORLDWIDE INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "CHUBB LTD",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "DR HORTON INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "DANAHER CORPORATION",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "FIRSTENERGY CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "FORTIVE CORPORATION",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "GALLAGHER ARTHUR J & CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "GE AEROSPACE",
+    "amount": "$1,001-$15000"
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "GE HEALTHCARE TECHNOLOGIES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "HARTFORD INSURANCE GROUP INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "HOME DEPOT INC",
+    "amount": "",
+    "ticker": "HD"
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "ILLINOIS TOOL WORKS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "JPMORGAN CHASE & CO",
+    "amount": "",
+    "ticker": "JPM"
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "MOTOROLA SOLUTIONS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "PPL CORPORATION",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "REPUBLIC SERVICES INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "RESMEDINC",
+    "amount": "$15,001 - $50"
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "SHERWIN WILLIAMS CO",
+    "amount": "$50,001 -$100,000"
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "TRADE DESK INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "UNITED PARCEL SVC INC",
+    "amount": "$1,001 -$15000",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "VULCAN MATERIALS CO",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "WILLIS TOWERS WATSON PUBLIC LIMITED COMPANY",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-11",
+    "type": "Sale",
+    "description": "YUM BRANDS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-14",
+    "type": "Sale",
+    "description": "CISCO SYS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-14",
+    "type": "Sale",
+    "description": "!SHARES CORE MSCI EMERGING MARKETS ETF",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-14",
+    "type": "Sale",
+    "description": "ISHARES CORE MSCI EMERGING MARKETS ETF",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-14",
+    "type": "Sale",
+    "description": "PHILIP MORRIS INTL INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-14",
+    "type": "Sale",
+    "description": "STATE STREET ENERGY SELECT SECTOR SPOR ETF",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-14",
+    "type": "Sale",
+    "description": "VANGUARD INTERMEDIATE-TERM CORPORATE BOND INDEX FUND",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "BADGER METER INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "BANCFIRST CORP",
+    "amount": "$15001-$50000"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "BANCORP INC DEL",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "BANK HAWAII CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "BEACON FINL CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "BOISE CASCADE CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "BRADY CORP CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "BRIGHTSPRING HEALTH SVCS",
+    "amount": "$15,001 -$50,000",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Purchase",
+    "description": "BRISTOL MYERS SQUIBB COMPANY \tI",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Purchase",
+    "description": "BROADCOM INC \tI",
+    "amount": "",
+    "ticker": "AVGO"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "CABLE ONE INC",
+    "amount": "$1,001 -$15,000"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "CALIFORNIA RES CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "CARGURUS INC CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "CERTARAINC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "CLOROX COMPANY",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "COGENT COMMUNICATIONS HL",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "COMSTOCK RES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Purchase",
+    "description": "CONOCOPHIUIPS",
+    "amount": "$15,001 - $50"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Purchase",
+    "description": "CONSOLIDATED EDISON INC",
+    "amount": "$1,001-$15000"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "CORE NAT RES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "CRESCENT ENERGY CO CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "CURBLINE PPTYS CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "DORMAN PRODS INC",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "EASTMAN CHEM CO",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "ELLINGTON FINL INC REIT",
+    "amount": "$1,001 - $15"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "EMBECTA CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "ENVlRICORP",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "ESSENTIAL PPTYS RLTY TR REIT",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "EVERTEC INC F",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "FRESH DEL MONTE PROOUC F",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "G-111 APPAREL GROUP LTD",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "GRIFFON CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "HNI CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "HUB GROUP INC CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "INNOVATIVE INOL PPTYS IN REIT",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "ITRON INC EQUITY CLASS EQUITY",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "J & J SNACK FOODS CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "KINETIK HLDGS INC CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "KORN FERRY",
+    "amount": "",
+    "ticker": "KO"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "KRYSTAL BIOTECH INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "LGI HOMES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "LIFE360 INC EQUITY",
+    "amount": "$1,001 - $15,000"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "LINCOLN NATL CORP IND",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "l.XP INDUSTRIAL TRUST REI REIT",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "LYFT INC CLASS CLASS A",
+    "amount": "$1001-$15000"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "MAGNOLIA OIL & GAS CORP CLASS A",
+    "amount": "$15001-$50000",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "MARKETAXESS HLDGS INC",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "MASTERBRAND INC",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "MATERION CORP",
+    "amount": "$15,001 - $50,000",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "MATTHEWS INTL CORP CLASS A",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "MEDICAL PPTYS TR INC REIT",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "MERIT MEO SYS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "MGE ENERGY INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "MILLERKNOLL INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "MISTER CAR WASH INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "MOHAWK INDS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "4TT \tMONRO INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "MUELLER WATER PROOUC CLASS SERIES A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "NEOGENOMICS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "NMI HLDGS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "NORTHERN OIL & GAS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "0-1 GLASS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "ONESPAWORLO HLDGS LTO F",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "ORGANON&CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "OTTER TAIL CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "OUTFRONT MEDIA INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "PALOMAR HLDGS INC",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "PAR PAC HLDGS INC",
+    "amount": "$15,001 -$50"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "PC CONNECTION INC",
+    "amount": "$15,001 - $50,000"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "PERDOCEO ED CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "PERRIGO CO PLC F",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "PIPER SANDLER COS",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "PLEXUS CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "POWELL INDS INC",
+    "amount": "$100,001 - $250"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "PRESTIGE CONSUMER HEALTH",
+    "amount": "$50001-$100000"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "PRIMORIS SVCS CORP",
+    "amount": "$100,001 -$250,000",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "P RMA HEALTH GROUP INC",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "PROTAGONIST THERAPEUTICS",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "QORVOINC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "QUINSTREET INC",
+    "amount": "$15001-$50000"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "RADNETINC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "RED ROCK RESORTS INC CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "SIMPLY GOOD FOODS CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "SKYWEST INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "SOLAREOGE TECHNOLOGIES I",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "STEWART INFORMATION SVCS",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "SUPERNUS PHARMACEUTICALS",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "SYLVAMO CORP",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "TANDEM DIABETES CARE INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "TELEPHONE & DATA SYS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "TG THERAPEUTICS INC",
+    "amount": "$1,001-$15000"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "TRJPAOVISDR INC",
+    "amount": "$1001 - $15000",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "US PHYSICAL THERAPY",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "UNIFIRST CORP MASS",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-15",
+    "type": "Sale",
+    "description": "VEECO INSTRS INC DEL",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "ABBVIEINC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "ACCENTURE PLC IRELAND F CLASS CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "ACCENTURE PLC IRELAND F CLASS CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "ALBERTSONS CO SHS CL A CLASS CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "ALEXANDRIA REAL ESTATE E REIT",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "ALNYLAM PHARMACEUTICALS",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "ALPHABET INC CLASS A",
+    "amount": "",
+    "ticker": "GOOGL"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "ALPHABET INC CLASS CLASS C",
+    "amount": "",
+    "ticker": "GOOGL"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "AMAZON.COM INC",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "AMERICAN TOWER CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "AMERICAN TOWER CORP NEW REIT",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "AMGEN INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "AMKOR TECHNOLOGY INC",
+    "amount": "",
+    "ticker": "KO"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "ARISTA NETWORKS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "AST SPACEMOBILE INC CU\\SS CU\\SS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "AT&T INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "AUTODESK INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Purchase",
+    "description": "AUTOMATIC DATA PROCESSIN \tI",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "AVERY DENNISON CORP",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "BERKSHIRE HATHAWAY CU\\SS B",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "BEST BUY INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "BLOOM ENERGY CORP CLASS CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "BOOKING HLDGS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "BOOKING HLDGS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "BRISTOL MYERS SQUIBB CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "BROWN & BROWN INC",
+    "amount": "$50,001-$100000"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "CAPITAL ONE FINL CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "CARLISLE COS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "CBRE GROUP INC CLASS CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "CDWCORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "CENCORAINC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "CENCORA INC CLASS SERIES A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "CHARTER COMMUNICATIONS I CLASS CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "FAIR ISAAC CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Purchase",
+    "description": "FAIR ISAAC CORP \tI",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "FASTENAL CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "FERGUSON ENTERPRISES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "FIDELllY NATI. INFO RMATIO",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-16",
+    "type": "Sale",
+    "description": "GE AEROSPACE",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "GE AEROSPACE",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-16",
+    "type": "Sale",
+    "description": "GE HEALTHCARE TECHNOLOGI",
+    "amount": "$1,001-$15000"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "n3 \tGENUINE PARTS CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-16",
+    "type": "Sale",
+    "description": "n9 \tHCA HEALTHCARE INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "HOME DEPOT INC",
+    "amount": "",
+    "ticker": "HD"
+  },
+  {
+    "date": "2026-05-16",
+    "type": "Sale",
+    "description": "HONEYWELL INTL INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-16",
+    "type": "Sale",
+    "description": "HONEYWELL INTL INC",
+    "amount": "$1001-$15000"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "INGERSOLL RAND INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "INGREDION INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "INTUITIVE SURGICAL INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "KIMBERLY CLARK CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "MARSH & MCLENNAN COS INC",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "MCDONALDS CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "MICROSOFT CORP",
+    "amount": "",
+    "ticker": "MSFT"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "MODERNAINC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "MOTOROLA SOLUTIONS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Purchase",
+    "description": "MOTOROLA SOLUTIONS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "MSA SAFETY INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "NETFUXINC",
+    "amount": "$1001-$15000"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "NVIDIA CORP",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "NVR INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Purchase",
+    "description": "NXP SEMICONDUCTORS NV \tf",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "PALANTIR TECHNOLOGIES IN CLASS CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "PARKER-HANNIFIN CORP",
+    "amount": "$50001-$100"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "PARKER-HANNIFIN CORP",
+    "amount": "$1001-$15000"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "PEPSICO INC",
+    "amount": "$50001 - $100000",
+    "ticker": "PEP"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "PFIZER INC",
+    "amount": "",
+    "ticker": "PFE"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "PG&E CORP",
+    "amount": "$1001-$15000",
+    "ticker": "PG"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "PPL CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "PUBLIC SVC ENTERPRISE GR",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "SALESFORCE INC",
+    "amount": "",
+    "ticker": "CRM"
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "SOFI TECHNOLOGIES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Purchase",
+    "description": "The Cinna Graue",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "TRANSDIGM GROUP INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-18",
+    "type": "Sale",
+    "description": "VERIZON COMMUNICATIONS I",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-19",
+    "type": "Sale",
+    "description": "WASHINGTON ST HEALT 5% DUE 10/01/35",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-20",
+    "type": "Sale",
+    "description": "CSG SYS INTL INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-20",
+    "type": "Sale",
+    "description": "ILLINOIS TOOL WKS INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-20",
+    "type": "Sale",
+    "description": "MEDTRONIC PLC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-21",
+    "type": "Sale",
+    "description": "ABBOTT LABS",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-21",
+    "type": "Sale",
+    "description": "ACCENTURE PLC IRELAND F CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-21",
+    "type": "Sale",
+    "description": "FIDELITY NATL INFORMATIO",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-21",
+    "type": "Sale",
+    "description": "HOME DEPOT INC",
+    "amount": "",
+    "ticker": "HD"
+  },
+  {
+    "date": "2026-05-21",
+    "type": "Sale",
+    "description": "!SHARES INTERNATIONAL",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-21",
+    "type": "Sale",
+    "description": "!SHARES U.S. TREASURY BOND ETF",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "ALBERTSONS CO SHS CL A CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "ATLASSIAN CORP CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "AUTOZONEINC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "AXON ENTERPRISE INC \t-",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "COUPANG INC CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "CRH PUBLIC LIMITED CO F",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "DANAHER CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "DOCUSIGN INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "OUOLINGO INC CLASS A",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "E L F BEAUTY INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Purchase",
+    "description": "EQUIFAX INC \tI",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "EXPEDIA GROUP INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "FISERV INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "FLUTTER ENTMT PLC F",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "GRAPHIC PACKAGING HLDG C",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "HOME DEPOT INC",
+    "amount": "",
+    "ticker": "HD"
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Purchase",
+    "description": "HUBSPOTINC \tI",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "INGREOION INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Purchase",
+    "description": "INSULET CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "INTERCONTINENTAL EXCHANG",
+    "amount": "$50,001 -$100"
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "INTUITIVE SURGICAL INC",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "KKR&COINC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "MASTERCARD INC CLASS CLASS A",
+    "amount": "",
+    "ticker": "MA"
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "MCDONALDS CORP",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "MSA SAFETY INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "NElFLIXINC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "ROPER TECHNOLOGIES INC",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "SALESFORCE INC",
+    "amount": "",
+    "ticker": "CRM"
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "SERVICETITAN INC CLASS A",
+    "amount": "",
+    "ticker": "V"
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "SMURFIT WESTROCK PLC F",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Purchase",
+    "description": "TEMPUS Al INC CLASS CLASS A \tI",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "21 \tTESLA INC",
+    "amount": "",
+    "ticker": "TSLA"
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "THE CAMPBELL'S CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-22",
+    "type": "Sale",
+    "description": "THE MOSAIC CO",
+    "amount": ""
+  },
+  {
+    "date": "2026-05-28",
+    "type": "Sale",
+    "description": "TRJ POINTE HOMES INC",
+    "amount": ""
+  }
+]
