@@ -220,6 +220,26 @@
     ]
   },
   {
+    "id": "f5aadf23",
+    "sourceId": "de8e9eed",
+    "creditorName": "New York Attorney General",
+    "type": "Litigation; overturned on appeal",
+    "amount": {
+      "label": "Over $50,000,000",
+      "min": 50000001,
+      "max": 50000001,
+      "midpoint": 50000001
+    },
+    "yearIncurred": "2024",
+    "rate": null,
+    "term": "N/A",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
     "id": "8366b82c",
     "sourceId": "historical-trump-2015-candidate-documentcloud",
     "creditorName": "Ladder Capital Finance LLC Trump Tower Commercial LLC -",
@@ -877,6 +897,26 @@
     "confidence": 0.7,
     "reviewFlags": [
       "Parsed from columnar 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "2bd072df",
+    "sourceId": "de8e9eed",
+    "creditorName": "# Creditor Name",
+    "type": "Type Amount Year Incurred Rate Term The Bryn Mawr Trust Company Seven Springs (mortgage)",
+    "amount": {
+      "label": "$5,000,001-$25,000,000",
+      "min": 5000001,
+      "max": 25000000,
+      "midpoint": 15000000.5
+    },
+    "yearIncurred": "2000",
+    "rate": "4.50%",
+    "term": "Paid Off July 2025 Ladder Capital Finance LLC \tTIHT Commercial NY (mortgage) $5,000,001 - $25,000,000 2016 \t4.05% \tMatures in 2026 Ladder Capital Finance I LLC \t40 Wall Street (mortgage) \tOver $50,000,000 \t2015 \t3.665% \tPaid Off June 2025 Professional Bank \t1125 South Ocean Blvd (mortgage) $5,000,001 - $25,000,000 2018 \t4.50% \tPaid Off July 2025 Axos Bank \tTrump Tower (mortgage) \tOver $50,000,000 \t2022 \t4.25% \tMatures in 2032 Axos Bank \tTrump National Doral (mortgage) Over $50,000,000 \t2022 \t4.90% \tMatures in 2032 E. Jean Carroll \tLitigation; stayed pending appeal; bonded $1,000,001 - $5,000,000 2023 \tN/A \tN/A E. Jean Carroll \tLitigation; stayed pending appeal; bonded Over $50,000,000 \t2024 \tN/A \tN/A",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
     ]
   },
   {
@@ -1593,6 +1633,26 @@
     "yearIncurred": "2024",
     "rate": null,
     "term": "Monthly -- 147 of 234 -- Filer's Name \tPage Number OGE Form 278e (Updated 08/2024) (Expires 08/31/2027) Instructions for Part 9 If you need more pages, follow these instructions. Note: You must add pages before entering information. Note: This is a public form. Do not include account numbers, street addresses, or family members' names. See instructions for required information. Donald J. Trump",
+    "sourceReliability": "official",
+    "confidence": 0.78,
+    "reviewFlags": [
+      "Parsed from annual 278e Part 8 text; verify PDF row before publication."
+    ]
+  },
+  {
+    "id": "a7174917",
+    "sourceId": "de8e9eed",
+    "creditorName": "American Express",
+    "type": "Credit Card",
+    "amount": {
+      "label": "$15,001-$50,000",
+      "min": 15001,
+      "max": 50000,
+      "midpoint": 32500.5
+    },
+    "yearIncurred": "2025",
+    "rate": null,
+    "term": "Monthly Charles Schwab Bank \tPledged Asset Line \tOver $50,000,000 \t2025 \t3.90% \tN/A 846 of 847 -- 846 of 927 -- Filer's Name \tPage Number OGE Form 278e (Updated 08/2024) (Expires 08/31/2027) Instructions for Part 9 If you need more pages, follow these instructions. Note: You must add pages before entering information. Note: This is a public form. Do not include account numbers, street addresses, or family members' names. See instructions for required information. Donald J. Trump",
     "sourceReliability": "official",
     "confidence": 0.78,
     "reviewFlags": [

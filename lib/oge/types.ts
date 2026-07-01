@@ -36,6 +36,17 @@ export type InstrumentMatchSource =
   | 'msrb-emma'
   | 'none';
 
+export type InstrumentReferenceStatus =
+  | 'exact'
+  | 'needs_identifier'
+  | 'issuer_context_only'
+  | 'not_applicable';
+
+export type InstrumentReviewStatus =
+  | 'verified'
+  | 'needs_review'
+  | 'rejected';
+
 export interface InstrumentContextFields {
   instrumentKind: string | null;
   instrumentIssuerName: string | null;
@@ -54,6 +65,10 @@ export interface InstrumentContextFields {
   instrumentReferenceLabel: string | null;
   instrumentReferenceSource: string | null;
   instrumentReferenceUrl: string | null;
+  instrumentReferenceStatus: InstrumentReferenceStatus;
+  instrumentEvidenceSourceUrl: string | null;
+  instrumentEvidenceNote: string | null;
+  instrumentReviewStatus: InstrumentReviewStatus;
   instrumentSummary: string | null;
   instrumentMatchSource: InstrumentMatchSource;
   instrumentMatchConfidence: number;
@@ -220,7 +235,7 @@ export interface SectorSummary {
 export interface ReviewQueueItem {
   id: string;
   severity: 'low' | 'medium' | 'high';
-  kind: 'classification' | 'parser' | 'baseline' | 'source';
+  kind: 'classification' | 'parser' | 'baseline' | 'source' | 'identifier';
   title: string;
   detail: string;
   relatedId: string | null;
@@ -409,6 +424,38 @@ export interface TrumpIndexRollup {
   topEntryIds: string[];
 }
 
+export interface InstrumentIdentity {
+  id: string;
+  displayName: string;
+  assetType: AssetType;
+  sector: string;
+  referenceStatus: InstrumentReferenceStatus;
+  reviewStatus: InstrumentReviewStatus;
+  cusip: string | null;
+  isin: string | null;
+  figi: string | null;
+  instrumentReferenceLabel: string | null;
+  instrumentReferenceSource: string | null;
+  instrumentReferenceUrl: string | null;
+  evidenceSourceUrl: string | null;
+  evidenceNote: string | null;
+  parsedIssuerName: string | null;
+  coupon: number | null;
+  maturityDate: string | null;
+  issuerState: string | null;
+  issuerCategory: string | null;
+  sourceEntryIds: string[];
+  sourceUrls: string[];
+  score: number;
+  currentMidpoint: number;
+  transactionCount: number;
+  filingCount: number;
+  sourceReliability: SourceReliability;
+  reviewPriority: number;
+  reviewReason: string;
+  reviewerNotes: string | null;
+}
+
 export interface CacheMeta {
   generatedAt: string;
   dataThrough: string | null;
@@ -423,6 +470,14 @@ export interface CacheMeta {
   securityReferenceCount: number;
   securityEnrichmentCount: number;
   instrumentContextCount: number;
+  fixedIncomeIdentifierCount: number;
+  fixedIncomeFigiMatchCount: number;
+  fixedIncomeIdentifierAmbiguousCount: number;
+  instrumentIdentityCount: number;
+  exactInstrumentReferenceCount: number;
+  identifierReviewCount: number;
+  annualBaselineMatchedCount: number;
+  annualBaselineMissingCount: number;
   enrichedTransactionCount: number;
   eventCount: number;
   eventWindowCount: number;
@@ -492,6 +547,51 @@ export interface SecurityEnrichment extends InstrumentContextFields {
   assetTypes: AssetType[];
 }
 
+export interface FixedIncomeIdentifierCandidate {
+  figi: string;
+  ticker: string | null;
+  name: string | null;
+  exchCode: string | null;
+  securityType: string | null;
+  marketSector: string | null;
+  securityType2: string | null;
+  securityDescription: string | null;
+}
+
+export interface FixedIncomeIdentifierMatch {
+  id: string;
+  securityKey: string;
+  description: string;
+  normalizedDescription: string;
+  assetType: AssetType;
+  parsedIssuerName: string | null;
+  issuerContextTicker: string | null;
+  coupon: number | null;
+  maturityDate: string | null;
+  query: string;
+  status: 'matched' | 'ambiguous' | 'not_found' | 'failed' | 'not_queried';
+  source: 'openfigi-search';
+  fetchedAt: string;
+  resolvedFigi: string | null;
+  resolvedTicker: string | null;
+  resolvedIssuerName: string | null;
+  resolvedExchange: string | null;
+  resolvedSecurityDescription: string | null;
+  resolvedMarketSector: string | null;
+  confidence: number;
+  flags: string[];
+  candidates: FixedIncomeIdentifierCandidate[];
+  transactionCount: number;
+  totalMidpoint: number;
+  error: string | null;
+}
+
+export interface FixedIncomeIdentifierCache {
+  generatedAt: string;
+  source: SecurityReferenceSource;
+  entries: FixedIncomeIdentifierMatch[];
+}
+
 export interface TrumpOgeDataset {
   historicalSources: HistoricalSource[];
   sourceFilings: SourceFiling[];
@@ -506,11 +606,13 @@ export interface TrumpOgeDataset {
   sectorSummaries: SectorSummary[];
   trumpIndex: TrumpIndexEntry[];
   trumpIndexRollups: TrumpIndexRollup[];
+  instrumentIdentities: InstrumentIdentity[];
   reviewQueue: ReviewQueueItem[];
   events: OgeEvent[];
   eventWindows: EventWindowSummary[];
   securityReference: SecurityReferenceCache;
   securityEnrichments: SecurityEnrichment[];
+  fixedIncomeIdentifiers: FixedIncomeIdentifierCache;
   cacheMeta: CacheMeta;
 }
 
@@ -562,6 +664,8 @@ export type TrumpOgePageName =
   | 'timing'
   | 'transactions'
   | 'filings'
+  | 'identifier-review'
+  | 'conflicts'
   | 'review';
 
 export interface TrumpOgeBootstrap {
@@ -575,6 +679,7 @@ export interface TrumpOgeBootstrap {
   yearlyExposureSummaries: YearlyExposureSummary[];
   trumpIndex: TrumpIndexEntry[];
   trumpIndexRollups: TrumpIndexRollup[];
+  instrumentIdentities: InstrumentIdentity[];
 }
 
 export interface TrumpOgePageResponse {
@@ -598,6 +703,8 @@ export interface TrumpOgePageResponse {
   sectorSummaries?: SectorSummary[];
   trumpIndex?: TrumpIndexEntry[];
   trumpIndexRollups?: TrumpIndexRollup[];
+  instrumentIdentities?: InstrumentIdentity[];
+  identifierReview?: InstrumentIdentity[];
   reviewQueue?: ReviewQueueItem[];
   events?: OgeEvent[];
   eventWindows?: EventWindowSummary[];

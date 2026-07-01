@@ -7,6 +7,12 @@ import { buildHoldingsEstimates, buildReviewQueue, buildSectorSummaries, stableI
 import { classifySecurity } from '../lib/oge/classify';
 import { fetchTrumpContextDbEvents } from '../lib/oge/context-db';
 import { buildDashboardBootstrap } from '../lib/oge/data';
+import {
+  applyFixedIncomeIdentifiers,
+  buildFixedIncomeIdentifierCache,
+  EMPTY_FIXED_INCOME_IDENTIFIER_CACHE,
+  rebuildSecurityEnrichmentsFromTransactions,
+} from '../lib/oge/fixed-income-identifiers';
 import { isPostgresConfigured, syncTrumpOgeDatasetToPostgres } from '../lib/oge/postgres';
 import {
   buildEventWindows,
@@ -15,6 +21,7 @@ import {
   mergeEvents,
   normalizeManualEvents,
 } from '../lib/oge/events';
+import { buildIdentifierReviewItems, buildInstrumentIdentities } from '../lib/oge/instrument-identity';
 import {
   broadSectorFromSic,
   buildSecurityReferenceCache,
@@ -30,6 +37,7 @@ import type {
   AssetIncomeHolding,
   BaselineHolding,
   CacheMeta,
+  FixedIncomeIdentifierCache,
   FinancialDisclosureReport,
   HistoricalSource,
   Liability,
@@ -130,7 +138,17 @@ async function main() {
     baseSecurityReference,
     collectResolvedCiks(firstPassEnrichment.transactions)
   );
-  const { transactions, securityEnrichments } = enrichTransactions(bootstrapTransactions, securityReference);
+  const secondPassEnrichment = enrichTransactions(bootstrapTransactions, securityReference);
+  const fixedIncomeIdentifiers = await buildFixedIncomeIdentifierCache(
+    secondPassEnrichment.transactions,
+    await readJson<FixedIncomeIdentifierCache>('fixed-income-identifiers.json', EMPTY_FIXED_INCOME_IDENTIFIER_CACHE),
+    {
+      apiKey: process.env.OPENFIGI_API_KEY || null,
+      lookupLimit: intFromEnv('OPENFIGI_FIXED_INCOME_LOOKUP_LIMIT', process.env.OPENFIGI_API_KEY ? 100 : 25),
+    }
+  );
+  const transactions = applyFixedIncomeIdentifiers(secondPassEnrichment.transactions, fixedIncomeIdentifiers);
+  const securityEnrichments = rebuildSecurityEnrichmentsFromTransactions(transactions);
   const cachedBaselineHoldings = await buildBaselineHoldings(sourceFilings);
   const assetIncomeHoldings = await buildAssetIncomeHoldings(cachedBaselineHoldings, historicalSources);
   const baselineHoldings = cachedBaselineHoldings.length > 0
@@ -146,6 +164,7 @@ async function main() {
     sourceFilings,
     historicalSources,
   });
+  const instrumentIdentities = buildInstrumentIdentities(trumpIndex);
   const yearlyExposureSummaries = buildYearlyExposureSummaries({
     historicalSources,
     transactions,
@@ -161,6 +180,7 @@ async function main() {
     transactions,
     baselineHoldings,
     holdingsEstimates,
+    instrumentIdentities,
   });
   const cacheMeta = buildCacheMeta({
     historicalSources,
@@ -176,11 +196,13 @@ async function main() {
     sectorSummaries,
     trumpIndex,
     trumpIndexRollups,
+    instrumentIdentities,
     reviewQueue,
     events,
     eventWindows,
     securityReference,
     securityEnrichments,
+    fixedIncomeIdentifiers,
   });
 
   const dataset: TrumpOgeDataset = {
@@ -197,11 +219,13 @@ async function main() {
     sectorSummaries,
     trumpIndex,
     trumpIndexRollups,
+    instrumentIdentities,
     reviewQueue,
     events,
     eventWindows,
     securityReference,
     securityEnrichments,
+    fixedIncomeIdentifiers,
     cacheMeta,
   };
 
@@ -224,6 +248,10 @@ async function main() {
     sourceAuditStatus: sourceAudit.completenessStatus,
     sourceAuditGapCount: sourceAudit.gaps.length,
     reviewQueueCount: reviewQueue.length,
+    instrumentIdentityCount: instrumentIdentities.length,
+    identifierReviewCount: buildIdentifierReviewItems(instrumentIdentities).length,
+    fixedIncomeIdentifierCount: fixedIncomeIdentifiers.entries.length,
+    fixedIncomeFigiMatchCount: fixedIncomeIdentifiers.entries.filter((entry) => entry.status === 'matched').length,
     securityReferenceCount: securityReference.entries.length,
     securityEnrichmentCount: securityEnrichments.length,
     instrumentContextCount: transactions.filter((tx) => tx.instrumentSummary || tx.issuerContextTicker).length,
@@ -1614,6 +1642,12 @@ function buildCacheMeta(dataset: Omit<TrumpOgeDataset, 'cacheMeta'>): CacheMeta 
       .sort((a, b) => b.filedDate.localeCompare(a.filedDate))[0];
   const enrichedTransactionCount = dataset.transactions.filter((tx) => tx.resolvedTicker).length;
   const instrumentContextCount = dataset.transactions.filter((tx) => tx.instrumentSummary || tx.issuerContextTicker).length;
+  const exactInstrumentReferenceCount = dataset.instrumentIdentities.filter((identity) => identity.referenceStatus === 'exact' && identity.instrumentReferenceUrl).length;
+  const identifierReviewCount = buildIdentifierReviewItems(dataset.instrumentIdentities).length;
+  const fixedIncomeFigiMatchCount = dataset.fixedIncomeIdentifiers.entries.filter((entry) => entry.status === 'matched').length;
+  const fixedIncomeIdentifierAmbiguousCount = dataset.fixedIncomeIdentifiers.entries.filter((entry) => entry.status === 'ambiguous').length;
+  const annualBaselineMissingCount = dataset.holdingsEstimates.filter((holding) => holding.missingBaseline).length;
+  const annualBaselineMatchedCount = dataset.holdingsEstimates.length - annualBaselineMissingCount;
 
   return {
     generatedAt: new Date().toISOString(),
@@ -1629,6 +1663,14 @@ function buildCacheMeta(dataset: Omit<TrumpOgeDataset, 'cacheMeta'>): CacheMeta 
     securityReferenceCount: dataset.securityReference.entries.length,
     securityEnrichmentCount: dataset.securityEnrichments.length,
     instrumentContextCount,
+    fixedIncomeIdentifierCount: dataset.fixedIncomeIdentifiers.entries.length,
+    fixedIncomeFigiMatchCount,
+    fixedIncomeIdentifierAmbiguousCount,
+    instrumentIdentityCount: dataset.instrumentIdentities.length,
+    exactInstrumentReferenceCount,
+    identifierReviewCount,
+    annualBaselineMatchedCount,
+    annualBaselineMissingCount,
     enrichedTransactionCount,
     eventCount: dataset.events.length,
     eventWindowCount: dataset.eventWindows.length,
@@ -1650,6 +1692,9 @@ function buildCacheMeta(dataset: Omit<TrumpOgeDataset, 'cacheMeta'>): CacheMeta 
       'Annual/candidate/termination disclosure rows remain parser-reviewed unless structured asset-income and liability rows are present in the cache.',
       'Security enrichment uses public SEC and Nasdaq Trader reference data; sector labels are SEC/SIC-derived broad sectors, not proprietary GICS classifications.',
       `Instrument context parsed ${instrumentContextCount.toLocaleString('en-US')} transaction rows into issuer/fixed-income summaries where OGE descriptions allowed it.`,
+      `OpenFIGI fixed-income search has ${fixedIncomeFigiMatchCount.toLocaleString('en-US')} FIGI matches and ${fixedIncomeIdentifierAmbiguousCount.toLocaleString('en-US')} ambiguous candidate sets in the auditable identifier cache.`,
+      `Exact instrument references are available for ${exactInstrumentReferenceCount.toLocaleString('en-US')} identity rows; ${identifierReviewCount.toLocaleString('en-US')} rows remain in identifier review.`,
+      `Annual baseline matching covers ${annualBaselineMatchedCount.toLocaleString('en-US')} holding estimates; ${annualBaselineMissingCount.toLocaleString('en-US')} remain transaction-implied.`,
       `Security enrichment resolved ${enrichedTransactionCount.toLocaleString('en-US')} transaction rows to public-company tickers.`,
       `Annual disclosure parser produced ${dataset.assetIncomeHoldings.length.toLocaleString('en-US')} asset/income rows and ${dataset.liabilities.length.toLocaleString('en-US')} liability rows.`,
       'Event overlay uses public Federal Register and Federal Reserve sources, optional Trump context database rows, and optional manual events; event proximity does not imply motive or causation.',
@@ -1674,11 +1719,13 @@ async function writeDataset(dataset: TrumpOgeDataset) {
     writeJson('sector-summaries.json', dataset.sectorSummaries),
     writeJson('trump-index.json', dataset.trumpIndex),
     writeJson('trump-index-rollups.json', dataset.trumpIndexRollups),
+    writeJson('instrument-identity.json', dataset.instrumentIdentities),
     writeJson('review-queue.json', dataset.reviewQueue),
     writeJson('events.json', dataset.events),
     writeJson('event-windows.json', dataset.eventWindows),
     writeJson('security-reference.json', dataset.securityReference),
     writeJson('security-enrichment.json', dataset.securityEnrichments),
+    writeJson('fixed-income-identifiers.json', dataset.fixedIncomeIdentifiers),
     writeJson('cache-meta.json', dataset.cacheMeta),
     writeJson('dashboard-bootstrap.json', buildDashboardBootstrap(dataset)),
   ]);

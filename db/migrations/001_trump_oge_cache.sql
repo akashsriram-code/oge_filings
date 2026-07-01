@@ -146,6 +146,37 @@ CREATE TABLE IF NOT EXISTS trump_oge_security_enrichments (
   PRIMARY KEY (cache_version, id)
 );
 
+CREATE TABLE IF NOT EXISTS trump_oge_fixed_income_identifiers (
+  cache_version text NOT NULL REFERENCES trump_oge_cache_runs(cache_version) ON DELETE CASCADE,
+  id text NOT NULL,
+  asset_type text,
+  status text,
+  resolved_figi text,
+  issuer_context_ticker text,
+  total_midpoint double precision,
+  row_data jsonb NOT NULL,
+  PRIMARY KEY (cache_version, id)
+);
+
+CREATE INDEX IF NOT EXISTS trump_oge_fixed_income_identifiers_status_idx
+  ON trump_oge_fixed_income_identifiers (cache_version, status, resolved_figi);
+
+CREATE TABLE IF NOT EXISTS trump_oge_instrument_identities (
+  cache_version text NOT NULL REFERENCES trump_oge_cache_runs(cache_version) ON DELETE CASCADE,
+  id text NOT NULL,
+  asset_type text,
+  sector text,
+  reference_status text,
+  review_status text,
+  source_reliability text,
+  review_priority double precision,
+  row_data jsonb NOT NULL,
+  PRIMARY KEY (cache_version, id)
+);
+
+CREATE INDEX IF NOT EXISTS trump_oge_instrument_identities_review_idx
+  ON trump_oge_instrument_identities (cache_version, reference_status, review_status, review_priority DESC);
+
 CREATE TABLE IF NOT EXISTS trump_oge_financial_disclosure_reports (
   cache_version text NOT NULL REFERENCES trump_oge_cache_runs(cache_version) ON DELETE CASCADE,
   id text NOT NULL,

@@ -238,5 +238,17 @@
     "assetIncomeCount": 3072,
     "liabilityCount": 11,
     "notes": "Structured annual/candidate disclosure rows are present in the cache."
+  },
+  {
+    "id": "db7cb5dd",
+    "sourceId": "de8e9eed",
+    "filingType": "Annual 278e",
+    "filedDate": "2026-07-01",
+    "reportYear": 2026,
+    "sourceReliability": "official",
+    "parserStatus": "parsed",
+    "assetIncomeCount": 6179,
+    "liabilityCount": 3,
+    "notes": "Structured annual/candidate disclosure rows are present in the cache."
   }
 ]

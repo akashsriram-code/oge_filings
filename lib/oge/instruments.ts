@@ -1,7 +1,8 @@
 import { normalizeSecurityDescription } from './classify';
-import type { AssetType, InstrumentContextFields, SecurityReferenceEntry } from './types';
+import type { AssetType, InstrumentContextFields, InstrumentReferenceStatus, InstrumentReviewStatus, SecurityReferenceEntry } from './types';
 
 export interface ParsedInstrument {
+  description: string;
   instrumentKind: string | null;
   issuerName: string | null;
   issuerSearchNames: string[];
@@ -19,6 +20,15 @@ export interface ParsedInstrument {
   issuerCategory: string | null;
   confidence: number;
   flags: string[];
+}
+
+interface InstrumentIdentifierOverride {
+  normalizedDescription: string;
+  cusip: string;
+  isin: string | null;
+  figi: string | null;
+  sourceUrl: string | null;
+  sourceNote: string;
 }
 
 export interface IssuerContextResolution {
@@ -47,6 +57,10 @@ export function emptyInstrumentFields(): InstrumentContextFields {
     instrumentReferenceLabel: null,
     instrumentReferenceSource: null,
     instrumentReferenceUrl: null,
+    instrumentReferenceStatus: 'not_applicable',
+    instrumentEvidenceSourceUrl: null,
+    instrumentEvidenceNote: null,
+    instrumentReviewStatus: 'verified',
     instrumentSummary: null,
     instrumentMatchSource: 'none',
     instrumentMatchConfidence: 0,
@@ -72,9 +86,9 @@ export function parseInstrumentDescription(description: string, assetType: Asset
   const callPrice = parseNumberMatch(raw.match(/\bCALLABLE\s+\d{1,2}\/\d{1,2}\/\d{2,4}\s+AT\s+(\d{1,3}(?:\.\d+)?)\b/)?.[1]);
   const yieldToCall = parseNumberMatch(raw.match(/\bYIELD\s+(\d{1,2}\.\d{2,4})\s*%\s+TO\s+PAR\s+CALL\b/)?.[1]);
   const yieldToMaturity = parseNumberMatch(raw.match(/\bYIELD\s+(\d{1,2}\.\d{2,4})\s*%\s+TO\s+MATURITY\b/)?.[1]);
-  const cusip = raw.match(/\bCUSIP\s*([A-Z0-9]{9})\b/)?.[1] || null;
-  const isin = raw.match(/\b([A-Z]{2}[A-Z0-9]{9}\d)\b/)?.[1] || null;
-  const figi = raw.match(/\b(BBG[A-Z0-9]{9})\b/)?.[1] || null;
+  let cusip = raw.match(/\bCUSIP\s*([A-Z0-9]{9})\b/)?.[1] || null;
+  let isin = raw.match(/\b([A-Z]{2}[A-Z0-9]{9}\d)\b/)?.[1] || null;
+  let figi = raw.match(/\b(BBG[A-Z0-9]{9})\b/)?.[1] || null;
   const issuerName = cleanInstrumentIssuerName(extractIssuerStem(normalized));
   const issuerState = assetType === 'Municipal Bond' ? inferMunicipalState(issuerName) : null;
   const issuerCategory = assetType === 'Municipal Bond' ? inferMunicipalIssuerCategory(issuerName) : null;
@@ -92,6 +106,7 @@ export function parseInstrumentDescription(description: string, assetType: Asset
 
   if (!hasInstrumentSignal) {
     return {
+      description,
       instrumentKind: null,
       issuerName: null,
       issuerSearchNames: [],
@@ -113,12 +128,20 @@ export function parseInstrumentDescription(description: string, assetType: Asset
   }
 
   const flags: string[] = [];
+  const identifierOverride = findInstrumentIdentifierOverride(normalized);
+  if (identifierOverride) {
+    cusip ||= identifierOverride.cusip;
+    isin ||= identifierOverride.isin;
+    figi ||= identifierOverride.figi;
+    flags.push(identifierOverride.sourceNote);
+  }
   if (!cusip && !isin && !figi && (assetType === 'Corporate Bond' || assetType === 'Municipal Bond')) {
     flags.push('No CUSIP/ISIN parsed');
   }
   if (!issuerName) flags.push('Instrument issuer needs review');
 
   return {
+    description,
     instrumentKind: instrumentKind(assetType),
     issuerName,
     issuerSearchNames: issuerSearchNames(issuerName),
@@ -150,6 +173,8 @@ export function buildInstrumentFields(
   const instrumentContextFlags = [...parsed.flags];
   const issuerContextFlags = issuerContext?.flags || [];
   const instrumentReference = buildInstrumentReference(parsed);
+  const referenceStatus = instrumentReferenceStatus(parsed, issuerContext);
+  const identifierOverride = findInstrumentIdentifierOverride(normalizeSecurityDescription(parsed.description));
 
   return {
     instrumentKind: parsed.instrumentKind,
@@ -169,6 +194,10 @@ export function buildInstrumentFields(
     instrumentReferenceLabel: instrumentReference.label,
     instrumentReferenceSource: instrumentReference.source,
     instrumentReferenceUrl: instrumentReference.url,
+    instrumentReferenceStatus: referenceStatus,
+    instrumentEvidenceSourceUrl: identifierOverride?.sourceUrl || null,
+    instrumentEvidenceNote: identifierOverride?.sourceNote || instrumentEvidenceNote(parsed, referenceStatus),
+    instrumentReviewStatus: instrumentReviewStatus(parsed, referenceStatus, identifierOverride),
     instrumentSummary: buildInstrumentSummary(parsed, issuerContext),
     instrumentMatchSource: 'description-parser',
     instrumentMatchConfidence: parsed.confidence,
@@ -207,6 +236,10 @@ export function pickInstrumentContextFields(
     instrumentReferenceLabel: first(primary?.instrumentReferenceLabel, fallback?.instrumentReferenceLabel, empty.instrumentReferenceLabel),
     instrumentReferenceSource: first(primary?.instrumentReferenceSource, fallback?.instrumentReferenceSource, empty.instrumentReferenceSource),
     instrumentReferenceUrl: first(primary?.instrumentReferenceUrl, fallback?.instrumentReferenceUrl, empty.instrumentReferenceUrl),
+    instrumentReferenceStatus: strongestReferenceStatus(primary?.instrumentReferenceStatus, fallback?.instrumentReferenceStatus, empty.instrumentReferenceStatus),
+    instrumentEvidenceSourceUrl: first(primary?.instrumentEvidenceSourceUrl, fallback?.instrumentEvidenceSourceUrl, empty.instrumentEvidenceSourceUrl),
+    instrumentEvidenceNote: first(primary?.instrumentEvidenceNote, fallback?.instrumentEvidenceNote, empty.instrumentEvidenceNote),
+    instrumentReviewStatus: strongestReviewStatus(primary?.instrumentReviewStatus, fallback?.instrumentReviewStatus, empty.instrumentReviewStatus),
     instrumentSummary: first(primary?.instrumentSummary, fallback?.instrumentSummary, empty.instrumentSummary),
     instrumentMatchSource: first(primary?.instrumentMatchSource, fallback?.instrumentMatchSource, empty.instrumentMatchSource),
     instrumentMatchConfidence: Math.max(primary?.instrumentMatchConfidence || 0, fallback?.instrumentMatchConfidence || 0),
@@ -237,14 +270,23 @@ function buildInstrumentSummary(parsed: ParsedInstrument, issuerContext: IssuerC
   if (parsed.yieldToMaturity !== null) facts.push(`${formatNumber(parsed.yieldToMaturity, 3)}% yield to maturity`);
   if (parsed.cusip) facts.push(`CUSIP ${parsed.cusip}`);
   if (parsed.isin) facts.push(`ISIN ${parsed.isin}`);
+  if (parsed.figi) facts.push(`FIGI ${parsed.figi}`);
 
   const subject = [issuer, parsed.instrumentKind].filter(Boolean).join(' ') || parsed.instrumentKind || 'Instrument';
-  const context = issuerContext
-    ? ` Issuer context: ${issuerContext.entry.ticker}${issuerContext.entry.exchange ? ` on ${issuerContext.entry.exchange}` : ''}${issuerContext.entry.sector ? `, ${issuerContext.entry.sector}` : ''}; not a direct bond identifier.`
-    : parsed.instrumentKind === 'municipal bond'
-      ? ` Public reference: MSRB EMMA municipal security search${parsed.issuerState ? `, ${parsed.issuerState}` : ''}${parsed.issuerCategory ? `, ${parsed.issuerCategory}` : ''}; not a ticker.`
-    : '';
-  return `${subject}${facts.length > 0 ? ` (${facts.join('; ')})` : ''}.${context}`.replace(/\s+/g, ' ').trim();
+  const contextParts: string[] = [];
+  if (issuerContext) {
+    contextParts.push(`Issuer context: ${issuerContext.entry.ticker}${issuerContext.entry.exchange ? ` on ${issuerContext.entry.exchange}` : ''}${issuerContext.entry.sector ? `, ${issuerContext.entry.sector}` : ''}; not a direct bond identifier.`);
+  }
+  if (parsed.instrumentKind === 'municipal bond' && parsed.cusip) {
+    contextParts.push(`Public reference: MSRB EMMA municipal security details${parsed.issuerState ? `, ${parsed.issuerState}` : ''}${parsed.issuerCategory ? `, ${parsed.issuerCategory}` : ''}; not a ticker.`);
+  } else if (isFixedIncomeKind(parsed.instrumentKind)) {
+    contextParts.push(
+      parsed.cusip || parsed.isin || parsed.figi
+        ? 'Public reference: exact CUSIP/ISIN/FIGI-derived instrument link; not a ticker.'
+        : 'Exact instrument link needs a CUSIP, ISIN, or FIGI; not a ticker.'
+    );
+  }
+  return `${subject}${facts.length > 0 ? ` (${facts.join('; ')})` : ''}.${contextParts.length > 0 ? ` ${contextParts.join(' ')}` : ''}`.replace(/\s+/g, ' ').trim();
 }
 
 function extractIssuerStem(normalized: string): string {
@@ -273,29 +315,94 @@ function cleanInstrumentIssuerName(value: string): string | null {
 }
 
 function buildInstrumentReference(parsed: ParsedInstrument): { label: string | null; source: string | null; url: string | null } {
-  if (parsed.instrumentKind === 'municipal bond') {
-    const query = [
-      parsed.cusip || '',
-      parsed.issuerName || '',
-      parsed.coupon !== null ? `${formatNumber(parsed.coupon, 3)}%` : '',
-      parsed.maturityDate || '',
-    ].filter(Boolean).join(' ');
+  if (parsed.instrumentKind === 'municipal bond' && parsed.cusip) {
     return {
-      label: parsed.cusip ? `EMMA ${parsed.cusip}` : 'MSRB EMMA',
-      source: 'MSRB EMMA municipal securities search',
-      url: `https://emma.msrb.org/Search/Search.aspx${query ? `?searchText=${encodeURIComponent(query)}` : ''}`,
+      label: `EMMA ${parsed.cusip}`,
+      source: 'MSRB EMMA municipal security details',
+      url: `https://emma.msrb.org/Security/Details/${encodeURIComponent(parsed.cusip)}`,
     };
   }
 
-  if (parsed.cusip || parsed.isin || parsed.figi) {
+  if (parsed.figi) {
     return {
-      label: parsed.cusip || parsed.isin || parsed.figi,
-      source: 'Public fixed-income identifier parsed from OGE description',
+      label: `OpenFIGI ${parsed.figi}`,
+      source: 'OpenFIGI exact FIGI identifier',
+      url: null,
+    };
+  }
+
+  if (parsed.cusip || parsed.isin) {
+    const value = parsed.cusip || parsed.isin || '';
+    return {
+      label: `OpenFIGI ${value}`,
+      source: 'OpenFIGI exact identifier candidate',
       url: null,
     };
   }
 
   return { label: null, source: null, url: null };
+}
+
+function isFixedIncomeKind(kind: string | null): boolean {
+  return kind === 'corporate bond/note' || kind === 'municipal bond' || kind === 'preferred/hybrid security';
+}
+
+function instrumentReferenceStatus(
+  parsed: ParsedInstrument,
+  issuerContext: IssuerContextResolution | null
+): InstrumentReferenceStatus {
+  if (parsed.cusip || parsed.isin || parsed.figi) return 'exact';
+  if (isFixedIncomeKind(parsed.instrumentKind)) return 'needs_identifier';
+  if (issuerContext) return 'issuer_context_only';
+  return 'not_applicable';
+}
+
+function instrumentReviewStatus(
+  parsed: ParsedInstrument,
+  referenceStatus: InstrumentReferenceStatus,
+  override: InstrumentIdentifierOverride | null
+): InstrumentReviewStatus {
+  if (override) return 'verified';
+  if (referenceStatus === 'exact' && parsed.instrumentKind === 'municipal bond' && parsed.cusip) return 'needs_review';
+  if (referenceStatus === 'not_applicable') return 'verified';
+  return 'needs_review';
+}
+
+function instrumentEvidenceNote(parsed: ParsedInstrument, referenceStatus: InstrumentReferenceStatus): string | null {
+  if (referenceStatus === 'exact') {
+    return 'Identifier parsed from OGE description; verify source row before publication.';
+  }
+  if (referenceStatus === 'needs_identifier') {
+    return 'Fixed-income description lacks CUSIP, ISIN, or FIGI; exact instrument page cannot be linked yet.';
+  }
+  if (referenceStatus === 'issuer_context_only') {
+    return 'Issuer context explains likely public-company issuer, not the direct instrument.';
+  }
+  if (parsed.instrumentKind) {
+    return 'Instrument context parsed from OGE description.';
+  }
+  return null;
+}
+
+function strongestReferenceStatus(
+  ...statuses: Array<InstrumentReferenceStatus | null | undefined>
+): InstrumentReferenceStatus {
+  const order: InstrumentReferenceStatus[] = ['not_applicable', 'issuer_context_only', 'needs_identifier', 'exact'];
+  return statuses.reduce<InstrumentReferenceStatus>((best, status) =>
+    order.indexOf(status || 'not_applicable') > order.indexOf(best) ? status || best : best,
+  'not_applicable');
+}
+
+function strongestReviewStatus(
+  ...statuses: Array<InstrumentReviewStatus | null | undefined>
+): InstrumentReviewStatus {
+  if (statuses.includes('rejected')) return 'rejected';
+  if (statuses.includes('needs_review')) return 'needs_review';
+  return 'verified';
+}
+
+function findInstrumentIdentifierOverride(normalizedDescription: string): InstrumentIdentifierOverride | null {
+  return INSTRUMENT_IDENTIFIER_OVERRIDES.find((override) => override.normalizedDescription === normalizedDescription) || null;
 }
 
 function inferMunicipalState(issuerName: string | null): string | null {
@@ -608,3 +715,14 @@ const TRAILING_LOCATION_TOKENS = new Set([
   'WIS',
   'WISCONSIN',
 ]);
+
+const INSTRUMENT_IDENTIFIER_OVERRIDES: InstrumentIdentifierOverride[] = [
+  {
+    normalizedDescription: 'METROPOLITAN TRANSN 5% DUE 11/15/35',
+    cusip: '59261A6A0',
+    isin: 'US59261A6A01',
+    figi: 'BBG01XBJ54B6',
+    sourceUrl: 'https://www.mta.info/document/185586',
+    sourceNote: 'CUSIP/FIGI inferred from MTA Series 2025B official statement for the 5.00% Nov. 15, 2035 maturity',
+  },
+];

@@ -1,6 +1,7 @@
 import * as XLSX from 'xlsx';
 import { formatRange } from './amounts';
 import { describeAssetType, describeSector, describeTransaction } from './descriptions';
+import { buildIdentifierReviewItems } from './instrument-identity';
 import { buildEquityStockSummaries, deriveEquityStockName } from './stocks';
 import type { TrumpOgeApiResponse } from './types';
 
@@ -39,6 +40,10 @@ export function buildTrumpOgeWorkbook(response: TrumpOgeApiResponse): XLSX.WorkB
       instrument_reference_label: entry.instrumentReferenceLabel || '',
       instrument_reference_source: entry.instrumentReferenceSource || '',
       instrument_reference_url: entry.instrumentReferenceUrl || '',
+      instrument_reference_status: entry.instrumentReferenceStatus,
+      instrument_evidence_source_url: entry.instrumentEvidenceSourceUrl || '',
+      instrument_evidence_note: entry.instrumentEvidenceNote || '',
+      instrument_review_status: entry.instrumentReviewStatus,
       instrument_cusip: entry.instrumentCusip || '',
       instrument_isin: entry.instrumentIsin || '',
       instrument_figi: entry.instrumentFigi || '',
@@ -122,6 +127,10 @@ export function buildTrumpOgeWorkbook(response: TrumpOgeApiResponse): XLSX.WorkB
       instrument_reference_label: tx.instrumentReferenceLabel || '',
       instrument_reference_source: tx.instrumentReferenceSource || '',
       instrument_reference_url: tx.instrumentReferenceUrl || '',
+      instrument_reference_status: tx.instrumentReferenceStatus,
+      instrument_evidence_source_url: tx.instrumentEvidenceSourceUrl || '',
+      instrument_evidence_note: tx.instrumentEvidenceNote || '',
+      instrument_review_status: tx.instrumentReviewStatus,
       instrument_cusip: tx.instrumentCusip || '',
       instrument_isin: tx.instrumentIsin || '',
       instrument_figi: tx.instrumentFigi || '',
@@ -220,6 +229,10 @@ export function buildTrumpOgeWorkbook(response: TrumpOgeApiResponse): XLSX.WorkB
       instrument_reference_label: holding.instrumentReferenceLabel || '',
       instrument_reference_source: holding.instrumentReferenceSource || '',
       instrument_reference_url: holding.instrumentReferenceUrl || '',
+      instrument_reference_status: holding.instrumentReferenceStatus,
+      instrument_evidence_source_url: holding.instrumentEvidenceSourceUrl || '',
+      instrument_evidence_note: holding.instrumentEvidenceNote || '',
+      instrument_review_status: holding.instrumentReviewStatus,
       instrument_cusip: holding.instrumentCusip || '',
       instrument_isin: holding.instrumentIsin || '',
       instrument_figi: holding.instrumentFigi || '',
@@ -303,6 +316,10 @@ export function buildTrumpOgeWorkbook(response: TrumpOgeApiResponse): XLSX.WorkB
       instrument_reference_label: item.instrumentReferenceLabel || '',
       instrument_reference_source: item.instrumentReferenceSource || '',
       instrument_reference_url: item.instrumentReferenceUrl || '',
+      instrument_reference_status: item.instrumentReferenceStatus,
+      instrument_evidence_source_url: item.instrumentEvidenceSourceUrl || '',
+      instrument_evidence_note: item.instrumentEvidenceNote || '',
+      instrument_review_status: item.instrumentReviewStatus,
       instrument_cusip: item.instrumentCusip || '',
       instrument_isin: item.instrumentIsin || '',
       instrument_figi: item.instrumentFigi || '',
@@ -318,6 +335,35 @@ export function buildTrumpOgeWorkbook(response: TrumpOgeApiResponse): XLSX.WorkB
       asset_types: item.assetTypes.join('; '),
     }))),
     'Security Enrichment'
+  );
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    XLSX.utils.json_to_sheet(response.fixedIncomeIdentifiers.entries.map((item) => ({
+      status: item.status,
+      asset_type: item.assetType,
+      description: item.description,
+      parsed_issuer_name: item.parsedIssuerName || '',
+      issuer_context_ticker: item.issuerContextTicker || '',
+      coupon: item.coupon ?? '',
+      maturity_date: item.maturityDate || '',
+      query: item.query,
+      resolved_figi: item.resolvedFigi || '',
+      resolved_ticker: item.resolvedTicker || '',
+      resolved_issuer_name: item.resolvedIssuerName || '',
+      resolved_exchange: item.resolvedExchange || '',
+      resolved_security_description: item.resolvedSecurityDescription || '',
+      resolved_market_sector: item.resolvedMarketSector || '',
+      confidence: item.confidence,
+      flags: item.flags.join('; '),
+      candidate_figis: item.candidates.map((candidate) => candidate.figi).join('; '),
+      candidate_tickers: item.candidates.map((candidate) => candidate.ticker || '').filter(Boolean).join('; '),
+      transaction_count: item.transactionCount,
+      total_midpoint: item.totalMidpoint,
+      fetched_at: item.fetchedAt,
+      error: item.error || '',
+    }))),
+    'Fixed Income FIGI Lookup'
   );
 
   XLSX.utils.book_append_sheet(
@@ -470,6 +516,73 @@ export function buildTrumpOgeWorkbook(response: TrumpOgeApiResponse): XLSX.WorkB
 
   XLSX.utils.book_append_sheet(
     workbook,
+    XLSX.utils.json_to_sheet(response.instrumentIdentities.map((identity) => ({
+      id: identity.id,
+      display_name: identity.displayName,
+      asset_type: identity.assetType,
+      sector: identity.sector,
+      reference_status: identity.referenceStatus,
+      review_status: identity.reviewStatus,
+      cusip: identity.cusip || '',
+      isin: identity.isin || '',
+      figi: identity.figi || '',
+      instrument_reference_label: identity.instrumentReferenceLabel || '',
+      instrument_reference_source: identity.instrumentReferenceSource || '',
+      instrument_reference_url: identity.instrumentReferenceUrl || '',
+      evidence_source_url: identity.evidenceSourceUrl || '',
+      evidence_note: identity.evidenceNote || '',
+      parsed_issuer_name: identity.parsedIssuerName || '',
+      coupon: identity.coupon ?? '',
+      maturity_date: identity.maturityDate || '',
+      issuer_state: identity.issuerState || '',
+      issuer_category: identity.issuerCategory || '',
+      score: identity.score,
+      current_midpoint: identity.currentMidpoint,
+      transaction_count: identity.transactionCount,
+      filing_count: identity.filingCount,
+      source_reliability: identity.sourceReliability,
+      review_priority: identity.reviewPriority,
+      review_reason: identity.reviewReason,
+      reviewer_notes: identity.reviewerNotes || '',
+      source_entry_ids: identity.sourceEntryIds.join('; '),
+      source_urls: identity.sourceUrls.join('; '),
+    }))),
+    'Instrument Identity'
+  );
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    XLSX.utils.json_to_sheet(buildIdentifierReviewItems(response.instrumentIdentities).map((identity) => ({
+      id: identity.id,
+      review_priority: identity.reviewPriority,
+      display_name: identity.displayName,
+      asset_type: identity.assetType,
+      sector: identity.sector,
+      reference_status: identity.referenceStatus,
+      review_status: identity.reviewStatus,
+      review_reason: identity.reviewReason,
+      cusip: identity.cusip || '',
+      isin: identity.isin || '',
+      figi: identity.figi || '',
+      instrument_reference_label: identity.instrumentReferenceLabel || '',
+      instrument_reference_source: identity.instrumentReferenceSource || '',
+      instrument_reference_url: identity.instrumentReferenceUrl || '',
+      evidence_source_url: identity.evidenceSourceUrl || '',
+      evidence_note: identity.evidenceNote || '',
+      parsed_issuer_name: identity.parsedIssuerName || '',
+      coupon: identity.coupon ?? '',
+      maturity_date: identity.maturityDate || '',
+      current_midpoint: identity.currentMidpoint,
+      transaction_count: identity.transactionCount,
+      filing_count: identity.filingCount,
+      source_reliability: identity.sourceReliability,
+      source_urls: identity.sourceUrls.join('; '),
+    }))),
+    'Identifier Review'
+  );
+
+  XLSX.utils.book_append_sheet(
+    workbook,
     XLSX.utils.json_to_sheet(response.reviewQueue.map((item) => ({
       severity: item.severity,
       kind: item.kind,
@@ -479,6 +592,20 @@ export function buildTrumpOgeWorkbook(response: TrumpOgeApiResponse): XLSX.WorkB
       source_url: item.sourceUrl || '',
     }))),
     'Review Queue'
+  );
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    XLSX.utils.json_to_sheet([
+      { field: 'exact_instrument_links', value: 'Exact instrument_reference_url values require a parsed or reviewed CUSIP, ISIN, or FIGI. Generic search URLs are deliberately excluded.' },
+      { field: 'municipal_bonds', value: 'Municipal securities with CUSIP values link to MSRB EMMA security detail pages.' },
+      { field: 'corporate_preferred_bonds', value: 'Corporate, preferred, and hybrid rows retain OpenFIGI labels for exact identifier candidates, but do not emit a public OpenFIGI URL unless an exact instrument URL pattern is verified.' },
+      { field: 'issuer_context_only', value: 'Issuer-context ticker/CIK/sector fields explain the likely public-company issuer, not the exact bond or preferred security.' },
+      { field: 'needs_identifier', value: 'Rows marked needs_identifier require CUSIP, ISIN, FIGI, or reviewed public-source evidence before an exact instrument page can be cited.' },
+      { field: 'review_priority', value: 'Identifier review priority combines status risk, source reliability, midpoint exposure, transaction count, and Trump Index score.' },
+      { field: 'publication_use', value: 'Rows with metadata-only sources, archived copies, parsed identifiers, or issuer-context-only matches should be reporter-reviewed before publication language treats identity as verified.' },
+    ]),
+    'Evidence Methodology'
   );
 
   XLSX.utils.book_append_sheet(
@@ -494,11 +621,20 @@ export function buildTrumpOgeWorkbook(response: TrumpOgeApiResponse): XLSX.WorkB
       { field: 'holdings_estimates', value: 'Holdings are transaction-implied until the annual 278e baseline is extracted and reviewed.' },
       { field: 'classification', value: 'Asset type labels remain rules-based and carry confidence/review flags.' },
       { field: 'security_enrichment', value: 'Resolved tickers, exchanges, CIKs, and SIC-derived broad sectors use public SEC and Nasdaq Trader reference data.' },
-      { field: 'instrument_context', value: 'Bond/security instrument summaries are parsed from OGE descriptions. Issuer-context tickers identify likely public-company issuer context and are not direct bond identifiers. Municipal bond rows use MSRB EMMA as the public reference path when no CUSIP is parsed.' },
+      { field: 'instrument_context', value: 'Bond/security instrument summaries are parsed from OGE descriptions. Issuer-context tickers identify likely public-company issuer context and are not direct bond identifiers. Instrument links require CUSIP/ISIN/FIGI or reviewed public evidence. Municipal CUSIPs point to exact MSRB EMMA security details; generic search pages are not used as instrument URLs.' },
+      { field: 'fixed_income_figi_lookup', value: 'OpenFIGI search is used for fixed-income rows only when issuer/coupon/maturity and restricted-security markers leave one clear candidate. FIGIs are stored as identifier evidence; generic OpenFIGI search/API URLs are not instrument URLs.' },
       { field: 'sector_labels', value: 'Resolved sectors are SEC/SIC-derived broad sectors, not proprietary GICS classifications.' },
       { field: 'security_reference_count', value: String(response.cacheMeta.securityReferenceCount) },
       { field: 'security_enrichment_count', value: String(response.cacheMeta.securityEnrichmentCount) },
       { field: 'instrument_context_count', value: String(response.cacheMeta.instrumentContextCount) },
+      { field: 'fixed_income_identifier_count', value: String(response.cacheMeta.fixedIncomeIdentifierCount) },
+      { field: 'fixed_income_figi_match_count', value: String(response.cacheMeta.fixedIncomeFigiMatchCount) },
+      { field: 'fixed_income_identifier_ambiguous_count', value: String(response.cacheMeta.fixedIncomeIdentifierAmbiguousCount) },
+      { field: 'instrument_identity_count', value: String(response.cacheMeta.instrumentIdentityCount) },
+      { field: 'exact_instrument_reference_count', value: String(response.cacheMeta.exactInstrumentReferenceCount) },
+      { field: 'identifier_review_count', value: String(response.cacheMeta.identifierReviewCount) },
+      { field: 'annual_baseline_matched_count', value: String(response.cacheMeta.annualBaselineMatchedCount) },
+      { field: 'annual_baseline_missing_count', value: String(response.cacheMeta.annualBaselineMissingCount) },
       { field: 'enriched_transaction_count', value: String(response.cacheMeta.enrichedTransactionCount) },
       { field: 'event_overlay', value: 'Events are used for proximity analysis only; event proximity does not imply motive or causation.' },
       { field: 'event_count', value: String(response.cacheMeta.eventCount) },

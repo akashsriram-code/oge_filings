@@ -22,6 +22,7 @@ import {
   MessageSquare,
   PanelTop,
   RefreshCw,
+  Scale,
   Search,
   Send,
   ShieldCheck,
@@ -49,6 +50,7 @@ import {
 } from '@/lib/oge/events';
 import { filterTransactions } from '@/lib/oge/filter';
 import { EMPTY_SECURITY_REFERENCE } from '@/lib/oge/enrichment';
+import { EMPTY_FIXED_INCOME_IDENTIFIER_CACHE } from '@/lib/oge/fixed-income-identifiers';
 import { formatMoney, formatRange } from '@/lib/oge/amounts';
 import { confidenceLabel, describeAssetType, describeSector, describeTransaction, summarizeSector } from '@/lib/oge/descriptions';
 import { buildEquityStockSummaries, deriveEquityStockName, type EquityStockSummary } from '@/lib/oge/stocks';
@@ -60,6 +62,7 @@ import type {
   EventCategory,
   EventWindowSummary,
   HistoricalSource,
+  InstrumentIdentity,
   OgeEvent,
   OgeTransaction,
   SectorSummary,
@@ -94,6 +97,8 @@ type PageKey =
   | 'timing'
   | 'transactions'
   | 'filings'
+  | 'identifier-review'
+  | 'conflicts'
   | 'review';
 
 interface PageDefinition {
@@ -119,6 +124,8 @@ const PAGE_DEFINITIONS: PageDefinition[] = [
   { key: 'timing', label: 'Timing', eyebrow: 'Dates', description: 'Transaction-date flow, late density, and public event overlays.', icon: <LineChartIcon className="h-4 w-4" /> },
   { key: 'transactions', label: 'Transactions', eyebrow: 'Rows', description: 'Searchable transaction table with source PDF links.', icon: <FileText className="h-4 w-4" /> },
   { key: 'filings', label: 'Filings', eyebrow: 'Audit', description: 'Source registry, completeness audit, OGE PDFs, hashes.', icon: <ShieldCheck className="h-4 w-4" /> },
+  { key: 'identifier-review', label: 'Identifiers', eyebrow: 'Evidence', description: 'Exact instrument links, CUSIP/FIGI gaps, and publication review priority.', icon: <BadgeInfo className="h-4 w-4" /> },
+  { key: 'conflicts', label: 'Conflicts', eyebrow: 'Analysis', description: 'Potential conflicts of interest, policy connections, suspicious timing.', icon: <Scale className="h-4 w-4" /> },
   { key: 'review', label: 'Review', eyebrow: 'Flags', description: 'Parser, baseline, source, and classification issues.', icon: <AlertTriangle className="h-4 w-4" /> },
 ];
 
@@ -272,6 +279,10 @@ function TrumpOgeDashboardLoaded({
   const kpis = initialData.kpis;
   const sectorSummaries = initialData.sectorSummaries;
   const holdings = initialData.holdingsEstimates;
+  const instrumentIdentities = initialData.instrumentIdentities;
+  const identifierReview = activePageResponse?.identifierReview || instrumentIdentities.filter((identity) =>
+    identity.referenceStatus === 'needs_identifier' || identity.reviewStatus === 'needs_review'
+  );
   const trumpIndexEntries = useMemo(
     () => initialData.trumpIndex,
     [initialData.trumpIndex]
@@ -283,6 +294,7 @@ function TrumpOgeDashboardLoaded({
     netBuys: trumpIndexEntries.filter((entry) => entry.netFlowMidpoint > 0).sort((a, b) => b.netFlowMidpoint - a.netFlowMidpoint).slice(0, 5),
     netSells: trumpIndexEntries.filter((entry) => entry.netFlowMidpoint < 0).sort((a, b) => a.netFlowMidpoint - b.netFlowMidpoint).slice(0, 5),
   }), [trumpIndexEntries]);
+  const displayIndexCount = Math.max(trumpIndexEntries.length, kpis.uniqueSecurities);
   const filteredHistoricalSources = useMemo(
     () => initialData.historicalSources.filter((source) => {
       if (filters.year && filters.year !== 'All' && source.reportYear !== Number(filters.year) && !source.filedDate.startsWith(String(filters.year))) return false;
@@ -436,11 +448,11 @@ function TrumpOgeDashboardLoaded({
   };
 
   return (
-    <main className="liquid-app min-h-screen text-slate-950">
+    <main className="liquid-app min-h-screen text-[var(--text-primary)]">
       <header className="liquid-header sticky top-0 z-30">
         <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-5 py-3">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="liquid-icon flex h-10 w-10 items-center justify-center text-slate-950">
+            <div className="liquid-icon flex h-10 w-10 items-center justify-center text-[var(--text-primary)]">
               <Database className="h-4 w-4" />
             </div>
             <div className="min-w-0">
@@ -567,7 +579,7 @@ function TrumpOgeDashboardLoaded({
           ))}
         </nav>
 
-        <PageIntro page={activePageDefinition} transactionCount={filteredTransactions.length} indexCount={trumpIndexEntries.length} />
+        <PageIntro page={activePageDefinition} transactionCount={filteredTransactions.length || kpis.transactionCount} indexCount={displayIndexCount} />
 
         {exportError && (
           <div className="mb-5 rounded-2xl border border-amber-200 bg-amber-50/80 px-3 py-2 text-xs leading-5 text-amber-900">
@@ -578,8 +590,8 @@ function TrumpOgeDashboardLoaded({
         {activePage !== 'ask' && !activePageReady && (
           <Panel title="Loading Page Data" subtitle={activePageLoading ? 'Fetching the page-scoped cache payload' : 'Preparing the page-scoped cache payload'}>
             <div className="space-y-3">
-              <div className="h-2 overflow-hidden rounded-full bg-white/45">
-                <div className="h-full w-1/2 animate-pulse rounded-full bg-slate-900/85" />
+              <div className="h-2 overflow-hidden rounded-full bg-[var(--bg-highlight)]">
+                <div className="h-full w-1/2 animate-pulse rounded-full bg-[var(--accent-cyan)]" />
               </div>
               <div className="text-sm leading-6 text-slate-600">
                 {activePageError
@@ -593,7 +605,7 @@ function TrumpOgeDashboardLoaded({
         {activePage !== 'ask' && activePageReady && (
           <>
             <section className="mb-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-              <KpiCard label="Index entries" value={formatInteger(trumpIndexEntries.length)} sub={`${formatInteger(kpis.uniqueSecurities)} securities; ${formatInteger(enrichedTransactionCount)} direct, ${formatInteger(issuerContextCount)} issuer/instrument refs`} icon={<Layers className="h-4 w-4" />} />
+              <KpiCard label="Index entries" value={formatInteger(displayIndexCount)} sub={`${formatInteger(kpis.uniqueSecurities)} securities; ${formatInteger(enrichedTransactionCount)} direct, ${formatInteger(issuerContextCount)} issuer/instrument refs`} icon={<Layers className="h-4 w-4" />} />
               <KpiCard label="Visible exposure" value={formatMoney(trumpIndexEntries.reduce((total, entry) => total + entry.currentMidpoint, 0))} sub={`Top score ${trumpIndexEntries[0]?.score.toFixed(1) || '0.0'} of 100`} icon={<RefreshCw className="h-4 w-4" />} />
               <KpiCard label="Purchases" value={formatInteger(kpis.purchaseCount)} sub={`${formatPct(kpis.purchaseCount, kpis.transactionCount)} of visible transactions`} icon={<ArrowUpRight className="h-4 w-4" />} tone="buy" />
               <KpiCard label="Sales" value={formatInteger(kpis.saleCount)} sub={`${formatPct(kpis.saleCount, kpis.transactionCount)} of visible transactions`} icon={<ArrowDownRight className="h-4 w-4" />} tone="sell" />
@@ -637,7 +649,7 @@ function TrumpOgeDashboardLoaded({
           <div className="space-y-5">
             <Panel
               title="Trump Index"
-              subtitle={`${formatInteger(trumpIndexEntries.length)} ranked issuer/security exposures; score is calculated from exposure, change, and activity`}
+              subtitle={`Showing top ${formatInteger(trumpIndexEntries.length)} ranked exposures from ${formatInteger(displayIndexCount)} visible securities; score is calculated from exposure, change, and activity`}
             >
               <TrumpIndexTable
                 entries={trumpIndexEntries.slice(0, 120)}
@@ -847,6 +859,22 @@ function TrumpOgeDashboardLoaded({
           </div>
         )}
 
+        {activePageReady && activePage === 'identifier-review' && (
+          <IdentifierReviewPage
+            identities={instrumentIdentities}
+            reviewItems={identifierReview}
+            cacheMeta={initialData.cacheMeta}
+          />
+        )}
+
+        {activePageReady && activePage === 'conflicts' && (
+          <ConflictsPage
+            transactions={filteredTransactions}
+            trumpIndexEntries={trumpIndexEntries}
+            filters={filters}
+          />
+        )}
+
         {activePageReady && activePage === 'review' && (
           <Panel title="Review Queue" subtitle={`${initialData.reviewQueue.length} parser, baseline, and classification flags`}>
             <div className="grid gap-3 lg:grid-cols-2">
@@ -875,7 +903,7 @@ function TrumpOgeDashboardLoaded({
 
 function DashboardLoading({ error }: { error: string | null }) {
   return (
-    <main className="liquid-app flex min-h-screen items-center justify-center px-5 text-slate-900">
+    <main className="liquid-app flex min-h-screen items-center justify-center px-5 text-[var(--text-primary)]">
       <section className="liquid-panel w-full max-w-lg p-5">
         <div className="mb-4 flex items-center gap-3">
           <div className="liquid-icon flex h-9 w-9 items-center justify-center">
@@ -892,8 +920,8 @@ function DashboardLoading({ error }: { error: string | null }) {
           </div>
         ) : (
           <div className="space-y-3">
-            <div className="h-2 overflow-hidden rounded-full bg-white/45">
-              <div className="h-full w-1/2 animate-pulse rounded-full bg-slate-900/85" />
+            <div className="h-2 overflow-hidden rounded-full bg-[var(--bg-highlight)]">
+              <div className="h-full w-1/2 animate-pulse rounded-full bg-[var(--accent-cyan)]" />
             </div>
             <div className="text-sm text-slate-600">Preparing the reporter dashboard...</div>
           </div>
@@ -982,6 +1010,7 @@ function bootstrapFromInitialData(data: TrumpOgeBootstrap | TrumpOgeApiResponse)
     yearlyExposureSummaries: data.yearlyExposureSummaries,
     trumpIndex: data.trumpIndex.slice(0, 80),
     trumpIndexRollups: data.trumpIndexRollups,
+    instrumentIdentities: data.instrumentIdentities.slice(0, 80),
   };
 }
 
@@ -1012,11 +1041,13 @@ function mergeDashboardData(
     sectorSummaries: page?.sectorSummaries || [],
     trumpIndex: page?.trumpIndex || bootstrap.trumpIndex,
     trumpIndexRollups: page?.trumpIndexRollups || bootstrap.trumpIndexRollups,
+    instrumentIdentities: page?.instrumentIdentities || bootstrap.instrumentIdentities,
     reviewQueue: page?.reviewQueue || [],
     events: page?.events || [],
     eventWindows: page?.eventWindows || [],
     securityReference: EMPTY_SECURITY_REFERENCE,
     securityEnrichments: page?.securityEnrichments || [],
+    fixedIncomeIdentifiers: EMPTY_FIXED_INCOME_IDENTIFIER_CACHE,
     cacheMeta: bootstrap.cacheMeta,
     kpis: page?.kpis || bootstrap.kpis,
     filters: page?.filters || bootstrap.filters,
@@ -1062,8 +1093,8 @@ function PageIntro({
             {page.icon}
             {page.eyebrow}
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-950">{page.label}</h2>
-          <p className="mt-1 text-sm leading-6 text-slate-600">{page.description}</p>
+          <h2 className="text-2xl font-bold tracking-tight text-[var(--text-primary)]">{page.label}</h2>
+          <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">{page.description}</p>
         </div>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           <MiniStat label="Rows" value={formatInteger(transactionCount)} />
@@ -1078,8 +1109,8 @@ function PageIntro({
 function MiniStat({ label, value }: { label: string; value: string }) {
   return (
     <div className="liquid-surface px-4 py-3">
-      <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">{label}</div>
-      <div className="mt-1 max-w-[160px] truncate font-mono text-sm font-bold text-slate-900">{value}</div>
+      <div className="text-[10px] font-bold uppercase tracking-wide text-[var(--text-tertiary)]">{label}</div>
+      <div className="mt-1 max-w-[160px] truncate font-mono text-sm font-bold text-[var(--text-primary)]">{value}</div>
     </div>
   );
 }
@@ -1197,6 +1228,446 @@ function AssetClassPage({
   );
 }
 
+function IdentifierReviewPage({
+  identities,
+  reviewItems,
+  cacheMeta,
+}: {
+  identities: InstrumentIdentity[];
+  reviewItems: InstrumentIdentity[];
+  cacheMeta: CacheMeta;
+}) {
+  const exactCount = identities.filter((identity) => identity.referenceStatus === 'exact' && identity.instrumentReferenceUrl).length;
+  const needsIdentifierCount = identities.filter((identity) => identity.referenceStatus === 'needs_identifier').length;
+  const needsReviewCount = identities.filter((identity) => identity.reviewStatus === 'needs_review').length;
+  const baselineMatched = cacheMeta.annualBaselineMatchedCount || 0;
+  const baselineMissing = cacheMeta.annualBaselineMissingCount || 0;
+  const baselineTotal = baselineMatched + baselineMissing;
+
+  return (
+    <div className="space-y-5">
+      <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-6">
+        <KpiCard label="Exact links" value={formatInteger(exactCount || cacheMeta.exactInstrumentReferenceCount)} sub={`${formatPct(exactCount || cacheMeta.exactInstrumentReferenceCount, identities.length || cacheMeta.instrumentIdentityCount)} of instrument identities`} icon={<ExternalLink className="h-4 w-4" />} tone="buy" />
+        <KpiCard label="FIGI matches" value={formatInteger(cacheMeta.fixedIncomeFigiMatchCount || identities.filter((identity) => identity.figi).length)} sub={`${formatInteger(cacheMeta.fixedIncomeIdentifierAmbiguousCount || 0)} ambiguous OpenFIGI candidate sets`} icon={<Database className="h-4 w-4" />} tone="buy" />
+        <KpiCard label="Need identifiers" value={formatInteger(needsIdentifierCount || cacheMeta.identifierReviewCount)} sub="CUSIP, ISIN, or FIGI required before exact links" icon={<AlertTriangle className="h-4 w-4" />} tone="warn" />
+        <KpiCard label="Need review" value={formatInteger(needsReviewCount)} sub="Parsed IDs or evidence not yet publication-reviewed" icon={<BadgeInfo className="h-4 w-4" />} />
+        <KpiCard label="Baseline matched" value={formatInteger(baselineMatched)} sub={`${formatPct(baselineMatched, baselineTotal)} of holding estimates`} icon={<ShieldCheck className="h-4 w-4" />} tone="buy" />
+        <KpiCard label="Baseline missing" value={formatInteger(baselineMissing)} sub="Still transaction-implied" icon={<RefreshCw className="h-4 w-4" />} tone="warn" />
+      </section>
+
+      <Panel title="Identifier Review" subtitle={`${formatInteger(reviewItems.length)} prioritized rows needing identifier or evidence review`}>
+        <IdentifierReviewTable rows={reviewItems.slice(0, 250)} />
+      </Panel>
+
+      <Panel title="Instrument Identity Register" subtitle={`${formatInteger(identities.length)} exact, issuer-context, and unresolved instrument identity rows`}>
+        <IdentifierReviewTable rows={identities.slice(0, 250)} showResolved />
+      </Panel>
+    </div>
+  );
+}
+
+interface ConflictAnalysis {
+  generatedAt: string;
+  indicators: ConflictIndicator[];
+  summary: ConflictSummary;
+}
+
+interface ConflictIndicator {
+  id: string;
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  category: string;
+  title: string;
+  summary: string;
+  holdingTicker: string | null;
+  holdingName: string;
+  holdingValue: number;
+  eventId: string | null;
+  eventDate: string | null;
+  eventTitle: string | null;
+  transactionIds: string[];
+  transactionDates: string[];
+  windowDays: number | null;
+  timelinePosition: 'before' | 'after' | 'during' | null;
+  evidenceStrength: number;
+  sourceUrls: string[];
+  tags: string[];
+}
+
+interface ConflictSummary {
+  totalIndicators: number;
+  criticalCount: number;
+  highCount: number;
+  mediumCount: number;
+  lowCount: number;
+  totalExposureAtRisk: number;
+  uniqueHoldings: number;
+  uniqueEvents: number;
+  dateRange: { start: string; end: string } | null;
+}
+
+function ConflictsPage({
+  transactions,
+  trumpIndexEntries,
+  filters,
+}: {
+  transactions: OgeTransaction[];
+  trumpIndexEntries: TrumpIndexEntry[];
+  filters: TrumpOgeFilters;
+}) {
+  const [analysis, setAnalysis] = useState<ConflictAnalysis | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedSeverity, setSelectedSeverity] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+
+    const params = filtersToSearchParams(filters);
+    const endpoint = apiUrl(`/api/trump-oge/conflicts?${params.toString()}`);
+
+    fetch(endpoint)
+      .then(async (response) => {
+        if (!response.ok) {
+          const text = await response.text().catch(() => '');
+          throw new Error(text || `HTTP ${response.status}`);
+        }
+        return response.json() as Promise<ConflictAnalysis>;
+      })
+      .then((data) => {
+        if (!cancelled) setAnalysis(data);
+      })
+      .catch((err) => {
+        if (!cancelled) setError(err instanceof Error ? err.message : String(err));
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [filters]);
+
+  const filteredIndicators = useMemo(() => {
+    if (!analysis) return [];
+    return analysis.indicators.filter((indicator) => {
+      if (selectedSeverity !== 'all' && indicator.severity !== selectedSeverity) return false;
+      if (selectedCategory !== 'all' && indicator.category !== selectedCategory) return false;
+      return true;
+    });
+  }, [analysis, selectedCategory, selectedSeverity]);
+
+  const categories = useMemo(() => {
+    if (!analysis) return [];
+    return Array.from(new Set(analysis.indicators.map((indicator) => indicator.category))).sort();
+  }, [analysis]);
+
+  if (loading) {
+    return (
+      <Panel title="Conflict Analysis" subtitle="Analyzing potential conflicts of interest">
+        <div className="space-y-3">
+          <div className="h-2 overflow-hidden rounded-full bg-[var(--bg-highlight)]">
+            <div className="h-full w-1/3 animate-pulse rounded-full bg-[var(--accent-cyan)]" />
+          </div>
+          <div className="text-sm text-slate-600">Cross-referencing holdings with policy decisions and events...</div>
+        </div>
+      </Panel>
+    );
+  }
+
+  if (error) {
+    return (
+      <Panel title="Conflict Analysis" subtitle="Error loading analysis">
+        <div className="border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-900">
+          {error}
+        </div>
+      </Panel>
+    );
+  }
+
+  if (!analysis || analysis.indicators.length === 0) {
+    return (
+      <Panel title="Conflict Analysis" subtitle="No conflict indicators found">
+        <div className="liquid-empty p-6 text-center text-sm text-slate-500">
+          No potential conflicts of interest detected in the current filter scope.
+          <div className="mt-2 text-xs">This may change as more events and policy decisions are catalogued.</div>
+        </div>
+      </Panel>
+    );
+  }
+
+  const { summary } = analysis;
+
+  return (
+    <div className="space-y-5">
+      <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+        <KpiCard
+          label="Critical conflicts"
+          value={formatInteger(summary.criticalCount)}
+          sub="Highest severity indicators"
+          icon={<AlertTriangle className="h-4 w-4" />}
+          tone={summary.criticalCount > 0 ? 'warn' : 'neutral'}
+        />
+        <KpiCard
+          label="High severity"
+          value={formatInteger(summary.highCount)}
+          sub="Strong evidence conflicts"
+          icon={<Scale className="h-4 w-4" />}
+          tone={summary.highCount > 0 ? 'warn' : 'neutral'}
+        />
+        <KpiCard
+          label="Total indicators"
+          value={formatInteger(summary.totalIndicators)}
+          sub={`${formatInteger(summary.uniqueHoldings)} holdings, ${formatInteger(summary.uniqueEvents)} events`}
+          icon={<Layers className="h-4 w-4" />}
+        />
+        <KpiCard
+          label="Exposure at risk"
+          value={formatMoney(summary.totalExposureAtRisk)}
+          sub="Combined holding value in conflicts"
+          icon={<BriefcaseBusiness className="h-4 w-4" />}
+        />
+        <KpiCard
+          label="Date range"
+          value={summary.dateRange ? `${summary.dateRange.start.slice(0, 7)}` : 'N/A'}
+          sub={summary.dateRange ? `through ${summary.dateRange.end.slice(0, 7)}` : 'No date range'}
+          icon={<CalendarDays className="h-4 w-4" />}
+        />
+      </section>
+
+      <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-3 backdrop-blur-xl">
+        <span className="text-xs font-semibold text-[var(--text-tertiary)]">Filter:</span>
+        <select
+          value={selectedSeverity}
+          onChange={(event) => setSelectedSeverity(event.target.value)}
+          className="liquid-input h-9 px-3 text-sm"
+        >
+          <option value="all">All severities</option>
+          <option value="critical">Critical</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+        <select
+          value={selectedCategory}
+          onChange={(event) => setSelectedCategory(event.target.value)}
+          className="liquid-input h-9 px-3 text-sm"
+        >
+          <option value="all">All categories</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>{conflictCategoryLabel(category)}</option>
+          ))}
+        </select>
+        <span className="ml-auto text-xs text-slate-500">
+          Showing {formatInteger(filteredIndicators.length)} of {formatInteger(analysis.indicators.length)} indicators
+        </span>
+      </div>
+
+      <Panel
+        title="Conflict Indicators"
+        subtitle={`${formatInteger(filteredIndicators.length)} potential conflicts of interest flagged for review`}
+      >
+        <div className="space-y-3">
+          {filteredIndicators.slice(0, 50).map((indicator) => (
+            <ConflictIndicatorCard key={indicator.id} indicator={indicator} />
+          ))}
+        </div>
+      </Panel>
+
+      <div className="liquid-panel p-4">
+        <div className="flex items-start gap-3">
+          <BadgeInfo className="mt-0.5 h-5 w-5 shrink-0 text-sky-700" />
+          <div className="text-xs leading-5 text-slate-600">
+            <strong className="font-bold text-slate-800">Methodology note:</strong> Conflict indicators are generated algorithmically by cross-referencing disclosed holdings with public policy events, statements, and market-moving announcements.
+            The presence of a conflict indicator does not imply wrongdoing, insider trading, or ethical violations.
+            These flags are intended for journalistic review and further investigation.
+            Evidence strength scores reflect data completeness, not certainty of impropriety.
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ConflictIndicatorCard({ indicator }: { indicator: ConflictIndicator }) {
+  const severityTone = (severity: string): 'warn' | 'neutral' | 'ok' => {
+    if (severity === 'critical' || severity === 'high') return 'warn';
+    if (severity === 'medium') return 'neutral';
+    return 'ok';
+  };
+
+  return (
+    <div className="liquid-surface p-4">
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        <StatusPill tone={severityTone(indicator.severity)} label={indicator.severity} />
+        <StatusPill tone="neutral" label={conflictCategoryLabel(indicator.category)} />
+        {indicator.timelinePosition && (
+          <span className="rounded-full bg-[var(--bg-interactive)] px-2 py-1 text-[11px] font-semibold text-[var(--text-secondary)] ring-1 ring-[var(--border-subtle)]">
+            {indicator.timelinePosition === 'before' ? 'Traded before event' : indicator.timelinePosition === 'after' ? 'Traded after event' : 'Traded during event'}
+          </span>
+        )}
+        <span className="ml-auto font-mono text-xs text-slate-500">
+          Evidence: {(indicator.evidenceStrength * 100).toFixed(0)}%
+        </span>
+      </div>
+
+      <h3 className="text-sm font-bold text-[var(--text-primary)]">{indicator.title}</h3>
+      <p className="mt-1 text-xs leading-5 text-[var(--text-secondary)]">{indicator.summary}</p>
+
+      <div className="mt-3 grid gap-3 md:grid-cols-2">
+        <div className="liquid-surface p-3">
+          <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Holding</div>
+          <div className="mt-1 font-semibold">{indicator.holdingName}</div>
+          {indicator.holdingTicker && (
+            <div className="text-xs font-semibold text-sky-800">{indicator.holdingTicker}</div>
+          )}
+          <div className="mt-1 font-mono text-xs text-slate-600">{formatMoney(indicator.holdingValue)} exposure</div>
+        </div>
+
+        {indicator.eventTitle && (
+          <div className="liquid-surface p-3">
+            <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Related Event</div>
+            <div className="mt-1 font-semibold">{indicator.eventTitle}</div>
+            {indicator.eventDate && (
+              <div className="font-mono text-xs text-slate-600">{indicator.eventDate}</div>
+            )}
+            {indicator.windowDays && (
+              <div className="text-xs text-slate-500">Within {indicator.windowDays} day window</div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {indicator.transactionDates.length > 0 && (
+        <div className="mt-3 text-xs text-slate-600">
+          <span className="font-semibold">Related transactions:</span> {indicator.transactionDates.slice(0, 5).join(', ')}
+          {indicator.transactionDates.length > 5 && ` and ${indicator.transactionDates.length - 5} more`}
+        </div>
+      )}
+
+      {indicator.tags.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1">
+          {indicator.tags.slice(0, 6).map((tag) => (
+            <span key={tag} className="rounded-full bg-[var(--bg-highlight)] px-2 py-0.5 text-[10px] font-semibold text-[var(--text-tertiary)]">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {indicator.sourceUrls.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {indicator.sourceUrls.slice(0, 3).map((url, index) => (
+            <a
+              key={url}
+              href={url}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-sky-700"
+            >
+              Source {index + 1} <ExternalLink className="h-3 w-3" />
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function conflictCategoryLabel(category: string): string {
+  const labels: Record<string, string> = {
+    'tariff-holding': 'Tariff Policy',
+    'regulatory-holding': 'Regulatory',
+    'government-contract': 'Gov. Contract',
+    'suspicious-timing': 'Suspicious Timing',
+    'market-moving-statement': 'Market Statement',
+    'cabinet-connection': 'Cabinet Connection',
+    'foreign-policy': 'Foreign Policy',
+    'fed-rate-sensitive': 'Fed Rate Sensitive',
+  };
+  return labels[category] || category.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function IdentifierReviewTable({ rows, showResolved = false }: { rows: InstrumentIdentity[]; showResolved?: boolean }) {
+  if (rows.length === 0) {
+    return <div className="liquid-empty p-6 text-sm text-slate-500">No instrument identity rows match the current filters.</div>;
+  }
+
+  return (
+    <DataTable>
+      <thead>
+        <tr>
+          <Th>Priority</Th>
+          <Th>Instrument</Th>
+          <Th>Identifiers</Th>
+          <Th>Status</Th>
+          <Th>Evidence</Th>
+          <Th align="right">Exposure</Th>
+          <Th align="right">Rows</Th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((identity) => (
+          <tr key={identity.id}>
+            <Td align="right" mono>{identity.reviewPriority.toFixed(1)}</Td>
+            <Td>
+              <div className="max-w-[360px] truncate font-semibold">{identity.displayName}</div>
+              <div className="text-[11px] leading-4 text-slate-500">{identity.assetType} | {identity.sector}</div>
+              {(identity.parsedIssuerName || identity.coupon || identity.maturityDate) && (
+                <div className="max-w-[420px] text-[11px] leading-4 text-slate-600">
+                  {[identity.parsedIssuerName, identity.coupon !== null ? `${identity.coupon}%` : '', identity.maturityDate].filter(Boolean).join(' | ')}
+                </div>
+              )}
+              {(identity.issuerState || identity.issuerCategory) && (
+                <div className="text-[11px] leading-4 text-slate-500">{[identity.issuerState, identity.issuerCategory].filter(Boolean).join(' | ')}</div>
+              )}
+            </Td>
+            <Td>
+              <div className="space-y-1 font-mono text-[11px]">
+                <div>CUSIP {identity.cusip || 'needed'}</div>
+                <div>ISIN {identity.isin || 'needed'}</div>
+                <div>FIGI {identity.figi || 'needed'}</div>
+              </div>
+            </Td>
+            <Td>
+              <div className="space-y-1">
+                <StatusPill tone={identity.referenceStatus === 'exact' ? 'ok' : identity.referenceStatus === 'needs_identifier' ? 'warn' : 'neutral'} label={referenceStatusLabel(identity.referenceStatus)} />
+                <StatusPill tone={identity.reviewStatus === 'verified' ? 'ok' : identity.reviewStatus === 'rejected' ? 'warn' : 'neutral'} label={identity.reviewStatus.replace(/_/g, ' ')} />
+                {showResolved && <div className="text-[11px] leading-4 text-slate-500">{identity.reviewReason}</div>}
+              </div>
+            </Td>
+            <Td>
+              {identity.instrumentReferenceUrl ? (
+                <a href={identity.instrumentReferenceUrl} target="_blank" rel="noreferrer" className="inline-flex max-w-[260px] items-center gap-1 truncate text-xs font-semibold text-sky-700">
+                  {identity.instrumentReferenceLabel || 'Instrument'} <ExternalLink className="h-3 w-3" />
+                </a>
+              ) : identity.instrumentReferenceLabel ? (
+                <div className="max-w-[260px] truncate text-xs font-semibold text-slate-700">{identity.instrumentReferenceLabel}</div>
+              ) : (
+                <div className="text-xs font-semibold text-amber-700">Needs CUSIP/FIGI</div>
+              )}
+              {identity.evidenceSourceUrl && (
+                <a href={identity.evidenceSourceUrl} target="_blank" rel="noreferrer" className="mt-1 block max-w-[260px] truncate text-[11px] font-semibold text-sky-700">
+                  Evidence source <ExternalLink className="inline h-3 w-3" />
+                </a>
+              )}
+              <div className="max-w-[320px] text-[11px] leading-4 text-slate-500">{identity.evidenceNote || identity.reviewReason}</div>
+            </Td>
+            <Td align="right" mono>{formatMoney(identity.currentMidpoint)}</Td>
+            <Td align="right">
+              <div className="font-mono text-xs">{formatInteger(identity.transactionCount)}</div>
+              <div className="text-[11px] text-slate-500">{formatInteger(identity.filingCount)} filings</div>
+            </Td>
+          </tr>
+        ))}
+      </tbody>
+    </DataTable>
+  );
+}
+
 function MetricCard({ label, value, tone }: { label: string; value: string; tone: 'buy' | 'sell' | 'neutral' }) {
   const color = tone === 'buy' ? 'text-emerald-700' : tone === 'sell' ? 'text-rose-700' : 'text-slate-800';
   return (
@@ -1210,13 +1681,13 @@ function MetricCard({ label, value, tone }: { label: string; value: string; tone
 function AssetTypeMix({ rows, total }: { rows: Array<{ assetType: AssetType; count: number }>; total: number }) {
   return (
     <div className="space-y-4">
-      {rows.map((row) => (
-        <div key={row.assetType}>
+      {rows.map((row, index) => (
+        <div key={`${row.assetType}-${index}`}>
           <div className="mb-1 flex items-center justify-between gap-3 text-xs">
             <span className="font-semibold">{row.assetType}</span>
             <span className="font-mono text-slate-500">{formatInteger(row.count)} rows</span>
           </div>
-          <div className="h-2.5 rounded-full bg-white/45">
+          <div className="h-2.5 rounded-full bg-[var(--bg-highlight)]">
             <div
               className="h-2.5 rounded-full"
               style={{
@@ -1243,7 +1714,7 @@ function FlowDivergingBars({ summaries }: { summaries: SectorSummary[] }) {
         return (
           <div key={`${summary.key}-${summary.assetType}`} className="grid grid-cols-[minmax(110px,0.7fr)_minmax(180px,1.3fr)_92px] items-center gap-3 text-xs">
             <div className="truncate font-semibold">{summary.sector}</div>
-            <div className="relative h-7 rounded-full bg-white/45">
+            <div className="relative h-7 rounded-full bg-[var(--bg-highlight)]">
               <div className="absolute left-1/2 top-1 h-5 w-px bg-slate-300" />
               <div
                 className={`absolute top-1 h-5 rounded-full ${isBuy ? 'left-1/2 bg-emerald-500' : 'right-1/2 bg-rose-500'}`}
@@ -1434,23 +1905,23 @@ function TimingPage({
           onCustomEndDateChange={onCustomEndDateChange}
         />
         <div className="mb-3 flex flex-wrap items-center gap-2">
-          <span className="rounded-full border border-white/55 bg-white/45 px-2.5 py-1 text-[11px] font-semibold text-slate-600 shadow-sm">
+          <span className="rounded-full border border-[var(--border-subtle)] bg-[var(--bg-interactive)] px-2.5 py-1 text-[11px] font-semibold text-[var(--text-secondary)] shadow-sm">
             {formatInteger(visibleEventCount)} visible events
           </span>
-          <span className="rounded-full border border-white/55 bg-white/35 px-2.5 py-1 text-[11px] font-semibold text-slate-500 shadow-sm">
+          <span className="rounded-full border border-[var(--border-subtle)] bg-[var(--bg-surface)] px-2.5 py-1 text-[11px] font-semibold text-[var(--text-tertiary)] shadow-sm">
             {formatInteger(chartEventPins.length)} chart pins
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/55 bg-white/45 px-2.5 py-1 text-[11px] font-semibold text-slate-600 shadow-sm">
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-600 ring-2 ring-white/70" />
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-interactive)] px-2.5 py-1 text-[11px] font-semibold text-[var(--text-secondary)] shadow-sm">
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-600 ring-2 ring-[var(--bg-elevated)]" />
             {formatInteger(transactionCounts.purchases)} buy dots
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/55 bg-white/45 px-2.5 py-1 text-[11px] font-semibold text-slate-600 shadow-sm">
-            <span className="h-2.5 w-2.5 rounded-full bg-rose-600 ring-2 ring-white/70" />
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-interactive)] px-2.5 py-1 text-[11px] font-semibold text-[var(--text-secondary)] shadow-sm">
+            <span className="h-2.5 w-2.5 rounded-full bg-rose-600 ring-2 ring-[var(--bg-elevated)]" />
             {formatInteger(transactionCounts.sales)} sale dots
           </span>
           {transactionCounts.other > 0 && (
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/55 bg-white/45 px-2.5 py-1 text-[11px] font-semibold text-slate-600 shadow-sm">
-              <span className="h-2.5 w-2.5 rounded-full bg-slate-500 ring-2 ring-white/70" />
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-interactive)] px-2.5 py-1 text-[11px] font-semibold text-[var(--text-secondary)] shadow-sm">
+              <span className="h-2.5 w-2.5 rounded-full bg-slate-500 ring-2 ring-[var(--bg-elevated)]" />
               {formatInteger(transactionCounts.other)} other dots
             </span>
           )}
@@ -1460,7 +1931,7 @@ function TimingPage({
               type="button"
               onClick={() => onToggleCategory(category)}
               className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold shadow-sm backdrop-blur-xl ${
-                active ? 'border-white/65 bg-white/55 text-slate-800' : 'border-white/35 bg-white/15 text-slate-400'
+                active ? 'border-[var(--accent-cyan)] bg-[var(--bg-interactive)] text-[var(--text-primary)]' : 'border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-muted)]'
               }`}
               title={`${eventCategoryLabel(category)}: ${formatInteger(count)} visible event dots`}
             >
@@ -2130,11 +2601,7 @@ function HoldingsTable({ holdings }: { holdings: EstimatedHolding[] }) {
                   Issuer context: {holding.issuerContextTicker}{holding.issuerContextExchange ? ` | ${holding.issuerContextExchange}` : ''}{holding.issuerContextIssuerName ? ` | ${holding.issuerContextIssuerName}` : ''}
                 </div>
               )}
-              {!holding.resolvedTicker && !holding.issuerContextTicker && holding.instrumentReferenceLabel && (
-                <a href={holding.instrumentReferenceUrl || 'https://emma.msrb.org/'} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[11px] font-semibold text-sky-800">
-                  {holding.instrumentReferenceLabel}{holding.instrumentReferenceSource ? ` | ${holding.instrumentReferenceSource}` : ''} <ExternalLink className="h-3 w-3" />
-                </a>
-              )}
+              <InstrumentLookupLink row={holding} />
             </Td>
             <Td>
               <div className="font-semibold">{holding.assetType}</div>
@@ -2713,15 +3180,23 @@ function TrumpIndexTable({
 }
 
 function ReferenceLabel({ row }: { row: TrumpIndexEntry }) {
-  const label = row.resolvedTicker || row.issuerContextTicker || row.instrumentReferenceLabel || 'No ticker';
-  if (row.instrumentReferenceUrl && !row.resolvedTicker && !row.issuerContextTicker) {
+  const primaryLabel = row.resolvedTicker || row.issuerContextTicker;
+  if (!primaryLabel && row.instrumentReferenceLabel && row.instrumentReferenceUrl) {
     return (
       <a href={row.instrumentReferenceUrl} target="_blank" rel="noreferrer" className="inline-flex max-w-[220px] items-center gap-1 truncate font-semibold text-sky-800">
-        {label} <ExternalLink className="h-3 w-3 shrink-0" />
+        {row.instrumentReferenceLabel} <ExternalLink className="h-3 w-3 shrink-0" />
       </a>
     );
   }
-  return <div className="font-semibold text-sky-800">{label}</div>;
+  return (
+    <div>
+      <div className="font-semibold text-sky-800">{primaryLabel || 'No ticker'}</div>
+      {!primaryLabel && !row.instrumentReferenceLabel && row.instrumentKind && (
+        <div className="text-[11px] font-semibold text-amber-700">Needs CUSIP/FIGI</div>
+      )}
+      <InstrumentLookupLink row={row} compact />
+    </div>
+  );
 }
 
 function referenceDetail(row: TrumpIndexEntry): string {
@@ -2745,7 +3220,36 @@ function referenceDetail(row: TrumpIndexEntry): string {
       row.instrumentIssuerName ? `for ${row.instrumentIssuerName}` : '',
     ].filter(Boolean).join(' ');
   }
+  if (row.instrumentKind) {
+    return [
+      row.instrumentIssuerName || row.instrumentKind,
+      'needs a CUSIP, ISIN, or FIGI before linking to an exact instrument page',
+    ].filter(Boolean).join(' ');
+  }
   return row.instrumentIssuerName || 'No public issuer match';
+}
+
+function InstrumentLookupLink({
+  row,
+  compact = false,
+}: {
+  row: Pick<TrumpIndexEntry | OgeTransaction | EstimatedHolding, 'instrumentReferenceLabel' | 'instrumentReferenceSource' | 'instrumentReferenceUrl'>;
+  compact?: boolean;
+}) {
+  if (!row.instrumentReferenceLabel || !row.instrumentReferenceUrl) return null;
+  return (
+    <a
+      href={row.instrumentReferenceUrl}
+      target="_blank"
+      rel="noreferrer"
+      className={`inline-flex max-w-[260px] items-center gap-1 truncate font-semibold text-sky-800 ${compact ? 'text-[11px]' : 'text-[11px]'}`}
+      title={row.instrumentReferenceSource || row.instrumentReferenceLabel}
+    >
+      {compact ? 'Instrument lookup: ' : ''}
+      {row.instrumentReferenceLabel}
+      <ExternalLink className="h-3 w-3 shrink-0" />
+    </a>
+  );
 }
 
 interface AskResponse {
@@ -3180,11 +3684,7 @@ function TransactionTable({ transactions }: { transactions: OgeTransaction[] }) 
                   Issuer context: {tx.issuerContextTicker}{tx.issuerContextExchange ? ` | ${tx.issuerContextExchange}` : ''}{tx.issuerContextIssuerName ? ` | ${tx.issuerContextIssuerName}` : ''}
                 </div>
               )}
-              {!tx.resolvedTicker && !tx.issuerContextTicker && tx.instrumentReferenceLabel && (
-                <a href={tx.instrumentReferenceUrl || 'https://emma.msrb.org/'} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[11px] font-semibold text-sky-800">
-                  {tx.instrumentReferenceLabel}{tx.instrumentReferenceSource ? ` | ${tx.instrumentReferenceSource}` : ''} <ExternalLink className="h-3 w-3" />
-                </a>
-              )}
+              <InstrumentLookupLink row={tx} />
               {tx.instrumentSummary && (
                 <div className="max-w-[560px] text-[11px] leading-4 text-slate-600">{tx.instrumentSummary}</div>
               )}
@@ -3354,6 +3854,13 @@ function reviewFlagTone(flag: string): 'warn' | 'neutral' {
   if (flag.includes('Issuer context only')) return 'neutral';
   if (flag === 'No CUSIP/ISIN parsed') return 'neutral';
   return 'warn';
+}
+
+function referenceStatusLabel(status: InstrumentIdentity['referenceStatus']): string {
+  if (status === 'exact') return 'Exact link';
+  if (status === 'needs_identifier') return 'Needs ID';
+  if (status === 'issuer_context_only') return 'Issuer only';
+  return 'Not applicable';
 }
 
 function netDirectionTone(direction: EquityStockSummary['netDirection']): 'buy' | 'sell' | 'neutral' {

@@ -1,11 +1,12 @@
 import { addRanges, subtractRanges, ZERO_RANGE } from './amounts';
-import { buildSecurityKey } from './classify';
+import { buildSecurityKey, normalizeSecurityDescription } from './classify';
 import { pickInstrumentContextFields } from './instruments';
 import type {
   BaselineHolding,
   EstimatedHolding,
   MoneyRange,
   OgeTransaction,
+  InstrumentIdentity,
   ReviewQueueItem,
   SectorSummary,
   SourceFiling,
@@ -17,9 +18,13 @@ export function buildHoldingsEstimates(
   transactions: OgeTransaction[],
   baselineHoldings: BaselineHolding[]
 ): EstimatedHolding[] {
-  const baselineByKey = new Map<string, BaselineHolding>();
+  const baselineByKey = new Map<string, BaselineHolding[]>();
   for (const holding of baselineHoldings) {
-    baselineByKey.set(buildSecurityKey(holding.description), holding);
+    for (const key of baselineMatchKeys(holding)) {
+      const rows = baselineByKey.get(key) || [];
+      rows.push(holding);
+      baselineByKey.set(key, rows);
+    }
   }
 
   const grouped = new Map<string, OgeTransaction[]>();
@@ -33,7 +38,7 @@ export function buildHoldingsEstimates(
   const transactionBacked = Array.from(grouped.entries())
     .map(([key, rows]) => {
       const sample = rows[0];
-      const baseline = baselineByKey.get(key);
+      const baseline = findBaselineMatch(rows, baselineByKey);
       const purchases = rows.filter((tx) => tx.type === 'Purchase');
       const sales = rows.filter((tx) => tx.type === 'Sale');
       const purchaseRange = addRanges('Purchases', purchases.map((tx) => tx.amount));
@@ -208,6 +213,7 @@ export function buildReviewQueue(params: {
   transactions: OgeTransaction[];
   baselineHoldings: BaselineHolding[];
   holdingsEstimates: EstimatedHolding[];
+  instrumentIdentities?: InstrumentIdentity[];
 }): ReviewQueueItem[] {
   const items: ReviewQueueItem[] = [];
 
@@ -264,6 +270,19 @@ export function buildReviewQueue(params: {
     });
   }
 
+  for (const identity of (params.instrumentIdentities || []).slice(0, 200)) {
+    if (identity.referenceStatus !== 'needs_identifier' && identity.reviewStatus !== 'needs_review') continue;
+    items.push({
+      id: stableId(`identifier-review|${identity.id}`),
+      severity: identity.reviewPriority >= 130 ? 'high' : identity.reviewPriority >= 95 ? 'medium' : 'low',
+      kind: 'identifier',
+      title: identity.referenceStatus === 'needs_identifier' ? 'Exact instrument identifier needed' : 'Instrument evidence needs review',
+      detail: `${identity.displayName} | ${identity.reviewReason}`,
+      relatedId: identity.id,
+      sourceUrl: identity.evidenceSourceUrl || identity.sourceUrls[0] || null,
+    });
+  }
+
   return items.slice(0, 500);
 }
 
@@ -289,4 +308,60 @@ export function stableId(value: string): string {
     hash = (hash * 31 + value.charCodeAt(index)) >>> 0;
   }
   return hash.toString(16).padStart(8, '0');
+}
+
+function findBaselineMatch(
+  rows: OgeTransaction[],
+  baselineByKey: Map<string, BaselineHolding[]>
+): BaselineHolding | undefined {
+  const sample = rows[0];
+  const candidates = new Map<string, BaselineHolding>();
+  for (const row of rows) {
+    for (const key of transactionMatchKeys(row)) {
+      for (const holding of baselineByKey.get(key) || []) {
+        candidates.set(holding.id, holding);
+      }
+    }
+  }
+  const narrowed = Array.from(candidates.values()).filter((holding) =>
+    holding.assetType === sample.assetType ||
+    holding.sector === sample.sector ||
+    Boolean(holding.instrumentCusip && holding.instrumentCusip === sample.instrumentCusip) ||
+    Boolean(holding.resolvedTicker && holding.resolvedTicker === sample.resolvedTicker)
+  );
+  const viable = narrowed.length > 0 ? narrowed : Array.from(candidates.values());
+  if (viable.length === 1) return viable[0];
+  const exactKey = buildSecurityKey(sample.description);
+  const exact = viable.filter((holding) => buildSecurityKey(holding.description) === exactKey);
+  if (exact.length === 1) return exact[0];
+  return undefined;
+}
+
+function baselineMatchKeys(holding: BaselineHolding): string[] {
+  return genericSecurityMatchKeys(holding);
+}
+
+function transactionMatchKeys(tx: OgeTransaction): string[] {
+  return genericSecurityMatchKeys(tx);
+}
+
+function genericSecurityMatchKeys(row: Pick<BaselineHolding | OgeTransaction, 'description' | 'resolvedTicker' | 'resolvedIssuerName' | 'issuerContextTicker' | 'issuerContextIssuerName' | 'instrumentCusip' | 'instrumentIsin' | 'instrumentFigi' | 'instrumentIssuerName' | 'instrumentCoupon' | 'instrumentMaturityDate' | 'assetType'>): string[] {
+  const keys = new Set<string>();
+  const add = (key: string, value: string | null | undefined) => {
+    const cleaned = normalizeSecurityDescription(String(value || ''));
+    if (cleaned.length >= 3) keys.add(`${key}|${cleaned}`);
+  };
+  add('security-key', buildSecurityKey(row.description));
+  add('ticker', row.resolvedTicker);
+  add('issuer-ticker', row.issuerContextTicker);
+  add('resolved-issuer', row.resolvedIssuerName);
+  add('issuer-context', row.issuerContextIssuerName);
+  add('instrument-issuer', row.instrumentIssuerName);
+  add('cusip', row.instrumentCusip);
+  add('isin', row.instrumentIsin);
+  add('figi', row.instrumentFigi);
+  if (row.instrumentIssuerName && row.instrumentCoupon !== null && row.instrumentCoupon !== undefined && row.instrumentMaturityDate) {
+    add('issuer-coupon-maturity', `${row.assetType}|${row.instrumentIssuerName}|${row.instrumentCoupon}|${row.instrumentMaturityDate}`);
+  }
+  return Array.from(keys);
 }

@@ -5,7 +5,10 @@ import {
   postgresCacheHeaders,
 } from '@/lib/oge/postgres';
 
-export const dynamic = 'force-dynamic';
+// Allow caching of bootstrap data since OGE filings update infrequently
+// This improves cold-start performance significantly
+export const dynamic = 'force-static';
+export const revalidate = 3600; // Revalidate every hour
 export const runtime = 'nodejs';
 
 export async function GET() {

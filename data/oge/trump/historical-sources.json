@@ -9,11 +9,11 @@
     "sourceReliability": "archived_copy",
     "sourceUrl": "https://s3.documentcloud.org/documents/3035802/Donald-Trump-2015-Financial-Disclosure.pdf",
     "localFilename": "Donald-Trump-2015-Financial-Disclosure.pdf",
-    "bytes": 25642300,
-    "sha256": "0D7038FD851CD75659AB0F3B3391B169B441FBBDFA5D2B732A87B6F4A09CC7F2",
-    "fetchStatus": "ok",
+    "bytes": null,
+    "sha256": null,
+    "fetchStatus": "failed",
     "sourceReviewStatus": "needs_review",
-    "provenanceNote": "Curated public DocumentCloud copy of Trump's 2015 candidate OGE Form 278e; original public copies were also posted by the Washington Post and referenced in contemporaneous reporting."
+    "provenanceNote": "Curated public DocumentCloud copy of Trump's 2015 candidate OGE Form 278e; original public copies were also posted by the Washington Post and referenced in contemporaneous reporting. Fetch status: fetch failed."
   },
   {
     "id": "historical-trump-2016-candidate-documentcloud",
@@ -25,11 +25,11 @@
     "sourceReliability": "archived_copy",
     "sourceUrl": "https://s3.documentcloud.org/documents/2838696/Trump-2016-Financial-Disclosure.pdf",
     "localFilename": "Trump-2016-Financial-Disclosure.pdf",
-    "bytes": 3932646,
-    "sha256": "58C604AD776A4BB085BFABB65F8D848B57486E4AA5718D0DAFC85AA810450DB6",
-    "fetchStatus": "ok",
+    "bytes": null,
+    "sha256": null,
+    "fetchStatus": "failed",
     "sourceReviewStatus": "needs_review",
-    "provenanceNote": "Curated public DocumentCloud copy of Trump's 2016 candidate OGE Form 278e; cited in public litigation and ethics materials."
+    "provenanceNote": "Curated public DocumentCloud copy of Trump's 2016 candidate OGE Form 278e; cited in public litigation and ethics materials. Fetch status: fetch failed."
   },
   {
     "id": "historical-trump-2017-entrant-documentcloud",
@@ -41,11 +41,11 @@
     "sourceReliability": "archived_copy",
     "sourceUrl": "https://s3.documentcloud.org/documents/4390044/Trump-Donald-Ethics-Forms.pdf",
     "localFilename": "Trump-Donald-Ethics-Forms.pdf",
-    "bytes": 37197648,
-    "sha256": "0B7051A51494FE66E41FA53068771983F75FCB8E3B968764D6CCE9DA79B5392B",
-    "fetchStatus": "ok",
+    "bytes": null,
+    "sha256": null,
+    "fetchStatus": "failed",
     "sourceReviewStatus": "needs_review",
-    "provenanceNote": "Curated public DocumentCloud copy of Trump ethics forms including the June 2017 public financial disclosure; the legacy OGE direct URL cited in public records now returns 404."
+    "provenanceNote": "Curated public DocumentCloud copy of Trump ethics forms including the June 2017 public financial disclosure; the legacy OGE direct URL cited in public records now returns 404. Fetch status: fetch failed."
   },
   {
     "id": "historical-trump-2018-annual-documentcloud",
@@ -57,11 +57,11 @@
     "sourceReliability": "archived_copy",
     "sourceUrl": "https://s3.documentcloud.org/documents/4464412/Trump-Donald-J-2018Annual278.pdf",
     "localFilename": "Trump-Donald-J-2018Annual278.pdf",
-    "bytes": 34981902,
-    "sha256": "BDBE5A0E5EAFFEF151DC86F9E91517C21742CCBE6696EBDEC5A637818FB1E89A",
-    "fetchStatus": "ok",
+    "bytes": null,
+    "sha256": null,
+    "fetchStatus": "failed",
     "sourceReviewStatus": "needs_review",
-    "provenanceNote": "Curated public DocumentCloud copy titled President Donald Trump Financial Disclosure Report for 2017; filed in May 2018 and used here as the 2018 annual source."
+    "provenanceNote": "Curated public DocumentCloud copy titled President Donald Trump Financial Disclosure Report for 2017; filed in May 2018 and used here as the 2018 annual source. Fetch status: fetch failed."
   },
   {
     "id": "historical-trump-2019-annual-documentcloud",
@@ -73,11 +73,11 @@
     "sourceReliability": "archived_copy",
     "sourceUrl": "https://s3.documentcloud.org/documents/6017003/Trump-Donald-2019-Annual-278e-OGE-Certified.pdf",
     "localFilename": "Trump-Donald-2019-Annual-278e-OGE-Certified.pdf",
-    "bytes": 28381934,
-    "sha256": "5D6FFD132E667E918CAD63F9AC85338503F4E7DAEFB899E3F76F7889066E9DF1",
-    "fetchStatus": "ok",
+    "bytes": null,
+    "sha256": null,
+    "fetchStatus": "failed",
     "sourceReviewStatus": "needs_review",
-    "provenanceNote": "Curated public DocumentCloud copy titled Trump, Donald 2019 Annual 278e (OGE Certified)."
+    "provenanceNote": "Curated public DocumentCloud copy titled Trump, Donald 2019 Annual 278e (OGE Certified). Fetch status: fetch failed."
   },
   {
     "id": "5f75c22d",
@@ -555,6 +555,54 @@
     "localFilename": "Trump, Donald J.-05.08.2026-278T.pdf",
     "bytes": 1227279,
     "sha256": "C4F1CEACA8D703769828CF69000425ACA5DBEBC30E2D82880F603984EF7AA51A",
+    "fetchStatus": "ok",
+    "sourceReviewStatus": "verified",
+    "provenanceNote": "Official OGE API source record with direct PDF URL and SHA-256 provenance when fetchable."
+  },
+  {
+    "id": "ff48d629",
+    "title": "278 Transaction",
+    "filingType": "278-T",
+    "filedDate": "2026-07-01",
+    "reportYear": 2026,
+    "sourceType": "oge_api_pdf",
+    "sourceReliability": "official",
+    "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/AC43530823BD60D485258E27002DDEF7/$FILE/Donald-J-Trump-06.25.2026-278T.pdf",
+    "localFilename": "Donald-J-Trump-06.25.2026-278T.pdf",
+    "bytes": 12401777,
+    "sha256": "B928FDED2E3583E2CC5305BD230D944A198E226A3E04AEE486883DB03B40ECA2",
+    "fetchStatus": "ok",
+    "sourceReviewStatus": "verified",
+    "provenanceNote": "Official OGE API source record with direct PDF URL and SHA-256 provenance when fetchable."
+  },
+  {
+    "id": "ca2a0418",
+    "title": "278 Transaction",
+    "filingType": "278-T",
+    "filedDate": "2026-07-01",
+    "reportYear": 2026,
+    "sourceType": "oge_api_pdf",
+    "sourceReliability": "official",
+    "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/F9CA13B970439E8F85258E27002DDF15/$FILE/Donald-J-Trump-06.25.2026-278T%20(2).pdf",
+    "localFilename": "Donald-J-Trump-06.25.2026-278T (2).pdf",
+    "bytes": 10609795,
+    "sha256": "89D331853A821B576DC63284228F277637A8325BF8EB2E094F2807589C778F46",
+    "fetchStatus": "ok",
+    "sourceReviewStatus": "verified",
+    "provenanceNote": "Official OGE API source record with direct PDF URL and SHA-256 provenance when fetchable."
+  },
+  {
+    "id": "de8e9eed",
+    "title": "Annual (2026)",
+    "filingType": "Annual 278e",
+    "filedDate": "2026-07-01",
+    "reportYear": 2026,
+    "sourceType": "oge_api_pdf",
+    "sourceReliability": "official",
+    "sourceUrl": "https://extapps2.oge.gov/201/Presiden.nsf/PAS+Index/69AEAA9D7455ACD585258E27002DDEE1/$FILE/Donald-J-Trump-2026-278ANNUAL.pdf",
+    "localFilename": "Donald-J-Trump-2026-278ANNUAL.pdf",
+    "bytes": 8319883,
+    "sha256": "84B5987E4C8A418188600BEA1E1BA6B44E0D5735CDD757CEE5ABA551977CA402",
     "fetchStatus": "ok",
     "sourceReviewStatus": "verified",
     "provenanceNote": "Official OGE API source record with direct PDF URL and SHA-256 provenance when fetchable."

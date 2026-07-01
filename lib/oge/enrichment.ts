@@ -51,9 +51,11 @@ interface SecurityResolution {
   instrument: InstrumentContextFields;
 }
 
-const EQUITY_ACCEPTANCE_THRESHOLD = 0.82;
-const NON_EQUITY_ACCEPTANCE_THRESHOLD = 0.93;
-const AMBIGUITY_MARGIN = 0.08;
+const EQUITY_ACCEPTANCE_THRESHOLD = 0.78;
+const NON_EQUITY_ACCEPTANCE_THRESHOLD = 0.75;
+const CORPORATE_BOND_ACCEPTANCE_THRESHOLD = 0.72;
+const MUNICIPAL_BOND_ACCEPTANCE_THRESHOLD = 0.70;
+const AMBIGUITY_MARGIN = 0.10;
 
 const EMPTY_REFERENCE_SOURCE: SecurityReferenceSource = {
   name: 'none',
@@ -480,12 +482,25 @@ function chooseResolution(params: {
     };
   }
 
-  const directResolutionAllowed = params.assetType === 'Equity' || params.assetType === 'ETF / Fund' || Boolean(params.sourceTicker);
+  // Allow direct resolution for all asset types when confidence is high enough
+  // For bonds without source tickers, use issuer context instead of blocking
+  const isHighConfidenceBond = (params.assetType === 'Corporate Bond' || params.assetType === 'Preferred / Hybrid') 
+    && top.score >= CORPORATE_BOND_ACCEPTANCE_THRESHOLD;
+  const isHighConfidenceMuni = params.assetType === 'Municipal Bond' && top.score >= MUNICIPAL_BOND_ACCEPTANCE_THRESHOLD;
+  const directResolutionAllowed = params.assetType === 'Equity' 
+    || params.assetType === 'ETF / Fund' 
+    || Boolean(params.sourceTicker)
+    || isHighConfidenceBond
+    || isHighConfidenceMuni;
+  
   if (!directResolutionAllowed) {
+    // Still provide issuer context even when direct resolution is blocked
     return {
       ...base,
       ...emptyResolutionFields('none', top.score),
-      enrichmentFlags: issuerContext ? ['Issuer context only; not direct instrument ticker'] : [],
+      enrichmentFlags: issuerContext 
+        ? ['Issuer context only; not direct instrument ticker'] 
+        : ['Bond/preferred without source ticker - issuer context used'],
       candidateTickers,
       instrument,
     };

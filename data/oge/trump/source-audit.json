@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-06-10T19:34:53.600Z",
+  "generatedAt": "2026-07-01T11:00:09.148Z",
   "minDate": "2015-01-01",
-  "checkedThrough": "2026-06-10",
-  "ogeApiRecordCount": 21,
-  "registrySourceCount": 35,
-  "officialPdfCount": 18,
+  "checkedThrough": "2026-07-01",
+  "ogeApiRecordCount": 24,
+  "registrySourceCount": 38,
+  "officialPdfCount": 21,
   "archivedCopyCount": 14,
   "metadataOnlyCount": 3,
   "officialRecordsWithoutRegistry": 0,
@@ -148,12 +148,12 @@
     },
     {
       "year": 2026,
-      "registryCount": 6,
-      "officialCount": 6,
+      "registryCount": 9,
+      "officialCount": 9,
       "archivedCount": 0,
       "metadataOnlyCount": 0,
-      "transactionReportCount": 6,
-      "annualOrCandidateCount": 0,
+      "transactionReportCount": 8,
+      "annualOrCandidateCount": 1,
       "status": "covered",
       "notes": []
     }

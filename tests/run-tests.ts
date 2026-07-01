@@ -13,6 +13,7 @@ import {
   clearOgeJsonMemoForTests,
   loadTrumpOgeBootstrap,
   loadTrumpOgeDataset,
+  loadTrumpOgePageResponse,
 } from '../lib/oge/data';
 import {
   broadSectorFromSic,
@@ -23,7 +24,13 @@ import {
   parseSecCompanyTickers,
 } from '../lib/oge/enrichment';
 import { buildEventWindows, eventWindowBounds, federalRegisterDocumentToEvent } from '../lib/oge/events';
+import {
+  applyFixedIncomeIdentifiers,
+  EMPTY_FIXED_INCOME_IDENTIFIER_CACHE,
+  resolveOpenFigiCandidates,
+} from '../lib/oge/fixed-income-identifiers';
 import { filterTransactions } from '../lib/oge/filter';
+import { buildIdentifierReviewItems, buildInstrumentIdentities, isGenericInstrumentSearchUrl } from '../lib/oge/instrument-identity';
 import { buildTrumpIndex } from '../lib/oge/index';
 import {
   buildPageResponseFromPostgres,
@@ -38,6 +45,7 @@ async function main() {
   testAmountParsing();
   testClassification();
   testSecurityEnrichment();
+  testFixedIncomeIdentifierResolution();
   testEquityStocks();
   testEventOverlay();
   testTrumpIndex();
@@ -184,6 +192,11 @@ function testSecurityEnrichment() {
   assert.equal(firstHorizon.instrumentCoupon, 5.75);
   assert.equal(firstHorizon.instrumentMaturityDate, '2030-05-01');
   assert.equal(firstHorizon.instrumentCallDate, '2030-02-01');
+  assert.equal(firstHorizon.instrumentReferenceLabel, null);
+  assert.equal(firstHorizon.instrumentReferenceUrl, null);
+  assert.equal(firstHorizon.instrumentReferenceStatus, 'needs_identifier');
+  assert.equal(firstHorizon.instrumentReviewStatus, 'needs_review');
+  assert.equal(firstHorizon.instrumentEvidenceSourceUrl, null);
   assert.ok(firstHorizon.instrumentSummary?.includes('5.75% coupon'));
   assert.ok(firstHorizon.issuerContextFlags.includes('Issuer context only; not direct instrument ticker'));
 
@@ -198,14 +211,237 @@ function testSecurityEnrichment() {
     }),
   ], reference).transactions[0];
   assert.equal(washingtonMuni.resolvedTicker, null);
-  assert.equal(washingtonMuni.instrumentReferenceLabel, 'MSRB EMMA');
   assert.equal(washingtonMuni.instrumentIssuerName, 'WASHINGTON STATE HEALTH');
   assert.equal(washingtonMuni.instrumentIssuerState, 'Washington');
   assert.equal(washingtonMuni.instrumentIssuerCategory, 'Health care / hospital');
   assert.equal(washingtonMuni.instrumentCoupon, 5);
   assert.equal(washingtonMuni.instrumentMaturityDate, '2035-09-01');
-  assert.ok(washingtonMuni.instrumentSummary?.includes('Public reference: MSRB EMMA'));
-  assert.ok(washingtonMuni.instrumentReferenceUrl?.includes('emma.msrb.org'));
+  assert.equal(washingtonMuni.instrumentReferenceLabel, null);
+  assert.equal(washingtonMuni.instrumentReferenceUrl, null);
+  assert.equal(washingtonMuni.instrumentReferenceStatus, 'needs_identifier');
+  assert.ok(washingtonMuni.instrumentContextFlags.includes('No CUSIP/ISIN parsed'));
+
+  const metropolitanClassification = classifySecurity('METROPOLITAN TRANSN 5% DUE 11/15/35');
+  assert.equal(metropolitanClassification.assetType, 'Municipal Bond');
+  const metropolitanMuni = enrichTransactions([
+    makeTransaction({
+      description: 'METROPOLITAN TRANSN 5% DUE 11/15/35',
+      normalizedDescription: metropolitanClassification.normalizedDescription,
+      assetType: metropolitanClassification.assetType,
+      sector: metropolitanClassification.sector,
+      classificationConfidence: metropolitanClassification.confidence,
+      reviewFlags: metropolitanClassification.flags,
+    }),
+  ], reference).transactions[0];
+  assert.equal(metropolitanMuni.resolvedTicker, null);
+  assert.equal(metropolitanMuni.instrumentReferenceLabel, 'EMMA 59261A6A0');
+  assert.equal(metropolitanMuni.instrumentCusip, '59261A6A0');
+  assert.equal(metropolitanMuni.instrumentIsin, 'US59261A6A01');
+  assert.equal(metropolitanMuni.instrumentFigi, 'BBG01XBJ54B6');
+  assert.equal(metropolitanMuni.instrumentIssuerName, 'METROPOLITAN TRANSPORTATION');
+  assert.equal(metropolitanMuni.instrumentIssuerCategory, 'Transportation');
+  assert.equal(metropolitanMuni.instrumentCoupon, 5);
+  assert.equal(metropolitanMuni.instrumentMaturityDate, '2035-11-15');
+  assert.equal(metropolitanMuni.instrumentReferenceUrl, 'https://emma.msrb.org/Security/Details/59261A6A0');
+  assert.equal(metropolitanMuni.instrumentReferenceStatus, 'exact');
+  assert.equal(metropolitanMuni.instrumentReviewStatus, 'verified');
+  assert.equal(metropolitanMuni.instrumentEvidenceSourceUrl, 'https://www.mta.info/document/185586');
+
+  const identities = buildInstrumentIdentities([
+    {
+      ...metropolitanMuni,
+      id: 'index-mta',
+      displayName: metropolitanMuni.description,
+      assetType: metropolitanMuni.assetType,
+      sector: metropolitanMuni.sector,
+      resolvedTicker: metropolitanMuni.resolvedTicker,
+      resolvedIssuerName: metropolitanMuni.resolvedIssuerName,
+      resolvedExchange: metropolitanMuni.resolvedExchange,
+      resolvedCik: metropolitanMuni.resolvedCik,
+      currentRange: metropolitanMuni.amount,
+      currentMidpoint: metropolitanMuni.amount.midpoint,
+      previousRange: parseOgeAmountRange('$0'),
+      changeMidpoint: metropolitanMuni.amount.midpoint,
+      changePct: null,
+      purchaseMidpoint: metropolitanMuni.amount.midpoint,
+      saleMidpoint: 0,
+      netFlowMidpoint: metropolitanMuni.amount.midpoint,
+      netDirection: 'Net buy',
+      transactionCount: 1,
+      filingCount: 1,
+      firstSeenDate: metropolitanMuni.date,
+      lastSeenDate: metropolitanMuni.date,
+      score: 50,
+      exposureComponent: 20,
+      changeComponent: 20,
+      activityComponent: 10,
+      confidence: 0.9,
+      sourceReliability: 'official',
+      reviewFlags: [],
+      citations: [{ sourceId: 'filing', sourceUrl: 'https://example.com/filing.pdf', label: 'Filing', filedDate: metropolitanMuni.date, sourceReliability: 'official' }],
+    },
+    {
+      ...firstHorizon,
+      id: 'index-first-horizon',
+      displayName: firstHorizon.description,
+      assetType: firstHorizon.assetType,
+      sector: firstHorizon.sector,
+      resolvedTicker: firstHorizon.resolvedTicker,
+      resolvedIssuerName: firstHorizon.resolvedIssuerName,
+      resolvedExchange: firstHorizon.resolvedExchange,
+      resolvedCik: firstHorizon.resolvedCik,
+      currentRange: firstHorizon.amount,
+      currentMidpoint: firstHorizon.amount.midpoint,
+      previousRange: parseOgeAmountRange('$0'),
+      changeMidpoint: firstHorizon.amount.midpoint,
+      changePct: null,
+      purchaseMidpoint: firstHorizon.amount.midpoint,
+      saleMidpoint: 0,
+      netFlowMidpoint: firstHorizon.amount.midpoint,
+      netDirection: 'Net buy',
+      transactionCount: 1,
+      filingCount: 1,
+      firstSeenDate: firstHorizon.date,
+      lastSeenDate: firstHorizon.date,
+      score: 40,
+      exposureComponent: 15,
+      changeComponent: 15,
+      activityComponent: 10,
+      confidence: 0.8,
+      sourceReliability: 'official',
+      reviewFlags: [],
+      citations: [{ sourceId: 'filing', sourceUrl: 'https://example.com/filing.pdf', label: 'Filing', filedDate: firstHorizon.date, sourceReliability: 'official' }],
+    },
+  ]);
+  assert.ok(identities.some((identity) => identity.instrumentReferenceUrl === 'https://emma.msrb.org/Security/Details/59261A6A0'));
+  assert.ok(identities.some((identity) => identity.referenceStatus === 'needs_identifier'));
+  assert.ok(buildIdentifierReviewItems(identities).some((identity) => identity.displayName.includes('FIRST HORIZON')));
+  assert.equal(isGenericInstrumentSearchUrl('https://openfigi.com/search?q=METROPOLITAN%20TRANSN'), true);
+  assert.equal(isGenericInstrumentSearchUrl('https://api.openfigi.com/v3/mapping/id_cusip/59261A6A0'), true);
+  assert.equal(isGenericInstrumentSearchUrl('https://emma.msrb.org/Security/Details/59261A6A0'), false);
+}
+
+function testFixedIncomeIdentifierResolution() {
+  const now = '2026-06-15T00:00:00.000Z';
+  const coreweave = makeTransaction({
+    description: 'COREWEAVE INC REGS DUE 02/01/2031 09.000% FA 01 DISCRETIONARY ORDER',
+    normalizedDescription: 'COREWEAVE INC REGS DUE 02/01/2031 09.000% FA 01 DISCRETIONARY ORDER',
+    assetType: 'Corporate Bond',
+    sector: 'Corporate Credit',
+    classificationConfidence: 0.82,
+  });
+  const matched = resolveOpenFigiCandidates(
+    { sample: coreweave, rows: [coreweave], totalMidpoint: coreweave.amount.midpoint },
+    [
+      {
+        figi: 'BBG01W8WR2D1',
+        name: 'COREWEAVE INC',
+        ticker: 'CRWV 9 02/01/31 REGS',
+        exchCode: 'TRACE',
+        securityType: 'EURO-DOLLAR',
+        marketSector: 'Corp',
+        securityType2: 'Corp',
+        securityDescription: 'CRWV 9 02/01/31',
+      },
+      {
+        figi: 'BBG01W8WR2B3',
+        name: 'COREWEAVE INC',
+        ticker: 'CRWV 9 02/01/31 144A',
+        exchCode: 'TRACE',
+        securityType: 'PRIV PLACEMENT',
+        marketSector: 'Corp',
+        securityType2: 'Corp',
+        securityDescription: 'CRWV 9 02/01/31',
+      },
+    ],
+    now
+  );
+  assert.equal(matched.status, 'matched');
+  assert.equal(matched.resolvedFigi, 'BBG01W8WR2D1');
+
+  const broadcom = makeTransaction({
+    description: 'BROADCOM INC. 4.75% DUE 04/15/29',
+    normalizedDescription: 'BROADCOM INC 4.75% DUE 04/15/29',
+    assetType: 'Corporate Bond',
+    sector: 'Corporate Credit',
+    classificationConfidence: 0.82,
+  });
+  const broadcomMatch = resolveOpenFigiCandidates(
+    { sample: broadcom, rows: [broadcom], totalMidpoint: broadcom.amount.midpoint },
+    [
+      {
+        figi: 'BBG00VY0Z8J7',
+        name: 'BROADCOM INC',
+        ticker: 'AVGO 4.75 04/15/29',
+        exchCode: 'TRACE',
+        securityType: 'GLOBAL',
+        marketSector: 'Corp',
+        securityType2: 'Corp',
+        securityDescription: 'AVGO 4 3/4 04/15/29',
+      },
+      {
+        figi: 'BBG00NRFF5F2',
+        name: 'BROADCOM INC',
+        ticker: 'AVGO 4.75 04/15/29 144A',
+        exchCode: 'TRACE',
+        securityType: 'PRIV PLACEMENT',
+        marketSector: 'Corp',
+        securityType2: 'Corp',
+        securityDescription: 'AVGO 4 3/4 04/15/29',
+      },
+    ],
+    now
+  );
+  assert.equal(broadcomMatch.status, 'matched');
+  assert.equal(broadcomMatch.resolvedFigi, 'BBG00VY0Z8J7');
+
+  const washington = makeTransaction({
+    description: 'WASHINGTON ST HEALT 5% DUE 09/01/35',
+    normalizedDescription: 'WASHINGTON ST HEALT 5% DUE 09/01/35',
+    assetType: 'Municipal Bond',
+    sector: 'Municipal Bonds',
+    classificationConfidence: 0.82,
+  });
+  const ambiguous = resolveOpenFigiCandidates(
+    { sample: washington, rows: [washington], totalMidpoint: washington.amount.midpoint },
+    [
+      {
+        figi: 'BBG00VLFZMM3',
+        name: 'WASHINGTON ST HLTH CA',
+        ticker: 'WA WASMED 5 09/01/2035',
+        exchCode: null,
+        securityType: 'FIXED',
+        marketSector: 'Muni',
+        securityType2: 'Muni',
+        securityDescription: null,
+      },
+      {
+        figi: 'BBG01Y0119T9',
+        name: 'WA HLTH CARE FACS-A',
+        ticker: 'WA WASMED 5 09/01/2035',
+        exchCode: null,
+        securityType: 'FIXED',
+        marketSector: 'Muni',
+        securityType2: 'Muni',
+        securityDescription: null,
+      },
+    ],
+    now
+  );
+  assert.equal(ambiguous.status, 'ambiguous');
+  assert.equal(ambiguous.resolvedFigi, null);
+
+  const applied = applyFixedIncomeIdentifiers([coreweave], {
+    ...EMPTY_FIXED_INCOME_IDENTIFIER_CACHE,
+    generatedAt: now,
+    entries: [matched],
+  })[0];
+  assert.equal(applied.instrumentFigi, 'BBG01W8WR2D1');
+  assert.equal(applied.instrumentReferenceStatus, 'exact');
+  assert.equal(applied.instrumentReferenceUrl, null);
+  assert.equal(applied.instrumentMatchSource, 'openfigi');
+  assert.ok(!isGenericInstrumentSearchUrl(applied.instrumentReferenceUrl));
+  assert.ok(applied.instrumentContextFlags.some((flag) => flag.includes('OpenFIGI FIGI matched')));
 }
 
 function testEventOverlay() {
@@ -276,6 +512,10 @@ function testClassification() {
   const muni = classifySecurity('CONNECTICUT ST HLTH & EDL FACS AUTH REV FAIRFIELD UNIV S B/E 5.00% Due Jul 1, 2026');
   assert.equal(muni.assetType, 'Municipal Bond');
   assert.equal(muni.sector, 'Municipal Bonds');
+
+  const metropolitanTransit = classifySecurity('METROPOLITAN TRANSN 5% DUE 11/15/35');
+  assert.equal(metropolitanTransit.assetType, 'Municipal Bond');
+  assert.equal(metropolitanTransit.sector, 'Municipal Bonds');
 
   const tech = classifySecurity('CLOUDFLARE INC CLASS A');
   assert.equal(tech.assetType, 'Equity');
@@ -375,6 +615,43 @@ async function testCacheShape() {
   assert.equal(dataset.cacheMeta.eventCount, dataset.events.length);
   assert.equal(dataset.cacheMeta.eventWindowCount, dataset.eventWindows.length);
   assert.equal(dataset.cacheMeta.trumpIndexCount, dataset.trumpIndex.length);
+  assert.equal(dataset.cacheMeta.fixedIncomeIdentifierCount, dataset.fixedIncomeIdentifiers.entries.length);
+  assert.equal(
+    dataset.cacheMeta.fixedIncomeFigiMatchCount,
+    dataset.fixedIncomeIdentifiers.entries.filter((entry) => entry.status === 'matched').length
+  );
+  assert.equal(
+    dataset.cacheMeta.fixedIncomeIdentifierAmbiguousCount,
+    dataset.fixedIncomeIdentifiers.entries.filter((entry) => entry.status === 'ambiguous').length
+  );
+  assert.equal(dataset.cacheMeta.instrumentIdentityCount, dataset.instrumentIdentities.length);
+  assert.equal(
+    dataset.cacheMeta.exactInstrumentReferenceCount,
+    dataset.instrumentIdentities.filter((identity) => identity.referenceStatus === 'exact' && identity.instrumentReferenceUrl).length
+  );
+  assert.equal(
+    dataset.cacheMeta.identifierReviewCount,
+    buildIdentifierReviewItems(dataset.instrumentIdentities).length
+  );
+  assert.ok(dataset.instrumentIdentities.length >= 1, 'instrument identity register should be present');
+  assert.ok(
+    dataset.instrumentIdentities.some((identity) => identity.referenceStatus === 'needs_identifier'),
+    'unresolved fixed-income rows should remain visible for identifier review'
+  );
+  assert.ok(
+    dataset.instrumentIdentities.every((identity) => !isGenericInstrumentSearchUrl(identity.instrumentReferenceUrl)),
+    'instrument identity register should not emit generic search/API URLs'
+  );
+  assert.ok(
+    dataset.transactions.every((row) => !isGenericInstrumentSearchUrl(row.instrumentReferenceUrl)),
+    'transactions should not emit generic search/API URLs'
+  );
+  assert.ok(
+    dataset.fixedIncomeIdentifiers.entries.some((entry) => entry.status === 'matched' && entry.resolvedFigi),
+    'fixed-income identifier cache should include OpenFIGI FIGI matches'
+  );
+  const mtaIdentity = dataset.instrumentIdentities.find((identity) => identity.cusip === '59261A6A0');
+  assert.equal(mtaIdentity?.instrumentReferenceUrl, 'https://emma.msrb.org/Security/Details/59261A6A0');
   assert.ok(dataset.cacheMeta.instrumentContextCount >= 1, 'instrument context count should be present');
   assert.ok(dataset.transactions.some((row) => row.instrumentSummary || row.issuerContextTicker), 'instrument summaries or issuer context should be present');
 }
@@ -389,6 +666,8 @@ async function testBootstrapCache() {
   assert.ok(stats.size < 750 * 1024, 'dashboard bootstrap should stay below 750 KB');
   assert.ok(bootstrap.trumpIndex.length > 0, 'bootstrap should include top index entries');
   assert.ok(bootstrap.trumpIndex.length < dataset.trumpIndex.length, 'bootstrap should not include the full index');
+  assert.ok(bootstrap.instrumentIdentities.length > 0, 'bootstrap should include top instrument identity KPIs');
+  assert.ok(bootstrap.instrumentIdentities.length < dataset.instrumentIdentities.length, 'bootstrap should not include the full identity register');
   assert.equal(bootstrap.cacheMeta.generatedAt, dataset.cacheMeta.generatedAt);
   assert.equal(generated.trumpIndex[0]?.id, bootstrap.trumpIndex[0]?.id);
   assert.ok(!('transactions' in bootstrap), 'bootstrap must not include raw transactions');
@@ -417,6 +696,23 @@ async function testPageResponses() {
   const equities = buildPageResponse(dataset, 'equities', {});
   assert.ok(equities.transactions && equities.transactions.length > 0, 'equity page should include scoped transaction rows');
   assert.ok(equities.transactions.every((row) => row.assetType === 'Equity'), 'equity page should force equity scope');
+
+  const optimizedTransactions = await loadTrumpOgePageResponse('transactions', { transactionType: 'Purchase' });
+  assert.ok(optimizedTransactions.transactions && optimizedTransactions.transactions.length > 0, 'optimized transaction page should include rows');
+  assert.ok(optimizedTransactions.transactions.every((row) => row.type === 'Purchase'), 'optimized transaction page should honor filters');
+  assert.ok(!('holdingsEstimates' in optimizedTransactions), 'optimized transaction page should not include holdings payloads');
+
+  const optimizedFilings = await loadTrumpOgePageResponse('filings', {});
+  assert.ok(optimizedFilings.historicalSources && optimizedFilings.historicalSources.length > 0, 'optimized filings page should include historical sources');
+  assert.ok(!('transactions' in optimizedFilings), 'optimized filings page should not include transaction rows');
+
+  const identifierReview = await loadTrumpOgePageResponse('identifier-review', {});
+  assert.ok(identifierReview.instrumentIdentities && identifierReview.instrumentIdentities.length > 0, 'identifier review page should include instrument identities');
+  assert.ok(identifierReview.identifierReview && identifierReview.identifierReview.length > 0, 'identifier review page should include unresolved/review rows');
+  assert.ok(
+    identifierReview.instrumentIdentities.every((identity) => !isGenericInstrumentSearchUrl(identity.instrumentReferenceUrl)),
+    'identifier review page should not emit generic instrument URLs'
+  );
 }
 
 async function testJsonMemoization() {
@@ -440,6 +736,8 @@ async function testPostgresMigrationContract() {
     'trump_oge_source_filings',
     'trump_oge_events',
     'trump_oge_trump_index_entries',
+    'trump_oge_fixed_income_identifiers',
+    'trump_oge_instrument_identities',
     'trump_oge_review_queue',
     'trump_oge_asset_income_holdings',
     'trump_oge_liabilities',
@@ -497,6 +795,7 @@ async function testWorkbookExport() {
     'Estimated Holdings',
     'Sector Summary',
     'Security Enrichment',
+    'Fixed Income FIGI Lookup',
     'Events',
     'Event Windows',
     'Filing Sources',
@@ -505,7 +804,10 @@ async function testWorkbookExport() {
     'Asset Income Holdings',
     'Liabilities',
     'Yearly Exposure',
+    'Instrument Identity',
+    'Identifier Review',
     'Review Queue',
+    'Evidence Methodology',
     'Methodology',
   ];
   for (const sheet of expectedSheets) {
@@ -515,8 +817,19 @@ async function testWorkbookExport() {
   assert.ok('resolved_ticker' in transactionRows[0], 'transactions export should include resolved_ticker');
   assert.ok('instrument_summary' in transactionRows[0], 'transactions export should include instrument_summary');
   assert.ok('instrument_reference_label' in transactionRows[0], 'transactions export should include instrument_reference_label');
+  assert.ok('instrument_reference_status' in transactionRows[0], 'transactions export should include instrument_reference_status');
   const stockRows = XLSX.utils.sheet_to_json<Record<string, unknown>>(workbook.Sheets['Equity Stocks']);
   assert.ok('net_direction' in stockRows[0], 'equity stocks export should include net_direction');
+  const figiRows = XLSX.utils.sheet_to_json<Record<string, unknown>>(workbook.Sheets['Fixed Income FIGI Lookup']);
+  assert.ok(figiRows.length > 0, 'fixed income FIGI lookup export should include rows');
+  assert.ok('resolved_figi' in figiRows[0], 'fixed income FIGI lookup export should include resolved_figi');
+  const identityRows = XLSX.utils.sheet_to_json<Record<string, unknown>>(workbook.Sheets['Instrument Identity']);
+  assert.ok(identityRows.length > 0, 'instrument identity export should include rows');
+  assert.ok('reference_status' in identityRows[0], 'instrument identity export should include reference status');
+  assert.ok('evidence_source_url' in identityRows[0], 'instrument identity export should include evidence source URL');
+  const reviewRows = XLSX.utils.sheet_to_json<Record<string, unknown>>(workbook.Sheets['Identifier Review']);
+  assert.ok(reviewRows.length > 0, 'identifier review export should include rows');
+  assert.ok('review_priority' in reviewRows[0], 'identifier review export should include review priority');
 }
 
 async function testAskApiFallback() {

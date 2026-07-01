@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 import {
-  buildPageResponse,
   isTrumpOgePageName,
-  loadTrumpOgeDataset,
+  loadTrumpOgePageResponse,
   ogeCacheHeaders,
 } from '@/lib/oge/data';
 import { filtersFromSearchParams } from '@/lib/oge/filter';
@@ -31,8 +30,7 @@ export async function GET(req: Request) {
       return NextResponse.json(postgresResponse, { headers: postgresCacheHeaders(postgresResponse.cacheMeta) });
     }
 
-    const dataset = await loadTrumpOgeDataset();
-    const response = buildPageResponse(dataset, page, filters);
+    const response = await loadTrumpOgePageResponse(page, filters);
     return NextResponse.json(response, { headers: ogeCacheHeaders(response.cacheMeta) });
   } catch (error) {
     console.error('[Trump OGE page API] Error:', error);

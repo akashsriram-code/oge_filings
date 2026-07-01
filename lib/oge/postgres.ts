@@ -1,10 +1,9 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { Pool, type PoolClient } from 'pg';
-import { EMPTY_SECURITY_REFERENCE } from './enrichment';
 import {
   buildDashboardBootstrap,
-  buildPageResponse,
+  buildPageResponseFromParts,
   isTrumpOgePageName,
   ogeCacheHeaders,
 } from './data';
@@ -12,8 +11,10 @@ import type {
   AssetIncomeHolding,
   BaselineHolding,
   CacheMeta,
+  FixedIncomeIdentifierMatch,
   FinancialDisclosureReport,
   HistoricalSource,
+  InstrumentIdentity,
   Liability,
   OgeEvent,
   OgeTransaction,
@@ -43,6 +44,8 @@ const ROW_TABLES = [
   'trump_oge_sector_summaries',
   'trump_oge_review_queue',
   'trump_oge_security_enrichments',
+  'trump_oge_fixed_income_identifiers',
+  'trump_oge_instrument_identities',
   'trump_oge_financial_disclosure_reports',
   'trump_oge_asset_income_holdings',
   'trump_oge_liabilities',
@@ -101,6 +104,8 @@ export async function syncTrumpOgeDatasetToPostgres(dataset: TrumpOgeDataset): P
     await insertSectorSummaries(client, dataset.cacheMeta.generatedAt, dataset.sectorSummaries);
     await insertReviewQueue(client, dataset.cacheMeta.generatedAt, dataset.reviewQueue);
     await insertSecurityEnrichments(client, dataset.cacheMeta.generatedAt, dataset.securityEnrichments);
+    await insertFixedIncomeIdentifiers(client, dataset.cacheMeta.generatedAt, dataset.fixedIncomeIdentifiers.entries);
+    await insertInstrumentIdentities(client, dataset.cacheMeta.generatedAt, dataset.instrumentIdentities);
     await insertFinancialDisclosureReports(client, dataset.cacheMeta.generatedAt, dataset.financialDisclosureReports);
     await insertAssetIncomeHoldings(client, dataset.cacheMeta.generatedAt, dataset.assetIncomeHoldings);
     await insertLiabilities(client, dataset.cacheMeta.generatedAt, dataset.liabilities);
@@ -140,59 +145,45 @@ export async function buildPageResponseFromPostgres(
     const run = await loadLatestCacheRun(client);
     if (!run) return null;
     const effectiveFilters = filtersForPostgresPage(page, filters);
+    const needsTransactions = pageNeedsTransactions(page);
+    const needsBaseline = pageNeedsBaseline(page);
+    const needsIndex = pageNeedsIndex(page);
+    const needsSources = pageNeedsSources(page);
+    const needsSourceFilings = needsTransactions || needsIndex || page === 'filings';
     const [
       transactions,
       baselineHoldings,
       sourceFilings,
       historicalSources,
       reviewQueue,
+      instrumentIdentities,
       yearlyExposureSummaries,
       events,
-      financialDisclosureReports,
-      assetIncomeHoldings,
-      liabilities,
     ] = await Promise.all([
-      queryTransactions(client, run.cacheVersion, effectiveFilters),
-      queryJsonRows<BaselineHolding>(client, 'trump_oge_baseline_holdings', run.cacheVersion, 'id'),
-      queryJsonRows<SourceFiling>(client, 'trump_oge_source_filings', run.cacheVersion, 'filed_date DESC, id'),
-      queryHistoricalSources(client, run.cacheVersion, effectiveFilters),
-      queryJsonRows<ReviewQueueItem>(client, 'trump_oge_review_queue', run.cacheVersion, 'id'),
-      queryJsonRows<YearlyExposureSummary>(client, 'trump_oge_yearly_exposure_summaries', run.cacheVersion, 'year'),
+      needsTransactions ? queryTransactions(client, run.cacheVersion, effectiveFilters) : Promise.resolve([]),
+      needsBaseline ? queryJsonRows<BaselineHolding>(client, 'trump_oge_baseline_holdings', run.cacheVersion, 'id') : Promise.resolve([]),
+      needsSourceFilings ? queryJsonRows<SourceFiling>(client, 'trump_oge_source_filings', run.cacheVersion, 'filed_date DESC, id') : Promise.resolve([]),
+      needsSources || needsIndex || page === 'timing' ? queryHistoricalSources(client, run.cacheVersion, effectiveFilters) : Promise.resolve([]),
+      needsTransactions || page === 'review' ? queryJsonRows<ReviewQueueItem>(client, 'trump_oge_review_queue', run.cacheVersion, 'id') : Promise.resolve([]),
+      page === 'identifier-review' ? queryJsonRows<InstrumentIdentity>(client, 'trump_oge_instrument_identities', run.cacheVersion, 'review_priority DESC, id') : Promise.resolve([]),
+      needsIndex ? queryJsonRows<YearlyExposureSummary>(client, 'trump_oge_yearly_exposure_summaries', run.cacheVersion, 'year') : Promise.resolve(run.bootstrap.yearlyExposureSummaries),
       page === 'timing' ? queryJsonRows<OgeEvent>(client, 'trump_oge_events', run.cacheVersion, 'event_date, id') : Promise.resolve([]),
-      page === 'filings' ? queryJsonRows<FinancialDisclosureReport>(client, 'trump_oge_financial_disclosure_reports', run.cacheVersion, 'filed_date DESC, id') : Promise.resolve([]),
-      page === 'filings' ? queryJsonRows<AssetIncomeHolding>(client, 'trump_oge_asset_income_holdings', run.cacheVersion, 'id') : Promise.resolve([]),
-      page === 'filings' ? queryJsonRows<Liability>(client, 'trump_oge_liabilities', run.cacheVersion, 'id') : Promise.resolve([]),
     ]);
 
-    const dataset: TrumpOgeDataset = {
+    return buildPageResponseFromParts({
+      page,
+      filters: effectiveFilters,
+      bootstrap: run.bootstrap,
       historicalSources,
       sourceFilings,
       transactions,
       baselineHoldings,
-      financialDisclosureReports,
-      assetIncomeHoldings,
-      liabilities,
       yearlyExposureSummaries,
       sourceAudit: run.bootstrap.sourceAudit,
-      holdingsEstimates: [],
-      sectorSummaries: [],
-      trumpIndex: [],
-      trumpIndexRollups: [],
       reviewQueue,
+      instrumentIdentities,
       events,
-      eventWindows: [],
-      securityReference: EMPTY_SECURITY_REFERENCE,
-      securityEnrichments: [],
-      cacheMeta: run.cacheMeta,
-    };
-
-    const response = buildPageResponse(dataset, page, effectiveFilters);
-    return {
-      ...response,
-      availableSectors: run.bootstrap.availableSectors,
-      availableAssetTypes: run.bootstrap.availableAssetTypes,
-      availableYears: run.bootstrap.availableYears,
-    };
+    });
   } catch (error) {
     console.warn(`[Trump OGE Postgres] Page fallback to JSON: ${error instanceof Error ? error.message : String(error)}`);
     return null;
@@ -386,6 +377,27 @@ function filtersForPostgresPage(page: TrumpOgePageName, filters: TrumpOgeFilters
     next.endDate = '';
   }
   return next;
+}
+
+function pageNeedsTransactions(page: TrumpOgePageName): boolean {
+  return page === 'index' ||
+    page === 'holdings' ||
+    page === 'sectors' ||
+    page === 'timing' ||
+    page === 'transactions' ||
+    Boolean(assetTypeForPage(page));
+}
+
+function pageNeedsBaseline(page: TrumpOgePageName): boolean {
+  return page === 'holdings' || pageNeedsIndex(page);
+}
+
+function pageNeedsIndex(page: TrumpOgePageName): boolean {
+  return page === 'index' || Boolean(assetTypeForPage(page));
+}
+
+function pageNeedsSources(page: TrumpOgePageName): boolean {
+  return page === 'index' || page === 'filings' || Boolean(assetTypeForPage(page));
 }
 
 function assetTypeForPage(page: TrumpOgePageName) {
@@ -618,6 +630,52 @@ async function insertSecurityEnrichments(client: PoolClient, cacheVersion: strin
     row.id,
     row.resolvedTicker,
     row.issuerContextTicker,
+    JSON.stringify(row),
+  ]));
+}
+
+async function insertFixedIncomeIdentifiers(client: PoolClient, cacheVersion: string, rows: FixedIncomeIdentifierMatch[]) {
+  await batchInsert(client, 'trump_oge_fixed_income_identifiers', [
+    'cache_version',
+    'id',
+    'asset_type',
+    'status',
+    'resolved_figi',
+    'issuer_context_ticker',
+    'total_midpoint',
+    'row_data',
+  ], rows.map((row) => [
+    cacheVersion,
+    row.id,
+    row.assetType,
+    row.status,
+    row.resolvedFigi,
+    row.issuerContextTicker,
+    row.totalMidpoint,
+    JSON.stringify(row),
+  ]));
+}
+
+async function insertInstrumentIdentities(client: PoolClient, cacheVersion: string, rows: InstrumentIdentity[]) {
+  await batchInsert(client, 'trump_oge_instrument_identities', [
+    'cache_version',
+    'id',
+    'asset_type',
+    'sector',
+    'reference_status',
+    'review_status',
+    'source_reliability',
+    'review_priority',
+    'row_data',
+  ], rows.map((row) => [
+    cacheVersion,
+    row.id,
+    row.assetType,
+    row.sector,
+    row.referenceStatus,
+    row.reviewStatus,
+    row.sourceReliability,
+    row.reviewPriority,
     JSON.stringify(row),
   ]));
 }

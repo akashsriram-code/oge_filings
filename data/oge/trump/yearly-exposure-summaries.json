@@ -166,15 +166,18 @@
       "5c2670d5",
       "09661d86",
       "7241f7d3",
-      "0da7b973"
+      "0da7b973",
+      "ff48d629",
+      "ca2a0418",
+      "de8e9eed"
     ],
     "sourceReliability": "official",
-    "assetIncomeCount": 0,
-    "liabilityCount": 0,
-    "transactionCount": 3727,
-    "currentMidpoint": 1108412915,
-    "purchaseMidpoint": 292262219.5,
-    "saleMidpoint": 190879144,
-    "netFlowMidpoint": 101383075.5
+    "assetIncomeCount": 6179,
+    "liabilityCount": 3,
+    "transactionCount": 3901,
+    "currentMidpoint": 2034493339.5,
+    "purchaseMidpoint": 398490301.5,
+    "saleMidpoint": 210829149,
+    "netFlowMidpoint": 187661152.5
   }
 ]
