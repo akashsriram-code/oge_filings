@@ -8,11 +8,11 @@
   --bg-interactive: #232d42;
   --bg-highlight: #2d3a52;
   
-  /* Text hierarchy */
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-tertiary: #64748b;
-  --text-muted: #475569;
+  /* Text hierarchy - improved contrast */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --text-muted: #64748b;
   
   /* Borders */
   --border-subtle: rgba(148, 163, 184, 0.12);
